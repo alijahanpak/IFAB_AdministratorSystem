@@ -28,26 +28,36 @@ class ProjectController extends Controller
         return CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
             ->where('capActive' , '=' , true)
             ->where('capProvinceOrNational' , '=' , $pOrN)
-            ->with('capitalAssetsProject')
+            ->with(['capitalAssetsProject' => function($query) use($searchValue){
+                return $query->where('cpSubject' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('cpCode' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('cpDescription' , 'LIKE' , '%' . $searchValue . '%')
+                    ->with('creditSource')
+                    ->with('creditSource.creditDistributionRow')
+                    ->with('creditSource.tinySeason.seasonTitle.season')
+                    ->with('creditSource.howToRun')
+                    ->with('county');
+            }])
+            ->with(['creditDistributionTitle' => function($query) use($searchValue){
+                return $query->where('cdtIdNumber' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%')
+                    ->with('county');
+            }])
             ->whereHas('capitalAssetsProject' , function($query) use($searchValue){
                 return $query->where('cpSubject' , 'LIKE' , '%' . $searchValue . '%')
                     ->orWhere('cpCode' , 'LIKE' , '%' . $searchValue . '%')
-                    ->orWhere('cpDescription' , 'LIKE' , '%' . $searchValue . '%');
+                    ->orWhere('cpDescription' , 'LIKE' , '%' . $searchValue . '%')
+                    ->with('creditSource')
+                    ->with('creditSource.creditDistributionRow')
+                    ->with('creditSource.tinySeason.seasonTitle.season')
+                    ->with('creditSource.howToRun')
+                    ->with('county');
             })
-            ->with(['creditDistributionTitle' => function($query) use($searchValue){
-                return $query->where('cdtIdNumber' , 'LIKE' , '%' . $searchValue . '%')
-                    ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%');
-            }])
             ->whereHas('creditDistributionTitle' , function($query) use($searchValue){
                 return $query->where('cdtIdNumber' , 'LIKE' , '%' . $searchValue . '%')
-                    ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%');
+                    ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%')
+                    ->with('county');
             })
-            ->with('creditDistributionTitle.county')
-            ->with('capitalAssetsProject.creditSource')
-            ->with('capitalAssetsProject.creditSource.creditDistributionRow')
-            ->with('capitalAssetsProject.creditSource.tinySeason.seasonTitle.season')
-            ->with('capitalAssetsProject.creditSource.howToRun')
-            ->with('capitalAssetsProject.county')
             ->orderBy('id', 'DESC')
             ->paginate($itemInPage);
     }

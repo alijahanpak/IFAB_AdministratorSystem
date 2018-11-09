@@ -81,7 +81,7 @@
                         <div class="grid-x" :style="{ width: '100%' , height: !payRequestIsBlocked ? '82vh' : '91vh'}">
                             <div class="large-12">
                                 <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
-                                <embed style="width: 100%;height: 100%" :src="payRequestPdfPath + '#page=1&zoom=50'" />
+                                <iframe style="width: 100%;height: 100%;border: 0px" :src="payRequestPdfPath" />
                             </div>
                         </div>
                         <div class="grid-x" v-if="!payRequestIsBlocked" style="margin-top: 0.5rem">

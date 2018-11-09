@@ -100,14 +100,14 @@
             <div slot="body">
                 <div class="small-font">
                     <div class="grid-x">
-                        <div class="large-12 medium-12 small-12 container-vh-check-list">
+                        <div class="large-12 medium-12 small-12 container-vh">
                             <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="request_print_check_tab_view">
                                 <li class="tabs-title is-active"><a href="#checkTab" aria-selected="true">چک</a></li>
                                 <li class="tabs-title"><a href="#historyCheckTab">تاریخچه پرینت </a></li>
                             </ul>
-                            <div class="tabs-content inner-vh" data-tabs-content="request_print_check_tab_view">
+                            <div style="height: 65vh;" class="tabs-content inner-vh" data-tabs-content="request_print_check_tab_view">
                                 <!--Tab 1-->
-                                <div style="height: 53vh;" class="tabs-panel is-active table-mrg-btm inner-vh-unsize" id="checkTab">
+                                <div style="height: 64vh;" class="tabs-panel is-active table-mrg-btm inner-vh-unsize" id="checkTab">
                                     <div class="grid-x">
                                         <div class="large-6 medium-6 small-12 padding-lr">
                                             <label>شماره چک
@@ -167,7 +167,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="grid-x small-top-m">
+                                    <div class="grid-x small-top-m" style="bottom: 0px">
                                         <div class="large-12 medium-12 small-12 padding-lr">
                                             <div class="stacked-for-small button-group float-left">
                                                 <button v-show="deliverBtn" @click="openCheckDeliverModal()" class="my-button my-success float-left"><span class="btn-txt-mrg">  تحویل </span></button>
@@ -178,7 +178,7 @@
                                 </div>
                                 <!--Tab 1-->
                                 <!--Tab 2-->
-                                <div style="height: 53vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="historyCheckTab">
+                                <div style="height: 64vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="historyCheckTab">
                                     <div class="grid-x">
                                         <div class="tbl-div-container">
                                             <table class="tbl-head">
@@ -201,7 +201,7 @@
                                                 <!--Table Head End-->
                                                 <!--Table Body Start-->
                                             </table>
-                                            <div style="height: 40vh;" class="tbl_body_style inner-vh-unsize">
+                                            <div style="height: 50vh;" class="tbl_body_style inner-vh-unsize">
                                                 <table class="tbl-body-contain">
                                                     <colgroup>
                                                         <col width="250px"/>
@@ -278,13 +278,6 @@
                         </div>
                     </div>
                 </div>
-                <!--<div class="grid-x small-top-m">
-                    <div class="large-12 medium-12 small-12 padding-lr">
-                        <div class="stacked-for-small button-group float-left">
-                            <button onclick="printJS({ printable: 'printJS-form', type: 'html',targetStyles:['direction','font-family']})" class="my-button my-success float-left"><span class="btn-txt-mrg">  چاپ </span></button>
-                        </div>
-                    </div>
-                </div>-->
             </div>
         </modal-small>
         <!-- Show Check Print modal -->
@@ -307,25 +300,6 @@
                                 <p class="check-element" :style="{'margin-top': fillCheck.signatureTop +0.5+'cm','margin-right': fillCheck.signatureRight +'cm','width': fillCheck.signatureWidth +'cm'}">{{checkVerifierName[1]}}</p>
                                 <p v-show="fillCheck.secondSignatureWidth != 0" class="check-element text-center" :style="{'margin-top': fillCheck.secondSignatureTop +'cm','margin-right': fillCheck.secondSignatureRight +'cm','width': fillCheck.secondSignatureWidth +'cm'}">{{checkVerifierName[2]}}</p>
                                 <p v-show="fillCheck.secondSignatureWidth != 0" class="check-element text-center" :style="{'margin-top': fillCheck.secondSignatureTop +0.5+'cm','margin-right': fillCheck.secondSignatureRight +'cm','width': fillCheck.secondSignatureWidth +'cm'}"> {{checkVerifierName[3]}}</p>
-                            </div>
-                        </div>
-                       <!-- <div style="height: 12cm;" class="large-12 medium-12 small-12">
-                            <embed style="width: 100%;height: 100%" :src="checkPdfPath" />
-                        </div>-->
-                        <div style="display: none;">
-                            <div id="printJS-form" class="large-12 medium-12 small-12 padding-lr text-center printJSClass">
-                                <div :style="{'width':fillCheck.height +'cm','height':fillCheck.width +'cm'}" style="position: relative;margin:0 auto;" >
-                                    <p class="check-element-print text-left" :style="{'margin-top': fillCheck.dateTop +'cm','margin-right': fillCheck.dateRight +'cm','width': fillCheck.dateWidth +'cm'}">{{inputCheck.date}}</p>
-                                    <p class="check-element-print text-right" :style="{'margin-top': fillCheck.stringDateTop +'cm','margin-right': fillCheck.stringDateRight +'cm','width': fillCheck.stringDateWidth +'cm'}">{{letterDatePersian}}</p>
-                                    <p class="check-element-print text-right" :style="{'margin-top': fillCheck.forTop +'cm','margin-right': fillCheck.forRight +'cm','width': fillCheck.forWidth +'cm'}">{{dFor}}</p>
-                                    <p class="check-element-print text-right" :style="{'margin-top': fillCheck.payToTop +'cm','margin-right': fillCheck.payToRight +'cm','width': fillCheck.payToWidth +'cm'}">{{dPayTo}}</p>
-                                    <p class="check-element-print text-right" :style="{'margin-top': fillCheck.stringAmountTop +'cm','margin-right': fillCheck.stringAmountRight +'cm','width': fillCheck.stringAmountWidth +'cm'}">{{cAmount.toPersian()}}</p>
-                                    <p class="check-element-print text-center" :style="{'margin-top': fillCheck.amountTop +'cm','margin-right': fillCheck.amountRight +'cm','width': fillCheck.amountWidth +'cm'}">{{$root.dispMoneyFormat(cAmount)}}</p>
-                                    <p class="check-element-print" :style="{'margin-top': fillCheck.signatureTop +'cm','margin-right': fillCheck.signatureRight +'cm','width': fillCheck.signatureWidth +'cm'}">{{checkVerifierName[0]}}</p>
-                                    <p class="check-element-print" :style="{'margin-top': fillCheck.signatureTop +0.5+'cm','margin-right': fillCheck.signatureRight +'cm','width': fillCheck.signatureWidth +'cm'}">{{checkVerifierName[1]}}</p>
-                                    <p v-show="fillCheck.secondSignatureWidth != 0" class="check-element-print text-center" :style="{'margin-top': fillCheck.secondSignatureTop +'cm','margin-right': fillCheck.secondSignatureRight +'cm','width': fillCheck.secondSignatureWidth +'cm'}">{{checkVerifierName[2]}}</p>
-                                    <p v-show="fillCheck.secondSignatureWidth != 0" class="check-element-print text-center" :style="{'margin-top': fillCheck.secondSignatureTop +0.5+'cm','margin-right': fillCheck.secondSignatureRight +'cm','width': fillCheck.secondSignatureWidth +'cm'}"> {{checkVerifierName[3]}}</p>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -690,7 +664,8 @@
                 if(this.checkHistoryState){
                     this.showReprintingCauseModal=true;
                 }
-                else this.updateCheckValueInPrintAction();
+                else
+                    this.updateCheckValueInPrintAction();
 
             },
 
@@ -724,14 +699,8 @@
                             this.openReportFile(this.inputCheck.checkFormat.id,this.checkId);
                             this.allChecks = response.data.data;
                             this.makePagination(response.data);
-                            this.showGetCheckPreviewModal=false;
-                            this.showPrintCheckModal=false;
                             this.$parent.displayNotif(response.status);
                         }
-                        /*printJS({ printable: 'printJS-form',
-                            type: 'html',
-                            documentTitle:'',
-                            targetStyles:['direction','font-family','margin-top','margin-right','width','height','position','top','text-align']});*/
                         console.log(response);
                     }, (error) => {
                         console.log(error);
@@ -740,11 +709,8 @@
             },
 
             convertDateToLetter : function(){
-                var dateTemp=[];
-                //var day=["یکم","دوم","سوم","چهارم","پنجم","ششم","هفتم","هشتم","نهم","دهم","یازده","دوازده","سیزده","چهارده","پانزده","شانزده","هفده","هجده","نوزده","بیست","بیست و یک","بیست و دو","بیست و سه","بیست و چهار","بیست و پنج","بیست و شش","بیست و هفت","بیست و هشت","بیست و نه","سی","سی و یک"];
                 var month=["فروردین","اردیبهشت","خرداد","تیر","مرداد","شهریور","مهر","آبان","آذر","دی","بهمن","اسفند"];
-                //var year=["هزار و سیصد و نود","","","","","","","","","","","","",];
-                dateTemp= this.inputCheck.date.split('/');
+                var dateTemp = this.inputCheck.date.split('/');
                 this.letterDatePersian=  dateTemp[2].toPersian() + ' ' + month[dateTemp[1]-1] + ' ' + dateTemp[0].toPersian();
             },
 
@@ -776,7 +742,9 @@
                         console.log(response.data);
                         var file = new Blob([response.data], {type: 'application/pdf'});
                         var fileURL = window.URL.createObjectURL(file);
-                        this.checkPdfPath=fileURL;
+                        this.checkPdfPath = fileURL;
+                        this.showGetCheckPreviewModal=false;
+                        this.showPrintCheckModal=false;
                         printJS(this.checkPdfPath);
                     },(error) => {
                         console.log(error);

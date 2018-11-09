@@ -102,10 +102,10 @@
                                         <div class="grid-x">
                                             <div v-if="recipientsGroup.rstIsRequire == 1" class="large-6 medium-6 small-12">
                                                 <label>{{recipientsGroup.category.cSubject}}
-                                                    <select :name="'recipient'+recipientsGroup.id" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('recipient'+recipientsGroup.id)}">
+                                                    <select :name="'recipient' + recipientsGroup.id" v-validate data-vv-rules="required" @change="getUserRecipients(recipientsGroup.id,requestInput['category_user' + recipientsGroup.id])" v-model="requestInput['category_user' + recipientsGroup.id]" :class="{'input': true, 'select-error': errors.has('recipient'+recipientsGroup.id)}">
                                                         <option value=""></option>
                                                         <template v-for="rolCat in recipientsGroup.category.role_category">
-                                                            <option v-for="users in rolCat.role.user" @click="getUserRecipients(recipientsGroup.id,users.id)" :value="recipientsGroup.id">{{users.name}} - {{rolCat.role.rSubject}}</option>
+                                                            <option v-for="user in rolCat.role.user" :value="user">{{user.name}} - {{rolCat.role.rSubject}}</option>
                                                         </template>
                                                     </select>
                                                     <p v-show="errors.has('recipient'+recipientsGroup.id)" class="error-font">لطفا فیلد {{recipientsGroup.category.cSubject}}  را انتخاب کنید!</p>
@@ -126,11 +126,11 @@
                                                     </div>
                                                     <div class="large-12 medium-12  small-12">
                                                         <label>{{recipientsGroup.category.cSubject}}
-                                                            <select  :disabled="!isRequireChangeState"  :name="'recipient'+recipientsGroup.id" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('recipient'+recipientsGroup.id)}">
+                                                            <select :disabled="!isRequireChangeState"  :name="'recipient'+recipientsGroup.id" @change="getUserRecipients(recipientsGroup.id,requestInput['category_user' + recipientsGroup.id])" v-model="requestInput['category_user' + recipientsGroup.id]" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('recipient'+recipientsGroup.id)}">
                                                                 <template v-if="isRequireChangeState == true">
                                                                     <option value=""></option>
                                                                     <template v-for="rolCat in recipientsGroup.category.role_category">
-                                                                        <option v-for="users in rolCat.role.user" @click="getUserRecipients(recipientsGroup.id,users.id)" :value="recipientsGroup.id">{{users.name}} - {{rolCat.role.rSubject}}</option>
+                                                                        <option v-for="user in rolCat.role.user" :value="user">{{user.name}} - {{rolCat.role.rSubject}}</option>
                                                                     </template>
                                                                 </template>
                                                                 <template v-if="isRequireChangeState == false">
@@ -821,10 +821,10 @@
                                                     <div class="grid-x">
                                                         <div class="large-12 medium-12 small-12">
                                                             <label>{{payVerifier.category.cSubject}}
-                                                                <select :name="'payVerifier'+payVerifier.id"  v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('payVerifier'+payVerifier.id)}">
+                                                                <select :name="'payVerifier' + payVerifier.id" @change="calculateVerifiers(payVerifier.id, paymentInput['payVerifier_user' + payVerifier.id])" v-model="paymentInput['payVerifier_user' + payVerifier.id]"  v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('payVerifier'+payVerifier.id)}">
                                                                     <option value=""></option>
                                                                     <template v-for="rolCat in payVerifier.category.role_category">
-                                                                        <option v-for="users in rolCat.role.user" :value="payVerifier.id" @click="calculateVerifiers(payVerifier.id,users.id)">{{users.name}} - {{rolCat.role.rSubject}}</option>
+                                                                        <option v-for="user in rolCat.role.user" :value="user" >{{user.name}} - {{rolCat.role.rSubject}}</option>
                                                                     </template>
                                                                 </select>
                                                                 <p v-show="errors.has('payVerifier'+payVerifier.id)" class="error-font">لطفا فیلد {{payVerifier.category.cSubject}}  را انتخاب کنید!</p>
@@ -905,7 +905,7 @@
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12 padding-lr input-top-margin">
                                             <label>شرح
-                                                <textarea class="form-element-margin-btm"  style="min-height: 150px;" name="paymentDescription" v-model="paymentDescription"></textarea>
+                                                <textarea class="form-element-margin-btm" style="min-height: 150px;" name="paymentDescription" v-model="paymentDescription"></textarea>
                                             </label>
                                         </div>
                                     </div>
@@ -934,7 +934,7 @@
                         <div class="grid-x" style="width:100%;height :85.5vh">
                             <div class="large-12">
                                 <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
-                                <embed style="width: 100%;height: 100%" :src="payRequestPdfPath + '#page=1&zoom=50'" />
+                                <iframe style="width: 100%;height: 100%;border: 0px" :src="payRequestPdfPath" />
                             </div>
                         </div>
                     </div>
@@ -1317,8 +1317,8 @@
 
                 },
 
-            getUserRecipients:function (stepId,userId) {
-                this.recipientUsersTemp[stepId]=userId;
+            getUserRecipients:function (stepId , user) {
+                this.recipientUsersTemp[stepId] = user.id;
                 console.log(JSON.stringify(this.recipientUsersTemp));
              },
 
@@ -1460,11 +1460,11 @@
 
             },
 
-            calculateVerifiers:function(prstId,uId){
-                var verifiersTemp={};
-                verifiersTemp.prstId=prstId;
-                verifiersTemp.uId=uId;
-                this.payVerifiers.forEach((item,pos) =>{
+            calculateVerifiers:function(prstId, user){
+                var verifiersTemp = {};
+                verifiersTemp.prstId = prstId;
+                verifiersTemp.uId = user.id;
+                this.payVerifiers.forEach((item, pos) =>{
                     if(item.prstId == verifiersTemp.prstId ){
                         this.payVerifiers.splice(pos,1);
                     }

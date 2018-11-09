@@ -210,7 +210,7 @@
                                 <div class="grid-x" :style="{ width: '100%' , height: !draftIsBlocked ? '72.5vh' : '76vh'}">
                                     <div class="large-12">
                                         <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
-                                        <embed style="width: 100%;height: 100%" :src="draftPdfPath + '#page=1&zoom=65'" />
+                                        <object type='application/pdf' style="width: 100%;height: 100%;border: 0px" :data="draftPdfPath" />
                                     </div>
                                 </div>
                                 <div class="grid-x" v-if="!draftIsBlocked" style="margin-top: 0.5rem">
@@ -233,7 +233,7 @@
                                 <div class="grid-x" style="width: 100%;height: 76vh">
                                     <div class="large-12">
                                         <vue-element-loading style="width: 100%;" :active="showDocumentLoaderProgress" spinner="line-down" color="#716aca"/>
-                                        <embed style="width: 100%;height: 100%" :src="documentPdfPath + '#page=1&zoom=50'" />
+                                        <object type='application/pdf' :data="documentPdfPath" style="width: 100%;height: 100%;border: 0px"/>
                                     </div>
                                 </div>
                             </div>
@@ -679,7 +679,7 @@
                         console.log(response.data);
                         var file = new Blob([response.data], {type: 'application/pdf'});
                         var fileURL = window.URL.createObjectURL(file);
-                        this.documentPdfPath = fileURL;
+                        this.documentPdfPath = encodeURI(fileURL + '#zome=50');
                         this.showDocumentLoaderProgress = false;
                     },(error) => {
                         console.log(error);
@@ -818,7 +818,7 @@
                         console.log(response.data);
                         var file = new Blob([response.data], {type: 'application/pdf'});
                         var fileURL = window.URL.createObjectURL(file);
-                        this.draftPdfPath=fileURL;
+                        this.draftPdfPath = decodeURI(fileURL + '#zome=50');
                         this.showLoaderProgress = false;
                     },(error) => {
                         console.log(error);

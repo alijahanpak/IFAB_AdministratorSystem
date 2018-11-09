@@ -678,7 +678,6 @@
                         console.log(JSON.stringify(this.percentageIncreaseCategory));
                     }
                 }else{
-                    alert(catIndex);
                     this.percentageIncreaseCategory[catIndex].percentage_increase.forEach(item => {
                         Vue.set(item,"amountInc",0);
                         Vue.set(item,"checked",false);
