@@ -4,7 +4,7 @@ namespace Modules\Financial\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Financial\Entities\RequestDepositState;
+use Modules\Financial\Entities\DepositState;
 
 class SeederRequestDepositStateTableSeeder extends Seeder
 {
@@ -17,14 +17,14 @@ class SeederRequestDepositStateTableSeeder extends Seeder
     {
         Model::unguard();
 
-        $rdState = new RequestDepositState();
-        $rdState->rdsSubject = 'بدهکار';
-        $rdState->rdsState = 'OWE';
+        $rdState = new DepositState();
+        $rdState->dsSubject = 'بدهکار';
+        $rdState->dsState = 'OWE';
         $rdState->save();
 
-        $rdState = new RequestDepositState();
-        $rdState->rdsSubject = 'تسویه شده';
-        $rdState->rdsState = 'CLEARED';
+        $rdState = new DepositState();
+        $rdState->dsSubject = 'تسویه شده';
+        $rdState->dsState = 'CLEARED';
         $rdState->save();
     }
 }

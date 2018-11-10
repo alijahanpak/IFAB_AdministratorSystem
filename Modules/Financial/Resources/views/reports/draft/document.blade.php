@@ -40,7 +40,7 @@
                 <p style="margin-top: -10px;" class="size-12">تاریخ سند : <span>......................</span></p>
             </div>
         </div>
-        <div style="margin: 5px;margin-top: -70px;" class="grid-x">
+        <div style="margin: 5px;margin-top: -60px;" class="grid-x">
             <div class="large-12 text-center">
                 <div>
                     <div class="text-center">

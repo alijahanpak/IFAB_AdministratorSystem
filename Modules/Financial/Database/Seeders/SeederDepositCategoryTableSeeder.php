@@ -4,7 +4,7 @@ namespace Modules\Financial\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Financial\Entities\DepositCategory;
+use Modules\Financial\Entities\DepositPercentageCategory;
 
 class SeederDepositCategoryTableSeeder extends Seeder
 {
@@ -17,12 +17,12 @@ class SeederDepositCategoryTableSeeder extends Seeder
     {
         Model::unguard();
 
-        $dCategory = new DepositCategory();
-        $dCategory->dcSubject = 'سپرده دسته بندی ۱';
+        $dCategory = new DepositPercentageCategory();
+        $dCategory->dpcSubject = 'سپرده دسته بندی ۱';
         $dCategory->save();
 
-        $dCategory = new DepositCategory();
-        $dCategory->dcSubject = 'سپرده دسته بندی ۲';
+        $dCategory = new DepositPercentageCategory();
+        $dCategory->dpcSubject = 'سپرده دسته بندی ۲';
         $dCategory->save();
     }
 }

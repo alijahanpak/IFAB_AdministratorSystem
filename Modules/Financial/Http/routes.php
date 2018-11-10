@@ -100,6 +100,10 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
         Route::post('/block', 'PayRequestController@block');
     });
 
+    Route::prefix('deposit')->group(function () {
+        Route::get('/fetch_deposit_percentage_category' , 'DepositController@getDepositPercentage');
+    });
+
     Route::prefix('admin')->group(function () {
         Route::post('/check/format/register' , 'CheckController@registerNewFormat');
         Route::get('/check/format/fetch' , 'CheckController@fetchAllCheckFormat');

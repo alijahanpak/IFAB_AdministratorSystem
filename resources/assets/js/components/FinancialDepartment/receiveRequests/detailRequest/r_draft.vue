@@ -632,6 +632,7 @@
                 isAccepted: false,
 
                 decreases:[],
+                depositPercentages:[],
                 draftAmount:0,
                 draftFor:'',
                 draftPayTo: '',
@@ -996,6 +997,7 @@
             openGenerateChecksModal:function(){
                 this.percentDecInput = [];
                 this.getAllPercentageDecreases();
+                this.getAllDepositPercentages()
                 this.checkEdited = false;
                 if (!this.checkBaseDelivered)
                     this.showGenerateChecksModal=true;
@@ -1082,6 +1084,16 @@
                         console.log(error);
                     });
 
+            },
+
+            getAllDepositPercentages: function(){
+                axios.get('/financial/deposit/fetch_deposit_percentage_category')
+                    .then((response) => {
+                        this.depositPercentages = response.data;
+                        console.log(response);
+                    }, (error) => {
+                        console.log(error);
+                    });
             },
 
             calculatePercentAmount: function (pdId, catIndex) {

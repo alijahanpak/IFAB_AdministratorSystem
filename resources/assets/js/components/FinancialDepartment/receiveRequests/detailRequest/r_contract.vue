@@ -665,7 +665,7 @@
                     });
                     if (selectedPercent != null)
                     {
-                        var tempAmount = Math.round(selectedPercent.piPercent * parseInt(this.contractInput.amount.split(',').join(''),10)) / 100;
+                        var tempAmount = Math.round((selectedPercent.piPercent * parseInt(this.contractInput.amount.split(',').join(''),10)) / 100);
                         var amountInc = 0;
                         this.percentageIncreaseCategory[catIndex].percentage_increase.forEach(item => {
                             if (selectedPercent.id == item.id) {

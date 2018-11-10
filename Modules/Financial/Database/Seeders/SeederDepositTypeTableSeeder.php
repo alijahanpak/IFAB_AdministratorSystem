@@ -4,7 +4,7 @@ namespace Modules\Financial\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Financial\Entities\DepositType;
+use Modules\Financial\Entities\DepositPercentageType;
 
 class SeederDepositTypeTableSeeder extends Seeder
 {
@@ -17,14 +17,14 @@ class SeederDepositTypeTableSeeder extends Seeder
     {
         Model::unguard();
 
-        $dt = new DepositType();
-        $dt->dtSubject = 'تسویه در تحویل موقت';
-        $dt->dtType = 'SETTLEMENT_IN_TEMPORARY_DELIVERY';
+        $dt = new DepositPercentageType();
+        $dt->dptSubject = 'تسویه در تحویل موقت';
+        $dt->dptType = 'SETTLEMENT_IN_TEMPORARY_DELIVERY';
         $dt->save();
 
-        $dt = new DepositType();
-        $dt->dtSubject = 'تسویه در تحویل قطعی';
-        $dt->dtType = 'SETTLEMENT_IN_DEFINATIVE_DELIVERY';
+        $dt = new DepositPercentageType();
+        $dt->dptSubject = 'تسویه در تحویل قطعی';
+        $dt->dptType = 'SETTLEMENT_IN_DEFINATIVE_DELIVERY';
         $dt->save();
     }
 }

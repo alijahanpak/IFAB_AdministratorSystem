@@ -804,131 +804,132 @@
         <!--Insert Payment Request End-->
         <modal-small v-if="showInsertPaymentRequestModal" @close="showInsertPaymentRequestModal = false">
             <div  slot="body">
-                <form v-on:submit.prevent="registerPayRequest" >
-                    <div class="small-font">
-                        <div class="large-12 medium-12 small-12">
-                            <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="payment_request_tab_view">
-                                <li class="tabs-title is-active"><a href="#peymentVerifiersTab" aria-selected="true">امضا کنندگان</a></li>
-                                <li class="tabs-title"><a href="#paymentTab">پرداخت </a></li>
-                            </ul>
-                            <div class="tabs-content" data-tabs-content="payment_request_tab_view">
-                                <!--Tab 1-->
-                                <div class="tabs-panel is-active table-mrg-btm" id="peymentVerifiersTab">
-                                    <div class="grid-x">
-                                        <div class="large-9 medium-9 small-12">
-                                            <div class="grid-x">
-                                                <div v-for="payVerifier in payRequestVerifiers"  class="large-12 medium-12 small-12">
-                                                    <div class="grid-x">
-                                                        <div class="large-12 medium-12 small-12">
-                                                            <label>{{payVerifier.category.cSubject}}
-                                                                <select :name="'payVerifier' + payVerifier.id" @change="calculateVerifiers(payVerifier.id, paymentInput['payVerifier_user' + payVerifier.id])" v-model="paymentInput['payVerifier_user' + payVerifier.id]"  v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('payVerifier'+payVerifier.id)}">
-                                                                    <option value=""></option>
-                                                                    <template v-for="rolCat in payVerifier.category.role_category">
-                                                                        <option v-for="user in rolCat.role.user" :value="user" >{{user.name}} - {{rolCat.role.rSubject}}</option>
-                                                                    </template>
-                                                                </select>
-                                                                <p v-show="errors.has('payVerifier'+payVerifier.id)" class="error-font">لطفا فیلد {{payVerifier.category.cSubject}}  را انتخاب کنید!</p>
-                                                            </label>
+                <div class="large-12 medium-12 small-12">
+                    <form v-on:submit.prevent="registerPayRequest" >
+                        <div class="small-font">
+                            <div class="large-12 medium-12 small-12 container-vh">
+                                <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="payment_request_tab_view">
+                                    <li class="tabs-title is-active"><a href="#peymentVerifiersTab" aria-selected="true">امضا کنندگان</a></li>
+                                    <li class="tabs-title"><a href="#paymentTab">پرداخت </a></li>
+                                </ul>
+                                <div class="tabs-content inner-vh" data-tabs-content="payment_request_tab_view">
+                                    <!--Tab 1-->
+                                    <div style="height: 65vh;" class="tabs-panel is-active table-mrg-btm inner-vh-unsize" id="peymentVerifiersTab">
+                                        <div class="grid-x">
+                                            <div class="large-9 medium-9 small-12">
+                                                <div class="grid-x">
+                                                    <div v-for="payVerifier in payRequestVerifiers"  class="large-12 medium-12 small-12">
+                                                        <div class="grid-x">
+                                                            <div class="large-12 medium-12 small-12">
+                                                                <label>{{payVerifier.category.cSubject}}
+                                                                    <select :name="'payVerifier' + payVerifier.id" @change="calculateVerifiers(payVerifier.id, paymentInput['payVerifier_user' + payVerifier.id])" v-model="paymentInput['payVerifier_user' + payVerifier.id]"  v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('payVerifier'+payVerifier.id)}">
+                                                                        <option value=""></option>
+                                                                        <template v-for="rolCat in payVerifier.category.role_category">
+                                                                            <option v-for="user in rolCat.role.user" :value="user" >{{user.name}} - {{rolCat.role.rSubject}}</option>
+                                                                        </template>
+                                                                    </select>
+                                                                    <p v-show="errors.has('payVerifier'+payVerifier.id)" class="error-font">لطفا فیلد {{payVerifier.category.cSubject}}  را انتخاب کنید!</p>
+                                                                </label>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <!--Tab 1-->
-                                <!--Tab 2-->
-                                <div class="tabs-panel table-mrg-btm" id="paymentTab">
-                                    <div class="grid-x">
-                                        <div class="large-12 medium-12 small-12 padding-lr">
-                                            <label>قرارداد
-                                                <select name="contract_input" @change="getContractInfo(contractTemp)" v-validate data-vv-rules="required"  v-model="contractTemp" :class="{'input': true, 'select-error': errors.has('contract_input')}">
-                                                    <option value=""></option>
-                                                    <template v-for="contract in contracts">
-                                                        <option :value="contract">{{contract.cSubject}} - {{contract.cLetterNumber}} - {{contract.cLetterDate}}</option>
-                                                    </template>
-                                                </select>
-                                                <p v-show="errors.has('contract_input')" class="error-font">لطفا قرارداد را انتخاب کنید!</p>
-                                            </label>
+                                    <!--Tab 1-->
+                                    <!--Tab 2-->
+                                    <div style="height: 65vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="paymentTab">
+                                        <div class="grid-x">
+                                            <div class="large-12 medium-12 small-12 padding-lr">
+                                                <label>قرارداد
+                                                    <select name="contract_input" @change="getContractInfo(contractTemp)" v-validate data-vv-rules="required"  v-model="contractTemp" :class="{'input': true, 'select-error': errors.has('contract_input')}">
+                                                        <option value=""></option>
+                                                        <template v-for="contract in contracts">
+                                                            <option :value="contract">{{contract.cSubject}} - {{contract.cLetterNumber}} - {{contract.cLetterDate}}</option>
+                                                        </template>
+                                                    </select>
+                                                    <p v-show="errors.has('contract_input')" class="error-font">لطفا قرارداد را انتخاب کنید!</p>
+                                                </label>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="grid-x">
-                                        <div class="large-6 medium-6 small-6 padding-lr">
-                                            <label>درصد پیشرفت فیزیکی
-                                                <input type="text" name="physical_progress" v-model="paymentInput.physicalProgress" v-validate="'min_value:0|max_value:' + contractPercent + '|required'" :class="{'input': true, 'error-border': errors.has('physical_progress')}">
-                                            </label>
-                                            <p v-show="errors.has('physical_progress')" class="error-font">لطفا درصد پیشرفت فیزیکی را وارد / اصلاح نمایید!</p>
+                                        <div class="grid-x">
+                                            <div class="large-6 medium-6 small-6 padding-lr">
+                                                <label>درصد پیشرفت فیزیکی
+                                                    <input type="text" name="physical_progress" v-model="paymentInput.physicalProgress" v-validate="'min_value:0|max_value:' + contractPercent + '|required'" :class="{'input': true, 'error-border': errors.has('physical_progress')}">
+                                                </label>
+                                                <p v-show="errors.has('physical_progress')" class="error-font">لطفا درصد پیشرفت فیزیکی را وارد / اصلاح نمایید!</p>
+                                            </div>
+                                            <div class="large-6 medium-6 small-6 padding-lr">
+                                                <label>درصد پیشرفت ریالی
+                                                    <input type="text" @keyup="calculatePaymentRialProgress()" name="rial_progress" v-model="paymentInput.rialProgress" v-validate="'min_value:0|max_value:' + contractPercent + '|required'" :class="{'input': true, 'error-border': errors.has('rial_progress')}">
+                                                </label>
+                                                <p v-show="errors.has('rial_progress')" class="error-font">لطفا درصد پیشرفت ریالی را وارد / اصلاح نمایید!</p>
+                                            </div>
                                         </div>
-                                        <div class="large-6 medium-6 small-6 padding-lr">
-                                            <label>درصد پیشرفت ریالی
-                                                <input type="text" @keyup="calculatePaymentRialProgress()" name="rial_progress" v-model="paymentInput.rialProgress" v-validate="'min_value:0|max_value:' + contractPercent + '|required'" :class="{'input': true, 'error-border': errors.has('rial_progress')}">
-                                            </label>
-                                            <p v-show="errors.has('rial_progress')" class="error-font">لطفا درصد پیشرفت ریالی را وارد / اصلاح نمایید!</p>
+                                        <div style="margin-top:8px;"  class="grid-x">
+                                            <div class="large-6 medium-6 small-12 padding-lr">
+                                                <label>مبلغ <span class="btn-red">(ریال)  </span>
+                                                    <money @change.native="calculatePaymentAmount()" v-model="paymentInput.amount"  v-bind="money" class="form-input input-lg text-margin-btm direction-ltr"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('paymentAmount')}"></money>
+                                                </label>
+                                                <p v-show="errors.has('baseAmount')" class="error-font"> مبلغ صورت وضعیت مورد نظر نامعتبر است!</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div style="margin-top:8px;"  class="grid-x">
-                                        <div class="large-6 medium-6 small-12 padding-lr">
-                                            <label>مبلغ <span class="btn-red">(ریال)  </span>
-                                                <money @change.native="calculatePaymentAmount()" v-model="paymentInput.amount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('paymentAmount')}"></money>
-                                            </label>
-                                            <p v-show="errors.has('baseAmount')" class="error-font"> مبلغ صورت وضعیت مورد نظر نامعتبر است!</p>
-                                        </div>
-                                    </div>
-                                    <div style="margin-top: 8px;" class="grid-x">
-                                        <div class="large-12 medium-12 small-12 padding-lr">
-                                            <div class="panel-separator padding-lr">
-                                                <div class="grid-x">
-                                                    <div class="large-6 medium-6 small-12 padding-lr input-bottom-margin">
-                                                        <div class="grid-x">
-                                                            <div class="large-3 medium-4 small-12">
-                                                                <div class="switch tiny">
-                                                                    <input :disabled="finalPaymentDisable" v-on:change="finalPaymentCheck(finalPaymentState)" class="switch-input" v-model="finalPaymentState" id="finalPayment_state" type="checkbox">
-                                                                    <label class="switch-paddle" for="finalPayment_state">
-                                                                        <span class="switch-active" aria-hidden="true">بلی</span>
-                                                                        <span class="switch-inactive" aria-hidden="true">خیر</span>
-                                                                    </label>
+                                        <div style="margin-top: 8px;" class="grid-x">
+                                            <div class="large-12 medium-12 small-12 padding-lr">
+                                                <div class="panel-separator padding-lr">
+                                                    <div class="grid-x">
+                                                        <div class="large-6 medium-6 small-12 padding-lr input-bottom-margin">
+                                                            <div class="grid-x">
+                                                                <div class="large-3 medium-4 small-12">
+                                                                    <div class="switch tiny">
+                                                                        <input :disabled="finalPaymentDisable" v-on:change="finalPaymentCheck(finalPaymentState)" class="switch-input" v-model="finalPaymentState" id="finalPayment_state" type="checkbox">
+                                                                        <label class="switch-paddle" for="finalPayment_state">
+                                                                            <span class="switch-active" aria-hidden="true">بلی</span>
+                                                                            <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="large-9 medium-8  small-12">
+                                                                    <p class="input-bottom-margin">تحویل موقت</p>
                                                                 </div>
                                                             </div>
-                                                            <div class="large-9 medium-8  small-12">
-                                                                <p class="input-bottom-margin">تحویل موقت</p>
-                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="large-6 medium-6 small-12 padding-lr input-bottom-margin">
-                                                        <p v-show="incAndDecPercentMsg" class="input-bottom-margin">درصد افزایش و کاهش :<span class="btn-red">{{incAndDecPercent > 0 ? incAndDecPercent + '% افزایش' : (incAndDecPercent * (-1)) + '% کاهش'}}</span></p>
+                                                        <div class="large-6 medium-6 small-12 padding-lr input-bottom-margin">
+                                                            <p v-show="incAndDecPercentMsg" class="input-bottom-margin">درصد افزایش و کاهش :<span class="btn-red">{{incAndDecPercent > 0 ? incAndDecPercent + '% افزایش' : (incAndDecPercent * (-1)) + '% کاهش'}}</span></p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="grid-x">
-                                        <div class="large-12 medium-12 small-12 padding-lr input-top-margin">
-                                            <label>شرح
-                                                <textarea class="form-element-margin-btm" style="min-height: 150px;" name="paymentDescription" v-model="paymentDescription"></textarea>
-                                            </label>
+                                        <div class="grid-x">
+                                            <div class="large-12 medium-12 small-12 padding-lr input-top-margin">
+                                                <label>شرح
+                                                    <textarea class="form-element-margin-btm" style="min-height: 150px;" name="paymentDescription" v-model="paymentDescription"></textarea>
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <!--Tab 2-->
-                            </div>
-                        </div>
-                        <div class="grid-x medium-top-m padding-lr input-bottom-margin">
-                            <div class="large-12 medium-12 small-12 padding-lr">
-                                <div class="stacked-for-small button-group float-left">
-                                    <button type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <!--Tab 2-->
                                 </div>
                             </div>
+                            <div class="grid-x medium-top-m padding-lr input-bottom-margin">
+                                <div class="large-12 medium-12 small-12 padding-lr">
+                                    <div class="stacked-for-small button-group float-left">
+                                        <button type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </modal-small>
         <!--Insert Payment Request End-->
 
         <!-- PDF Payment modal -->
         <modal-small v-if="showPdfModal" @close="showPdfModal = false">
-            <div style="height: 90vh;" slot="body">
+            <div style="height: 88vh;" slot="body">
                 <div class="grid-x">
                     <div class="large-12 medium-12 small-12">
                         <div class="grid-x" style="width:100%;height :85.5vh">
