@@ -122,7 +122,7 @@
                                         <div v-show="contract.cIsAccepted == 0"><span class="reserved-label">تایید نشده</span></div>
                                     </div>
                                     <div v-show="!contract.cIsAccepted" class="medium-1 cell-vertical-center text-left">
-                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'contractMenu' + contract.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                        <a class="dropdown small sm-btn-align" :data-toggle="'contractMenu' + contract.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" :id="'contractMenu' + contract.id" data-dropdown data-auto-focus="true">
                                             <ul class="my-menu small-font text-right">
                                                 <li v-show="$can('UNIT_OF_CONTRACT_DELETE_CONTRACT')"><a v-on:click.prevent="openUpdateContractModal(index)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>

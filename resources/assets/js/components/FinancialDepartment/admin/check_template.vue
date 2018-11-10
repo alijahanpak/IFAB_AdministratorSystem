@@ -80,7 +80,7 @@
                                     <div class="large-2 medium-2 small-12 padding-lr">
                                         <label> فعال
                                             <div class="switch tiny">
-                                                <input checked="false" v-model="inputCheck.state" class="switch-input" id="is-require-state" type="checkbox">
+                                                <input v-model="inputCheck.state" class="switch-input" id="is-require-state" type="checkbox">
                                                 <label class="switch-paddle" for="is-require-state">
                                                     <span class="switch-active" aria-hidden="true">بلی</span>
                                                     <span class="switch-inactive" aria-hidden="true">خیر</span>
@@ -356,6 +356,7 @@
 
             openAddNewCheckModal: function () {
                 this.inputCheck={};
+                this.inputCheck.state=true;
                 this.showAddNewCheckModal=true;
             },
 

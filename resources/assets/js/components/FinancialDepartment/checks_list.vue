@@ -118,7 +118,7 @@
                                         <div class="large-6 medium-6 small-12 padding-lr">
                                             <label>تاریخ چک
                                                 <date-picker
-                                                        :color="'#5c6bc0'"
+                                                        :color="checkDateValid ? '#d9534f' : '#5c6bc0'"
                                                         v-model="inputCheck.date"
                                                         input-class="form-control form-control-lg date-picker-bottom-margin"
                                                         id="inputCheck-Date"
@@ -150,6 +150,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <p style="margin-top:3px !important;" v-show="checkVerifierAlert" class="error-font">لطفا با توجه به قالب چک انتخاب شده، امضا کننده را انتخاب نمایید.!</p>
                                             </div>
                                         </div>
                                     </div>
@@ -430,6 +431,7 @@
                 letterDatePersian:'',
                 checkHistoryState:false,
                 checkDateValid:false,
+                checkVerifierAlert:false,
                 checkPdfPath:'',
             }
         },
@@ -575,11 +577,21 @@
 
             showCheckPreview:function(){
                 this.checkPdfPath='';
-                this.checkDateValid=false;
                 this.$validator.validateAll().then((result) => {
-                    if (result) {
-                        if(this.inputCheck.date != null) {
-                            this.checkDateValid = false;
+                    if (this.inputCheck.date == null)
+                        this.checkDateValid = true;
+                    this.checkVerifierName=[];
+                    this.allCheckVerifiers.forEach(item =>{
+                        if(item.checked ==  true){
+                            this.checkVerifierName.push(item.user.name);
+                            this.checkVerifierName.push(item.user.role.rSubject)
+                        }
+                        console.log(JSON.stringify(this.checkVerifierName));
+                    });
+                    if(this.checkVerifierName.length < 1)
+                        this.checkVerifierAlert=true;
+                    if(!this.checkDateValid &&  !this.checkVerifierAlert){
+                        if (result) {
                             this.fillCheck.subject=this.checkActiveFormatSelect.cfSubject;
                             this.fillCheck.dateTop=this.checkActiveFormatSelect.cfDateTop;
                             this.fillCheck.dateRight=this.checkActiveFormatSelect.cfDateRight;
@@ -608,14 +620,6 @@
                             this.fillCheck.secondSignatureWidth=this.checkActiveFormatSelect.cfSecondSignatureWidth;
                             this.fillCheck.width=this.checkActiveFormatSelect.cfWidth;
                             this.fillCheck.height=this.checkActiveFormatSelect.cfHeight;
-                            this.checkVerifierName=[];
-                            this.allCheckVerifiers.forEach(item =>{
-                                if(item.checked ==  true){
-                                    this.checkVerifierName.push(item.user.name);
-                                    this.checkVerifierName.push(item.user.role.rSubject)
-                                }
-                                console.log(JSON.stringify(this.checkVerifierName));
-                            });
                             this.convertDateToLetter();
                             this.showGetCheckPreviewModal=true;
                         }
@@ -633,6 +637,7 @@
                 verifierTemp.rSubject = verifier.user.role.rSubject;
                 verifierTemp.index = index;
                 if(state == false){
+                    this.checkVerifierAlert = true;
                     this.allCheckVerifiers.forEach(item =>{
                         if(item.id == verifierTemp.id){
                             this.allCheckVerifiers.forEach(item =>{
@@ -647,6 +652,7 @@
                     });
                 }
                 if(state == true){
+                    this.checkVerifierAlert = false;
                     this.allCheckVerifiers.forEach(item =>{
                         if(verifierTemp.id == item.id){
                             Vue.set(item,"name",verifierTemp.name);
