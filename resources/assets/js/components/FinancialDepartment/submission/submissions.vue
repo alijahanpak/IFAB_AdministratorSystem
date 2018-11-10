@@ -890,7 +890,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="large-9 medium-8  small-12">
-                                                                <p class="input-bottom-margin">پرداخت نهایی</p>
+                                                                <p class="input-bottom-margin">تحویل موقت</p>
                                                             </div>
                                                         </div>
                                                     </div>

@@ -197,7 +197,7 @@
                         <div v-show="displayWarning" class="grid-x"  style="margin-top: -10px; margin-bottom: 10px">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <span class="btn-red size-12">اخطار! </span>
-                                <span class="black-color size-12">کارشناس محترم، مبلغ نهایی قرارداد از مبلغ براورد بیشتر است.</span>
+                                <span class="black-color size-12">کارشناس محترم، مبلغ نهایی قرارداد از مبلغ براورد بیشتر است, آیا برای ثبت قرارداد اطمینان دارید؟</span>
                             </div>
                         </div>
                         <div class="grid-x">
@@ -278,7 +278,7 @@
                                             <div v-show="displayWarning" class="grid-x"  style="margin-top: -10px">
                                                 <div class="large-12 medium-12  small-12">
                                                     <span class="btn-red size-12">اخطار! </span>
-                                                    <span class="black-color size-12">کارشناس محترم، مبلغ نهایی قرارداد از مبلغ براورد بیشتر است.</span>
+                                                    <span class="black-color size-12">کارشناس محترم، مبلغ نهایی قرارداد از مبلغ براورد بیشتر است, آیا برای ثبت قرارداد اطمینان دارید؟</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -362,7 +362,7 @@
                         <div v-show="displayWarning" class="grid-x"  style="margin-top: -10px; margin-bottom: 10px">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <span class="btn-red size-12">اخطار! </span>
-                                <span class="black-color size-12">کارشناس محترم، مبلغ نهایی قرارداد از مبلغ براورد بیشتر است.</span>
+                                <span class="black-color size-12">کارشناس محترم، مبلغ نهایی قرارداد از مبلغ براورد بیشتر است, آیا برای ثبت قرارداد اطمینان دارید؟</span>
                             </div>
                         </div>
                         <div class="grid-x">
@@ -441,7 +441,7 @@
                                             <div v-show="displayWarning" class="grid-x"  style="margin-top: -10px">
                                                 <div class="large-12 medium-12  small-12">
                                                     <span class="btn-red size-12">اخطار! </span>
-                                                    <span class="black-color size-12">کارشناس محترم، مبلغ نهایی قرارداد از مبلغ براورد بیشتر است.</span>
+                                                    <span class="black-color size-12">کارشناس محترم، مبلغ نهایی قرارداد از مبلغ براورد بیشتر است, آیا برای ثبت قرارداد اطمینان دارید؟</span>
                                                 </div>
                                             </div>
                                         </div>

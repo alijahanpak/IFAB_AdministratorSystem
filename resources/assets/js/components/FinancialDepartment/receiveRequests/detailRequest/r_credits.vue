@@ -774,9 +774,7 @@
                                             <!--Table Head End-->
                                             <!--Table Body Start-->
                                             <div class="tbl_body_style dynamic-height-level-modal1">
-                                                <vue-element-loading style="width: 100%;z-index: 2" :active="showLoaderProgress"  color="#716aca">
-                                                    <img src="http://127.0.0.1/IFAB_AdministratorSystem/public/pic/palas-loader.svg" width="200px" height="150px">
-                                                </vue-element-loading>
+                                                <vue-element-loading style="width: 100%;z-index: 2" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
                                                 <table class="tbl-body-contain">
                                                     <colgroup>
                                                         <col width="150px"/>
@@ -1529,6 +1527,15 @@
                                 <money dir="ltr" :class="checkEditCostAmount == true ? 'select-error' : ''"  v-model="EditCostAmountFill"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'"></money>
                             </label>
                             <p style="margin-top: 8px;" v-show="checkEditCostAmount" class="btn-red">مبلغ معتبر نیست! </p>
+                            <div class="grid-x" style="margin-top: 10px">
+                                <div class="large-6 medium-6 small-12 column text-right">
+                                    <p class="size-12">تفاوت مبلغ (با در نظر گرفتن مبلغ تامین اعتبار):</p>
+                                </div>
+                                <div class="large-6 medium-6 small-12 column text-left">
+                                    <span class="btn-red size-12">{{ $root.dispMoneyFormat((baseAmount - _financingAmount - _reservedAmount) + costEditFill.cfAmount) }}</span>
+                                    <span class="size-12"> ریال</span>
+                                </div>
+                            </div>
                         </div>
                         <div class="large-4 medium-4 small-12 column text-left">
                             <button style="margin-top: 23px;" v-on:click="updateCostFinancing"   class="my-button my-success"><span class="btn-txt-mrg">   تایید   </span></button>
@@ -1583,6 +1590,15 @@
                                 <money dir="ltr" :class="checkEditCapAmount == true ? 'select-error' : ''"  v-model="editCapAmountFill"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'"></money>
                             </label>
                             <p style="margin-top: 8px;" v-show="checkEditCapAmount" class="btn-red">مبلغ معتبر نیست! </p>
+                            <div class="grid-x" style="margin-top: 10px">
+                                <div class="large-6 medium-6 small-12 column text-right">
+                                    <p class="size-12">تفاوت مبلغ (با در نظر گرفتن مبلغ تامین اعتبار):</p>
+                                </div>
+                                <div class="large-6 medium-6 small-12 column text-left">
+                                    <span class="btn-red size-12">{{ $root.dispMoneyFormat((baseAmount - _financingAmount - _reservedAmount) + capEditFill.cafAmount) }}</span>
+                                    <span class="size-12"> ریال</span>
+                                </div>
+                            </div>
                         </div>
                         <div class="large-4 medium-4 small-12 column text-left">
                             <button style="margin-top: 23px;" v-on:click="updateCapFinancing"   class="my-button my-success"><span class="btn-txt-mrg">   تایید   </span></button>
