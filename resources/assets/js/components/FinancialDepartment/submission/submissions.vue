@@ -87,6 +87,7 @@
         <!-- Submission Buy Modal -->
         <modal-large v-if="showBuyCommodityModal" @close="showBuyCommodityModal = false">
             <div  slot="body">
+                <!--v-loading="'<i class=\'fa fa-spinner fa-spin\'></i>'"-->
                 <form v-on:submit.prevent="createRequest" >
                     <div class="small-font container-vh">
                         <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="commodity_tab_view">
@@ -334,7 +335,7 @@
                     </div>
                     <div class="large-12 medium-12 small-12 padding-lr medium-top-m">
                         <div style="margin-bottom:-10px;" class="stacked-for-small button-group">
-                            <button type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت</span></button>
+                            <button type="submit"  class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت</span></button>
                         </div>
                     </div>
                 </form>
@@ -1313,6 +1314,13 @@
 
                     }
                 });
+               /* alert('ali');
+                axios.post('/financial/request/register', null, null).then((response) => {
+                    console.log(response);
+                    this.resetData();
+                }, (error) => {
+                    console.log(error);
+                });*/
 
 
                 },
