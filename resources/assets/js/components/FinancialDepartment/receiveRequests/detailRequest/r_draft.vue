@@ -335,13 +335,14 @@
                         <div class="large-12 medium-12 small-12 padding-lr">
                             <label>تاریخ
                                 <date-picker
-                                        :color="'#5c6bc0'"
+                                        :color="letterDateAlert ? '#d9534f' : '#5c6bc0'"
                                         v-model="registerDate"
                                         input-class="form-control form-control-lg date-picker-bottom-margin"
                                         id="my-custom-input"
                                         placeholder="انتخاب تاریخ">
                                 </date-picker>
                             </label>
+                            <p style="margin-top:3px !important;" v-show="letterDateAlert" class="error-font">لطفا تاریخ مورد نظر را وارد نمایید!</p>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr">
                             <label> شماره
@@ -623,6 +624,7 @@
                 draftPdfPath:'',
                 documentPdfPath:'',
                 registerDate: '',
+                letterDateAlert:false,
                 letterNumber: '',
                 moneyState:'none',
                 percentageDecreasesCategory:[],
@@ -656,6 +658,13 @@
 
         mounted: function () {
             this.checkOpenLastRef();
+        },
+
+        watch:{
+            registerDate: function (newQuestion, oldQuestion) {
+                if(this.registerDate != null)
+                    this.letterDateAlert=false;
+            },
         },
 
         methods : {
@@ -927,8 +936,10 @@
             },
 
             openRegisterAndNumberingModal:function(){
-                if (this.isAccepted)
+                if (this.isAccepted){
+                    this.letterDateAlert=false;
                     this.showRegisterAndNumberingModal=true;
+                }
                 else
                 {
                     this.dialogMessage = 'حواله امضاء نشده است!';
@@ -937,20 +948,28 @@
             },
 
             registerAndNumberingDraft:function () {
-                axios.post('/financial/draft/numbering', {
-                    rId: this.requestId,
-                    dId:this.draftId,
-                    letterDate: this.registerDate,
-                    letterNumber: this.letterNumber
-                }).then((response) => {
-                    this.$emit('updateReceiveRequestData' , response.data);
-                    this.$emit('closeModal');
-                    this.showRegisterAndNumberingModal = false;
-                    this.$root.displayNotif(response.status);
-                    console.log(response);
-                }, (error) => {
-                    console.log(error);
-                    this.$root.displayNotif(error.response.status);
+                this.$validator.validateAll().then((result) => {
+                    if (this.registerDate == '')
+                        this.letterDateAlert = true;
+                    if(!this.letterDateAlert){
+                        if (result) {
+                            axios.post('/financial/draft/numbering', {
+                                rId: this.requestId,
+                                dId:this.draftId,
+                                letterDate: this.registerDate,
+                                letterNumber: this.letterNumber
+                            }).then((response) => {
+                                this.$emit('updateReceiveRequestData' , response.data);
+                                this.$emit('closeModal');
+                                this.showRegisterAndNumberingModal = false;
+                                this.$root.displayNotif(response.status);
+                                console.log(response);
+                            }, (error) => {
+                                console.log(error);
+                                this.$root.displayNotif(error.response.status);
+                            });
+                        }
+                    }
                 });
             },
 

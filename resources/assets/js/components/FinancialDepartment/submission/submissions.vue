@@ -96,7 +96,7 @@
                         </ul>
                         <div class="tabs-content inner-vh" data-tabs-content="commodity_tab_view">
                             <!--Tab 1-->
-                            <div class="tabs-panel is-active  inner-vh-unsize" id="reciverTab">
+                            <div class="tabs-panel is-active inner-vh-unsize" id="reciverTab">
                                 <div class="grid-x tbl_body_style">
                                     <div v-for="recipientsGroup in recipients"  class="large-12 medium-12 small-12">
                                         <div class="grid-x">
@@ -816,7 +816,7 @@
                                 <div class="tabs-panel is-active table-mrg-btm" id="peymentVerifiersTab">
                                     <div class="grid-x">
                                         <div class="large-9 medium-9 small-12">
-                                            <div class="grid-x tbl_body_style">
+                                            <div class="grid-x">
                                                 <div v-for="payVerifier in payRequestVerifiers"  class="large-12 medium-12 small-12">
                                                     <div class="grid-x">
                                                         <div class="large-12 medium-12 small-12">
@@ -1488,8 +1488,8 @@
                             description: this.paymentDescription,
                             verifiers:this.payVerifiers,
                         }).then((response) => {
-                            this.updateRequestData(response.data.data , this.requestId);
-                            this.makePagination(response.data);
+                            this.submissions = response.data.data;
+                            this.getSubmissionDetail(this.selectedIndex);
                             this.showInsertPaymentRequestModal = false;
                             this.$root.displayNotif(response.status);
                             console.log(response);

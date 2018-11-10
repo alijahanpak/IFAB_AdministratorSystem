@@ -70,7 +70,7 @@
                                                         {{capFinancing.allocation.credit_source.capital_assets_project.cpDescription}}
                                                     </div>
                                                     <div v-show="$can('FINANCIAL_MODIFY_CAPITAL_ASSETS_FINANCING_ITEM')" class="medium-1 cell-vertical-center text-left">
-                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'capitalAssetsFinancing' + capFinancing.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                        <a class="dropdown small sm-btn-align" :data-toggle="'capitalAssetsFinancing' + capFinancing.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" :id="'capitalAssetsFinancing' + capFinancing.id" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font text-right">
                                                                 <li><a v-on:click.prevent="setCapEditSelectedIndex(index)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -91,7 +91,7 @@
                                                         <span v-show="capFinancing.cafAccepted == true" class="success-label">تایید شده</span>
                                                     </div>
                                                     <div v-show="$can('FINANCIAL_MODIFY_CAPITAL_ASSETS_FINANCING_ITEM')" class="medium-1 cell-vertical-center text-left">
-                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'capitalAssetsFinancing' + capFinancing.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                        <a class="dropdown small sm-btn-align" :data-toggle="'capitalAssetsFinancing' + capFinancing.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" :id="'capitalAssetsFinancing' + capFinancing.id" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font text-right">
                                                                 <li><a v-on:click.prevent="setCapEditSelectedIndex(index)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -180,7 +180,7 @@
                                                         {{costFinancing.allocation.credit_source.cost_agreement.caDescription}}
                                                     </div>
                                                     <div v-show="$can('FINANCIAL_MODIFY_COST_FINANCING_ITEM')" class="medium-1 cell-vertical-center text-left">
-                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'costFinancing' + costFinancing.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                        <a class="dropdown small sm-btn-align" :data-toggle="'costFinancing' + costFinancing.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" :id="'costFinancing' + costFinancing.id" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font text-right">
                                                                 <li><a v-on:click.prevent="setCostEditSelectedIndex(index)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -201,7 +201,7 @@
                                                         <span v-show="costFinancing.cfAccepted == true" class="success-label">تایید شده</span>
                                                     </div>
                                                     <div v-show="$can('FINANCIAL_MODIFY_COST_FINANCING_ITEM')" class="medium-1 cell-vertical-center text-left">
-                                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'costFinancing' + costFinancing.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                        <a class="dropdown small sm-btn-align" :data-toggle="'costFinancing' + costFinancing.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" :id="'costFinancing' + costFinancing.id" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font text-right">
                                                                 <li><a v-on:click.prevent="setCostEditSelectedIndex(index)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
