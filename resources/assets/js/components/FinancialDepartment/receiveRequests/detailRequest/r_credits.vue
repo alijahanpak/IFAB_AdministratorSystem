@@ -707,7 +707,8 @@
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12">
                                             <div class="stacked-for-small button-group float-left">
-                                                <button @click="reserveCostFinance()" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                                <button v-show="!$root.btnLoadingCheckStatus" @click="reserveCostFinance()" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                                             </div>
                                         </div>
                                     </div>
@@ -1422,7 +1423,8 @@
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12">
                                             <div class="stacked-for-small button-group float-left">
-                                                <button @click="reserveCapitalAssetsFinance()" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                                <button v-show="!$root.btnLoadingCheckStatus" @click="reserveCapitalAssetsFinance()" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                                             </div>
                                         </div>
                                     </div>
@@ -1443,7 +1445,8 @@
                     <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
-                            <button v-on:click="deleteFinancing"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" v-on:click="deleteFinancing"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </div>
@@ -1459,7 +1462,8 @@
                     <p class="large-offset-1 modal-text">تایید نهایی تامین اعتبار به منزله ایجاد تعهد در محل های انتخاب شده است، آیا برای تایید اطمینان دارید؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
-                            <button v-on:click="acceptFinancing"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <button  v-show="!$root.btnLoadingCheckStatus" v-on:click="acceptFinancing"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </div>
@@ -1538,7 +1542,8 @@
                             </div>
                         </div>
                         <div class="large-4 medium-4 small-12 column text-left">
-                            <button style="margin-top: 23px;" v-on:click="updateCostFinancing"   class="my-button my-success"><span class="btn-txt-mrg">   تایید   </span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" style="margin-top: 23px;" v-on:click="updateCostFinancing"   class="my-button my-success"><span class="btn-txt-mrg">   تایید   </span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" style="margin-top: 23px;" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </div>
@@ -1601,7 +1606,8 @@
                             </div>
                         </div>
                         <div class="large-4 medium-4 small-12 column text-left">
-                            <button style="margin-top: 23px;" v-on:click="updateCapFinancing"   class="my-button my-success"><span class="btn-txt-mrg">   تایید   </span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" style="margin-top: 23px;" v-on:click="updateCapFinancing"   class="my-button my-success"><span class="btn-txt-mrg">   تایید   </span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" style="margin-top: 23px;" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </div>
@@ -2570,6 +2576,9 @@ export default{
         reserveCostFinance: function () {
             this.$validator.validateAll().then((result) => {
                 if (result) {
+                    var config = {
+                        allowLoading:true,
+                    };
                     var costFinancing= [];
                     this.completeCostAgrement.forEach(cost => {
                         cost.ca_credit_source_has_allocation.forEach(alloc =>{
@@ -2601,7 +2610,7 @@ export default{
                         axios.post('/financial/request/financing/reservation', {
                             rId: this.requestId,
                             costFinancing: costFinancing,
-                        }).then((response) => {
+                        } , config).then((response) => {
                             this.getCapAndCostFinancing(response.data);
                             this.showCostCreditsModal = false;
                             this.$root.displayNotif(response.status);
@@ -2619,6 +2628,9 @@ export default{
         reserveCapitalAssetsFinance: function () {
             this.$validator.validateAll().then((result) => {
                 if (result) {
+                    var config = {
+                        allowLoading:true,
+                    };
                     var capitalAssetsFinancing= [];
                     this.completeCapitalAssetsAgrement.forEach(ca => {
                         ca.capital_assets_project_has_credit_source	.forEach(project =>{
@@ -2652,7 +2664,7 @@ export default{
                         axios.post('/financial/request/financing/reservation', {
                             rId: this.requestId,
                             capFinancing: capitalAssetsFinancing,
-                        }).then((response) => {
+                        } , config).then((response) => {
                             this.getCapAndCostFinancing(response.data);
                             this.showCapitalAssetsModal = false;
                             this.$root.displayNotif(response.status);
@@ -2750,9 +2762,12 @@ export default{
         },
 
         acceptFinancing: function(){
+            var config = {
+                allowLoading:true,
+            };
             axios.post('/financial/request/financing/accept', {
                 rId: this.requestId,
-            }).then((response) => {
+            } , config).then((response) => {
                 this.$emit('updateReceiveRequestData' , response.data);
                 this.$emit('closeModal');
                 this.$root.displayNotif(response.status);
@@ -2772,10 +2787,13 @@ export default{
 
         deleteFinancing:function(){
             if(this.deleteType == 1){
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/financial/request/financing/cap/delete', {
                     id:this.delId,
                     rId:this.requestId,
-                }).then((response) => {
+                } , config).then((response) => {
                     if (response.status != 204) {
                         this.getCapAndCostFinancing(response.data);
                         this.getFinancingAmount();
@@ -2788,10 +2806,13 @@ export default{
 
             }
             if(this.deleteType == 2){
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/financial/request/financing/cost/delete', {
                     id:this.delId,
                     rId:this.requestId,
-                }).then((response) => {
+                } , config).then((response) => {
                     if (response.status != 204) {
                         this.getCapAndCostFinancing(response.data);
                         this.getFinancingAmount();
@@ -2852,11 +2873,14 @@ export default{
         updateCostFinancing : function(){
            if(this.costInputValidator() == true ){
                this.checkEditCostAmount=false;
+               var config = {
+                   allowLoading:true,
+               };
                axios.post('/financial/request/financing/cost/update', {
                    rId:this.requestId,
                    cfId:this.costEditFill.id,
                    amount:parseInt(this.EditCostAmountFill.split(',').join(''),10)
-               }).then((response) => {
+               } , config).then((response) => {
                    if (response.status == 200) {
                        this.requestCostFinancing=response.data.costFinancing;
                        this.getFinancingAmount();
@@ -2924,11 +2948,14 @@ export default{
         updateCapFinancing : function(){
             if(this.capInputValidator() == true ){
                 this.checkEditCapAmount=false;
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/financial/request/financing/cap/update', {
                     rId:this.requestId,
                     cafId:this.capEditFill.id,
                     amount:parseInt(this.editCapAmountFill.split(',').join(''),10)
-                }).then((response) => {
+                } , config).then((response) => {
                     if (response.status == 200) {
                         this.requestCapFinancing=response.data.capFinancing;
                         this.getFinancingAmount();

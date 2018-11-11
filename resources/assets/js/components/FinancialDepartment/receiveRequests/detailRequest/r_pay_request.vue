@@ -114,7 +114,8 @@
                                 <p class="btn-red size-14">تایید شما به منزله امضا درخواست می باشد.</p>
                             </div>
                             <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
-                                <button @click="accept()"  class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  تایید</span></button>
+                                <button v-show="!$root.btnLoadingCheckStatus" @click="accept()"  class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  تایید</span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </template>
                         <template v-else>
@@ -178,7 +179,8 @@
                             </label>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
-                            <button @click="registerAndNumberingPayRequest()"  class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                            <button  v-show="!$root.btnLoadingCheckStatus" @click="registerAndNumberingPayRequest()"  class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </div>
@@ -280,7 +282,8 @@
                         <div class="grid-x medium-top-m padding-lr">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <div class="stacked-for-small button-group float-left">
-                                    <button type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <button v-show="!$root.btnLoadingCheckStatus" type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                                 </div>
                             </div>
                         </div>
@@ -444,10 +447,13 @@
             },
 
             accept: function () {
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/financial/payment_request/accept', {
                     rId: this.requestId,
                     prvId:this.verifierId
-                }).then((response) => {
+                } , config).then((response) => {
                     this.$emit('updateReceiveRequestData' , response.data);
                     this.$emit('closeModal');
                     this.$root.displayNotif(response.status);
@@ -523,13 +529,16 @@
                     if (this.registerDate == '')
                         this.letterDateAlert = true;
                     if(!this.letterDateAlert){
-                            if (result) {
+                        if (result) {
+                            var config = {
+                                allowLoading:true,
+                            };
                             axios.post('/financial/payment_request/numbering', {
                                 rId: this.requestId,
                                 prId:this.payRequestId,
                                 letterDate: this.registerDate,
                                 letterNumber: this.letterNumber
-                            }).then((response) => {
+                            } , config).then((response) => {
                                 this.$emit('updateReceiveRequestData' , response.data);
                                 this.$emit('closeModal');
                                 this.showRegisterAndNumberingModal = false;
@@ -676,6 +685,9 @@
                         }
 
                         else{
+                            var config = {
+                                allowLoading:true,
+                            };
                             axios.post('financial/draft/register', {
                                 rId: this.requestId,
                                 prId: this.payRequestId,
@@ -684,7 +696,7 @@
                                 baseAmount: parseInt(this.draftInput.baseAmount.split(',').join(''),10),
                                 amount: this.draftBaseAmount,
                                 verifierId: this.draftInput.verifierId
-                            }).then((response) => {
+                            } , config).then((response) => {
                                 this.$emit('updateReceiveRequestData' , response.data);
                                 this.$emit('closeModal');
                                 this.showInsertDraftModal = false;

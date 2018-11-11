@@ -307,7 +307,8 @@
                     <div class="grid-x small-top-m">
                         <div class="large-12 medium-12 small-12 padding-lr">
                             <div class="stacked-for-small button-group float-left">
-                                <button @click="getReprintingCause()" class="my-button my-success float-left"><span class="btn-txt-mrg">  چاپ </span></button>
+                                <button v-show="!$root.btnLoadingCheckStatus" @click="getReprintingCause()" class="my-button my-success float-left"><span class="btn-txt-mrg">  چاپ </span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </div>
                     </div>
@@ -692,6 +693,9 @@
                     }
                 });
                 console.log(JSON.stringify(verifierTempForCheck));
+                    var config = {
+                        allowLoading:true,
+                    };
                     axios.post('/financial/check/print/update', {
                         verifiers:verifierTempForCheck,
                         cId:this.checkId,
@@ -700,7 +704,7 @@
                         cfSubject:this.fillCheck.subject,
                         description:this.inputCheck.description = undefined ? '' : this.inputCheck.description,
                         searchValue:"",
-                    }).then((response) => {
+                    }, config).then((response) => {
                         if(response.status == 200){
                             this.openReportFile(this.inputCheck.checkFormat.id,this.checkId);
                             this.allChecks = response.data.data;

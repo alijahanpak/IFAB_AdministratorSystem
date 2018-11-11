@@ -300,7 +300,8 @@
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <div class="stacked-for-small button-group float-left">
-                                    <button type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <button  v-show="!$root.btnLoadingCheckStatus" type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                                 </div>
                             </div>
                         </div>
@@ -463,7 +464,8 @@
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <div class="stacked-for-small button-group float-left">
-                                    <button type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <button v-show="!$root.btnLoadingCheckStatus" type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                                 </div>
                             </div>
                         </div>
@@ -485,7 +487,8 @@
                     <p class="large-offset-1 modal-text">تایید اطلاعات قرارداد به منزله ایجاد تعهد در محل های تامین اعتبار است، آیا صحت اطلاعات را تایید می کنید؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
-                            <button v-on:click="acceptContract"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" v-on:click="acceptContract" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </div>
@@ -501,7 +504,8 @@
                     <p class="large-offset-1 modal-text">آیا مایل هستید قرارداد را حذف کنید؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
-                            <button v-on:click="deleteContract"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" v-on:click="deleteContract"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </div>
@@ -736,9 +740,12 @@
             },
 
             acceptContract: function(){
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/financial/request/contract/accept', {
                     rId: this.requestId,
-                }).then((response) => {
+                } , config).then((response) => {
                     this.$emit('updateReceiveRequestData' , response.data);
                     this.$emit('closeModal');
                     this.$root.displayNotif(response.status);
@@ -750,10 +757,13 @@
             },
 
             deleteContract: function() {
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/financial/request/contract/delete', {
                     rId: this.requestId,
                     cId: this.cIdForDelete,
-                }).then((response) => {
+                } , config).then((response) => {
                     if (response.status == 200)
                         this.$emit('updateReceiveRequestData' , response.data);
                     this.showDeleteConfirmModal = false;
@@ -822,6 +832,9 @@
                                      }
                                  });
                              });
+                             var config = {
+                                 allowLoading:true,
+                             };
                              axios.post('/financial/request/contract/insert', {
                                  rId: this.requestId,
                                  subject: this.contractInput.subject,
@@ -835,7 +848,7 @@
                                  endDate: this.contractInput.endDate,
                                  description: this.contractInput.description,
                                  increaseItems: increaseTemp,
-                             }).then((response) => {
+                             } , config).then((response) => {
                                  this.$emit('updateReceiveRequestData', response.data);
                                  this.showInsertContractModal = false;
                                  this.$root.displayNotif(response.status);
@@ -905,6 +918,9 @@
                                     }
                                 });
                             });
+                            var config = {
+                                allowLoading:true,
+                            };
                             axios.post('/financial/request/contract/update', {
                                 id: this.contractInput.id,
                                 rId: this.requestId,
@@ -919,7 +935,7 @@
                                 endDate: this.contractInput.endDate,
                                 description: this.contractInput.description,
                                 increaseItems: increaseTemp,
-                            }).then((response) => {
+                            } , config).then((response) => {
                                 this.$emit('updateReceiveRequestData', response.data);
                                 this.showUpdateContractModal = false;
                                 this.$root.displayNotif(response.status);

@@ -17,14 +17,8 @@ import vSelectPage from 'v-selectpage'
 import money from 'v-money';
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker';
 import messageDialog from './public_component/message_dialog.vue';
-import VuePromiseBtn from 'vue-promise-btn';
-import formLoading from 'vue2-form-loading';
 
 
-import 'vue-promise-btn/dist/vue-promise-btn.css';
-
-Vue.use(VuePromiseBtn); // or with global options:  Vue.use(VuePromiseBtn, {loader: '...'})
-Vue.use(formLoading);
 Vue.use(vSelectPage, {
     // server side data loader
     dataLoad: function(vue, data, params){
