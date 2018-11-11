@@ -244,7 +244,8 @@
                         </div>
                         <!--Fund End-->
                         <div class="large-12 medium-12 small-12" style="margin-top: 10px">
-                            <button type="submit"  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" type="submit"  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </form>
@@ -437,6 +438,9 @@
                         if (this.requestType == 'FUND') {
                             this.sumOfCommodityPrice = this.requestFill.fundEstimated.split(',').join('');
                         }
+                        var config = {
+                            allowLoading:true,
+                        };
                         console.log(JSON.stringify(this.commodityRequest));
                         axios.post('/financial/request/update', {
                             id: this.requestFill.id,
@@ -446,7 +450,7 @@
                             furtherDetails: this.requestFill.furtherDescription,
                             resultType: 'RECEIVED',
                             items: this.requestType == 'BUY_COMMODITY' ? this.commodityRequest : null,
-                        }).then((response) => {
+                        },config).then((response) => {
                             this.$emit('updateReceiveRequestData' , response.data);
                             this.$emit('closeModal');
                             this.showEditRequestModal = false;

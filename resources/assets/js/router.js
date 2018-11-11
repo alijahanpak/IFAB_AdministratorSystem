@@ -85,8 +85,10 @@ router.beforeEach((to, from, next) => {
 /////////////////////// config axios request /////////////////////////////////////
 axios.interceptors.response.use(response => {
     app.finish();
+    app.btnLoadingCheckStatus=false;
     return response;
 },function (error) {
+    app.btnLoadingCheckStatus=false;
     console.log(error);
     app.fail();
     return Promise.reject(error);
@@ -95,6 +97,10 @@ axios.interceptors.response.use(response => {
 axios.interceptors.request.use(function (config) {
     app.start();
     config.headers = JSON.parse(sessionStorage.getItem("ifab_token_info")); //set headers to config axios request
+    if(config.hasOwnProperty('allowLoading'))
+        app.btnLoadingCheckStatus=config.allowLoading;
+    else
+        app.btnLoadingCheckStatus=false;
     return config;
 }, function (error) {
     return Promise.reject(error);
@@ -205,6 +211,7 @@ var app = new Vue({
         baseAvatar:window.hostname + '/pic/avatars/avatar.jpg',
         temp:[],
         unReadRequestCount: 0,
+        btnLoadingCheckStatus:true,
     },
 
     updated: function () {

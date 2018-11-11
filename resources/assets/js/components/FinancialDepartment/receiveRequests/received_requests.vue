@@ -929,7 +929,8 @@
                         </div>
                     </div>
                     <div class="large-12 medium-12 small-12 padding-lr small-top-m">
-                        <button type="submit"  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ارجاع</span></button>
+                        <button v-show="!$root.btnLoadingCheckStatus" type="submit"  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ارجاع</span></button>
+                        <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left btn-for-load"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                     </div>
                 </form>
             </div>
@@ -949,7 +950,8 @@
                                 <p class="btn-red">تایید شما به منزله امضا درخواست می باشد.</p>
                             </div>
                             <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
-                                <button @click="acceptRequest()"  class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  تایید</span></button>
+                                <button v-show="!$root.btnLoadingCheckStatus" @click="acceptRequest()"  class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  تایید</span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </template>
                         <template v-if="selectedRequest.rRemainingVerifiers.length > 0">
@@ -1044,7 +1046,8 @@
                             </label>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
-                            <button @click="registerAndNumbering()"  class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" @click="registerAndNumbering()"  class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </div>
@@ -1071,7 +1074,8 @@
                         </div>
                     </div>
                     <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
-                        <button type="submit"  class="my-button my-success"><span class="btn-txt-mrg">  مسدود</span></button>
+                        <button v-show="!$root.btnLoadingCheckStatus" type="submit"  class="my-button my-success"><span class="btn-txt-mrg">  مسدود</span></button>
+                        <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                     </div>
                 </form>
             </div>
@@ -1093,7 +1097,8 @@
                         </div>
                     </div>
                     <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
-                        <button type="submit"  class="my-button my-success"><span class="btn-txt-mrg">  خاتمه</span></button>
+                        <button v-show="!$root.btnLoadingCheckStatus" type="submit"  class="my-button my-success"><span class="btn-txt-mrg">  خاتمه</span></button>
+                        <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                     </div>
                 </form>
             </div>
@@ -1456,6 +1461,9 @@
             requestReferral: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post('/financial/request/referral', {
                             acceptPermission: this.referralPermission == true ? 1 : 0,
                             destUId: this.referralInput.destUId,
@@ -1464,7 +1472,7 @@
                             verifierId:this.youAreVerifier,
                             dId:this.referralDId,
                             prId:this.referralPrId
-                        }).then((response) => {
+                        } , config).then((response) => {
                             this.loadReceivedData(response.data);
                             this.$parent._getUnReadReceivedRequest();
                             this.makePagination(response.data);
@@ -1496,11 +1504,14 @@
             acceptRequest: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post('/financial/request/accept', {
                             lastRefId: this.selectedRequest.rLastRef.id,
                             verifierId: this.youAreVerifier,
                             itemExistCount: this.repoExistCount
-                        }).then((response) => {
+                        }, config).then((response) => {
                             this.loadReceivedData(response.data);
                             this.$parent._getUnReadReceivedRequest();
                             this.makePagination(response.data);
@@ -1564,11 +1575,14 @@
                         this.letterDateAlert = true;
                     if(!this.letterDateAlert){
                         if (result) {
+                            var config = {
+                                allowLoading:true,
+                            };
                             axios.post('/financial/request/secretariat/numbering/register', {
                                 rId: this.requestId,
                                 letterDate: this.registerDate,
                                 letterNumber: this.letterNumber
-                            }).then((response) => {
+                            } , config).then((response) => {
                                 this.loadReceivedData(response.data);
                                 this.$parent._getUnReadReceivedRequest();
                                 this.makePagination(response.data);
@@ -1670,10 +1684,13 @@
             requestBlock: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post('/financial/request/block' , {
                             rId: this.requestId,
                             description: this.blockInput.description
-                        }).then((response) => {
+                        } , config).then((response) => {
                             this.loadReceivedData(response.data);
                             this.$parent._getUnReadReceivedRequest();
                             this.makePagination(response.data);
@@ -1699,10 +1716,13 @@
             },
 
             requestTerminate: function () {
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/financial/request/terminate' , {
                     rId: this.requestId,
                     description: this.terminateInput.description
-                }).then((response) => {
+                } , config).then((response) => {
                     this.loadReceivedData(response.data);
                     this.$parent._getUnReadReceivedRequest();
                     this.makePagination(response.data);

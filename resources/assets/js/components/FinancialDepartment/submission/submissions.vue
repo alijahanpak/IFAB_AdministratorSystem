@@ -65,10 +65,10 @@
                                 <tbody class="tbl-head-style-cell">
                                 <tr class="table-row" @click="openSubmissionDetail(index)" v-for="(allSubmissions,index) in submissions">
                                     <td>{{allSubmissions.rSubject}}</td>
-                                    <td>{{allSubmissions.request_type.rtSubject}}</td>
-                                    <td>{{ $parent.dispMoneyFormat(allSubmissions.rCostEstimation) }}</td>
-                                    <td>{{allSubmissions.rLetterNumber}}</td>
-                                    <td>{{allSubmissions.rLetterDate}}</td>
+                                    <td class="text-center">{{allSubmissions.request_type.rtSubject}}</td>
+                                    <td class="text-left">{{ $parent.dispMoneyFormat(allSubmissions.rCostEstimation) }}</td>
+                                    <td class="text-center">{{allSubmissions.rLetterNumber}}</td>
+                                    <td class="text-center">{{allSubmissions.rLetterDate}}</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -335,7 +335,9 @@
                     </div>
                     <div class="large-12 medium-12 small-12 padding-lr medium-top-m">
                         <div style="margin-bottom:-10px;" class="stacked-for-small button-group">
-                            <button type="submit"  class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت</span></button>
+                            <button  v-show="!$root.btnLoadingCheckStatus" type="submit"  class="my-button my-success float-left"><span class="btn-txt-mrg">   ثبت   </span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
+                            <!--v-loading="'<i class=\'fa fa-spinner fa-spin\'></i>'"-->
                         </div>
                     </div>
                 </form>
@@ -794,7 +796,8 @@
                         </div>
                         <!--Fund End-->
                         <div class="large-12 medium-12 small-12" style="margin-top: 10px">
-                            <button type="submit"  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </form>
@@ -917,7 +920,8 @@
                             <div class="grid-x medium-top-m padding-lr input-bottom-margin">
                                 <div class="large-12 medium-12 small-12 padding-lr">
                                     <div class="stacked-for-small button-group float-left">
-                                        <button type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                        <button v-show="!$root.btnLoadingCheckStatus" type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                        <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                                     </div>
                                 </div>
                             </div>
@@ -956,6 +960,7 @@
     import Suggestions from "v-suggestions/src/Suggestions";
     import VuePagination from '../../../public_component/pagination.vue';
     import VueElementLoading from 'vue-element-loading';
+    import 'vue-promise-btn/dist/vue-promise-btn.css';
 
     /* Import Local Components Start*/
     import sFactor from './datailSubmission/s_factor.vue';
@@ -1251,6 +1256,7 @@
                 this.$validator.validateAll().then((result) => {
                     if (result) {
                         var config = {
+                            allowLoading:true,
                             headers: {'Content-Type': 'multipart/form-data'},
                             onUploadProgress: function (progressEvent) {
                                 this.percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
@@ -1315,16 +1321,7 @@
 
                     }
                 });
-               /* alert('ali');
-                axios.post('/financial/request/register', null, null).then((response) => {
-                    console.log(response);
-                    this.resetData();
-                }, (error) => {
-                    console.log(error);
-                });*/
-
-
-                },
+            },
 
             getUserRecipients:function (stepId , user) {
                 this.recipientUsersTemp[stepId] = user.id;
@@ -1487,6 +1484,9 @@
             registerPayRequest:function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post('/financial/payment_request/register', {
                             rId: this.requestId,
                             cId: this.contractId,
@@ -1496,7 +1496,7 @@
                             isFinal: this.finalPaymentState == true ? 1 : 0,
                             description: this.paymentDescription,
                             verifiers:this.payVerifiers,
-                        }).then((response) => {
+                        } , config).then((response) => {
                             this.submissions = response.data.data;
                             this.getSubmissionDetail(this.selectedIndex);
                             this.showInsertPaymentRequestModal = false;
@@ -1590,6 +1590,9 @@
                         if (this.requestType == 'FUND') {
                             this.sumOfCommodityPrice = this.requestFill.fundEstimated.split(',').join('');
                         }
+                        var config = {
+                            allowLoading:true,
+                        };
                         console.log(JSON.stringify(this.commodityRequest));
                         axios.post('/financial/request/update', {
                             id: this.requestId,
@@ -1599,7 +1602,7 @@
                             furtherDetails: this.requestFill.furtherDescription,
                             resultType: 'POSTED',
                             items: this.requestType == 'BUY_COMMODITY' ? this.commodityRequest : null,
-                        }).then((response) => {
+                        },config).then((response) => {
                             this.submissions = response.data.data;
                             this.getSubmissionDetail(this.selectedIndex);
                             this.showEditRequestModal = false;
