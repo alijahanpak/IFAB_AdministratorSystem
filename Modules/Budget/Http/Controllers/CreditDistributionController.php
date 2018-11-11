@@ -138,7 +138,9 @@ class CreditDistributionController extends Controller
             ->whereHas('creditDistributionPlan' , function($q){
                 return $q->where('cdpFyId' , '=' , Auth::user()->seFiscalYear);
             })
-            ->with('creditDistributionPlan.county')
+            ->with(['creditDistributionPlan.county' => function($q) use($searchValue){
+                return $q->where('coName' , 'LIKE' , '%' . $searchValue . '%');
+            }])
             ->with('creditDistributionPlan.creditDistributionTitle')
             ->with('creditDistributionPlan.creditDistributionRow')
             ->orderBy('id', 'DESC')

@@ -557,7 +557,7 @@ var app = new Vue({
                     this.$refs.errorAlarm.play();
                     break;
                 case 420:
-                    this.$notify({title: 'پیام سیستم', text: 'با توجه به تغییرات مبالغ اعتبارات، لطفا مجدد نسبت به تامین اعتبار اقدام کنید.' , type: 'error'});
+                    this.$notify({title: 'پیام سیستم', text: 'با توجه به تغییرات مبالغ در بانک اطلاعاتی، لطفا مجدد نسبت به تعیین مبلغ اقدام کنید.' , type: 'error'});
                     this.$refs.errorAlarm.play();
                     break;
                 case 800: //doesn`t select records

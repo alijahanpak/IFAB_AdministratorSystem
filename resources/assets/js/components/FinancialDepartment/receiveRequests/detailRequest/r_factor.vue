@@ -88,7 +88,7 @@
                         <div v-if="isFromRefundCosts == true" class="grid-x">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <label>تنخواه گردان
-                                    <select class="form-element-margin-btm" v-model="refundId" name="selectRefunds" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('selectRefunds')}">
+                                    <select class="form-element-margin-btm" @change="calculateRemainingAmount(factorInput.amount)" v-model="refundId" name="selectRefunds" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('selectRefunds')}">
                                         <option value=""></option>
                                         <option v-for="refund in refunds" :value="refund.id">{{refund.rSubject}} - {{$root.dispMoneyFormat(refund.rCostEstimation)}} ریال</option>
                                     </select>
@@ -171,7 +171,7 @@
                         <div v-if="isFromRefundCosts == true" class="grid-x">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <label>تنخواه گردان
-                                    <select class="form-element-margin-btm" v-model="refundId" name="selectRefunds" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('selectRefunds')}">
+                                    <select class="form-element-margin-btm" @change="calculateRemainingAmount(factorInput.amount)" v-model="refundId" name="selectRefunds" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('selectRefunds')}">
                                         <option value=""></option>
                                         <option v-for="refund in refunds" :value="refund.id">{{refund.rSubject}} - {{$root.dispMoneyFormat(refund.rCostEstimation)}} ریال</option>
                                     </select>
@@ -475,7 +475,11 @@
 
             calculateRemainingAmount: function (inputValue = 0 , baseAmount = 0) {
                 inputValue = parseInt((inputValue + '').split(',').join(''),10); //for cast to string
-                this.refundRemainingAmount = ((this.request.rCostEstimation - this.getSumOfAllFactorAmount()) - inputValue) + baseAmount;
+                if (this.refunds.length > 0 && this.refundId != '')
+                    this.refundRemainingAmount = ((this.getSelectedRefund(this.refundId).rAcceptedAmount - this.getSelectedRefund(this.refundId).rSumOfFactorAmount) - inputValue) + baseAmount;
+                else
+                    this.refundRemainingAmount = ((this.request.rCostEstimation - this.getSumOfAllFactorAmount()) - inputValue) + baseAmount;
+
 
                 if (inputValue <= 0)
                     this.moneyState = true;
@@ -500,8 +504,8 @@
                     this.factorInput={};
                     this.factorInput.sumOfFactorAmount = this.getSumOfAllFactorAmount();
                     this.factorInput.amount = '0';
-                    this.calculateRemainingAmount(this.factorInput.amount);
                     this.refundId= '';
+                    this.calculateRemainingAmount(this.factorInput.amount);
                     this.showInsertFactorModal=true;
                 }else{
                     if (this.rCreditIsExist == true)
@@ -555,6 +559,8 @@
                                     console.log(response);
                                 }, (error) => {
                                     console.log(error);
+                                    if (error.status == 420)
+                                        this.$emit('updateReceiveRequestData', error.response.data);
                                     this.$root.displayNotif(error.response.status);
                                 });
                             }
@@ -590,6 +596,8 @@
                                     console.log(response);
                                 }, (error) => {
                                     console.log(error);
+                                    if (error.status == 420)
+                                        this.$emit('updateReceiveRequestData', response.data);
                                     this.$root.displayNotif(error.response.status);
                                 });
                             }
