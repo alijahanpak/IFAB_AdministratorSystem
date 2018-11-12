@@ -149,7 +149,8 @@
                         </div>
                     </div>
                     <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
-                        <button type="submit"  class="my-button my-success"><span class="btn-txt-mrg">  مسدود</span></button>
+                        <button v-show="!$root.btnLoadingCheckStatus" type="submit"  class="my-button my-success"><span class="btn-txt-mrg">  مسدود</span></button>
+                        <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                     </div>
                 </form>
             </div>
@@ -490,11 +491,14 @@
             requestBlock: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post('/financial/payment_request/block' , {
                             prId: this.payRequestId,
                             lastRefPrId: this.lastRefPrId,
                             description: this.blockInput.description
-                        })
+                        } , config)
                             .then((response) => {
                                 this.$emit('updateReceiveRequestData' , response.data);
                                 if (this.payRequestId == this.lastRefPrId)

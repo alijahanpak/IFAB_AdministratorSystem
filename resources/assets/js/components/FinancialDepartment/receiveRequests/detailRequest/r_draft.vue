@@ -184,7 +184,8 @@
                         <div class="grid-x medium-top-m padding-lr">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <div class="stacked-for-small button-group float-left">
-                                    <button type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <button v-show="!$root.btnLoadingCheckStatus" type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                                 </div>
                             </div>
                         </div>
@@ -303,7 +304,8 @@
                     <p class="large-offset-1 modal-text">آیا برای تایید حوله اطمینان دارید؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
-                            <button v-on:click="acceptDraft()"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" v-on:click="acceptDraft()"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </div>
@@ -319,7 +321,8 @@
                     <p class="large-offset-1 modal-text">آیا پیش نویس حواله مورد تایید است؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
-                            <button v-on:click="acceptDraftMinute()"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" v-on:click="acceptDraftMinute()"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </div>
@@ -351,7 +354,8 @@
                             </label>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
-                            <button @click="registerAndNumberingDraft()"  class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" @click="registerAndNumberingDraft()"  class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </div>
@@ -423,7 +427,7 @@
                                                 {{$root.dispMoneyFormat(baseAmount.amount)}} ریال
                                             </div>
                                             <div class="medium-1 cell-vertical-center text-left">
-                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'removeNewCheck' + index"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                <a class="dropdown small sm-btn-align" :data-toggle="'removeNewCheck' + index"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                 <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" :id="'removeNewCheck' + index" data-dropdown data-auto-focus="true">
                                                     <ul class="my-menu small-font text-right">
                                                         <li><a v-on:click.prevent="deleteNewCheck(index)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
@@ -455,9 +459,6 @@
             </div>
         </modal-small>
         <!-- Generate Checks  modal -->
-        <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
-            {{dialogMessage}}
-        </messageDialog>
 
         <!-- Accept Generate check modal -->
         <modal-tiny v-if="showAcceptGeneratecheckConfirmModal" @close="showAcceptGeneratecheckConfirmModal = false">
@@ -492,7 +493,8 @@
                         </div>
                     </div>
                     <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
-                        <button type="submit"  class="my-button my-success"><span class="btn-txt-mrg">  مسدود</span></button>
+                        <button v-show="!$root.btnLoadingCheckStatus" type="submit"  class="my-button my-success"><span class="btn-txt-mrg">  مسدود</span></button>
+                        <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                     </div>
                 </form>
             </div>
@@ -534,7 +536,7 @@
                             <label>بابت
                                 <suggestions autocomplete="off" style="margin-bottom: -18px;" name="forTitle" v-validate="'required'" :class="{'input': true, 'select-error': errors.has('forTitle')}"
                                              v-model="addNewCheckInput.for"
-                                             :options="forOptions"
+                                             :options="sellerOptions"
                                              :onInputChange="onForInputChange">
                                     <div slot="item" slot-scope="props" class="single-item">
                                         <strong>{{props.item}}</strong>
@@ -547,16 +549,16 @@
                     <div class="grid-x input-margin-top">
                         <div class="large-12 medium-12 small-12 padding-lr">
                             <label>در وجه
-                                <suggestions autocomplete="off" style="margin-bottom: -18px;" name="payToTitle" v-validate="'required'" :class="{'input': true, 'select-error': errors.has('payToTitle')}"
+                                <suggestions style="margin-bottom: -18px;" name="sellerTitle" v-validate :class="{'input': true, 'select-error': errors.has('sellerTitle')}"
                                              v-model="addNewCheckInput.payTo"
-                                             :options="payToOptions"
-                                             :onInputChange="onPayToInputChange">
+                                             :options="sellerOptions"
+                                             :onInputChange="onSellerInputChange">
                                     <div slot="item" slot-scope="props" class="single-item">
                                         <strong>{{props.item}}</strong>
                                     </div>
                                 </suggestions>
                             </label>
-                            <p v-show="errors.has('payToTitle')" class="error-font">لطفا فیلد در وجه را وارد نمایید!</p>
+                            <p style="margin-top: 0.8rem !important;" v-show="checkRepeatAlert" class="error-font">عنوان دریافت کننده چک تکراری می باشد.</p>
                         </div>
                     </div>
                     <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
@@ -566,6 +568,11 @@
             </div>
         </modal-tiny>
         <!-- add new base check Modal End -->
+
+        <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
+            {{dialogMessage}}
+        </messageDialog>
+
     </div>
 </template>
 <script>
@@ -603,6 +610,13 @@
                     precision: 0,
                     masked: true
                 },
+
+                //for & PayTo input text
+                sellerItems:[],
+                seller: '',
+                sellerList: [],
+                selectedSeller: null,
+                sellerOptions: {},
 
                 //for & PayTo input text
                 forQuery: '',
@@ -646,6 +660,7 @@
                 checkBaseDelivered: false,
                 canResponse:'',
                 checkSize:false,
+                checkRepeatAlert:false,
             }
         },
 
@@ -794,6 +809,43 @@
             ------------------ For Draft End ------------------------------
             -----------------------------------------------------------------------------*/
 
+            /*-----------------------------------------------------------------------------
+          ------------------ Seller Executor Start ------------------------------
+          -----------------------------------------------------------------------------*/
+            getAllSeller: function () {
+                axios.get('/financial/seller/fetchData')
+                    .then((response) => {
+                        this.sellerItems = response.data;
+                        this.sellerList= [];
+                        this.sellerItems.forEach(item=> {
+                            this.sellerList.push(item.sSubject)
+                        });
+                        console.log(response);
+                    }, (error) => {
+                        console.log(error);
+                    });
+            },
+
+            onSellerInputChange(sellerInput) {
+                if (sellerInput.trim().length === 0) {
+                    return null
+                }
+                // return the matching countries as an array
+                return this.sellerList.filter((sellers) => {
+                    return sellers.toLowerCase().includes(sellerInput.toLowerCase())
+                })
+            },
+            onSellerSelected(item) {
+                this.selectedSeller = item
+            },
+            onSearchItemSelected(item) {
+                this.selectedSearchItem = item
+            },
+
+            /*-----------------------------------------------------------------------------
+            ------------------ Seller Executor End ------------------------------
+            -----------------------------------------------------------------------------*/
+
             calculateDraftAmount: function(){
                     var baseAmount=0;
                     baseAmount=parseInt(this.draftInput.baseAmount.split(',').join(''),10);
@@ -847,28 +899,15 @@
             },
 
             acceptDraft: function(){
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/financial/draft/accept', {
                     rId: this.requestId,
                     dId:this.draftId
-                }).then((response) => {
+                } , config).then((response) => {
                     this.$emit('updateReceiveRequestData' , response.data);
                     this.$emit('closeModal');
-                    this.$root.displayNotif(response.status);
-                    console.log(response);
-                }, (error) => {
-                    console.log(error);
-                    this.$root.displayNotif(error.response.status);
-                });
-            },
-
-            deleteFactor: function() {
-                axios.post('/financial/request/factor/delete', {
-                    rId: this.requestId,
-                    fId: this.fIdForDelete,
-                }).then((response) => {
-                    if (response.status == 200)
-                        this.$emit('updateReceiveRequestData' , response.data);
-                    this.showDeleteConfirmModal = false;
                     this.$root.displayNotif(response.status);
                     console.log(response);
                 }, (error) => {
@@ -915,6 +954,9 @@
                             this.showDialogModal = true;
                         }
                         else{
+                            var config = {
+                                allowLoading:true,
+                            };
                             axios.post('financial/draft/register', {
                                 rId: this.requestId,
                                 for: this.draftInput.for,
@@ -922,7 +964,7 @@
                                 baseAmount: parseInt(this.draftInput.baseAmount.split(',').join(''),10),
                                 amount: this.draftBaseAmount,
                                 verifierId: this.draftInput.verifierId
-                            }).then((response) => {
+                            } , config).then((response) => {
                                 this.$emit('updateReceiveRequestData' , response.data);
                                 this.$emit('closeModal');
                                 this.showInsertDraftModal = false;
@@ -955,12 +997,15 @@
                         this.letterDateAlert = true;
                     if(!this.letterDateAlert){
                         if (result) {
+                            var config = {
+                                allowLoading:true,
+                            };
                             axios.post('/financial/draft/numbering', {
                                 rId: this.requestId,
                                 dId:this.draftId,
                                 letterDate: this.registerDate,
                                 letterNumber: this.letterNumber
-                            }).then((response) => {
+                            } , config).then((response) => {
                                 this.$emit('updateReceiveRequestData' , response.data);
                                 this.$emit('closeModal');
                                 this.showRegisterAndNumberingModal = false;
@@ -980,10 +1025,13 @@
             },
 
             acceptDraftMinute:function () {
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/financial/draft/accept_minute', {
                     rId: this.requestId,
                     dId:this.draftId,
-                }).then((response) => {
+                } , config).then((response) => {
                     this.$emit('updateReceiveRequestData' , response.data);
                     this.$emit('closeModal');
                     this.showAcceptMinuteConfirmModal = false;
@@ -1249,10 +1297,13 @@
             requestBlock: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post('/financial/draft/block' , {
                             dId: this.draftId,
                             description: this.blockInput.description
-                        })
+                        } , config)
                             .then((response) => {
                                 this.$emit('updateReceiveRequestData' , response.data);
                                 this.draftIsBlocked = true;
@@ -1271,22 +1322,39 @@
             },
 
             openAddNewCheckModal: function () {
+                this.checkRepeatAlert=false;
+                this.getAllSeller();
                 this.addNewCheckInput.baseAmount = this.remainingBaseAmount;
                 this.remainingBaseAmountDisp = 0;
                 this.addNewCheckInput.for = this.draftFor;
                 this.addNewCheckInput.payTo = this.draftPayTo;
+                console.log(JSON.stringify( this.baseAmounts));
                 this.showAddNewCheckModal = true;
             },
 
             addNewCheck: function () {
-                var obj={};
-                Vue.set(obj,"payTo",this.addNewCheckInput.payTo);
-                Vue.set(obj,"for",this.addNewCheckInput.for);
-                Vue.set(obj,"amount",parseInt(this.addNewCheckInput.baseAmount.split(',').join(''),10));
-                Vue.set(obj,"delivered" , false);
-                this.baseAmounts.push(obj);
-                this.remainingBaseAmount -= parseInt(this.addNewCheckInput.baseAmount.split(',').join(''),10);
-                this.showAddNewCheckModal = false;
+                var state=1;
+                this.baseAmounts.forEach( item => {
+                    if(this.addNewCheckInput.payTo == item.payTo){
+                        this.checkRepeatAlert=true;
+                        state=0;
+                    }
+                    else state=1;
+
+                });
+                if(state == 1)
+                {
+                    this.checkRepeatAlert=false;
+                    var obj={};
+                    Vue.set(obj,"payTo",this.addNewCheckInput.payTo);
+                    Vue.set(obj,"for",this.addNewCheckInput.for);
+                    Vue.set(obj,"amount",parseInt(this.addNewCheckInput.baseAmount.split(',').join(''),10));
+                    Vue.set(obj,"delivered" , false);
+                    this.baseAmounts.push(obj);
+                    this.remainingBaseAmount -= parseInt(this.addNewCheckInput.baseAmount.split(',').join(''),10);
+                    this.showAddNewCheckModal = false;
+                }
+
             },
 
             calculateRemainingBaseAmount: function () {

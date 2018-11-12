@@ -264,7 +264,8 @@
                             </div>
                         </div>
                         <div class="medium-6 columns padding-lr padding-bottom-modal">
-                            <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </form>
                 </div>
@@ -329,7 +330,8 @@
                             </div>
                         </div>
                         <div class="medium-6 columns padding-lr padding-bottom-modal">
-                            <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </form>
                 </div>
@@ -343,7 +345,8 @@
                         <p class="large-offset-1 modal-text">آیا برای حذف این رکورد اطمینان دارید؟</p>
                         <div class="grid-x">
                             <div class="medium-12 column text-center">
-                                <button v-on:click="deleteSelectedProposal" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                                <button v-show="!$root.btnLoadingCheckStatus" v-on:click="deleteSelectedProposal" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </div>
                     </div>
@@ -597,6 +600,9 @@
             createCdpProposal: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post('/budget/credit_distribution/capital_assets/provincial/proposal/register' , {
                             cdpId: this.cdpProposalInput.cdpId,
                             pSubject: this.cdpProposalInput.pSubject,
@@ -605,7 +611,7 @@
                             pDescription: this.cdpProposalInput.pDescription,
                             searchValue: this.searchValue,
                             itemInPage: this.itemInPage
-                        })
+                        } , config)
                             .then((response) => {
                                 this.setData(response.data.data);
                                 this.makePagination(response.data);
@@ -642,6 +648,9 @@
             updateCdpProposal: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post('/budget/credit_distribution/capital_assets/provincial/proposal/update' , {
                             id: this.cdpProposalFill.id,
                             cdpId: this.cdpProposalFill.cdpId,
@@ -651,7 +660,7 @@
                             pDescription: this.cdpProposalFill.pDescription,
                             searchValue: this.searchValue,
                             itemInPage: this.itemInPage
-                        })
+                        } , config)
                             .then((response) => {
                                 this.setData(response.data.data);
                                 this.makePagination(response.data);
@@ -673,11 +682,14 @@
             },
 
             deleteSelectedProposal: function () {
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/budget/credit_distribution/capital_assets/provincial/proposal/delete' , {
                     id: this.selectedProposalIdForDelete,
                     searchValue: this.searchValue,
                     itemInPage: this.itemInPage
-                })
+                } , config)
                     .then((response) => {
                         if (response.status != 204)
                             this.setData(response.data.data);
