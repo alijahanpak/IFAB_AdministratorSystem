@@ -195,7 +195,7 @@
                                     <!--Financial Department End-->
                                     <!--checks list-->
                                     <li data-close v-show="$can('CHECK_LIST_DISPLAY')">
-                                        <router-link class="right-mp right-menu-btm-border" to="/financial_department/checks/list">چک</router-link>
+                                        <router-link class="right-mp right-menu-btm-border" to="/financial_department/checks/list">چک <span v-show="allCheckCount > 0" class="notif-badage">@{{ allCheckCount }}</span></router-link>
                                     </li>
                                     <!--checks list-->
                                     <!--fund-->

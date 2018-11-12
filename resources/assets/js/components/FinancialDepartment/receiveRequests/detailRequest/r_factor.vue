@@ -154,7 +154,8 @@
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <div class="stacked-for-small button-group float-left">
-                                    <button type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <button v-show="!$root.btnLoadingCheckStatus" type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                                 </div>
                             </div>
                         </div>
@@ -237,7 +238,8 @@
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <div class="stacked-for-small button-group float-left">
-                                    <button type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <button v-show="!$root.btnLoadingCheckStatus" type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                                 </div>
                             </div>
                         </div>
@@ -258,7 +260,8 @@
                     <p class="large-offset-1 modal-text">تایید اطلاعات فاکتور به منزله ایجاد تعهد در محل های تامین اعتبار است، آیا صحت اطلاعات را تایید می کنید؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
-                            <button v-on:click="acceptFactor"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" v-on:click="acceptFactor"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </div>
@@ -274,7 +277,8 @@
                     <p class="large-offset-1 modal-text">آیا مایل هستید فاکتور را حذف کنید؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
-                            <button v-on:click="deleteFactor"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" v-on:click="deleteFactor" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </div>
@@ -437,10 +441,14 @@
             },
 
             acceptFactor: function(){
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/financial/request/factor/accept', {
                     rId: this.requestId,
                     searchValue: this.searchValue
-                }).then((response) => {
+                } , config).then((response) => {
+
                     this.$emit('updateReceiveRequestData' , response.data);
                     this.$emit('closeModal');
                     this.$root.displayNotif(response.status);
@@ -452,11 +460,14 @@
             },
 
             deleteFactor: function() {
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/financial/request/factor/delete', {
                     rId: this.requestId,
                     fId: this.selectedFactorId,
                     searchValue: this.searchValue
-                }).then((response) => {
+                } , config).then((response) => {
                     if (response.status == 200)
                         this.$emit('updateReceiveRequestData' , response.data);
                     this.showDeleteConfirmModal = false;
@@ -547,6 +558,9 @@
                                 this.moneyState = true;
                             }else{
                                 this.moneyState = false;
+                                var config = {
+                                    allowLoading:true,
+                                };
                                 axios.post('/financial/request/factor/insert', {
                                     refundId: this.refundId,
                                     rId: this.requestId,
@@ -555,7 +569,7 @@
                                     amount: inputValue,
                                     description: this.factorInput.description,
                                     searchValue: this.searchValue
-                                }).then((response) => {
+                                } , config).then((response) => {
                                     this.$emit('updateReceiveRequestData', response.data);
                                     this.showInsertFactorModal = false;
                                     this.$root.displayNotif(response.status);
@@ -584,6 +598,9 @@
                                 this.moneyState = true;
                             } else {
                                 this.moneyState = false;
+                                var config = {
+                                    allowLoading:true,
+                                };
                                 axios.post('/financial/request/factor/update', {
                                     id: this.selectedFactorId,
                                     refundId: this.refundId,
@@ -593,7 +610,7 @@
                                     description: this.factorInput.description,
                                     searchValue: this.searchValue,
                                     resultType: 'RECEIVED'
-                                }).then((response) => {
+                                } , config).then((response) => {
                                     this.$emit('updateReceiveRequestData', response.data);
                                     this.showUpdateFactorModal = false;
                                     this.$root.displayNotif(response.status);

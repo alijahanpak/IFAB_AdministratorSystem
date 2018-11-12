@@ -1479,7 +1479,8 @@
                     <p class="large-offset-1 modal-text">آیا تمایل دارید اعتبار از محل تنخواه گردان کارپردازی تامین گردد؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
-                            <button v-on:click="applyFromRefund"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" v-on:click="applyFromRefund" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </div>
@@ -1841,10 +1842,13 @@ export default{
         },
 
         applyFromRefund: function(){
+            var config = {
+                allowLoading:true,
+            };
             axios.post('/financial/request/financing/supply_from_refund', {
                 id: this.requestId,
                 searchValue: this.searchValue
-            }).then((response) => {
+            } , config).then((response) => {
                 this.$emit('updateReceiveRequestData' , response.data);
                 this.$emit('closeModal');
                 this.$root.displayNotif(response.status);

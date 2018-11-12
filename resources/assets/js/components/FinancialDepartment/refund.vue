@@ -171,7 +171,8 @@
                     <p class="large-offset-1 modal-text">آیا برای تایید فاکتور اطمینان دارید؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
-                            <button v-on:click="acceptRefundFactor"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" v-on:click="acceptRefundFactor"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </div>
@@ -187,7 +188,8 @@
                     <p class="large-offset-1 modal-text">آیا برای عدم تایید فاکتور اطمینان دارید؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
-                            <button v-on:click="rejectRefundFactor"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <button  v-show="!$root.btnLoadingCheckStatus" v-on:click="rejectRefundFactor"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </div>
@@ -313,10 +315,13 @@
             },
 
             acceptRefundFactor: function(){
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/financial/refund/factor/accept', {
                     fId:this.factorId,
                     rId: this.selectedRefund.id
-                }).then((response) => {
+                } , config).then((response) => {
                     this.refunds = response.data;
                     this.getFactorDetail();
                     this.$emit('closeModal');
@@ -335,9 +340,12 @@
             },
 
             rejectRefundFactor: function(){
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/financial/refund/factor/reject', {
                     fId:this.factorId,
-                }).then((response) => {
+                } , config).then((response) => {
                     this.refunds = response.data;
                     this.getFactorDetail();
                     this.$emit('closeModal');

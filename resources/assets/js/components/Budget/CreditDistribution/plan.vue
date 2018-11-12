@@ -639,7 +639,8 @@
                                 </div>
                             </div>
                             <div class="medium-6 columns padding-lr padding-bottom-modal">
-                                <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <button v-show="!$root.btnLoadingCheckStatus" name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </form>
                     </div>
@@ -706,7 +707,8 @@
                                 </div>
                             </div>
                             <div class="medium-6 columns padding-lr padding-bottom-modal">
-                                <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <button  v-show="!$root.btnLoadingCheckStatus" name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </form>
                     </div>
@@ -720,7 +722,8 @@
                             <p class="large-offset-1 modal-text">آیا برای حذف این رکورد اطمینان دارید؟</p>
                             <div class="grid-x">
                                 <div class="medium-12 column text-center">
-                                    <button v-on:click="deleteSelectedPlan" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                                    <button v-show="!$root.btnLoadingCheckStatus" v-on:click="deleteSelectedPlan" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                                    <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                                 </div>
                             </div>
                         </div>
@@ -1091,6 +1094,9 @@
             createCreditDistributionPlan: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post('/budget/credit_distribution/capital_assets/provincial/plans/register' , {
                             cdtId: this.CdPlanInput.cdtId,
                             cdrId: this.CdPlanInput.cdrId,
@@ -1099,7 +1105,7 @@
                             amount: this.CdPlanInput.amount,
                             searchValue: this.planSearchValue,
                             itemInPage: this.planItemInPage
-                        })
+                        } , config)
                             .then((response) => {
                                 this.setData(response.data.data ,0);
                                 this.makePagination(response.data , "plan");
@@ -1135,6 +1141,9 @@
             updateCreditDistributionPlan: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post('/budget/credit_distribution/capital_assets/provincial/plans/update' , {
                             id: this.CdPlanFill.id,
                             cdtId: this.CdPlanFill.cdtId,
@@ -1144,7 +1153,7 @@
                             amount: this.CdPlanFill.amount,
                             searchValue: this.planSearchValue,
                             itemInPage: this.planItemInPage
-                        })
+                        } , config)
                             .then((response) => {
                                 this.setData(response.data.data ,0);
                                 this.makePagination(response.data , "plan");
@@ -1170,11 +1179,14 @@
             },
 
             deleteSelectedPlan: function () {
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/budget/credit_distribution/capital_assets/provincial/plans/delete' , {
                     id: this.selectedPlanIdForDelete,
                     searchValue: this.planSearchValue,
                     itemInPage: this.planItemInPage
-                })
+                } , config)
                     .then((response) => {
                         if (response.status != 204)
                         {

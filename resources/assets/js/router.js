@@ -212,6 +212,7 @@ var app = new Vue({
         temp:[],
         unReadRequestCount: 0,
         btnLoadingCheckStatus:true,
+        allCheckCount:0,
     },
 
     updated: function () {
@@ -274,6 +275,7 @@ var app = new Vue({
             this.getPublicParams();
             this.getAmountBase();
             this.getAllAmountBase();
+            this.checkCount();
             this._getUnReadReceivedRequest();
         },
 
@@ -666,6 +668,21 @@ var app = new Vue({
         },
         currentAllAmountBase: function () {
             return this.amountBase.id;
+        },
+
+        checkCount: function (page=1) {
+            var allChecks=[];
+            axios.get('financial/check/list/get_all_data?page=' + page , {params:{searchValue:null}})
+                .then((response) => {
+                    allChecks = response.data.data;
+                    allChecks.forEach(item =>{
+                        if(item.check_state.csState == 'WAITING_FOR_PRINT')
+                            this.allCheckCount +=1;
+                    });
+                    console.log(response);
+                }, (error) => {
+                    console.log(error);
+                });
         },
 
 
