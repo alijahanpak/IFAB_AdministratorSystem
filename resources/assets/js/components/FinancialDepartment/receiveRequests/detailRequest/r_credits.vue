@@ -1625,7 +1625,7 @@
 <script>
     import VueElementLoading from 'vue-element-loading';
 export default{
-    props:['baseAmount','UserIsVerifier','requestFill','requestId','requestType' , 'updateReceiveRequestData' , 'factorCount'],
+    props:['baseAmount','UserIsVerifier','requestFill','requestId','requestType' , 'factorCount' , 'searchValue'],
     components: {
         VueElementLoading,
     },
@@ -1843,6 +1843,7 @@ export default{
         applyFromRefund: function(){
             axios.post('/financial/request/financing/supply_from_refund', {
                 id: this.requestId,
+                searchValue: this.searchValue
             }).then((response) => {
                 this.$emit('updateReceiveRequestData' , response.data);
                 this.$emit('closeModal');
@@ -2767,6 +2768,7 @@ export default{
             };
             axios.post('/financial/request/financing/accept', {
                 rId: this.requestId,
+                searchValue: this.searchValue
             } , config).then((response) => {
                 this.$emit('updateReceiveRequestData' , response.data);
                 this.$emit('closeModal');

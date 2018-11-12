@@ -302,7 +302,7 @@
     import Suggestions from "v-suggestions/src/Suggestions";
     import VueElementLoading from 'vue-element-loading';
     export default{
-        props:['payRequests','requestId' , 'lastRefPrId','drafts','rAcceptedAmount','rCommitmentAmount','contracts','factors','requestType' , 'sumOfDraftAmount'],
+        props:['payRequests','requestId' , 'lastRefPrId','drafts','rAcceptedAmount','rCommitmentAmount','contracts','factors','requestType' , 'sumOfDraftAmount' , 'searchValue'],
         components: {
             Suggestions,
             VueElementLoading,
@@ -417,7 +417,8 @@
                   this.showPdfModal=true;
                 if(payRequest.prLastRef.rhPrHasBeenSeen == false) {
                     axios.post('/financial/payment_request/was_seen', {
-                        rhId: payRequest.prLastRef.id
+                        rhId: payRequest.prLastRef.id,
+                        searchValue: this.searchValue
                     }).then((response) => {
                         this.$emit('updateReceiveRequestData' , response.data);
                         console.log(response);
@@ -452,7 +453,8 @@
                 };
                 axios.post('/financial/payment_request/accept', {
                     rId: this.requestId,
-                    prvId:this.verifierId
+                    prvId:this.verifierId,
+                    searchValue: this.searchValue
                 } , config).then((response) => {
                     this.$emit('updateReceiveRequestData' , response.data);
                     this.$emit('closeModal');
@@ -493,7 +495,8 @@
                         axios.post('/financial/payment_request/block' , {
                             prId: this.payRequestId,
                             lastRefPrId: this.lastRefPrId,
-                            description: this.blockInput.description
+                            description: this.blockInput.description,
+                            searchValue: this.searchValue
                         })
                             .then((response) => {
                                 this.$emit('updateReceiveRequestData' , response.data);
@@ -537,7 +540,8 @@
                                 rId: this.requestId,
                                 prId:this.payRequestId,
                                 letterDate: this.registerDate,
-                                letterNumber: this.letterNumber
+                                letterNumber: this.letterNumber,
+                                searchValue: this.searchValue
                             } , config).then((response) => {
                                 this.$emit('updateReceiveRequestData' , response.data);
                                 this.$emit('closeModal');
@@ -695,7 +699,8 @@
                                 payTo: this.draftInput.payTo,
                                 baseAmount: parseInt(this.draftInput.baseAmount.split(',').join(''),10),
                                 amount: this.draftBaseAmount,
-                                verifierId: this.draftInput.verifierId
+                                verifierId: this.draftInput.verifierId,
+                                searchValue: this.searchValue
                             } , config).then((response) => {
                                 this.$emit('updateReceiveRequestData' , response.data);
                                 this.$emit('closeModal');

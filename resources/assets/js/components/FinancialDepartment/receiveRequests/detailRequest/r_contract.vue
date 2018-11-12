@@ -517,7 +517,7 @@
 <script>
     import Suggestions from "v-suggestions/src/Suggestions";
     export default{
-        props:['contracts','requestId' , 'rCreditIsAccepted' , 'rCreditIsExist', 'requestSubject' , 'rCostEstimation'],
+        props:['contracts','requestId' , 'rCreditIsAccepted' , 'rCreditIsExist', 'requestSubject' , 'rCostEstimation' , 'searchValue'],
         components: {
             Suggestions,
         },
@@ -745,6 +745,7 @@
                 };
                 axios.post('/financial/request/contract/accept', {
                     rId: this.requestId,
+                    searchValue: this.searchValue
                 } , config).then((response) => {
                     this.$emit('updateReceiveRequestData' , response.data);
                     this.$emit('closeModal');
@@ -763,6 +764,7 @@
                 axios.post('/financial/request/contract/delete', {
                     rId: this.requestId,
                     cId: this.cIdForDelete,
+                    searchValue: this.searchValue
                 } , config).then((response) => {
                     if (response.status == 200)
                         this.$emit('updateReceiveRequestData' , response.data);
@@ -848,6 +850,7 @@
                                  endDate: this.contractInput.endDate,
                                  description: this.contractInput.description,
                                  increaseItems: increaseTemp,
+                                 searchValue: this.searchValue
                              } , config).then((response) => {
                                  this.$emit('updateReceiveRequestData', response.data);
                                  this.showInsertContractModal = false;
@@ -935,6 +938,7 @@
                                 endDate: this.contractInput.endDate,
                                 description: this.contractInput.description,
                                 increaseItems: increaseTemp,
+                                searchValue: this.searchValue
                             } , config).then((response) => {
                                 this.$emit('updateReceiveRequestData', response.data);
                                 this.showUpdateContractModal = false;

@@ -67,9 +67,7 @@
                                 <tbody class="tbl-head-style-cell">
                                 <tr class="table-row" @click="getRequestDetail(index)" v-for="(allRequest , index) in allRequests">
                                     <td>{{allRequest.rSubject}}</td>
-                                    <td class="text-center" v-if="allRequest.rRtId==1"> خدمات</td>
-                                    <td class="text-center" v-else-if="allRequest.rRtId==2"> کالا</td>
-                                    <td class="text-center" v-else="allRequest.rRtId==3"> تنخواه</td>
+                                    <td class="text-center">{{ allRequest.request_type.rtSubject }}</td>
                                     <td class="text-center">{{$parent.dispMoneyFormat(allRequest.rCostEstimation)}}</td>
                                     <td class="text-center">{{allRequest.rLetterNumber}}</td>
                                     <td class="text-center">{{allRequest.rLetterDate}}</td>

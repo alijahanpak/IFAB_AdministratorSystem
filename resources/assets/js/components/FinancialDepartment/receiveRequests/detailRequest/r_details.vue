@@ -262,7 +262,7 @@
         components: {
             Suggestions,
         },
-        props:['requestTypeDetail','selectedBuffer','selectedIndex','selectedRequest'],
+        props:['requestTypeDetail','selectedBuffer','selectedIndex','selectedRequest' , 'searchValue'],
         data () {
             return {
                 showEditRequestModal:false,
@@ -448,6 +448,7 @@
                             costEstimation: this.sumOfCommodityPrice,
                             description: this.requestFill.fullDescription,
                             furtherDetails: this.requestFill.furtherDescription,
+                            searchValue: this.searchValue,
                             resultType: 'RECEIVED',
                             items: this.requestType == 'BUY_COMMODITY' ? this.commodityRequest : null,
                         },config).then((response) => {

@@ -71,20 +71,19 @@ class PlanController extends Controller
         return CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
             ->where('capActive' , '=' , true)
             ->where('capProvinceOrNational' , '=' , $pOrN)
-/*            ->where(function($query) use($searchValue){
-                return $query->where('capLetterNumber' , 'LIKE' , '%' . $searchValue . '%')
+            ->where(function($q) use($searchValue){
+                return $q->where('capLetterNumber' , 'LIKE' , '%' . $searchValue . '%')
                     ->orWhere('capLetterDate' , 'LIKE' , '%' . $searchValue . '%')
                     ->orWhere('capExchangeIdNumber' , 'LIKE' , '%' . $searchValue . '%')
                     ->orWhere('capExchangeDate' , 'LIKE' , '%' . $searchValue . '%')
-                    ->orWhere('capDescription' , 'LIKE' , '%' . $searchValue . '%');
-            })*/
-            ->with(['creditDistributionTitle' => function($query) use($searchValue){
-                return $query->where('cdtIdNumber' , 'LIKE' , '%' . $searchValue . '%')
-                    ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%');
-            }])
-            ->whereHas('creditDistributionTitle' , function($query) use($searchValue){
-                return $query->where('cdtIdNumber' , 'LIKE' , '%' . $searchValue . '%')
-                    ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%');
+                    ->orWhere('capDescription' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhereHas('creditDistributionTitle' , function($query) use($searchValue){
+                        return $query->where('cdtIdNumber' , 'LIKE' , '%' . $searchValue . '%')
+                            ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%')
+                            ->orWhereHas('county' , function ($tempQ) use($searchValue){
+                                return $tempQ->where('coName' , 'LIKE' , '%' . $searchValue . '%');
+                            });
+                    });
             })
             ->with('creditDistributionTitle.county')
             ->with('amendments.creditDistributionTitle')

@@ -341,7 +341,7 @@ class FinanceController extends Controller
 
             $rController = new RequestController();
             return \response()->json(
-                $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
+                $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList() , $request->searchValue)
             );
 
         });
@@ -373,7 +373,7 @@ class FinanceController extends Controller
 
             $rController = new RequestController();
             return \response()->json(
-                $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
+                $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList() , $request->searchValue)
             );
         });
         return $result;

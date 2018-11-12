@@ -21,13 +21,28 @@
         <div class="grid-x my-callout-box container-mrg-top dynamic-height-level1">
             <div class="medium-12 padding-lr" style="margin-top: 15px;">
                 <div class="clearfix tool-bar">
-                    <button style="width: 120px;" class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="insertDropDown">جدید</button>
-                    <div  style="width: 120px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="insertDropDown" data-dropdown data-auto-focus="true">
-                        <ul class="my-menu small-font">
-                            <template v-for="submissionsTypes in submissionsType">
-                                <li v-show="$can(submissionsTypes.rtPermission)" :value="submissionsTypes.id"><a  @click="openSubmissionsModal(submissionsTypes)">{{ submissionsTypes.rtSubject }}</a></li>
-                            </template>
-                        </ul>
+                    <div class="grid-x">
+                        <div class="large-6 medium-6 small-12">
+                            <button style="width: 120px;" class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="insertDropDown">جدید</button>
+                            <div  style="width: 120px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="insertDropDown" data-dropdown data-auto-focus="true">
+                                <ul class="my-menu small-font">
+                                    <template v-for="submissionsTypes in submissionsType">
+                                        <li v-show="$can(submissionsTypes.rtPermission)" :value="submissionsTypes.id"><a  @click="openSubmissionsModal(submissionsTypes)">{{ submissionsTypes.rtSubject }}</a></li>
+                                    </template>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="large-6 medium-6 small-12">
+                            <div class="float-left">
+                                <div class="input-group float-left">
+                                    <div class="inner-addon right-addon">
+                                        <i v-if="requestSearchValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                        <i v-if="requestSearchValue != ''" v-on:click.stop="removeFilter()" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                        <input v-model="requestSearchValue" v-on:keyup.enter="search()" class="search" type="text" placeholder="جستجو">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                     <div class="tbl-div-container">
@@ -500,7 +515,8 @@
                                              v-bind:requestId="requestId"
                                              v-bind:factors="factors"
                                              v-bind:request="submissions[selectedSubmissionIndex]"
-                                             v-bind:refundFactor="refundFactor">
+                                             v-bind:refundFactor="refundFactor"
+                                            v-bind:searchValue="requestSearchValue">
                                     </sFactor>
                                 </div>
                                 <!--Tab 3 Factor-->
@@ -976,6 +992,7 @@
         },
         data () {
             return {
+                requestSearchValue: '',
                 imgUrl: [],
                 attachments: [],
                 extension:[],
@@ -1084,12 +1101,11 @@
         },
         watch: {
             submissions: function (newValue , oldValue) {
-                this.selectedSubmisson=this.submissions[this.selectedIndex];
+                this.selectedSubmisson = this.submissions[this.selectedIndex];
             }
         },
 
         methods: {
-
             myResizeModal: function() {
                 var x = $.w.outerHeight();
                 $('.dynamic-height-level-modal1').css('height', (x-280) + 'px');
@@ -1116,12 +1132,21 @@
             },
 
             updateSubmissionData: function(requests){
-                this.submissions=requests.data;
+                this.submissions = requests.data;
                 this.makePagination(requests);
             },
 
+            search: function () {
+                this.fetchData();
+            },
+
+            removeFilter: function () {
+                this.requestSearchValue = '';
+                this.fetchData();
+            },
+
             fetchData: function (page=1) {
-                axios.get('/financial/request/posted/fetchData?page=' + page)
+                axios.get('/financial/request/posted/fetchData?page=' + page , {params:{searchValue:this.requestSearchValue}})
                     .then((response) => {
                         this.submissions = response.data.data;
                         this.makePagination(response.data);
@@ -1283,6 +1308,7 @@
 
                         }
                         this.prepareFields();
+                        this.data.append('searchValue', '');
                         this.data.append('subject', this.requestInput.rSubject);
                         this.data.append('rtId', this.requestTypeId);
                         this.data.append('costEstimation', this.sumOfCommodityPrice);
@@ -1600,6 +1626,7 @@
                             costEstimation: this.sumOfCommodityPrice,
                             description: this.requestFill.fullDescription,
                             furtherDetails: this.requestFill.furtherDescription,
+                            searchValue: '',
                             resultType: 'POSTED',
                             items: this.requestType == 'BUY_COMMODITY' ? this.commodityRequest : null,
                         },config).then((response) => {

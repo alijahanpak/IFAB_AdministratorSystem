@@ -423,7 +423,7 @@
                                                 {{$root.dispMoneyFormat(baseAmount.amount)}} ریال
                                             </div>
                                             <div class="medium-1 cell-vertical-center text-left">
-                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'removeNewCheck' + index"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                <a class="dropdown small sm-btn-align" :data-toggle="'removeNewCheck' + index"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                 <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" :id="'removeNewCheck' + index" data-dropdown data-auto-focus="true">
                                                     <ul class="my-menu small-font text-right">
                                                         <li><a v-on:click.prevent="deleteNewCheck(index)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
@@ -723,15 +723,24 @@
                       this.checkSize=true;
               });
 
-              var existUndelivered = draft.check.length > 0 ? false : true;
-              draftHistory.forEach(item =>{
-                  item.check.forEach(ch =>{
-                      this.checks.push(ch);
-                      if (ch.cPdId == null && !ch.cDelivered)
-                          existUndelivered = true;
+
+
+              if (draft.check.length > 0)
+              {
+                  var existUndelivered = false;
+                  draftHistory.forEach(item =>{
+                      item.check.forEach(ch =>{
+                          this.checks.push(ch);
+                          if (ch.cPdId == null && ch.check_state.csState != 'DELIVERED')
+                          {
+                              existUndelivered = true;
+                          }
+                      });
                   });
-              });
-              this.checkBaseDelivered = !existUndelivered;
+                  this.checkBaseDelivered = !existUndelivered;
+              }
+              else
+                  this.checkBaseDelivered = false;
               console.log(JSON.stringify(this.checks));
             },
 
@@ -849,7 +858,8 @@
             acceptDraft: function(){
                 axios.post('/financial/draft/accept', {
                     rId: this.requestId,
-                    dId:this.draftId
+                    dId:this.draftId,
+                    searchValue: this.searchValue
                 }).then((response) => {
                     this.$emit('updateReceiveRequestData' , response.data);
                     this.$emit('closeModal');
@@ -865,6 +875,7 @@
                 axios.post('/financial/request/factor/delete', {
                     rId: this.requestId,
                     fId: this.fIdForDelete,
+                    searchValue: this.searchValue
                 }).then((response) => {
                     if (response.status == 200)
                         this.$emit('updateReceiveRequestData' , response.data);
@@ -921,7 +932,8 @@
                                 payTo: this.draftInput.payTo,
                                 baseAmount: parseInt(this.draftInput.baseAmount.split(',').join(''),10),
                                 amount: this.draftBaseAmount,
-                                verifierId: this.draftInput.verifierId
+                                verifierId: this.draftInput.verifierId,
+                                searchValue: this.searchValue
                             }).then((response) => {
                                 this.$emit('updateReceiveRequestData' , response.data);
                                 this.$emit('closeModal');
@@ -959,7 +971,8 @@
                                 rId: this.requestId,
                                 dId:this.draftId,
                                 letterDate: this.registerDate,
-                                letterNumber: this.letterNumber
+                                letterNumber: this.letterNumber,
+                                searchValue: this.searchValue
                             }).then((response) => {
                                 this.$emit('updateReceiveRequestData' , response.data);
                                 this.$emit('closeModal');
@@ -983,6 +996,7 @@
                 axios.post('/financial/draft/accept_minute', {
                     rId: this.requestId,
                     dId:this.draftId,
+                    searchValue: this.searchValue
                 }).then((response) => {
                     this.$emit('updateReceiveRequestData' , response.data);
                     this.$emit('closeModal');
@@ -998,7 +1012,7 @@
             openGenerateChecksModal:function(){
                 this.percentDecInput = [];
                 this.getAllPercentageDecreases();
-                this.getAllDepositPercentages()
+                this.getAllDepositPercentages();
                 this.checkEdited = false;
                 if (!this.checkBaseDelivered)
                     this.showGenerateChecksModal=true;
@@ -1251,7 +1265,8 @@
                     if (result) {
                         axios.post('/financial/draft/block' , {
                             dId: this.draftId,
-                            description: this.blockInput.description
+                            description: this.blockInput.description,
+                            searchValue: this.searchValue
                         })
                             .then((response) => {
                                 this.$emit('updateReceiveRequestData' , response.data);

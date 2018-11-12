@@ -38,6 +38,19 @@
                     <div class="tabs-panel is-active table-mrg-btm" id="rr_REQUEST">
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12">
+                                <div class="clearfix tool-bar">
+                                    <div class="float-left">
+                                        <div class="input-group float-left">
+                                            <div class="inner-addon right-addon">
+                                                <i v-if="requestSearchValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                                <i v-if="requestSearchValue != ''" v-on:click.stop="removeFilter()" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                                <input v-model="requestSearchValue" v-on:keyup.enter="search()" class="search" type="text" placeholder="جستجو">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="large-12 medium-12 small-12">
                                 <div class="tbl-div-container">
                                     <table class="tbl-head">
                                         <colgroup>
@@ -67,7 +80,7 @@
                                     </table>
                                     <!--Table Head End-->
                                     <!--Table Body Start-->
-                                    <div class="tbl_body_style dynamic-height-levelR">
+                                    <div class="tbl_body_style dynamic-height-level2">
                                         <table class="tbl-body-contain">
                                             <colgroup>
                                                 <col width="15vw"/>
@@ -153,6 +166,19 @@
                     <div class="tabs-panel table-mrg-btm" id="rr_FINANCIAL">
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12">
+                                <div class="clearfix tool-bar">
+                                    <div class="float-left">
+                                        <div class="input-group float-left">
+                                            <div class="inner-addon right-addon">
+                                                <i v-if="requestSearchValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                                <i v-if="requestSearchValue != ''" v-on:click.stop="removeFilter()" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                                <input v-model="requestSearchValue" v-on:keyup.enter="search()" class="search" type="text" placeholder="جستجو">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="large-12 medium-12 small-12">
                                 <div class="tbl-div-container">
                                     <table class="tbl-head">
                                         <colgroup>
@@ -182,7 +208,7 @@
                                     </table>
                                     <!--Table Head End-->
                                     <!--Table Body Start-->
-                                    <div class="tbl_body_style dynamic-height-levelR">
+                                    <div class="tbl_body_style dynamic-height-level2">
                                         <table class="tbl-body-contain">
                                             <colgroup>
                                                 <col width="80px"/>
@@ -271,6 +297,19 @@
                     <div class="tabs-panel table-mrg-btm" id="rr_PURCHASE_AND_CONTRACT">
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12">
+                                <div class="clearfix tool-bar">
+                                    <div class="float-left">
+                                        <div class="input-group float-left">
+                                            <div class="inner-addon right-addon">
+                                                <i v-if="requestSearchValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                                <i v-if="requestSearchValue != ''" v-on:click.stop="removeFilter()" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                                <input v-model="requestSearchValue" v-on:keyup.enter="search()" class="search" type="text" placeholder="جستجو">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="large-12 medium-12 small-12">
                                 <div class="tbl-div-container">
                                     <table class="tbl-head">
                                         <colgroup>
@@ -300,7 +339,7 @@
                                     </table>
                                     <!--Table Head End-->
                                     <!--Table Body Start-->
-                                    <div class="tbl_body_style dynamic-height-levelR">
+                                    <div class="tbl_body_style dynamic-height-level2">
                                         <table class="tbl-body-contain">
                                             <colgroup>
                                                 <col width="80px"/>
@@ -386,6 +425,19 @@
                     <div class="tabs-panel table-mrg-btm" id="rr_PAYMENT">
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12">
+                                <div class="clearfix tool-bar">
+                                    <div class="float-left">
+                                        <div class="input-group float-left">
+                                            <div class="inner-addon right-addon">
+                                                <i v-if="requestSearchValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                                <i v-if="requestSearchValue != ''" v-on:click.stop="removeFilter()" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                                <input v-model="requestSearchValue" v-on:keyup.enter="search()" class="search" type="text" placeholder="جستجو">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="large-12 medium-12 small-12">
                                 <div class="tbl-div-container">
                                     <table class="tbl-head">
                                         <colgroup>
@@ -415,7 +467,7 @@
                                     </table>
                                     <!--Table Head End-->
                                     <!--Table Body Start-->
-                                    <div class="tbl_body_style dynamic-height-levelR">
+                                    <div class="tbl_body_style dynamic-height-level2">
                                         <table class="tbl-body-contain">
                                             <colgroup>
                                                 <col width="80px"/>
@@ -501,6 +553,19 @@
                     <div class="tabs-panel table-mrg-btm" id="rr_DRAFT">
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12">
+                                <div class="clearfix tool-bar">
+                                    <div class="float-left">
+                                        <div class="input-group float-left">
+                                            <div class="inner-addon right-addon">
+                                                <i v-if="requestSearchValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                                <i v-if="requestSearchValue != ''" v-on:click.stop="removeFilter()" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                                <input v-model="requestSearchValue" v-on:keyup.enter="search()" class="search" type="text" placeholder="جستجو">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="large-12 medium-12 small-12">
                                 <div class="tbl-div-container">
                                     <table class="tbl-head">
                                         <colgroup>
@@ -530,7 +595,7 @@
                                     </table>
                                     <!--Table Head End-->
                                     <!--Table Body Start-->
-                                    <div class="tbl_body_style dynamic-height-levelR">
+                                    <div class="tbl_body_style dynamic-height-level2">
                                         <table class="tbl-body-contain">
                                             <colgroup>
                                                 <col width="80px"/>
@@ -643,7 +708,7 @@
                                               v-bind:selectedIndex="selectedIndex"
                                               v-bind:selectedRequest="selectedRequest"
                                               v-on:setRepoExistCountParent="setRepoExistCount"
-                                    >
+                                              v-bind:searchValue="requestSearchValue">
                                     </rDetails>
                                 </div>
                                 <!--Tab 1-->
@@ -678,7 +743,8 @@
                                               v-bind:requestFill="selectedRequest"
                                               v-bind:UserIsVerifier="selectedRequest.rRemainingVerifiers"
                                               v-bind:requestId="requestId"
-                                              v-bind:factorCount="selectedRequest.factor.length">
+                                              v-bind:factorCount="selectedRequest.factor.length"
+                                              v-bind:searchValue="requestSearchValue">
                                     </rCredits>
                                     <div v-else class="text-center inner-vh-unsize" style="height: 60vh;display: table">
                                         <div style="display: table-cell; vertical-align: middle;">
@@ -702,7 +768,8 @@
                                                v-bind:requestSubject="selectedRequest.rSubject"
                                                v-bind:rCreditIsAccepted="selectedRequest.rCreditIsAccepted"
                                                v-bind:rCostEstimation="selectedRequest.rCostEstimation"
-                                               v-bind:rCreditIsExist="selectedRequest.rCreditIsExist">
+                                               v-bind:rCreditIsExist="selectedRequest.rCreditIsExist"
+                                               v-bind:searchValue="requestSearchValue">
                                     </rContract>
                                 </div>
                                 <!--Tab 4-->
@@ -716,7 +783,8 @@
                                              v-bind:rCreditIsAccepted="selectedRequest.rCreditIsAccepted"
                                              v-bind:rCreditIsExist="selectedRequest.rCreditIsExist"
                                              v-bind:isFromRefundCosts="selectedRequest.isFromRefundCosts"
-                                             v-bind:request="selectedRequest">
+                                             v-bind:request="selectedRequest"
+                                             v-bind:searchValue="requestSearchValue">
                                     </rFactor>
                                 </div>
                                 <!--Tab 5-->
@@ -738,7 +806,7 @@
                                             v-bind:drafts="selectedRequest.draft"
                                             v-bind:sumOfDraftAmount="selectedRequest.rSumOfDraftAmount"
                                             v-bind:paymentRequestAmount="paymentRequestAmount"
-                                    >
+                                            v-bind:searchValue="requestSearchValue">
                                     </r-pay-request>
                                 </div>
                                 <!--Tab 6-->
@@ -758,7 +826,7 @@
                                              v-bind:sumOfDraftAmount="selectedRequest.rSumOfDraftAmount"
                                              v-bind:lastRefDId="selectedRequest.rLastRef.rhDId"
                                              v-bind:resultType="'RECEIVED'"
-                                             v-bind:searchValue="''">
+                                             v-bind:searchValue="requestSearchValue">
                                     </rDraft>
                                 </div>
                                 <!--Tab 6-->
@@ -1137,6 +1205,7 @@
         },
         data () {
             return {
+                requestSearchValue: '',
                 selectedBuffer: '',
                 selectedIndex: -1,
                 selectedRequest:{},
@@ -1371,8 +1440,17 @@
                 this.fetchData();
             },
 
+            search: function () {
+                this.fetchData();
+            },
+
+            removeFilter: function () {
+                this.requestSearchValue = '';
+                this.fetchData();
+            },
+
             fetchData: function (page=1) {
-                axios.get('/financial/request/received/fetchData?page=' + page)
+                axios.get('/financial/request/received/fetchData?page=' + page , {params:{searchValue:this.requestSearchValue}})
                     .then((response) => {
                         this.loadReceivedData(response.data);
                         this.$parent._getUnReadReceivedRequest();
@@ -1433,7 +1511,8 @@
                 this.selectedRequest = this.receiveRequests[this.selectedBuffer].data[this.selectedIndex];
                 if(this.selectedRequest.rLastRef.rhHasBeenSeen==false) {
                     axios.post('/financial/request/received/was_seen', {
-                        rhId: this.selectedRequest.rLastRef.id
+                        rhId: this.selectedRequest.rLastRef.id,
+                        searchValue: this.requestSearchValue
                     }).then((response) => {
                         this.loadReceivedData(response.data);
                         this.$parent._getUnReadReceivedRequest();
@@ -1471,7 +1550,8 @@
                             description: this.referralInput.description,
                             verifierId:this.youAreVerifier,
                             dId:this.referralDId,
-                            prId:this.referralPrId
+                            prId:this.referralPrId,
+                            searchValue: this.requestSearchValue
                         } , config).then((response) => {
                             this.loadReceivedData(response.data);
                             this.$parent._getUnReadReceivedRequest();
@@ -1510,7 +1590,8 @@
                         axios.post('/financial/request/accept', {
                             lastRefId: this.selectedRequest.rLastRef.id,
                             verifierId: this.youAreVerifier,
-                            itemExistCount: this.repoExistCount
+                            itemExistCount: this.repoExistCount,
+                            searchValue: this.requestSearchValue
                         }, config).then((response) => {
                             this.loadReceivedData(response.data);
                             this.$parent._getUnReadReceivedRequest();
@@ -1541,7 +1622,8 @@
                             lastRefId: this.selectedRequest.rLastRef.id,
                             description: this.responseDescription,
                             dId: this.referralDId,
-                            prId: this.referralPrId
+                            prId: this.referralPrId,
+                            searchValue: this.requestSearchValue
                         }).then((response) => {
                             this.loadReceivedData(response.data);
                             this.$parent._getUnReadReceivedRequest();
@@ -1581,7 +1663,8 @@
                             axios.post('/financial/request/secretariat/numbering/register', {
                                 rId: this.requestId,
                                 letterDate: this.registerDate,
-                                letterNumber: this.letterNumber
+                                letterNumber: this.letterNumber,
+                                searchValue: this.requestSearchValue
                             } , config).then((response) => {
                                 this.loadReceivedData(response.data);
                                 this.$parent._getUnReadReceivedRequest();
@@ -1659,7 +1742,8 @@
                 this.showDeleteAttachmentConfirmModal = false;
                 axios.post('/financial/request/attachment/delete', {
                     rId: this.requestId,
-                    id: this.attachmentIdForDelete
+                    id: this.attachmentIdForDelete,
+                    searchValue: this.requestSearchValue
                 }).then((response) => {
                     this.updateReceiveRequestData(response.data);
                     this.$parent.displayNotif(response.status);
@@ -1689,7 +1773,8 @@
                         };
                         axios.post('/financial/request/block' , {
                             rId: this.requestId,
-                            description: this.blockInput.description
+                            description: this.blockInput.description,
+                            searchValue: this.requestSearchValue
                         } , config).then((response) => {
                             this.loadReceivedData(response.data);
                             this.$parent._getUnReadReceivedRequest();
@@ -1721,7 +1806,8 @@
                 };
                 axios.post('/financial/request/terminate' , {
                     rId: this.requestId,
-                    description: this.terminateInput.description
+                    description: this.terminateInput.description,
+                    searchValue: this.requestSearchValue
                 } , config).then((response) => {
                     this.loadReceivedData(response.data);
                     this.$parent._getUnReadReceivedRequest();

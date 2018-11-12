@@ -71,7 +71,7 @@ class DraftController extends Controller
             SystemLog::setFinancialSubSystemLog('ثبت حواله برای درخواست ' . $req->rSubject);
 
             $rController = new RequestController();
-            return \response()->json($rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList()));
+            return \response()->json($rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList() , $request->searchValue));
         });
 
         return $result;
@@ -105,7 +105,7 @@ class DraftController extends Controller
 
         $rController = new RequestController();
         return \response()->json(
-            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
+            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList() , $request->searchValue)
         );
     }
 
@@ -144,7 +144,7 @@ class DraftController extends Controller
 
                 SystemLog::setFinancialSubSystemLog('تایید حواله پرداخت برای درخواست ' . $req->rSubject);
                 $rController = new RequestController();
-                return \response()->json($rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList()));
+                return \response()->json($rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList() , $request->searchValue));
             }else
                 throw new \Exception(500);
         });
@@ -185,7 +185,7 @@ class DraftController extends Controller
 
         $rController = new RequestController();
         return \response()->json(
-            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
+            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList() , $request->searchValue)
         );
     }
 
@@ -208,7 +208,7 @@ class DraftController extends Controller
 
         $rController = new RequestController();
         return \response()->json(
-            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
+            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList() , $request->searchValue)
         );
     }
 
@@ -237,7 +237,7 @@ class DraftController extends Controller
 
         $rController = new RequestController();
         return \response()->json(
-            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
+            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList() , $request->searchValue)
         );
     }
 }

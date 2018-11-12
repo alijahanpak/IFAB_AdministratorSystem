@@ -264,7 +264,7 @@
                                                                 </div>
                                                             </td>
                                                             <td :data-toggle="'pHistory' + pHistory.id" class="text-center">{{$root.dispMoneyFormat(pHistory.phAmount)}}</td>
-                                                            <td :data-toggle="'pHistory' + pHistory.id" class="text-center"></td>
+                                                            <td :data-toggle="'pHistory' + pHistory.id" class="text-center">{{ pHistory.pShamsiPrintDate }}</td>
                                                         </tr>
                                                     </template>
                                                     </tbody>

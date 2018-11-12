@@ -286,7 +286,7 @@
 <script>
     import Suggestions from "v-suggestions/src/Suggestions";
     export default{
-        props:['factors','requestId' , 'rCreditIsAccepted' , 'rCreditIsExist','isFromRefundCosts' , 'request'],
+        props:['factors','requestId' , 'rCreditIsAccepted' , 'rCreditIsExist','isFromRefundCosts' , 'request' , 'searchValue'],
         components: {
             Suggestions,
         },
@@ -439,6 +439,7 @@
             acceptFactor: function(){
                 axios.post('/financial/request/factor/accept', {
                     rId: this.requestId,
+                    searchValue: this.searchValue
                 }).then((response) => {
                     this.$emit('updateReceiveRequestData' , response.data);
                     this.$emit('closeModal');
@@ -454,6 +455,7 @@
                 axios.post('/financial/request/factor/delete', {
                     rId: this.requestId,
                     fId: this.selectedFactorId,
+                    searchValue: this.searchValue
                 }).then((response) => {
                     if (response.status == 200)
                         this.$emit('updateReceiveRequestData' , response.data);
@@ -552,6 +554,7 @@
                                     seller: this.factorInput.seller,
                                     amount: inputValue,
                                     description: this.factorInput.description,
+                                    searchValue: this.searchValue
                                 }).then((response) => {
                                     this.$emit('updateReceiveRequestData', response.data);
                                     this.showInsertFactorModal = false;
@@ -588,6 +591,7 @@
                                     seller: this.factorInput.seller,
                                     amount: inputValue,
                                     description: this.factorInput.description,
+                                    searchValue: this.searchValue,
                                     resultType: 'RECEIVED'
                                 }).then((response) => {
                                     this.$emit('updateReceiveRequestData', response.data);

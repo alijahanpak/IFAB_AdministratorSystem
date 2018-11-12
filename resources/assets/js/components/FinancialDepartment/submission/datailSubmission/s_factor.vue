@@ -270,7 +270,7 @@
 <script>
     import Suggestions from "v-suggestions/src/Suggestions";
     export default{
-        props:['factors','refundFactor','requestId','request'],
+        props:['factors','refundFactor','requestId','request' , 'searchValue'],
         components: {
             Suggestions,
         },
@@ -396,6 +396,7 @@
             acceptFactor: function(){
                 axios.post('/financial/refund/factor/check_request', {
                     rId: this.requestId,
+                    searchValue: this.searchValue
                 }).then((response) => {
                     this.$emit('updateSubmissionData' , response.data);
                     this.$emit('closeModal');
@@ -411,6 +412,7 @@
             deleteFactor: function() {
                 axios.post('/financial/refund/factor/delete', {
                     fId: this.selectedFactorId,
+                    searchValue: this.searchValue
                 }).then((response) => {
                     if (response.status == 200)
                         this.$emit('updateSubmissionData' , response.data);
@@ -473,6 +475,7 @@
                             this.moneyState = 'none';
                             axios.post('/financial/refund/factor/new', {
                                 rId: this.requestId,
+                                searchValue: this.searchValue,
                                 subject: this.factorInput.subject,
                                 seller: this.factorInput.seller,
                                 amount: parseInt(this.factorInput.amount.split(',').join(''), 10),
@@ -526,6 +529,7 @@
                             this.moneyState = 'none';
                             axios.post('/financial/request/factor/update', {
                                 id: this.selectedFactorId,
+                                searchValue: this.searchValue,
                                 refundId: '',
                                 subject: this.factorInput.subject,
                                 seller: this.factorInput.seller,
