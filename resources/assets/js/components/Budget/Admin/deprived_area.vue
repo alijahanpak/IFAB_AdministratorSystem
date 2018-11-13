@@ -412,7 +412,8 @@
                     </div>
 
                     <div class="medium-6 columns padding-lr">
-                        <button name="daFormSubmit" type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                        <button  v-show="!$root.btnLoadingCheckStatus" name="daFormSubmit" type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                        <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                     </div>
                 </form>
             </div>
@@ -471,7 +472,8 @@
                         </label>
                     </div>
                     <div class="medium-6 columns padding-lr">
-                        <button name="daFormSubmit" type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                        <button v-show="!$root.btnLoadingCheckStatus" name="daFormSubmit" type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                        <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                     </div>
                 </form>
             </div>
@@ -485,7 +487,8 @@
                     <p class="large-offset-1 modal-text">آیا برای حذف این رکورد اطمینان دارید؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
-                            <button v-on:click="deleteDeprivedArea" class="my-button my-success"><span class="btn-txt-mrg"> تایید </span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" v-on:click="deleteDeprivedArea" class="my-button my-success"><span class="btn-txt-mrg"> تایید </span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </div>
@@ -644,12 +647,16 @@
             createDeprivedArea: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post('/budget/admin/deprived_area/register' , {
                             county: this.deprivedAreaInput.county ,
                             region: this.deprivedAreaInput.region ,
                             ruralDistrict: this.deprivedAreaInput.ruralDistrict ,
                             village: this.deprivedAreaInput.village ,
-                            description: this.deprivedAreaInput.description})
+                            description: this.deprivedAreaInput.description
+                        } , config)
                             .then((response) => {
                                 this.setData(response.data);
                                 this.showInsertModal = false;
@@ -842,13 +849,17 @@
             updateDeprivedArea: function(){
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post('/budget/admin/deprived_area/update' , {
                             id: this.deprivedAreaFill.id,
                             county: this.deprivedAreaFill.county ,
                             region: this.deprivedAreaFill.region ,
                             ruralDistrict: this.deprivedAreaFill.ruralDistrict ,
                             village: this.deprivedAreaFill.village ,
-                            description: this.deprivedAreaFill.description})
+                            description: this.deprivedAreaFill.description
+                        } , config)
                         .then((response) => {
                             this.setData(response.data);
                         this.showUpdateModal = false;
@@ -864,8 +875,12 @@
             },
 
             deleteDeprivedArea: function () {
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/budget/admin/deprived_area/delete' , {
-                            id: this.daIdForDelete})
+                            id: this.daIdForDelete
+                } , config)
                     .then((response) => {
                     if (response.status != 204)
                         this.setData(response.data);

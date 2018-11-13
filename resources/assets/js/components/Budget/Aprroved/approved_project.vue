@@ -102,7 +102,7 @@
                                 <!--Table Head End-->
                                 <!--Table Body Start-->
                                     <div class="tbl_body_style dynamic-height-level2">
-                                        <table class="tbl-body-contain">
+                                        <table class="tbl-body-contain unstriped">
                                             <colgroup>
                                                 <col width="250px"/>
                                                 <col width="100px"/>
@@ -113,8 +113,8 @@
                                                 <col v-show="selectColumn" width="15px"/>
                                             </colgroup>
                                             <tbody class="tbl-head-style-cell">
-                                            <template  v-for="plans in approvedProjects_prov">
-                                                <tr>
+                                            <template  v-for="(plans, index) in approvedProjects_prov">
+                                                <tr :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                     <td :rowspan="plans.capital_assets_project.length + (displayParentId_prov == plans.id ? 1 : 0)"> {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject + ' - ' + plans.credit_distribution_title.county.coName }}</td>
                                                     <td class="text-center">
                                                         {{ plans.capital_assets_project[0].cpCode }}
@@ -157,7 +157,7 @@
                                                         <input class="auto-margin" v-model="plans.capital_assets_project[0].checked" type="checkbox">
                                                     </td>
                                                 </tr>
-                                                <tr v-show="displayCreditSourceInfo_prov == plans.capital_assets_project[0].id">
+                                                <tr v-show="displayCreditSourceInfo_prov == plans.capital_assets_project[0].id" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                     <td colspan="6">
                                                         <table class="unstriped tbl-secondary-mrg small-font">
                                                             <thead class="my-thead">
@@ -201,7 +201,7 @@
                                                     </td>
                                                 </tr>
                                                 <template v-for="(project , pIndex) in plans.capital_assets_project">
-                                                    <tr v-if="pIndex > 0">
+                                                    <tr v-if="pIndex > 0" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                         <td class="text-center">
                                                             {{ project.cpCode }}
                                                         </td>
@@ -243,7 +243,7 @@
                                                             <input class="auto-margin" v-model="project.checked" type="checkbox">
                                                         </td>
                                                     </tr>
-                                                    <tr v-if="pIndex>0" v-show="displayCreditSourceInfo_prov == project.id">
+                                                    <tr v-if="pIndex>0" v-show="displayCreditSourceInfo_prov == project.id" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                         <td colspan="6">
                                                             <table class="unstriped tbl-secondary-mrg small-font">
                                                                 <thead class="my-thead">
@@ -377,7 +377,7 @@
                                 <!--Table Head End-->
                                 <!--Table Body Start-->
                                 <div class="tbl_body_style dynamic-height-level2">
-                                    <table class="tbl-body-contain">
+                                    <table class="tbl-body-contain unstriped">
                                         <colgroup>
                                             <col width="250px"/>
                                             <col width="100px"/>
@@ -388,8 +388,8 @@
                                             <col v-show="selectColumn" width="15px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
-                                        <template  v-for="plans in approvedProjects_nat">
-                                            <tr>
+                                        <template  v-for="(plans, index) in approvedProjects_nat">
+                                            <tr :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                 <td :rowspan="plans.capital_assets_project.length + (displayParentId_nat == plans.id ? 1 : 0)">  {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}</td>
                                                 <td class="text-center">
                                                     {{ plans.capital_assets_project[0].cpCode }}
@@ -432,7 +432,7 @@
                                                     <input class="auto-margin" v-model="plans.capital_assets_project[0].checked" type="checkbox">
                                                 </td>
                                             </tr>
-                                            <tr v-show="displayCreditSourceInfo_nat == plans.capital_assets_project[0].id">
+                                            <tr v-show="displayCreditSourceInfo_nat == plans.capital_assets_project[0].id" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                 <td colspan="6">
                                                     <table class="unstriped tbl-secondary-mrg small-font">
                                                         <thead class="my-thead">
@@ -476,7 +476,7 @@
                                                 </td>
                                             </tr>
                                             <template v-for="(project , pIndex) in plans.capital_assets_project">
-                                                <tr v-if="pIndex > 0">
+                                                <tr v-if="pIndex > 0" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                     <td class="text-center">
                                                         {{ project.cpCode }}
                                                     </td>
@@ -518,7 +518,7 @@
                                                         <input class="auto-margin" v-model="project.checked" type="checkbox">
                                                     </td>
                                                 </tr>
-                                                <tr v-if="pIndex > 0" v-show="displayCreditSourceInfo_nat == project.id">
+                                                <tr v-if="pIndex > 0" v-show="displayCreditSourceInfo_nat == project.id" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                     <td colspan="6">
                                                         <table class="unstriped tbl-secondary-mrg small-font">
                                                             <thead class="my-thead">
@@ -662,7 +662,8 @@
                                 </div>
                             </div>
                             <div class="medium-6 columns padding-lr padding-bottom-modal">
-                                <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <button v-show="!$root.btnLoadingCheckStatus" name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </form>
                     </div>
@@ -744,7 +745,8 @@
                             </div>
                         </div>
                         <div class="medium-6 columns padding-lr padding-bottom-modal">
-                            <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </form>
                 </div>
@@ -759,7 +761,8 @@
                         <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
                         <div class="grid-x">
                             <div class="medium-12 column text-center">
-                                <button v-on:click="deleteApprovedProject" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                                <button v-show="!$root.btnLoadingCheckStatus" v-on:click="deleteApprovedProject" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </div>
                     </div>
@@ -1327,6 +1330,9 @@
             createApprovedProjects: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post('/budget/approved_project/capital_assets/register' , {
                             pId: this.approvedProjectsInput.apPlan.id,
                             subject: this.approvedProjectsInput.apProjectTitle,
@@ -1339,7 +1345,7 @@
                             pOrN: this.provOrNat,
                             searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
                             itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
-                        }).then((response) => {
+                        } , config).then((response) => {
                                 if (this.provOrNat == 0)
                                 {
                                     this.setData(0 , response.data.data);
@@ -1520,6 +1526,9 @@
             updateApprovedProjects: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post('/budget/approved_project/capital_assets/update' , {
                             id: this.approvedProjectsFill.id,
                             pId: this.approvedProjectsFill.apPlan.id,
@@ -1533,7 +1542,7 @@
                             pOrN: this.provOrNat,
                             searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
                             itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
-                        }).then((response) => {
+                        } , config).then((response) => {
                             if (this.provOrNat == 0)
                             {
                                 this.setData(0 , response.data.data);
@@ -1568,12 +1577,15 @@
             },
 
             deleteApprovedProject: function () {
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/budget/approved_project/capital_assets/delete' , {
                     id: this.apIdForDelete,
                     pOrN: this.provOrNat,
                     searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
                     itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
-                }).then((response) => {
+                } , config).then((response) => {
                     if (response.status != 204)
                     {
                         if (this.provOrNat == 0)

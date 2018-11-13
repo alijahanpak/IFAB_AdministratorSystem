@@ -101,7 +101,7 @@
                                 </table>
 
                                 <div class="tbl_body_style dynamic-height-level2">
-                                    <table class="tbl-body-contain">
+                                    <table class="tbl-body-contain unstriped">
                                         <colgroup>
                                             <col width="200px"/>
                                             <col width="150px"/>
@@ -111,8 +111,8 @@
                                             <col v-show="selectColumn" width="15px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
-                                            <template v-for="plans in cdPlans">
-                                                <tr class="tbl-head-style-cell" >
+                                            <template v-for="(plans, index) in cdPlans">
+                                                <tr class="tbl-head-style-cell" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                     <td :rowspan="plans.credit_distribution_plan.length">{{ plans.cdtIdNumber + ' - ' + plans.cdtSubject }}</td>
                                                     <td class="text-center">{{ plans.credit_distribution_plan[0].credit_distribution_row.cdSubject }}</td>
                                                     <td class="text-center">{{ plans.credit_distribution_plan[0].county.coName }}</td>
@@ -138,7 +138,7 @@
                                                     </td>
                                                 </tr>
                                                 <template v-for="(cdPlan , cdIndex) in plans.credit_distribution_plan">
-                                                    <tr class="tbl-head-style-cell" v-if="cdIndex > 0">
+                                                    <tr class="tbl-head-style-cell" v-if="cdIndex > 0" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                         <td class="text-center">{{ cdPlan.credit_distribution_row.cdSubject }}</td>
                                                         <td class="text-center">{{ cdPlan.county.coName }}</td>
                                                         <td class="text-center">{{ $parent.calcDispAmount(cdPlan.cdpCredit , false)  }}</td>
@@ -235,7 +235,7 @@
                                 </table>
 
                                 <div class="tbl_body_style dynamic-height-level2">
-                                    <table class="tbl-body-contain">
+                                    <table class="tbl-body-contain unstriped">
                                         <colgroup>
                                             <col width="150px"/>
                                             <col width="200px"/>
@@ -244,8 +244,8 @@
                                             <col width="300px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
-                                        <template v-for="rows in cdPlansOrderByRow">
-                                            <tr class="tbl-head-style-cell" >
+                                        <template v-for="(rows, index) in cdPlansOrderByRow">
+                                            <tr class="tbl-head-style-cell" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                 <td class="text-center" :rowspan="rows.credit_distribution_plan.length">{{ rows.cdSubject }}</td>
                                                 <td>{{ rows.credit_distribution_plan[0].credit_distribution_title.cdtIdNumber + ' - ' + rows.credit_distribution_plan[0].credit_distribution_title.cdtSubject }}</td>
                                                 <td class="text-center">{{ rows.credit_distribution_plan[0].county.coName }}</td>
@@ -268,7 +268,7 @@
                                                 </td>
                                             </tr>
                                             <template v-for="(cdPlan , cdIndex) in rows.credit_distribution_plan">
-                                                <tr class="tbl-head-style-cell" v-if="cdIndex > 0">
+                                                <tr class="tbl-head-style-cell" v-if="cdIndex > 0" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                     <td>{{ cdPlan.credit_distribution_title.cdtIdNumber + ' - ' + cdPlan.credit_distribution_title.cdtSubject }}</td>
                                                     <td class="text-center">{{ cdPlan.county.coName }}</td>
                                                     <td class="text-center">{{ $parent.calcDispAmount(cdPlan.cdpCredit , false)  }}</td>
@@ -358,7 +358,7 @@
                                 </table>
 
                                 <div class="tbl_body_style dynamic-height-level2">
-                                    <table class="tbl-body-contain">
+                                    <table class="tbl-body-contain unstriped">
                                         <colgroup>
                                             <col width="100px"/>
                                             <col width="200px"/>
@@ -368,8 +368,8 @@
                                             <col width="200px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
-                                        <template v-for="bs in cdPlansOrderByBudget">
-                                            <tr class="tbl-head-style-cell" >
+                                        <template v-for="(bs, index) in cdPlansOrderByBudget">
+                                            <tr class="tbl-head-style-cell" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                 <td :rowspan="getBsPlanCount(bs.cdp_title_has_credit_distribution_plan)">{{ bs.bsSubject }}</td>
                                                 <td :rowspan="bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan.length">{{ bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].credit_distribution_title.cdtIdNumber + ' - ' + bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].credit_distribution_title.cdtSubject }}</td>
                                                 <td class="text-center">{{ bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].credit_distribution_row.cdSubject }}</td>
@@ -393,7 +393,7 @@
                                                 </td>
                                             </tr>
                                             <template v-for="(cdTitle , cdtIndex) in bs.cdp_title_has_credit_distribution_plan">
-                                                <tr class="tbl-head-style-cell" v-if="cdtIndex > 0">
+                                                <tr class="tbl-head-style-cell" v-if="cdtIndex > 0" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                     <td :rowspan="cdTitle.credit_distribution_plan.length">{{ cdTitle.credit_distribution_plan[0].credit_distribution_title.cdtIdNumber + ' - ' + cdTitle.credit_distribution_plan[0].credit_distribution_title.cdtSubject }}</td>
                                                     <td class="text-center">{{ cdTitle.credit_distribution_plan[0].credit_distribution_row.cdSubject }}</td>
                                                     <td class="text-center">{{ cdTitle.credit_distribution_plan[0].county.coName }}</td>
@@ -416,7 +416,7 @@
                                                     </td>
                                                 </tr>
                                                 <template v-for="(cdPlan , cdIndex) in cdTitle.credit_distribution_plan">
-                                                    <tr class="tbl-head-style-cell" v-if="cdIndex > 0">
+                                                    <tr class="tbl-head-style-cell" v-if="cdIndex > 0" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                         <td class="text-center">{{ cdPlan.credit_distribution_row.cdSubject }}</td>
                                                         <td class="text-center">{{ cdPlan.county.coName }}</td>
                                                         <td class="text-center">{{ $parent.calcDispAmount(cdPlan.cdpCredit , false)  }}</td>
@@ -505,7 +505,7 @@
                                 </table>
 
                                 <div class="tbl_body_style dynamic-height-level2">
-                                    <table class="tbl-body-contain">
+                                    <table class="tbl-body-contain unstriped">
                                         <colgroup>
                                             <col width="100px"/>
                                             <col width="200px"/>
@@ -514,8 +514,8 @@
                                             <col width="300px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
-                                        <template v-for="county in cdPlansOrderByCounty">
-                                            <tr class="tbl-head-style-cell" >
+                                        <template v-for="(county, index) in cdPlansOrderByCounty">
+                                            <tr class="tbl-head-style-cell" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                 <td class="text-center" :rowspan="county.credit_distribution_plan.length">{{ county.coName }}</td>
                                                 <td>{{ county.credit_distribution_plan[0].credit_distribution_title.cdtIdNumber + ' - ' + county.credit_distribution_plan[0].credit_distribution_title.cdtSubject }}</td>
                                                 <td class="text-center">{{ county.credit_distribution_plan[0].credit_distribution_row.cdSubject }}</td>
@@ -538,7 +538,7 @@
                                                 </td>
                                             </tr>
                                             <template v-for="(cdPlan , cdIndex) in county.credit_distribution_plan">
-                                                <tr class="tbl-head-style-cell" v-if="cdIndex > 0">
+                                                <tr class="tbl-head-style-cell" v-if="cdIndex > 0" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                     <td>{{ cdPlan.credit_distribution_title.cdtIdNumber + ' - ' + cdPlan.credit_distribution_title.cdtSubject }}</td>
                                                     <td class="text-center">{{ cdPlan.credit_distribution_row.cdSubject }}</td>
                                                     <td class="text-center">{{ $parent.calcDispAmount(cdPlan.cdpCredit , false)  }}</td>
@@ -807,14 +807,26 @@
                         </div>
                     </div>
                 </modal-tiny>
-
                 <!--Report Modal End-->
+                <!-- report pdf modal -->
+                <modal-large v-show="showPdfModal" @close="showPdfModal =false">
+                    <div  slot="body">
+                        <div class="grid-x">
+                            <div class="large-12 medium-12 small-12" style="width: 100%;height: 75vh">
+                                <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
+                                <iframe style="width: 100%;height: 100%;border: 0px" :src="reportPdfPath" />
+                            </div>
+                        </div>
+                    </div>
+                </modal-large>
+                <!-- end report pdf modal -->
             </div>
         </div>
     </div>
 </template>
 <script>
     import VuePagination from '../../../public_component/pagination.vue';
+    import VueElementLoading from 'vue-element-loading';
     export default {
         data(){
             return {
@@ -836,6 +848,7 @@
                 showUpdateModal: false,
                 showDeleteModal: false,
                 showModalReport:false,
+                showPdfModal: false,
                 selectColumn:false,
                 costTemp:'',
                 creditDistributionTitles: {},
@@ -875,6 +888,8 @@
                     current_page: 1,
                     last_page: ''
                 },
+                reportPdfPath: '',
+                showLoaderProgress: false,
             }
         },
         created: function () {
@@ -902,7 +917,8 @@
         },
 
         components:{
-            'vue-pagination' : VuePagination
+            'vue-pagination' : VuePagination,
+            VueElementLoading,
         },
 
         methods:{
@@ -1243,13 +1259,38 @@
             },
 
             openReportFile: function () {
-                axios.post('/budget/credit_distribution/capital_assets/provincial/plans/report' , {pOrN: this.provOrNat , type: this.reportType ,options: this.reportOptions , selectedItems: this.selectedItems})
-                    .then((response) => {
-                        console.log(response.data);
-                        window.open(response.data);
-                    },(error) => {
-                        console.log(error);
-                    });
+                if (this.reportType == 'pdf')
+                {
+                    this.reportPdfPath = '';
+                    this.showModalReport = false;
+                    this.showLoaderProgress = true;
+                    this.showPdfModal = true;
+                    axios.post('/budget/credit_distribution/capital_assets/provincial/plans/report' , {pOrN: this.provOrNat,
+                            type: this.reportType ,
+                            options: this.reportOptions ,
+                            selectedItems: this.selectedItems},
+                        {responseType: 'blob'})
+                        .then((response) => {
+                            var file = new Blob([response.data], {type: 'application/pdf'});
+                            var fileURL = window.URL.createObjectURL(file);
+                            this.reportPdfPath = fileURL;
+                            this.showLoaderProgress = false;
+                        },(error) => {
+                            this.showLoaderProgress = false;
+                            console.log(error);
+                        });
+                }else{
+                    axios.post('/budget/credit_distribution/capital_assets/provincial/plans/report' , {pOrN: this.provOrNat ,
+                        type: this.reportType ,
+                        options: this.reportOptions ,
+                        selectedItems: this.selectedItems})
+                        .then((response) => {
+                            window.open(response.data);
+                            this.showModalReport = false;
+                        },(error) => {
+                            console.log(error);
+                        });
+                }
             },
 
             toggleSelect: function(plans) {

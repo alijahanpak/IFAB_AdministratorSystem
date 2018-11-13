@@ -105,7 +105,7 @@
                                 <!--Table Head End-->
                                 <!--Table Body Start-->
                                 <div class="tbl_body_style dynamic-height-level2">
-                                    <table class="tbl-body-contain">
+                                    <table class="tbl-body-contain unstriped">
                                         <colgroup>
                                             <col width="150px"/>
                                             <col width="150px"/>
@@ -117,8 +117,8 @@
                                             <col v-show="selectColumn" width="15px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
-                                        <template  v-for="cAp in costAgreement_prov">
-                                            <tr>
+                                        <template  v-for="(cAp, index) in costAgreement_prov">
+                                            <tr :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                 <td class="text-center">{{ cAp.caLetterNumber }}</td>
                                                 <td class="text-center">{{ cAp.caLetterDate }}</td>
                                                 <td class="text-center">{{ cAp.caExchangeIdNumber }}</td>
@@ -159,7 +159,7 @@
                                                     <input class="auto-margin" v-model="cAp.checked" type="checkbox">
                                                 </td>
                                             </tr>
-                                            <tr v-show="displayCreditSourceInfo_prov == cAp.id">
+                                            <tr v-show="displayCreditSourceInfo_prov == cAp.id" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                 <td colspan="8">
                                                     <table class="unstriped tbl-secondary-mrg small-font">
                                                         <thead class="my-thead">
@@ -202,7 +202,7 @@
                                                     </table>
                                                 </td>
                                             </tr>
-                                            <tr v-if="cAp.amendments.length > 0" v-show="displayAmendmentInfo_prov == cAp.id">
+                                            <tr v-if="cAp.amendments.length > 0" v-show="displayAmendmentInfo_prov == cAp.id" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                 <td colspan="8">
                                                     <table class="unstriped tbl-secondary-mrg small-font">
                                                         <thead class="my-thead">
@@ -325,7 +325,7 @@
                                 <!--Table Head End-->
                                 <!--Table Body Start-->
                                 <div class="tbl_body_style dynamic-height-level2">
-                                    <table class="tbl-body-contain">
+                                    <table class="tbl-body-contain unstriped">
                                         <colgroup>
                                             <col width="150px"/>
                                             <col width="150px"/>
@@ -335,8 +335,8 @@
                                             <col v-show="selectColumn" width="15px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
-                                        <template  v-for="cAp in costAgreement_nat">
-                                            <tr>
+                                        <template  v-for="(cAp, index) in costAgreement_nat">
+                                            <tr :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                 <td class="text-center">{{ cAp.caLetterNumber }}</td>
                                                 <td class="text-center">{{ cAp.caLetterDate }}</td>
                                                 <td class="text-center">
@@ -375,7 +375,7 @@
                                                     <input class="auto-margin" v-model="cAp.checked" type="checkbox">
                                                 </td>
                                             </tr>
-                                            <tr v-show="displayCreditSourceInfo_nat == cAp.id">
+                                            <tr v-show="displayCreditSourceInfo_nat == cAp.id" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                 <td colspan="8">
                                                     <table class="unstriped tbl-secondary-mrg small-font">
                                                         <thead class="my-thead">
@@ -418,7 +418,7 @@
                                                     </table>
                                                 </td>
                                             </tr>
-                                            <tr v-if="cAp.amendments.length > 0" v-show="displayAmendmentInfo_nat == cAp.id">
+                                            <tr v-if="cAp.amendments.length > 0" v-show="displayAmendmentInfo_nat == cAp.id" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                 <td colspan="5">
                                                     <table class="unstriped tbl-secondary-mrg small-font">
                                                         <thead class="my-thead">
@@ -596,7 +596,8 @@
                         <p class="large-offset-1 modal-text">آیا برای حذف این رکورد اطمینان دارید؟</p>
                         <div class="grid-x">
                             <div class="medium-12 column text-center">
-                                <button v-on:click="deleteCostAgreement" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                                <button v-show="!$root.btnLoadingCheckStatus" v-on:click="deleteCostAgreement" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </div>
                     </div>
@@ -807,7 +808,7 @@
                                 <label>تاریخ ابلاغ
                                     <!--<date-picker v-on:closed="checkValidDate('delivery_amendment' , caAmendmentInput)" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery_amendment"-->
                                     <date-picker
-                                            :color="checkCostAgreementExDateValid ? '#d9534f' : '#5c6bc0'"
+                                            :color="checkCostAgreementDateValid ? '#d9534f' : '#5c6bc0'"
                                             v-model="caAmendmentInput.date"
                                             input-class="form-control form-control-lg date-picker-bottom-margin"
                                             name="caAmendmentInputDate"
@@ -822,7 +823,7 @@
                                 </label>
                                 <span v-show="errors.has('caExLetterNumber')" class="error-font">شماره مبادله فراموش شده است!</span>
                             </div>
-                            <div class="medium-6 padding-lr">
+                            <div class="medium-6 padding-lr"  v-if="provOrNat == 0">
                                 <label>تاریخ مبادله
                                     <!--<date-picker v-on:closed="checkValidDate('exchange_amendment' , caAmendmentInput)" errMessage="تاریخ مبادله فراموش شده است!" :isValid="dateIsValid_exchange_amendment"-->
                                     <date-picker
@@ -833,49 +834,6 @@
                                             placeholder="انتخاب تاریخ">
                                     </date-picker>
                                     <p style="margin-top:3px !important;" v-show="checkCostAgreementExDateValid" class="error-font">لطفا تاریخ مبادله مورد نظر را انتخاب نمایید!</p>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="grid-x">
-                            <div class="small-12 columns padding-lr">
-                                <label>شرح
-                                    <textarea name="apDescription" v-model="caAmendmentInput.description" style="min-height: 150px;"></textarea>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="medium-6 columns padding-lr padding-bottom-modal">
-                            <div class="button-group float-left report-mrg">
-                                <button v-show="!$root.btnLoadingCheckStatus" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">تایید</span></button>
-                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </modal-small>
-            <!--Amendment Modal End-->
-
-            <!--Amendment Modal Start-->
-            <modal-small v-if="showNatAmendmentModal" @close="showNatAmendmentModal= false">
-                <div slot="body">
-                    <form v-on:submit.prevent="createCaAmendmentTemp">
-                        <div class="grid-x">
-                            <div class="medium-6 columns padding-lr">
-                                <label>شماره ابلاغ
-                                    <input class="form-element-margin-btm" v-model="caAmendmentInput.idNumber" type="text" name="caLetterNumber" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('caLetterNumber')}">
-                                </label>
-                                <span v-show="errors.has('caLetterNumber')" class="error-font">شماره فراموش شده است!</span>
-                            </div>
-                            <div class="medium-6 padding-lr">
-                                <label>تاریخ مبادله
-                                    <!--<date-picker v-on:closed="checkValidDate('delivery_amendment' , caAmendmentInput)" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery_amendment"-->
-                                    <date-picker
-                                            :color="'#5c6bc0'"
-                                            v-model="caAmendmentInput.date"
-                                            input-class="form-control form-control-lg date-picker-bottom-margin"
-                                            name="caAmendmentInputDate2"
-                                            placeholder="انتخاب تاریخ">
-                                    </date-picker>
-
                                 </label>
                             </div>
                         </div>
@@ -1007,8 +965,9 @@
                     <div class="grid-x">
                         <div class="medium-12 columns">
                             <div class="button-group float-left report-mrg">
-                                <a class="my-button my-danger float-left btn-for-load" @click="cancelCostAmendmentTemp"> <span class="btn-txt-mrg">لغو</span></a>
-                                <a class="my-button my-success float-left btn-for-load" @click="acceptCostAmendment"> <span class="btn-txt-mrg">تایید</span></a>
+                                <a  v-show="!$root.btnLoadingCheckStatus" class="my-button my-danger float-left btn-for-load" @click="cancelCostAmendmentTemp"> <span class="btn-txt-mrg">لغو</span></a>
+                                <a  v-show="!$root.btnLoadingCheckStatus" class="my-button my-success float-left btn-for-load" @click="acceptCostAmendment"> <span class="btn-txt-mrg">تایید</span></a>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </div>
                     </div>
@@ -1389,6 +1348,18 @@
                 </div>
             </modal-tiny>
             <!--Report Modal End-->
+            <!-- report pdf modal -->
+            <modal-large v-show="showPdfModal" @close="showPdfModal =false">
+                <div  slot="body">
+                    <div class="grid-x">
+                        <div class="large-12 medium-12 small-12" style="width: 100%;height: 75vh">
+                            <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
+                            <iframe style="width: 100%;height: 100%;border: 0px" :src="reportPdfPath" />
+                        </div>
+                    </div>
+                </div>
+            </modal-large>
+            <!-- end report pdf modal -->
             <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
                 {{dialogMessage}}
             </messageDialog>
@@ -1398,6 +1369,7 @@
 
 <script>
     import VuePagination from '../../../public_component/pagination.vue';
+    import VueElementLoading from 'vue-element-loading';
     export default {
         data(){
             return {
@@ -1427,6 +1399,7 @@
                 showDeleteTempCreditSourceModal: false,
                 showACaCsEditModal: false,
                 showModalReport:false,
+                showPdfModal: false,
                 showAmendmentProgInfoModal: false,
                 dateIsValid_delivery: true,
                 dateIsValid_exchange: true,
@@ -1475,9 +1448,10 @@
                     last_page: ''
                 },
                 minInputAmount: 1,
-
                 checkCostAgreementDateValid:false,
-                checkCostAgreementExDateValid:false
+                checkCostAgreementExDateValid:false,
+                reportPdfPath: '',
+                showLoaderProgress: false,
             }
         },
 
@@ -1522,7 +1496,8 @@
         },
 
         components:{
-            'vue-pagination' : VuePagination
+            'vue-pagination' : VuePagination,
+            VueElementLoading,
         },
 
         methods:{
@@ -1936,12 +1911,15 @@
             },
 
             deleteCostAgreement: function () {
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/budget/approved_plan/cost/delete', {
                     id: this.caIdForDelete,
                     pOrN: this.provOrNat,
                     searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
                     itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
-                }).then((response) => {
+                } , config).then((response) => {
                     if (this.provOrNat == 0 && response.status != 204) {
                         this.setData(0,response.data.data);
                         this.makePagination(response.data, "provincial");
@@ -1960,12 +1938,15 @@
             },
 
             acceptCostAmendment: function () {
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/budget/approved_plan/cost/amendment/accept' , {
                     caId: this.costAmendmentCreditSource.id,
                     parentId: this.caAmendmentInput.parentId,
                     searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
                     itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
-                }).then((response) => {
+                } , config).then((response) => {
                     if (this.provOrNat == 0)
                 {
                     this.setData(0,response.data.data);
@@ -2028,12 +2009,15 @@
                 this.caAmendmentInput.parentId = ca.id;
                 this.caAmendmentInput.pOrN = ca.caProvinceOrNational;
                 this.caAmendmentInput.description = ca.caDescription;
-                if (this.provOrNat == 0)
+                this.checkCostAgreementDateValid=false;
+                this.checkCostAgreementExDateValid= false;
+                this.showAmendmentModal=true;
+                /*if (this.provOrNat == 0)
                 {
                     this.showAmendmentModal=true;
                 }
                 else
-                    this.showNatAmendmentModal = true;
+                    this.showNatAmendmentModal = true;*/
 
             },
 
@@ -2076,9 +2060,9 @@
             createCaAmendmentTemp: function () {
                 var state=false;
                 this.$validator.validateAll().then((result) => {
-                    if(this.costAgreementInput.date == null)
+                    if(this.caAmendmentInput.date == null)
                         this.checkCostAgreementDateValid=true;
-                    if(this.costAgreementInput.exDate == null)
+                    if(this.caAmendmentInput.exDate == null)
                         this.checkCostAgreementExDateValid=true;
                     if(this.provOrNat == 0)
                         if(!this.checkCostAgreementDateValid && !this.checkCostAgreementExDateValid)
@@ -2117,9 +2101,12 @@
             },
 
             cancelCostAmendmentTemp: function () {
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/budget/approved_plan/cost/amendment/temp/cancel' , {
                     caId: this.costAmendmentCreditSource.id
-                }).then((response) => {
+                } , config).then((response) => {
                     this.showModalAmendmentCost = false;
                     this.$parent.displayNotif(200);
                     console.log(response);
@@ -2303,13 +2290,36 @@
             },
 
             openReportFile: function () {
-                axios.post('budget/approved_plan/cost/report' , {type: this.reportType ,options: this.reportOptions , selectedItems: this.selectedItems})
-                    .then((response) => {
-                        console.log(response.data);
-                        window.open(response.data);
-                    },(error) => {
-                        console.log(error);
-                    });
+                if (this.reportType == 'pdf')
+                {
+                    this.reportPdfPath = '';
+                    this.showModalReport = false;
+                    this.showLoaderProgress = true;
+                    this.showPdfModal = true;
+                    axios.post('budget/approved_plan/cost/report' , {type: this.reportType ,
+                            options: this.reportOptions ,
+                            selectedItems: this.selectedItems},
+                        {responseType: 'blob'})
+                        .then((response) => {
+                            var file = new Blob([response.data], {type: 'application/pdf'});
+                            var fileURL = window.URL.createObjectURL(file);
+                            this.reportPdfPath = fileURL;
+                            this.showLoaderProgress = false;
+                        },(error) => {
+                            this.showLoaderProgress = false;
+                            console.log(error);
+                        });
+                }else{
+                    axios.post('budget/approved_plan/cost/report' , {type: this.reportType ,
+                        options: this.reportOptions ,
+                        selectedItems: this.selectedItems})
+                        .then((response) => {
+                            window.open(response.data);
+                            this.showModalReport = false;
+                        },(error) => {
+                            console.log(error);
+                        });
+                }
             },
 
             showSelectColumn: function (cAp) {
