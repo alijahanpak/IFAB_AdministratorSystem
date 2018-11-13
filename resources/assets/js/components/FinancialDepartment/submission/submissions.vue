@@ -224,6 +224,7 @@
                                             </tr>
                                             </tbody>
                                         </table>
+                                        <p v-show="commodityNullAllert" class="error-font">هیچ کالای درخواستی ثبت نشده است!</p>
                                     </div>
                                     <!--Commodity End-->
 
@@ -1074,6 +1075,7 @@
                 selectedSubmisson:[],
                 selectedIndex:'',
                 btnState:true,
+                commodityNullAllert:false,
 
             }
         },
@@ -1234,6 +1236,7 @@
             -----------------------------------------------------------------------------*/
 
             openSubmissionsModal: function (st) {
+                this.commodityNullAllert=false;
                 this.submitBtnState=true;
                 this.requestInput={};
                 this.commodityList=[];
@@ -1265,6 +1268,7 @@
                 if(this.commodityRequest.length >= 0){
                     this.btnState=false;
                 }
+                this.commodityNullAllert=false;
 
             },
 
@@ -1279,9 +1283,8 @@
             createRequest: function () {
                 this.$validator.validateAll().then((result) => {
                     var state=true;
-                    if(this.requestTypeSend == 'BUY_COMMODITY' && this.commodityRequest.length < 1){
-                        this.dialogMessage = 'کالای درخواستی ثبت نشده است! ';
-                        this.showDialogModal = true;
+                    if(this.$validator.validateAll() && this.requestTypeSend == 'BUY_COMMODITY' && this.commodityRequest.length < 1){
+                        this.commodityNullAllert=true;
                         state=false;
                     }
                     if (state){
