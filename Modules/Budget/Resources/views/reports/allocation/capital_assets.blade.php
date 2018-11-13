@@ -46,7 +46,7 @@
              </table>
              @if ($options['withReporterName'])
              <div class="text-left">
-                 <p style="margin-top: 50px;margin-left: 50px;" class="BTitrBold x-small-font">علی جهان پاک</p>
+                 <p style="margin-top: 50px;margin-left: 50px;" class="BTitrBold x-small-font">{{ \Illuminate\Support\Facades\Auth::user()->name }}</p>
              </div>
              @endif
          </div>

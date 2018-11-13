@@ -102,7 +102,7 @@
                                 <!--Table Head End-->
                                 <!--Table Body Start-->
                                     <div class="tbl_body_style dynamic-height-level2">
-                                        <table class="tbl-body-contain">
+                                        <table class="tbl-body-contain unstriped">
                                             <colgroup>
                                                 <col width="250px"/>
                                                 <col width="100px"/>
@@ -113,8 +113,8 @@
                                                 <col v-show="selectColumn" width="15px"/>
                                             </colgroup>
                                             <tbody class="tbl-head-style-cell">
-                                            <template  v-for="plans in approvedProjects_prov">
-                                                <tr>
+                                            <template  v-for="(plans, index) in approvedProjects_prov">
+                                                <tr :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                     <td :rowspan="plans.capital_assets_project.length + (displayParentId_prov == plans.id ? 1 : 0)"> {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject + ' - ' + plans.credit_distribution_title.county.coName }}</td>
                                                     <td class="text-center">
                                                         {{ plans.capital_assets_project[0].cpCode }}
@@ -157,7 +157,7 @@
                                                         <input class="auto-margin" v-model="plans.capital_assets_project[0].checked" type="checkbox">
                                                     </td>
                                                 </tr>
-                                                <tr v-show="displayCreditSourceInfo_prov == plans.capital_assets_project[0].id">
+                                                <tr v-show="displayCreditSourceInfo_prov == plans.capital_assets_project[0].id" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                     <td colspan="6">
                                                         <table class="unstriped tbl-secondary-mrg small-font">
                                                             <thead class="my-thead">
@@ -201,7 +201,7 @@
                                                     </td>
                                                 </tr>
                                                 <template v-for="(project , pIndex) in plans.capital_assets_project">
-                                                    <tr v-if="pIndex > 0">
+                                                    <tr v-if="pIndex > 0" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                         <td class="text-center">
                                                             {{ project.cpCode }}
                                                         </td>
@@ -243,7 +243,7 @@
                                                             <input class="auto-margin" v-model="project.checked" type="checkbox">
                                                         </td>
                                                     </tr>
-                                                    <tr v-if="pIndex>0" v-show="displayCreditSourceInfo_prov == project.id">
+                                                    <tr v-if="pIndex>0" v-show="displayCreditSourceInfo_prov == project.id" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                         <td colspan="6">
                                                             <table class="unstriped tbl-secondary-mrg small-font">
                                                                 <thead class="my-thead">
@@ -377,7 +377,7 @@
                                 <!--Table Head End-->
                                 <!--Table Body Start-->
                                 <div class="tbl_body_style dynamic-height-level2">
-                                    <table class="tbl-body-contain">
+                                    <table class="tbl-body-contain unstriped">
                                         <colgroup>
                                             <col width="250px"/>
                                             <col width="100px"/>
@@ -388,8 +388,8 @@
                                             <col v-show="selectColumn" width="15px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
-                                        <template  v-for="plans in approvedProjects_nat">
-                                            <tr>
+                                        <template  v-for="(plans, index) in approvedProjects_nat">
+                                            <tr :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                 <td :rowspan="plans.capital_assets_project.length + (displayParentId_nat == plans.id ? 1 : 0)">  {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}</td>
                                                 <td class="text-center">
                                                     {{ plans.capital_assets_project[0].cpCode }}
@@ -432,7 +432,7 @@
                                                     <input class="auto-margin" v-model="plans.capital_assets_project[0].checked" type="checkbox">
                                                 </td>
                                             </tr>
-                                            <tr v-show="displayCreditSourceInfo_nat == plans.capital_assets_project[0].id">
+                                            <tr v-show="displayCreditSourceInfo_nat == plans.capital_assets_project[0].id" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                 <td colspan="6">
                                                     <table class="unstriped tbl-secondary-mrg small-font">
                                                         <thead class="my-thead">
@@ -476,7 +476,7 @@
                                                 </td>
                                             </tr>
                                             <template v-for="(project , pIndex) in plans.capital_assets_project">
-                                                <tr v-if="pIndex > 0">
+                                                <tr v-if="pIndex > 0" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                     <td class="text-center">
                                                         {{ project.cpCode }}
                                                     </td>
@@ -518,7 +518,7 @@
                                                         <input class="auto-margin" v-model="project.checked" type="checkbox">
                                                     </td>
                                                 </tr>
-                                                <tr v-if="pIndex > 0" v-show="displayCreditSourceInfo_nat == project.id">
+                                                <tr v-if="pIndex > 0" v-show="displayCreditSourceInfo_nat == project.id" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                     <td colspan="6">
                                                         <table class="unstriped tbl-secondary-mrg small-font">
                                                             <thead class="my-thead">

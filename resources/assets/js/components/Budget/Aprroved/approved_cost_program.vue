@@ -105,7 +105,7 @@
                                 <!--Table Head End-->
                                 <!--Table Body Start-->
                                 <div class="tbl_body_style dynamic-height-level2">
-                                    <table class="tbl-body-contain">
+                                    <table class="tbl-body-contain unstriped">
                                         <colgroup>
                                             <col width="150px"/>
                                             <col width="150px"/>
@@ -117,8 +117,8 @@
                                             <col v-show="selectColumn" width="15px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
-                                        <template  v-for="cAp in costAgreement_prov">
-                                            <tr>
+                                        <template  v-for="(cAp, index) in costAgreement_prov">
+                                            <tr :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                 <td class="text-center">{{ cAp.caLetterNumber }}</td>
                                                 <td class="text-center">{{ cAp.caLetterDate }}</td>
                                                 <td class="text-center">{{ cAp.caExchangeIdNumber }}</td>
@@ -159,7 +159,7 @@
                                                     <input class="auto-margin" v-model="cAp.checked" type="checkbox">
                                                 </td>
                                             </tr>
-                                            <tr v-show="displayCreditSourceInfo_prov == cAp.id">
+                                            <tr v-show="displayCreditSourceInfo_prov == cAp.id" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                 <td colspan="8">
                                                     <table class="unstriped tbl-secondary-mrg small-font">
                                                         <thead class="my-thead">
@@ -202,7 +202,7 @@
                                                     </table>
                                                 </td>
                                             </tr>
-                                            <tr v-if="cAp.amendments.length > 0" v-show="displayAmendmentInfo_prov == cAp.id">
+                                            <tr v-if="cAp.amendments.length > 0" v-show="displayAmendmentInfo_prov == cAp.id" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                 <td colspan="8">
                                                     <table class="unstriped tbl-secondary-mrg small-font">
                                                         <thead class="my-thead">
@@ -325,7 +325,7 @@
                                 <!--Table Head End-->
                                 <!--Table Body Start-->
                                 <div class="tbl_body_style dynamic-height-level2">
-                                    <table class="tbl-body-contain">
+                                    <table class="tbl-body-contain unstriped">
                                         <colgroup>
                                             <col width="150px"/>
                                             <col width="150px"/>
@@ -335,8 +335,8 @@
                                             <col v-show="selectColumn" width="15px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
-                                        <template  v-for="cAp in costAgreement_nat">
-                                            <tr>
+                                        <template  v-for="(cAp, index) in costAgreement_nat">
+                                            <tr :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                 <td class="text-center">{{ cAp.caLetterNumber }}</td>
                                                 <td class="text-center">{{ cAp.caLetterDate }}</td>
                                                 <td class="text-center">
@@ -375,7 +375,7 @@
                                                     <input class="auto-margin" v-model="cAp.checked" type="checkbox">
                                                 </td>
                                             </tr>
-                                            <tr v-show="displayCreditSourceInfo_nat == cAp.id">
+                                            <tr v-show="displayCreditSourceInfo_nat == cAp.id" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                 <td colspan="8">
                                                     <table class="unstriped tbl-secondary-mrg small-font">
                                                         <thead class="my-thead">
@@ -418,7 +418,7 @@
                                                     </table>
                                                 </td>
                                             </tr>
-                                            <tr v-if="cAp.amendments.length > 0" v-show="displayAmendmentInfo_nat == cAp.id">
+                                            <tr v-if="cAp.amendments.length > 0" v-show="displayAmendmentInfo_nat == cAp.id" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                 <td colspan="5">
                                                     <table class="unstriped tbl-secondary-mrg small-font">
                                                         <thead class="my-thead">
@@ -1389,6 +1389,18 @@
                 </div>
             </modal-tiny>
             <!--Report Modal End-->
+            <!-- report pdf modal -->
+            <modal-large v-show="showPdfModal" @close="showPdfModal =false">
+                <div  slot="body">
+                    <div class="grid-x">
+                        <div class="large-12 medium-12 small-12" style="width: 100%;height: 75vh">
+                            <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
+                            <iframe style="width: 100%;height: 100%;border: 0px" :src="reportPdfPath" />
+                        </div>
+                    </div>
+                </div>
+            </modal-large>
+            <!-- end report pdf modal -->
             <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
                 {{dialogMessage}}
             </messageDialog>
@@ -1398,6 +1410,7 @@
 
 <script>
     import VuePagination from '../../../public_component/pagination.vue';
+    import VueElementLoading from 'vue-element-loading';
     export default {
         data(){
             return {
@@ -1427,6 +1440,7 @@
                 showDeleteTempCreditSourceModal: false,
                 showACaCsEditModal: false,
                 showModalReport:false,
+                showPdfModal: false,
                 showAmendmentProgInfoModal: false,
                 dateIsValid_delivery: true,
                 dateIsValid_exchange: true,
@@ -1477,7 +1491,9 @@
                 minInputAmount: 1,
 
                 checkCostAgreementDateValid:false,
-                checkCostAgreementExDateValid:false
+                checkCostAgreementExDateValid:false,
+                reportPdfPath: '',
+                showLoaderProgress: false,
             }
         },
 
@@ -1522,7 +1538,8 @@
         },
 
         components:{
-            'vue-pagination' : VuePagination
+            'vue-pagination' : VuePagination,
+            VueElementLoading,
         },
 
         methods:{
@@ -2303,13 +2320,36 @@
             },
 
             openReportFile: function () {
-                axios.post('budget/approved_plan/cost/report' , {type: this.reportType ,options: this.reportOptions , selectedItems: this.selectedItems})
-                    .then((response) => {
-                        console.log(response.data);
-                        window.open(response.data);
-                    },(error) => {
-                        console.log(error);
-                    });
+                if (this.reportType == 'pdf')
+                {
+                    this.reportPdfPath = '';
+                    this.showModalReport = false;
+                    this.showLoaderProgress = true;
+                    this.showPdfModal = true;
+                    axios.post('budget/approved_plan/cost/report' , {type: this.reportType ,
+                            options: this.reportOptions ,
+                            selectedItems: this.selectedItems},
+                        {responseType: 'blob'})
+                        .then((response) => {
+                            var file = new Blob([response.data], {type: 'application/pdf'});
+                            var fileURL = window.URL.createObjectURL(file);
+                            this.reportPdfPath = fileURL;
+                            this.showLoaderProgress = false;
+                        },(error) => {
+                            this.showLoaderProgress = false;
+                            console.log(error);
+                        });
+                }else{
+                    axios.post('budget/approved_plan/cost/report' , {type: this.reportType ,
+                        options: this.reportOptions ,
+                        selectedItems: this.selectedItems})
+                        .then((response) => {
+                            window.open(response.data);
+                            this.showModalReport = false;
+                        },(error) => {
+                            console.log(error);
+                        });
+                }
             },
 
             showSelectColumn: function (cAp) {

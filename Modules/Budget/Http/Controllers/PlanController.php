@@ -119,9 +119,11 @@ class PlanController extends Controller
         $result = DB::transaction(function () use($request) {
             if ((CapitalAssetsApprovedPlan::where('id', '<>', $request->id)
                     ->Where('capCdtId', '=', $request->cdtId)
+                    ->Where('capActive', '=', true)
                     ->where('capProvinceOrNational', '=', $request->pOrN)->exists()) ||
                 (CapitalAssetsApprovedPlan::where('id', '<>', $request->id)
                     ->where('capProvinceOrNational', '=', $request->pOrN)
+                    ->Where('capActive', '=', true)
                     ->where('capLetterNumber', '=', $request->idNumber)->exists())) {
                 return \response()->json([], 409);
             } else {
@@ -531,6 +533,7 @@ class PlanController extends Controller
         $result = DB::transaction(function () use($request) {
             if (CostAgreement::where('id', '<>', $request->id)
                 ->where('caProvinceOrNational', '=', $request->pOrN)
+                ->where('caActive', '=', true)
                 ->where('caLetterNumber', '=', $request->idNumber)->exists()) {
                 return \response()->json([], 409);
             } else {

@@ -101,7 +101,7 @@
                                 <!--Table Head End-->
                                 <!--Table Body Start-->
                                 <div class="tbl_body_style dynamic-height-level2">
-                                    <table class="tbl-body-contain">
+                                    <table class="tbl-body-contain unstriped">
                                         <colgroup>
                                             <col width="150px"/>
                                             <col width="150px"/>
@@ -113,8 +113,8 @@
                                             <col v-show="selectColumn" width="15px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
-                                        <template v-for="progs in provCostAllocations">
-                                            <tr class="tbl-head-style-cell" >
+                                        <template v-for="(progs, index) in provCostAllocations">
+                                            <tr class="tbl-head-style-cell" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                 <td class="text-center" :rowspan="getProjectAllocCount(progs.ca_credit_source_has_allocation)">{{ progs.caLetterNumber }}
                                                     <div v-show="!progs.caActive" class="text-center" style="margin-top: 5px">
                                                         <span class="new-badage">غیر فعال</span>
@@ -148,7 +148,7 @@
                                                 </td>
                                             </tr>
                                             <template v-for="(credit_source , csIndex) in progs.ca_credit_source_has_allocation">
-                                                <tr class="tbl-head-style-cell" v-if="csIndex > 0">
+                                                <tr class="tbl-head-style-cell" v-if="csIndex > 0" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                     <td :rowspan="credit_source.allocation.length">{{ credit_source.credit_distribution_title.cdtIdNumber + ' - ' + credit_source.credit_distribution_title.cdtSubject }}</td>
                                                     <td :rowspan="credit_source.allocation.length" class="text-center">{{ $parent.calcDispAmount(getCsAllocationSum(credit_source.allocation) , false) }}</td>
                                                     <td class="text-center" :rowspan="credit_source.allocation.length">{{ credit_source.credit_distribution_row.cdSubject }}</td>
@@ -176,7 +176,7 @@
                                                     </td>
                                                 </tr>
                                                 <template v-for="(alloc , allocIndex) in credit_source.allocation">
-                                                    <tr class="tbl-head-style-cell" v-if="allocIndex > 0">
+                                                    <tr class="tbl-head-style-cell" v-if="allocIndex > 0" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                         <td class="text-center" v-if="alloc.caFoundId == null">{{ alloc.caLetterNumber }}</td>
                                                         <td class="text-center" v-if="alloc.caFoundId != null"><i class="fa fa-exchange btn-red has-tip top" data-tooltip aria-haspopup="true" data-disable-hover="false" title="تبدیل شده از تنخواه"></i></td>
                                                         <td class="text-center">{{ alloc.caLetterDate }}</td>
@@ -296,7 +296,7 @@
                                 <!--Table Head End-->
                                 <!--Table Body Start-->
                                 <div class="tbl_body_style dynamic-height-level2">
-                                    <table class="tbl-body-contain">
+                                    <table class="tbl-body-contain unstriped">
                                         <colgroup>
                                             <col width="150px"/>
                                             <col width="150px"/>
@@ -308,8 +308,8 @@
                                             <col v-show="selectColumn" width="15px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
-                                        <template v-for="progs in natCostAllocations">
-                                            <tr class="tbl-head-style-cell" >
+                                        <template v-for="(progs , index) in natCostAllocations">
+                                            <tr class="tbl-head-style-cell" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                 <td :rowspan="getProjectAllocCount(progs.ca_credit_source_has_allocation)" class="text-center">{{ progs.caLetterNumber }}</td>
                                                 <td :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length">{{ progs.ca_credit_source_has_allocation[0].credit_distribution_title.cdtIdNumber + ' - ' + progs.ca_credit_source_has_allocation[0].credit_distribution_title.cdtSubject }}</td>
                                                 <td :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length" class="text-center">{{ $parent.calcDispAmount(getProgAllocationSum(progs.ca_credit_source_has_allocation[0].allocation) , false) }}</td>
@@ -337,7 +337,7 @@
                                                 </td>
                                             </tr>
                                             <template v-for="(credit_source , csIndex) in progs.ca_credit_source_has_allocation">
-                                                <tr class="tbl-head-style-cell" v-if="csIndex > 0">
+                                                <tr class="tbl-head-style-cell" v-if="csIndex > 0" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                     <td :rowspan="credit_source.allocation.length">{{ credit_source.credit_distribution_title.cdtIdNumber + ' - ' + credit_source.credit_distribution_title.cdtSubject }}</td>
                                                     <td :rowspan="credit_source.allocation.length" class="text-center">{{ $parent.calcDispAmount(getCsAllocationSum(credit_source.allocation) , false) }}</td>
                                                     <td :rowspan="credit_source.allocation.length" class="text-center">{{ credit_source.credit_distribution_row.cdSubject }}</td>
@@ -364,7 +364,7 @@
                                                     </td>
                                                 </tr>
                                                 <template v-for="(alloc , allocIndex) in credit_source.allocation">
-                                                    <tr class="tbl-head-style-cell" v-if="allocIndex > 0">
+                                                    <tr class="tbl-head-style-cell" v-if="allocIndex > 0" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                         <td class="text-center">{{ alloc.caLetterNumber }}</td>
                                                         <td class="text-center">{{ alloc.caLetterDate }}</td>
                                                         <td class="text-center">
@@ -1069,6 +1069,18 @@
                     </div>
                 </modal-tiny>
                 <!--Report Found Modal End-->
+                <!-- report pdf modal -->
+                <modal-large v-show="showPdfModal" @close="showPdfModal =false">
+                    <div  slot="body">
+                        <div class="grid-x">
+                            <div class="large-12 medium-12 small-12" style="width: 100%;height: 75vh">
+                                <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
+                                <iframe style="width: 100%;height: 100%;border: 0px" :src="reportPdfPath" />
+                            </div>
+                        </div>
+                    </div>
+                </modal-large>
+                <!-- end report pdf modal -->
                 <!--Forms End-->
                 <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
                     {{dialogMessage}}
@@ -1079,6 +1091,7 @@
 </template>
 <script>
     import VuePagination from '../../../public_component/pagination.vue';
+    import VueElementLoading from 'vue-element-loading';
     export default {
         data(){
             return {
@@ -1102,6 +1115,7 @@
                 showUpdateModal: false,
                 showDeleteModal: false,
                 showModalReport:false,
+                showPdfModal: false,
                 selectColumn:false,
                 showInsertFoundModal: false,
                 showUpdateFoundModal: false,
@@ -1142,6 +1156,8 @@
                 },
                 sumOfSelectedAmount: 0,
                 overflowError: false,
+                reportPdfPath: '',
+                showLoaderProgress: false,
             }
         },
 
@@ -1170,6 +1186,7 @@
 
         components:{
             'vue-pagination' : VuePagination,
+            VueElementLoading,
         },
 
         methods:{
@@ -1751,13 +1768,38 @@
             },
 
             openReportFile: function () {
-                axios.post('/budget/allocation/cost/report' , {pOrN: this.provOrNat , type: this.reportType ,options: this.reportOptions , selectedItems: this.selectedItems})
-                    .then((response) => {
-                        console.log(response.data);
-                        window.open(response.data);
-                    },(error) => {
-                        console.log(error);
-                    });
+                if (this.reportType == 'pdf')
+                {
+                    this.reportPdfPath = '';
+                    this.showModalReport = false;
+                    this.showLoaderProgress = true;
+                    this.showPdfModal = true;
+                    axios.post('budget/allocation/cost/report' , {pOrN: this.provOrNat ,
+                            type: this.reportType ,
+                            options: this.reportOptions ,
+                            selectedItems: this.selectedItems},
+                        {responseType: 'blob'})
+                        .then((response) => {
+                            var file = new Blob([response.data], {type: 'application/pdf'});
+                            var fileURL = window.URL.createObjectURL(file);
+                            this.reportPdfPath = fileURL;
+                            this.showLoaderProgress = false;
+                        },(error) => {
+                            this.showLoaderProgress = false;
+                            console.log(error);
+                        });
+                }else{
+                    axios.post('budget/allocation/cost/report' , {pOrN: this.provOrNat ,
+                        type: this.reportType ,
+                        options: this.reportOptions ,
+                        selectedItems: this.selectedItems})
+                        .then((response) => {
+                            window.open(response.data);
+                            this.showModalReport = false;
+                        },(error) => {
+                            console.log(error);
+                        });
+                }
             },
 
             showSelectColumn: function (progs) {
@@ -1856,13 +1898,36 @@
             },
 
             foundOpenReportFile: function () {
-                axios.post('budget/allocation/cost/found/report' , {type: this.reportType ,options: this.reportOptions , selectedItems: this.selectedItems})
-                    .then((response) => {
-                        console.log(response.data);
-                        window.open(response.data);
-                    },(error) => {
-                        console.log(error);
-                    });
+                if (this.reportType == 'pdf')
+                {
+                    this.reportPdfPath = '';
+                    this.showModalReportFound = false;
+                    this.showLoaderProgress = true;
+                    this.showPdfModal = true;
+                    axios.post('budget/allocation/cost/found/report' , {type: this.reportType ,
+                            options: this.reportOptions ,
+                            selectedItems: this.selectedItems},
+                        {responseType: 'blob'})
+                        .then((response) => {
+                            var file = new Blob([response.data], {type: 'application/pdf'});
+                            var fileURL = window.URL.createObjectURL(file);
+                            this.reportPdfPath = fileURL;
+                            this.showLoaderProgress = false;
+                        },(error) => {
+                            this.showLoaderProgress = false;
+                            console.log(error);
+                        });
+                }else{
+                    axios.post('budget/allocation/cost/found/report' , {type: this.reportType ,
+                        options: this.reportOptions ,
+                        selectedItems: this.selectedItems})
+                        .then((response) => {
+                            window.open(response.data);
+                            this.showModalReport = false;
+                        },(error) => {
+                            console.log(error);
+                        });
+                }
             },
 
             foundShowSelectColumn: function (found) {

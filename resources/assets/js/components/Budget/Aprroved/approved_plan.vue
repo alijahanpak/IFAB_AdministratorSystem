@@ -102,7 +102,7 @@
                                 <!--Table Head End-->
                                 <!--Table Body Start-->
                                 <div class="tbl_body_style dynamic-height-level2">
-                                    <table class="tbl-body-contain">
+                                    <table class="tbl-body-contain unstriped">
                                         <colgroup>
                                             <col width="250px"/>
                                             <col width="150px"/>
@@ -113,8 +113,8 @@
                                             <col v-show="selectColumn" width="15px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
-                                            <template v-for="plans in approvedPlan_prov">
-                                                <tr>
+                                            <template v-for="(plans, index) in approvedPlan_prov">
+                                                <tr :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                     <td> {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}</td>
                                                     <td  class="text-center">
                                                         <div>{{ plans.capExchangeIdNumber }}</div>
@@ -151,7 +151,7 @@
                                                         <input class="auto-margin" v-model="plans.checked" type="checkbox">
                                                     </td>
                                                 </tr>
-                                                <tr v-if="plans.amendments.length > 0" v-show="displayAmendmentInfo_prov == plans.id">
+                                                <tr v-if="plans.amendments.length > 0" v-show="displayAmendmentInfo_prov == plans.id" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                     <td colspan="6">
                                                         <table class="unstriped tbl-secondary-mrg small-font">
                                                             <thead class="my-thead">
@@ -282,7 +282,7 @@
                                 <!--Table Head End-->
                                 <!--Table Body Start-->
                                 <div class="tbl_body_style dynamic-height-level2">
-                                    <table class="tbl-body-contain">
+                                    <table class="tbl-body-contain unstriped">
                                         <colgroup>
                                             <col width="300px"/>
                                             <col width="150px"/>
@@ -292,8 +292,8 @@
                                             <col v-show="selectColumn" width="15px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
-                                        <template v-for="plans in approvedPlan_nat">
-                                            <tr>
+                                        <template v-for="(plans,index) in approvedPlan_nat">
+                                            <tr :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                 <td> {{ plans.credit_distribution_title.cdtIdNumber + ' - ' + plans.credit_distribution_title.cdtSubject }}</td>
                                                 <td class="text-center">
                                                     <div>{{ plans.capExchangeIdNumber }}</div>
@@ -327,7 +327,7 @@
                                                     <input class="auto-margin" v-model="plans.checked" type="checkbox">
                                                 </td>
                                             </tr>
-                                            <tr v-if="plans.amendments.length > 0" v-show="displayAmendmentInfo_nat == plans.id">
+                                            <tr v-if="plans.amendments.length > 0" v-show="displayAmendmentInfo_nat == plans.id" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                 <td colspan="5">
                                                     <table class="unstriped tbl-secondary-mrg small-font">
                                                         <thead class="my-thead">
@@ -1373,6 +1373,18 @@
                 </div>
             </modal-large>
             <!--amendment plan info-->
+            <!-- report pdf modal -->
+            <modal-large v-show="showPdfModal" @close="showPdfModal =false">
+                <div  slot="body">
+                    <div class="grid-x">
+                        <div class="large-12 medium-12 small-12" style="width: 100%;height: 75vh">
+                            <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
+                            <iframe style="width: 100%;height: 100%;border: 0px" :src="reportPdfPath" />
+                        </div>
+                    </div>
+                </div>
+            </modal-large>
+            <!-- end report pdf modal -->
             <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
                 {{dialogMessage}}
             </messageDialog>
@@ -1410,6 +1422,7 @@
                 showApCreditInsertModal:false,
                 showApCreditEditModal:false,
                 showModalReport:false,
+                showPdfModal: false,
                 showDeleteTempProjectModal: false,
                 showDeleteTempCreditSourceModal: false,
                 showAmendmentPlanInfoModal: false,
@@ -1463,6 +1476,8 @@
                 minInputAmount: 1,
                 dialogMessage:'',
                 showDialogModal: false,
+                reportPdfPath: '',
+                showLoaderProgress: false,
             }
         },
 
@@ -1928,13 +1943,38 @@
             },
 
             openReportFile: function () {
-                axios.post('/budget/approved_plan/capital_assets/report' , {pOrN: this.provOrNat , type: this.reportType ,options: this.reportOptions , selectedItems: this.selectedItems})
-                .then((response) => {
-                    console.log(response.data);
-                    window.open(response.data);
-                },(error) => {
-                    console.log(error);
-                });
+                if (this.reportType == 'pdf')
+                {
+                    this.reportPdfPath = '';
+                    this.showModalReport = false;
+                    this.showLoaderProgress = true;
+                    this.showPdfModal = true;
+                    axios.post('/budget/approved_plan/capital_assets/report' , {pOrN: this.provOrNat ,
+                            type: this.reportType ,
+                            options: this.reportOptions ,
+                            selectedItems: this.selectedItems},
+                        {responseType: 'blob'})
+                        .then((response) => {
+                            var file = new Blob([response.data], {type: 'application/pdf'});
+                            var fileURL = window.URL.createObjectURL(file);
+                            this.reportPdfPath = fileURL;
+                            this.showLoaderProgress = false;
+                        },(error) => {
+                            this.showLoaderProgress = false;
+                            console.log(error);
+                        });
+                }else{
+                    axios.post('/budget/approved_plan/capital_assets/report' , {pOrN: this.provOrNat ,
+                        type: this.reportType ,
+                        options: this.reportOptions ,
+                        selectedItems: this.selectedItems})
+                        .then((response) => {
+                            window.open(response.data);
+                            this.showModalReport = false;
+                        },(error) => {
+                            console.log(error);
+                        });
+                }
             },
 
             toggleSelect: function(plans) {
