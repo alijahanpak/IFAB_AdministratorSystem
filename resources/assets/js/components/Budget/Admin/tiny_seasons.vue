@@ -350,7 +350,8 @@
                                 </div>
                             </div>
                             <div class="medium-6 columns padding-lr padding-bottom-modal">
-                                <button type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                                <button v-show="!$root.btnLoadingCheckStatus" type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </form>
                     </div>
@@ -397,7 +398,8 @@
                                 </div>
                             </div>
                             <div class="medium-6 columns padding-lr padding-bottom-modal">
-                                <button type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                                <button v-show="!$root.btnLoadingCheckStatus" type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </form>
                     </div>
@@ -410,7 +412,8 @@
                             <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
                             <div class="grid-x">
                                 <div class="medium-12 column text-center">
-                                    <button v-on:click="deleteTinySeason" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                                    <button  v-show="!$root.btnLoadingCheckStatus" v-on:click="deleteTinySeason" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                                    <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                                 </div>
                             </div>
                         </div>
@@ -607,13 +610,16 @@
             createTinySeason: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post(this.planOrCost == 0 ? '/budget/admin/sub_seasons/capital_assets/register' : '/budget/admin/sub_seasons/cost/register' , {
                             stId: this.tinySeasonsInput.tsStId ,
                             subject: this.tinySeasonsInput.tsSubject ,
                             description: this.tinySeasonsInput.tsDescription,
                             searchValue: this.planOrCost == 0 ? this.planSearchValue : this.costSearchValue,
                             itemInPage: this.planOrCost == 0 ? this.itemInPage : this.costItemInPage
-                        }).then((response) => {
+                        } , config).then((response) => {
                                 if(this.planOrCost == 1)
                                 {
                                     this.tinySeasonsCost = response.data.data;
@@ -660,6 +666,9 @@
             updateTinySeason: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post(this.planOrCost == 0 ? '/budget/admin/sub_seasons/capital_assets/update' : '/budget/admin/sub_seasons/cost/update' , {
                             id: this.tinySeasonsFill.id,
                             stId: this.tinySeasonsFill.tsStId ,
@@ -667,7 +676,7 @@
                             description: this.tinySeasonsFill.tsDescription,
                             searchValue: this.planOrCost == 0 ? this.planSearchValue : this.costSearchValue,
                             itemInPage: this.planOrCost == 0 ? this.itemInPage : this.costItemInPage
-                        }).then((response) => {
+                        } , config).then((response) => {
                             if(this.planOrCost == 1)
                                 {
                                     this.tinySeasonsCost = response.data.data;
@@ -696,11 +705,14 @@
             },
 
             deleteTinySeason: function () {
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post(this.planOrCost == 0 ? '/budget/admin/sub_seasons/capital_assets/delete' : '/budget/admin/sub_seasons/cost/delete' , {
                     id: this.tsIdDelete,
                     searchValue: this.planOrCost == 0 ? this.planSearchValue : this.costSearchValue,
                     itemInPage: this.planOrCost == 0 ? this.itemInPage : this.costItemInPage
-                }).then((response) => {
+                } , config).then((response) => {
                         if (response.status != 204) //http status code for error in delete (no content)
                         {
                             if(this.planOrCost == 1)

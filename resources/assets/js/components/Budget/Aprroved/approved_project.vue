@@ -662,7 +662,8 @@
                                 </div>
                             </div>
                             <div class="medium-6 columns padding-lr padding-bottom-modal">
-                                <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <button v-show="!$root.btnLoadingCheckStatus" name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </form>
                     </div>
@@ -744,7 +745,8 @@
                             </div>
                         </div>
                         <div class="medium-6 columns padding-lr padding-bottom-modal">
-                            <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </form>
                 </div>
@@ -759,7 +761,8 @@
                         <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
                         <div class="grid-x">
                             <div class="medium-12 column text-center">
-                                <button v-on:click="deleteApprovedProject" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                                <button v-show="!$root.btnLoadingCheckStatus" v-on:click="deleteApprovedProject" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </div>
                     </div>
@@ -1327,6 +1330,9 @@
             createApprovedProjects: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post('/budget/approved_project/capital_assets/register' , {
                             pId: this.approvedProjectsInput.apPlan.id,
                             subject: this.approvedProjectsInput.apProjectTitle,
@@ -1339,7 +1345,7 @@
                             pOrN: this.provOrNat,
                             searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
                             itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
-                        }).then((response) => {
+                        } , config).then((response) => {
                                 if (this.provOrNat == 0)
                                 {
                                     this.setData(0 , response.data.data);
@@ -1520,6 +1526,9 @@
             updateApprovedProjects: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post('/budget/approved_project/capital_assets/update' , {
                             id: this.approvedProjectsFill.id,
                             pId: this.approvedProjectsFill.apPlan.id,
@@ -1533,7 +1542,7 @@
                             pOrN: this.provOrNat,
                             searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
                             itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
-                        }).then((response) => {
+                        } , config).then((response) => {
                             if (this.provOrNat == 0)
                             {
                                 this.setData(0 , response.data.data);
@@ -1568,12 +1577,15 @@
             },
 
             deleteApprovedProject: function () {
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/budget/approved_project/capital_assets/delete' , {
                     id: this.apIdForDelete,
                     pOrN: this.provOrNat,
                     searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
                     itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
-                }).then((response) => {
+                } , config).then((response) => {
                     if (response.status != 204)
                     {
                         if (this.provOrNat == 0)

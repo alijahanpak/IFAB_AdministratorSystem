@@ -295,7 +295,8 @@
                                 </div>
                             </div>
                             <div class="medium-6 columns padding-lr padding-bottom-modal">
-                                <button type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                                <button v-show="!$root.btnLoadingCheckStatus" type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </form>
                     </div>
@@ -334,7 +335,8 @@
                                 </div>
                             </div>
                             <div class="medium-6 columns padding-lr padding-bottom-modal">
-                                <button type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                                <button v-show="!$root.btnLoadingCheckStatus" type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </form>
                     </div>
@@ -347,7 +349,8 @@
                             <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
                             <div class="grid-x">
                                 <div class="medium-12 column text-center">
-                                    <button v-on:click="deleteSeasonTitle" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                                    <button v-show="!$root.btnLoadingCheckStatus" v-on:click="deleteSeasonTitle" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                                    <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                                 </div>
                             </div>
                         </div>
@@ -511,13 +514,16 @@
             createSeasonTitle: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post(this.planOrCost == 0 ? '/budget/admin/season_title/capital_assets/register' : '/budget/admin/season_title/cost/register' , {
                             sId: this.seasonTitleInput.stSeason,
                             subject: this.seasonTitleInput.stSubject,
                             description: this.seasonTitleInput.stDescription,
                             searchValue: this.planOrCost == 0 ? this.planSearchValue : this.costSearchValue,
                             itemInPage: this.planOrCost == 0 ? this.itemInPage : this.costItemInPage
-                        }).then((response) => {
+                        } , config).then((response) => {
                                 if (this.planOrCost == 1)
                                 {
                                     this.seasonTitleCosts = response.data.data;
@@ -560,6 +566,9 @@
             updateSeasonTitle: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post(this.planOrCost == 0 ? '/budget/admin/season_title/capital_assets/update' : '/budget/admin/season_title/cost/update' , {
                             id: this.seasonTitleFill.id,
                             sId: this.seasonTitleFill.stSId,
@@ -567,7 +576,7 @@
                             description: this.seasonTitleFill.stDescription,
                             searchValue: this.planOrCost == 0 ? this.planSearchValue : this.costSearchValue,
                             itemInPage: this.planOrCost == 0 ? this.itemInPage : this.costItemInPage
-                        }).then((response) => {
+                        } , config).then((response) => {
                             if (this.planOrCost == 1)
                             {
                                 this.seasonTitleCosts = response.data.data;
@@ -596,11 +605,14 @@
             },
 
             deleteSeasonTitle: function () {
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post(this.planOrCost == 0 ? '/budget/admin/season_title/capital_assets/delete' : '/budget/admin/season_title/cost/delete', {
                     id: this.stIdDelete,
                     searchValue: this.planOrCost == 0 ? this.planSearchValue : this.costSearchValue,
                     itemInPage: this.planOrCost == 0 ? this.itemInPage : this.costItemInPage
-                }).then((response) => {
+                } , config).then((response) => {
                         if (response.status != 204) //http status code for error in delete (no content)
                         {
                             if (this.planOrCost == 1)

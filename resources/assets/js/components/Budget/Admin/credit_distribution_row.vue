@@ -173,7 +173,8 @@
                                 </div>
                             </div>
                             <div class="medium-6 columns padding-lr padding-bottom-modal">
-                                <button type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">ثبت</span></button>
+                                <button v-show="!$root.btnLoadingCheckStatus" type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">ثبت</span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </form>
                     </div>
@@ -206,7 +207,8 @@
                                 </div>
                             </div>
                             <div class="medium-6 columns padding-lr padding-bottom-modal">
-                                <button type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">ثبت</span></button>
+                                <button v-show="!$root.btnLoadingCheckStatus" type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">ثبت</span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </form>
                     </div>
@@ -220,7 +222,8 @@
                             <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
                             <div class="grid-x">
                                 <div class="medium-12 column text-center">
-                                    <button v-on:click="deleteCreditDistributionRow" class="my-button my-success"><span class="btn-txt-mrg">بله</span></button>
+                                    <button v-show="!$root.btnLoadingCheckStatus" v-on:click="deleteCreditDistributionRow" class="my-button my-success"><span class="btn-txt-mrg">بله</span></button>
+                                    <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                                 </div>
                             </div>
                         </div>
@@ -297,11 +300,14 @@
             createRowDistributionCredit: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post('/budget/admin/credit_distribution_def/rows/register', {
                             subject: this.rowDistributionCreditInput.rdcSubject,
                             description: this.rowDistributionCreditInput.rdcDescription,
                             planOrCost: this.planOrCostRequestType
-                        })
+                        } , config)
                             .then((response) => {
                                 if (this.planOrCostRequestType == 0) {
                                     this.rowDistributionCredit = response.data;
@@ -334,12 +340,15 @@
             updateCreditDistributionRow: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post('/budget/admin/credit_distribution_def/rows/update', {
                             id: this.rowDistributionCreditFill.id,
                             subject: this.rowDistributionCreditFill.rdcSubject,
                             description: this.rowDistributionCreditFill.rdcDescription,
                             planOrCost: this.planOrCostRequestType
-                        })
+                        } , config)
                             .then((response) => {
                                 if (this.planOrCostRequestType == 0) {
                                     this.rowDistributionCredit = response.data;
@@ -372,10 +381,13 @@
             },
 
             deleteCreditDistributionRow: function () {
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/budget/admin/credit_distribution_def/rows/delete' , {
                         crId: this.rdcIdDelete,
                         planOrCost: this.planOrCostRequestType
-                    })
+                    } , config)
                     .then((response) => {
                         if (this.planOrCostRequestType == 0 && response.status != 204) {
                             this.rowDistributionCredit = response.data;

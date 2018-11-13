@@ -596,7 +596,8 @@
                         <p class="large-offset-1 modal-text">آیا برای حذف این رکورد اطمینان دارید؟</p>
                         <div class="grid-x">
                             <div class="medium-12 column text-center">
-                                <button v-on:click="deleteCostAgreement" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                                <button v-show="!$root.btnLoadingCheckStatus" v-on:click="deleteCostAgreement" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </div>
                     </div>
@@ -807,7 +808,7 @@
                                 <label>تاریخ ابلاغ
                                     <!--<date-picker v-on:closed="checkValidDate('delivery_amendment' , caAmendmentInput)" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery_amendment"-->
                                     <date-picker
-                                            :color="checkCostAgreementExDateValid ? '#d9534f' : '#5c6bc0'"
+                                            :color="checkCostAgreementDateValid ? '#d9534f' : '#5c6bc0'"
                                             v-model="caAmendmentInput.date"
                                             input-class="form-control form-control-lg date-picker-bottom-margin"
                                             name="caAmendmentInputDate"
@@ -822,7 +823,7 @@
                                 </label>
                                 <span v-show="errors.has('caExLetterNumber')" class="error-font">شماره مبادله فراموش شده است!</span>
                             </div>
-                            <div class="medium-6 padding-lr">
+                            <div class="medium-6 padding-lr"  v-if="provOrNat == 0">
                                 <label>تاریخ مبادله
                                     <!--<date-picker v-on:closed="checkValidDate('exchange_amendment' , caAmendmentInput)" errMessage="تاریخ مبادله فراموش شده است!" :isValid="dateIsValid_exchange_amendment"-->
                                     <date-picker
@@ -833,49 +834,6 @@
                                             placeholder="انتخاب تاریخ">
                                     </date-picker>
                                     <p style="margin-top:3px !important;" v-show="checkCostAgreementExDateValid" class="error-font">لطفا تاریخ مبادله مورد نظر را انتخاب نمایید!</p>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="grid-x">
-                            <div class="small-12 columns padding-lr">
-                                <label>شرح
-                                    <textarea name="apDescription" v-model="caAmendmentInput.description" style="min-height: 150px;"></textarea>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="medium-6 columns padding-lr padding-bottom-modal">
-                            <div class="button-group float-left report-mrg">
-                                <button v-show="!$root.btnLoadingCheckStatus" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">تایید</span></button>
-                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </modal-small>
-            <!--Amendment Modal End-->
-
-            <!--Amendment Modal Start-->
-            <modal-small v-if="showNatAmendmentModal" @close="showNatAmendmentModal= false">
-                <div slot="body">
-                    <form v-on:submit.prevent="createCaAmendmentTemp">
-                        <div class="grid-x">
-                            <div class="medium-6 columns padding-lr">
-                                <label>شماره ابلاغ
-                                    <input class="form-element-margin-btm" v-model="caAmendmentInput.idNumber" type="text" name="caLetterNumber" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('caLetterNumber')}">
-                                </label>
-                                <span v-show="errors.has('caLetterNumber')" class="error-font">شماره فراموش شده است!</span>
-                            </div>
-                            <div class="medium-6 padding-lr">
-                                <label>تاریخ مبادله
-                                    <!--<date-picker v-on:closed="checkValidDate('delivery_amendment' , caAmendmentInput)" errMessage="تاریخ ابلاغ فراموش شده است!" :isValid="dateIsValid_delivery_amendment"-->
-                                    <date-picker
-                                            :color="'#5c6bc0'"
-                                            v-model="caAmendmentInput.date"
-                                            input-class="form-control form-control-lg date-picker-bottom-margin"
-                                            name="caAmendmentInputDate2"
-                                            placeholder="انتخاب تاریخ">
-                                    </date-picker>
-
                                 </label>
                             </div>
                         </div>
@@ -1007,8 +965,9 @@
                     <div class="grid-x">
                         <div class="medium-12 columns">
                             <div class="button-group float-left report-mrg">
-                                <a class="my-button my-danger float-left btn-for-load" @click="cancelCostAmendmentTemp"> <span class="btn-txt-mrg">لغو</span></a>
-                                <a class="my-button my-success float-left btn-for-load" @click="acceptCostAmendment"> <span class="btn-txt-mrg">تایید</span></a>
+                                <a  v-show="!$root.btnLoadingCheckStatus" class="my-button my-danger float-left btn-for-load" @click="cancelCostAmendmentTemp"> <span class="btn-txt-mrg">لغو</span></a>
+                                <a  v-show="!$root.btnLoadingCheckStatus" class="my-button my-success float-left btn-for-load" @click="acceptCostAmendment"> <span class="btn-txt-mrg">تایید</span></a>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </div>
                     </div>
@@ -1489,7 +1448,6 @@
                     last_page: ''
                 },
                 minInputAmount: 1,
-
                 checkCostAgreementDateValid:false,
                 checkCostAgreementExDateValid:false,
                 reportPdfPath: '',
@@ -1953,12 +1911,15 @@
             },
 
             deleteCostAgreement: function () {
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/budget/approved_plan/cost/delete', {
                     id: this.caIdForDelete,
                     pOrN: this.provOrNat,
                     searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
                     itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
-                }).then((response) => {
+                } , config).then((response) => {
                     if (this.provOrNat == 0 && response.status != 204) {
                         this.setData(0,response.data.data);
                         this.makePagination(response.data, "provincial");
@@ -1977,12 +1938,15 @@
             },
 
             acceptCostAmendment: function () {
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/budget/approved_plan/cost/amendment/accept' , {
                     caId: this.costAmendmentCreditSource.id,
                     parentId: this.caAmendmentInput.parentId,
                     searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
                     itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
-                }).then((response) => {
+                } , config).then((response) => {
                     if (this.provOrNat == 0)
                 {
                     this.setData(0,response.data.data);
@@ -2045,12 +2009,15 @@
                 this.caAmendmentInput.parentId = ca.id;
                 this.caAmendmentInput.pOrN = ca.caProvinceOrNational;
                 this.caAmendmentInput.description = ca.caDescription;
-                if (this.provOrNat == 0)
+                this.checkCostAgreementDateValid=false;
+                this.checkCostAgreementExDateValid= false;
+                this.showAmendmentModal=true;
+                /*if (this.provOrNat == 0)
                 {
                     this.showAmendmentModal=true;
                 }
                 else
-                    this.showNatAmendmentModal = true;
+                    this.showNatAmendmentModal = true;*/
 
             },
 
@@ -2093,9 +2060,9 @@
             createCaAmendmentTemp: function () {
                 var state=false;
                 this.$validator.validateAll().then((result) => {
-                    if(this.costAgreementInput.date == null)
+                    if(this.caAmendmentInput.date == null)
                         this.checkCostAgreementDateValid=true;
-                    if(this.costAgreementInput.exDate == null)
+                    if(this.caAmendmentInput.exDate == null)
                         this.checkCostAgreementExDateValid=true;
                     if(this.provOrNat == 0)
                         if(!this.checkCostAgreementDateValid && !this.checkCostAgreementExDateValid)
@@ -2134,9 +2101,12 @@
             },
 
             cancelCostAmendmentTemp: function () {
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/budget/approved_plan/cost/amendment/temp/cancel' , {
                     caId: this.costAmendmentCreditSource.id
-                }).then((response) => {
+                } , config).then((response) => {
                     this.showModalAmendmentCost = false;
                     this.$parent.displayNotif(200);
                     console.log(response);
