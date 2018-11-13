@@ -574,12 +574,13 @@
                                 <div class="medium-6 padding-lr">
                                     <label>تاریخ
                                         <date-picker
-                                                :color="'#5c6bc0'"
+                                                :color="checkAllocationDateValid ? '#d9534f' : '#5c6bc0'"
                                                 v-model="AllocationInput.date"
                                                 input-class="form-control form-control-lg date-picker-bottom-margin"
                                                 id="AllocationInputDate"
                                                 placeholder="انتخاب تاریخ">
                                         </date-picker>
+                                        <p style="margin-top:3px !important;" v-show="checkAllocationDateValid" class="error-font">لطفا تاریخ مورد نظر را انتخاب نمایید!</p>
                                     </label>
                                 </div>
                             </div>
@@ -644,7 +645,8 @@
                                 </div>
                             </div>
                             <div class="medium-6 columns padding-lr padding-bottom-modal">
-                                <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <button v-show="!$root.btnLoadingCheckStatus" name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </form>
                     </div>
@@ -745,7 +747,8 @@
                                 </div>
                             </div>
                             <div class="medium-6 columns padding-lr padding-bottom-modal">
-                                <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <button  v-show="!$root.btnLoadingCheckStatus" name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </form>
                     </div>
@@ -759,7 +762,8 @@
                             <p class="large-offset-1 modal-text">آیا برای حذف این رکورد اطمینان دارید؟</p>
                             <div class="grid-x">
                                 <div class="medium-12 column text-center">
-                                    <button v-on:click="deleteCapitalAssetsAllocation" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                                    <button v-show="!$root.btnLoadingCheckStatus" v-on:click="deleteCapitalAssetsAllocation" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                                    <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                                 </div>
                             </div>
                         </div>
@@ -775,12 +779,13 @@
                                     <label>تاریخ
                                         <!--<date-picker v-on:closed="checkValidDate(foundInput)" errMessage="تاریخ دریافت فراموش شده است!" :isValid="dateIsValid_found"-->
                                         <date-picker
-                                                :color="'#5c6bc0'"
+                                                :color="checkAllocationDateValid ? '#d9534f' : '#5c6bc0'"
                                                 v-model="foundInput.date"
                                                 input-class="form-control form-control-lg date-picker-bottom-margin"
                                                 id="foundInputDate"
                                                 placeholder="انتخاب تاریخ">
                                         </date-picker>
+                                        <p style="margin-top:3px !important;" v-show="checkAllocationDateValid" class="error-font">لطفا تاریخ مورد نظر را انتخاب نمایید!</p>
                                     </label>
                                 </div>
                             </div>
@@ -800,7 +805,8 @@
                                 </div>
                             </div>
                             <div class="medium-6 columns padding-lr padding-bottom-modal">
-                                <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <button v-show="!$root.btnLoadingCheckStatus" name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </form>
                     </div>
@@ -984,7 +990,8 @@
                                 </div>
                             </div>
                             <div class="medium-6 columns padding-lr padding-bottom-modal">
-                                <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <button v-show="!$root.btnLoadingCheckStatus" name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </form>
                     </div>
@@ -1220,6 +1227,18 @@
                 lastAmount: 0,
                 dialogMessage:'',
                 showDialogModal: false,
+                checkAllocationDateValid:false,
+            }
+        },
+
+        watch: {
+            AllocationInput: function (newQuestion, oldQuestion) {
+                if(this.AllocationInput.date != null)
+                    this.checkAllocationDateValid=false;
+            },
+            foundInput: function (newQuestion, oldQuestion) {
+                if(this.foundInput.date != null)
+                    this.checkAllocationDateValid=false;
             }
         },
         created: function () {
@@ -1418,6 +1437,7 @@
             },
 
             openInsertModal: function (type) {
+                this.checkAllocationDateValid=false;
                 this.lastPcsId = 0;
                 this.approvedPlans = [];
                 this.approvedProjects = [];
@@ -1432,41 +1452,47 @@
 
             createCapitalAssetsAllocation: function () {
                 this.$validator.validateAll().then((result) => {
-                    if (result) {
-                        axios.post('/budget/allocation/capital_assets/register' , {
-                            idNumber: this.AllocationInput.idNumber,
-                            date: this.AllocationInput.date,
-                            pcsId: this.AllocationInput.pcsId,
-                            amount: this.AllocationInput.amount,
-                            description: this.AllocationInput.description,
-                            pOrN: this.provOrNat,
-                            searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
-                            itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
-                        })
-                            .then((response) => {
-                                if (this.provOrNat == 0)
-                                {
-                                    this.setData(0 , response.data.data);
-                                    this.makePagination(response.data , "provincial");
-                                }
-                                else
-                                {
-                                    this.setData(1 , response.data.data);
-                                    this.makePagination(response.data , "national");
-                                }
-                                this.showInsertModal = false;
-                                this.$parent.displayNotif(response.status);
-                                console.log(response);
-                            },(error) => {
-                                console.log(error);
-                                this.showUpdateModal = false;
-                                this.$parent.displayNotif(error.response.status);
-                            });
+                    if(this.AllocationInput.date == null)
+                        this.checkAllocationDateValid=true;
+                    if(!this.checkAllocationDateValid ) {
+                        if (result) {
+                            var config = {
+                                allowLoading: true,
+                            };
+                            axios.post('/budget/allocation/capital_assets/register', {
+                                idNumber: this.AllocationInput.idNumber,
+                                date: this.AllocationInput.date,
+                                pcsId: this.AllocationInput.pcsId,
+                                amount: this.AllocationInput.amount,
+                                description: this.AllocationInput.description,
+                                pOrN: this.provOrNat,
+                                searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
+                                itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
+                            }, config)
+                                .then((response) => {
+                                    if (this.provOrNat == 0) {
+                                        this.setData(0, response.data.data);
+                                        this.makePagination(response.data, "provincial");
+                                    }
+                                    else {
+                                        this.setData(1, response.data.data);
+                                        this.makePagination(response.data, "national");
+                                    }
+                                    this.showInsertModal = false;
+                                    this.$parent.displayNotif(response.status);
+                                    console.log(response);
+                                }, (error) => {
+                                    console.log(error);
+                                    this.showUpdateModal = false;
+                                    this.$parent.displayNotif(error.response.status);
+                                });
+                        }
                     }
                 });
             },
 
             openUpdateModal: function (item , planId , projectId , type) {
+                this.checkAllocationDateValid=false;
                 this.creditSourceInfo = '';
                 this.AllocationFill.id = item.id;
                 if (item.caaFoundId == null)
@@ -1495,6 +1521,9 @@
             updateCapitalAssetsAllocation: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post('/budget/allocation/capital_assets/update' , {
                             id: this.AllocationFill.id,
                             idNumber: this.AllocationFill.idNumber,
@@ -1505,7 +1534,7 @@
                             pOrN: this.provOrNat,
                             searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
                             itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
-                        })
+                        } , config)
                             .then((response) => {
                                 if (this.provOrNat == 0)
                                 {
@@ -1542,12 +1571,15 @@
             },
 
             deleteCapitalAssetsAllocation: function () {
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/budget/allocation/capital_assets/delete' , {
                     id: this.aIdForDelete,
                     pOrN: this.provOrNat,
                     searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
                     itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
-                })
+                } , config)
                     .then((response) => {
                         if (response.status != 204) {
                             if (this.provOrNat == 0) {
@@ -1574,22 +1606,27 @@
 
             createProvincialFound: function () {
                 this.$validator.validateAll().then((result) => {
-                    if (result) {
-                        if (this.checkValidDate(this.foundInput)) {
-                            axios.post('/budget/allocation/capital_assets/found/register' , {
+                    if(this.foundInput.date == null)
+                        this.checkAllocationDateValid=true;
+                    if(!this.checkAllocationDateValid ) {
+                        if (result) {
+                            var config = {
+                                allowLoading: true,
+                            };
+                            axios.post('/budget/allocation/capital_assets/found/register', {
                                 date: this.foundInput.date,
                                 amount: this.foundInput.amount,
                                 description: this.foundInput.description,
                                 pOrN: 0
-                            })
+                            }, config)
                                 .then((response) => {
                                     this.foundSetData(response.data);
                                     this.showInsertFoundModal = false;
                                     this.$parent.displayNotif(response.status);
                                     console.log(response);
-                                },(error) => {
+                                }, (error) => {
                                     console.log(error);
-                                });
+                            });
                         }
                     }
                 });
@@ -1686,6 +1723,9 @@
                                     if (cost.checked)
                                         this.selectedCapFinancings.push(cost);
                                 });
+                                var config = {
+                                    allowLoading:true,
+                                };
                                 axios.post('/budget/allocation/capital_assets/found/convert_to_allocation', {
                                     id: this.foundIdForConvertTo,
                                     pcsId: this.AllocationInput.pcsId,
@@ -1694,7 +1734,7 @@
                                     capFinancings: this.selectedCapFinancings,
                                     searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
                                     itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
-                                })
+                                } , config)
                                     .then((response) => {
                                         this.provCapitalAssetsFounds = response.data.found;
                                         this.provCapitalAssetsAllocations = response.data.allocation_prov.data;

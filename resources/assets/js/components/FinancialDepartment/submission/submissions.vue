@@ -976,7 +976,6 @@
     import Suggestions from "v-suggestions/src/Suggestions";
     import VuePagination from '../../../public_component/pagination.vue';
     import VueElementLoading from 'vue-element-loading';
-    import 'vue-promise-btn/dist/vue-promise-btn.css';
 
     /* Import Local Components Start*/
     import sFactor from './datailSubmission/s_factor.vue';
@@ -1279,72 +1278,80 @@
 
             createRequest: function () {
                 this.$validator.validateAll().then((result) => {
-                    if (result) {
-                        var config = {
-                            allowLoading:true,
-                            headers: {'Content-Type': 'multipart/form-data'},
-                            onUploadProgress: function (progressEvent) {
-                                this.percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                                this.$forceUpdate();
-                            }.bind(this)
-                        };
+                    var state=true;
+                    if(this.requestTypeSend == 'BUY_COMMODITY' && this.commodityRequest.length < 1){
+                        this.dialogMessage = 'کالای درخواستی ثبت نشده است! ';
+                        this.showDialogModal = true;
+                        state=false;
+                    }
+                    if (state){
+                        if (result) {
+                            var config = {
+                                allowLoading:true,
+                                headers: {'Content-Type': 'multipart/form-data'},
+                                onUploadProgress: function (progressEvent) {
+                                    this.percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                                    this.$forceUpdate();
+                                }.bind(this)
+                            };
 
-                        this.recipients.forEach(item => {
-                            if (this.recipientUsersTemp[item.id] != null) {
-                                var recipientUsersInput = {};
-                                recipientUsersInput.stepId = item.id;
-                                recipientUsersInput.userId = this.recipientUsersTemp[item.id];
-                                this.recipientUsers.push(recipientUsersInput);
-                                console.log(JSON.stringify(this.recipientUsers))
-                            }
-                        });
-                        if (this.requestTypeSend == 'BUY_SERVICES') {
-                            this.sumOfCommodityPrice = this.requestInput.serviceEstimated.split(',').join('');
-
-                        }
-                        if (this.requestTypeSend == 'FUND') {
-                            this.sumOfCommodityPrice = this.requestInput.fundEstimated.split(',').join('');
-
-
-                        }
-                        this.prepareFields();
-                        this.data.append('searchValue', '');
-                        this.data.append('subject', this.requestInput.rSubject);
-                        this.data.append('rtId', this.requestTypeId);
-                        this.data.append('costEstimation', this.sumOfCommodityPrice);
-                        this.data.append('description', this.requestInput.fullDescription == undefined ? '' : this.requestInput.fullDescription);
-                        this.data.append('furtherDetails', this.requestInput.furtherDescription == undefined ? '' : this.requestInput.furtherDescription);
-                        if (this.requestTypeSend == 'BUY_COMMODITY') {
-                            this.commodityRequest.forEach((items, index) => {
-                                this.data.append('items[' + index + '][subject]', items.commodityName);
-                                this.data.append('items[' + index + '][count]', items.commodityCount);
-                                this.data.append('items[' + index + '][costEstimation]', items.commodityPrice.split(',').join(''));
-                                this.data.append('items[' + index + '][description]', items.commodityDescription == undefined ? '' : items.commodityDescription);
+                            this.recipients.forEach(item => {
+                                if (this.recipientUsersTemp[item.id] != null) {
+                                    var recipientUsersInput = {};
+                                    recipientUsersInput.stepId = item.id;
+                                    recipientUsersInput.userId = this.recipientUsersTemp[item.id];
+                                    this.recipientUsers.push(recipientUsersInput);
+                                    console.log(JSON.stringify(this.recipientUsers))
+                                }
                             });
+                            if (this.requestTypeSend == 'BUY_SERVICES') {
+                                this.sumOfCommodityPrice = this.requestInput.serviceEstimated.split(',').join('');
+
+                            }
+                            if (this.requestTypeSend == 'FUND') {
+                                this.sumOfCommodityPrice = this.requestInput.fundEstimated.split(',').join('');
+
+
+                            }
+                            this.prepareFields();
+                            this.data.append('searchValue', '');
+                            this.data.append('subject', this.requestInput.rSubject);
+                            this.data.append('rtId', this.requestTypeId);
+                            this.data.append('costEstimation', this.sumOfCommodityPrice);
+                            this.data.append('description', this.requestInput.fullDescription == undefined ? '' : this.requestInput.fullDescription);
+                            this.data.append('furtherDetails', this.requestInput.furtherDescription == undefined ? '' : this.requestInput.furtherDescription);
+                            if (this.requestTypeSend == 'BUY_COMMODITY') {
+                                this.commodityRequest.forEach((items, index) => {
+                                    this.data.append('items[' + index + '][subject]', items.commodityName);
+                                    this.data.append('items[' + index + '][count]', items.commodityCount);
+                                    this.data.append('items[' + index + '][costEstimation]', items.commodityPrice.split(',').join(''));
+                                    this.data.append('items[' + index + '][description]', items.commodityDescription == undefined ? '' : items.commodityDescription);
+                                });
+                            }
+                            else {
+                                this.data.append('items', null);
+                            }
+                            this.recipientUsers.forEach((user, index) => {
+                                this.data.append('verifiers[' + index + '][rstId]', user.stepId);
+                                this.data.append('verifiers[' + index + '][uId]', user.userId);
+                            });
+
+
+                            axios.post('/financial/request/register', this.data, config).then((response) => {
+                                this.submissions = response.data.data;
+                                this.makePagination(response.data);
+                                this.showBuyCommodityModal = false;
+                                this.$parent.displayNotif(response.status);
+                                console.log(response);
+                                this.resetData();
+                            }, (error) => {
+                                console.log(error);
+                                this.$parent.displayNotif(error.response.status);
+                                this.data = new FormData();
+                            });
+
+
                         }
-                        else {
-                            this.data.append('items', null);
-                        }
-                        this.recipientUsers.forEach((user, index) => {
-                            this.data.append('verifiers[' + index + '][rstId]', user.stepId);
-                            this.data.append('verifiers[' + index + '][uId]', user.userId);
-                        });
-
-
-                        axios.post('/financial/request/register', this.data, config).then((response) => {
-                            this.submissions = response.data.data;
-                            this.makePagination(response.data);
-                            this.showBuyCommodityModal = false;
-                            this.$parent.displayNotif(response.status);
-                            console.log(response);
-                            this.resetData();
-                        }, (error) => {
-                            console.log(error);
-                            this.$parent.displayNotif(error.response.status);
-                            this.data = new FormData();
-                        });
-
-
                     }
                 });
             },
