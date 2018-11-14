@@ -333,6 +333,12 @@ class AllocationOfCapitalAssetsController extends Controller
                     ->orWhereHas('caCreditSourceHasAllocation.creditDistributionRow' , function ($q) use($searchValue){
                         return $q->where('cdSubject' , 'LIKE' , '%' . $searchValue . '%')
                             ->orWhere('cdDescription' , 'LIKE' , '%' . $searchValue . '%');
+                    })
+                    ->orWhereHas('caCreditSourceHasAllocation.allocation' , function ($q) use($searchValue){
+                        return $q->where('caAmount' , 'LIKE' , '%' . $searchValue . '%')
+                            ->orWhere('caLetterNumber' , 'LIKE' , '%' . $searchValue . '%')
+                            ->orWhere('caLetterDate' , 'LIKE' , '%' . $searchValue . '%')
+                            ->orWhere('caDescription' , 'LIKE' , '%' . $searchValue . '%');
                     });
             })
             ->has('caCreditSourceHasAllocation')

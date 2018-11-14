@@ -35,13 +35,6 @@ class CreditDistributionController extends Controller
         );
     }
 
-    public function fetchCreditDistributionPlanByBudgetSeason(Request $request)
-    {
-        return \response()->json(
-            $this->getAllCdPlansOrderByBudget($request->searchValue , $request->itemInPage)
-        );
-    }
-
     public function fetchCreditDistributionPlanByCounty(Request $request)
     {
         return \response()->json(
@@ -130,8 +123,7 @@ class CreditDistributionController extends Controller
     public function getAllCdPlans($searchValue , $itemInPage)
     {
         $searchValue = PublicSetting::checkPersianCharacters($searchValue);
-        return CreditDistributionTitle::has('creditDistributionPlan')
-            ->whereHas('creditDistributionPlan' , function($q){
+        return CreditDistributionTitle::whereHas('creditDistributionPlan' , function($q){
                 return $q->where('cdpFyId' , '=' , Auth::user()->seFiscalYear);
             })
             ->where(function($query) use($searchValue){
@@ -141,15 +133,15 @@ class CreditDistributionController extends Controller
                     ->orWhereHas('creditDistributionPlan' , function($q) use($searchValue){
                         return $q->where('cdpDescription' , 'LIKE' , '%' . $searchValue . '%')
                             ->orWhere('cdpCredit' , 'LIKE' , '%' . $searchValue . '%')
-                            ->orWhereHas('county' , function($q) use($searchValue){
-                                return $q->where('coName' , 'LIKE' , '%' . $searchValue . '%');
+                            ->orWhereHas('county' , function($query) use($searchValue){
+                                return $query->where('coName' , 'LIKE' , '%' . $searchValue . '%');
                             })
-                            ->orWhereHas('creditDistributionTitle' , function($q) use($searchValue){
-                                return $q->where('cdtIdNumber' , 'LIKE' , '%' . $searchValue . '%')
+                            ->orWhereHas('creditDistributionTitle' , function($query) use($searchValue){
+                                return $query->where('cdtIdNumber' , 'LIKE' , '%' . $searchValue . '%')
                                     ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%');
                             })
-                            ->orWhereHas('creditDistributionRow' , function($q) use($searchValue){
-                                return $q->where('cdDescription' , 'LIKE' , '%' . $searchValue . '%')
+                            ->orWhereHas('creditDistributionRow' , function($query) use($searchValue){
+                                return $query->where('cdDescription' , 'LIKE' , '%' . $searchValue . '%')
                                     ->orWhere('cdSubject' , 'LIKE' , '%' . $searchValue . '%');
                             });
                     });
@@ -180,8 +172,7 @@ class CreditDistributionController extends Controller
     public function getAllCdPlansOrderByRow($searchValue , $itemInPage)
     {
         $searchValue = PublicSetting::checkPersianCharacters($searchValue);
-        return CreditDistributionRow::has('creditDistributionPlan')
-            ->whereHas('creditDistributionPlan' , function($q){
+        return CreditDistributionRow::whereHas('creditDistributionPlan' , function($q){
                 return $q->where('cdpFyId' , '=' , Auth::user()->seFiscalYear);
             })
             ->where(function($query) use($searchValue){
@@ -201,12 +192,12 @@ class CreditDistributionController extends Controller
             ->with(['creditDistributionPlan' => function($q) use($searchValue){
                 return $q->where('cdpDescription' , 'LIKE' , '%' . $searchValue . '%')
                     ->orWhere('cdpCredit' , 'LIKE' , '%' . $searchValue . '%')
-                    ->orWhereHas('creditDistributionTitle' , function($q) use($searchValue){
-                        return $q->where('cdtIdNumber' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhereHas('creditDistributionTitle' , function($query) use($searchValue){
+                        return $query->where('cdtIdNumber' , 'LIKE' , '%' . $searchValue . '%')
                             ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%');
                     })
-                    ->orWhereHas('county' , function($q) use($searchValue){
-                        return $q->where('coName' , 'LIKE' , '%' . $searchValue . '%');
+                    ->orWhereHas('county' , function($query) use($searchValue){
+                        return $query->where('coName' , 'LIKE' , '%' . $searchValue . '%');
                     })
                     ->with('creditDistributionTitle')
                     ->with('county');
@@ -215,71 +206,46 @@ class CreditDistributionController extends Controller
             ->paginate($itemInPage);
     }
 
-    public function getAllCdPlansOrderByBudget($searchValue , $itemInPage)
-    {
-        $searchValue = PublicSetting::checkPersianCharacters($searchValue);
-        return BudgetSeason::has('cdpTitleHasCreditDistributionPlan')
-            ->whereHas('cdpTitleHasCreditDistributionPlan.creditDistributionPlan' , function($q){
-                return $q->where('cdpFyId' , '=' , Auth::user()->seFiscalYear);
-            })
-            ->where(function($query) use($searchValue){
-                return $query->where('bsSubject' , 'LIKE' , '%' . $searchValue . '%')
-                    ->orWhereHas('cdpTitleHasCreditDistributionPlan.creditDistributionPlan' , function($q) use($searchValue){
-                        return $q->where(function ($query) use($searchValue){
-                            return $query->where('cdpDescription' , 'LIKE' , '%' . $searchValue . '%')
-                                ->orWhere('cdpCredit' , 'LIKE' , '%' . $searchValue . '%')
-                                ->orWhereHas('creditDistributionTitle' , function($q) use($searchValue){
-                                    return $q->where('cdtIdNumber' , 'LIKE' , '%' . $searchValue . '%')
-                                        ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%');
-                                })
-                                ->orWhereHas('county' , function($q) use($searchValue){
-                                    return $q->where('coName' , 'LIKE' , '%' . $searchValue . '%');
-                                })
-                                ->orWhereHas('creditDistributionRow' , function($q) use($searchValue){
-                                    return $q->where('cdDescription' , 'LIKE' , '%' . $searchValue . '%')
-                                        ->orWhere('cdSubject' , 'LIKE' , '%' . $searchValue . '%');
-                                });
-                        });
-                    });
-            })
-
-            ->with(['cdpTitleHasCreditDistributionPlan.creditDistributionPlan' => function($q) use($searchValue){
-                return $q->where(function ($query) use($searchValue){
-                    return $query->where('cdpDescription' , 'LIKE' , '%' . $searchValue . '%')
-                        ->orWhere('cdpCredit' , 'LIKE' , '%' . $searchValue . '%')
-                        ->orWhereHas('creditDistributionTitle' , function($q) use($searchValue){
-                            return $q->where('cdtIdNumber' , 'LIKE' , '%' . $searchValue . '%')
-                                ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%');
-                        })
-                        ->orWhereHas('county' , function($q) use($searchValue){
-                            return $q->where('coName' , 'LIKE' , '%' . $searchValue . '%');
-                        })
-                        ->orWhereHas('creditDistributionRow' , function($q) use($searchValue){
-                            return $q->where('cdDescription' , 'LIKE' , '%' . $searchValue . '%')
-                                ->orWhere('cdSubject' , 'LIKE' , '%' . $searchValue . '%');
-                        });
-                    })
-                    ->with('county')
-                    ->with('creditDistributionTitle')
-                    ->with('creditDistributionRow');
-
-            }])
-            ->orderBy('id', 'DESC')
-            ->paginate($itemInPage);
-    }
-
     public function getAllCdPlansOrderByCounty($searchValue , $itemInPage)
     {
         $searchValue = PublicSetting::checkPersianCharacters($searchValue);
-        return County::has('creditDistributionPlan')
-            ->where(function($query) use($searchValue){
-                return $query->where('coName' , 'LIKE' , '%' . $searchValue . '%');
-            })
-            ->whereHas('creditDistributionPlan' , function($q){
+        return County::whereHas('creditDistributionPlan' , function($q){
                 return $q->where('cdpFyId' , '=' , Auth::user()->seFiscalYear);
-            })
-            ->with('creditDistributionPlan.creditDistributionTitle')
-            ->with('creditDistributionPlan.creditDistributionRow')
+            })->where(function($query) use($searchValue){
+                return $query->where('coName' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhereHas('creditDistributionPlan' , function($q) use($searchValue){
+                        return $q->where('cdpDescription' , 'LIKE' , '%' . $searchValue . '%')
+                            ->orWhere('cdpCredit' , 'LIKE' , '%' . $searchValue . '%')
+                            ->orWhereHas('creditDistributionTitle' , function($q) use($searchValue){
+                                return $q->where('cdtIdNumber' , 'LIKE' , '%' . $searchValue . '%')
+                                    ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%');
+                            })
+                            ->orWhereHas('county' , function($q) use($searchValue){
+                                return $q->where('coName' , 'LIKE' , '%' . $searchValue . '%');
+                            })
+                            ->orWhereHas('creditDistributionRow' , function($q) use($searchValue){
+                                return $q->where('cdDescription' , 'LIKE' , '%' . $searchValue . '%')
+                                    ->orWhere('cdSubject' , 'LIKE' , '%' . $searchValue . '%');
+                            });
+                    });
+            })->with(['creditDistributionPlan' => function($q) use($searchValue){
+                return $q->where('cdpDescription' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('cdpCredit' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhereHas('creditDistributionTitle' , function($query) use($searchValue){
+                        return $query->where('cdtIdNumber' , 'LIKE' , '%' . $searchValue . '%')
+                            ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%');
+                    })
+                    ->orWhereHas('county' , function($query) use($searchValue){
+                        return $query->where('coName' , 'LIKE' , '%' . $searchValue . '%');
+                    })
+                    ->orWhereHas('creditDistributionRow' , function($q) use($searchValue){
+                        return $q->where('cdDescription' , 'LIKE' , '%' . $searchValue . '%')
+                            ->orWhere('cdSubject' , 'LIKE' , '%' . $searchValue . '%');
+                    })
+                    ->with('creditDistributionTitle')
+                    ->with('creditDistributionRow')
+                    ->with('county');
+            }])
             ->orderBy('id', 'DESC')
             ->paginate($itemInPage);
     }

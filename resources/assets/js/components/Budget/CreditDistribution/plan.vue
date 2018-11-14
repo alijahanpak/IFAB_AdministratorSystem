@@ -32,7 +32,6 @@
                 <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="Register_of_credit_allocation_assets_tab_view">
                     <li class="tabs-title is-active"><a href="#plan" aria-selected="true">طرح</a></li>
                     <li class="tabs-title"><a href="#row">ردیف</a></li>
-                    <li class="tabs-title"><a href="#budget">فصل بودجه</a></li>
                     <li class="tabs-title"><a href="#province">شهرستان</a></li>
                 </ul>
                 <div class="tabs-content" data-tabs-content="Register_of_credit_allocation_assets_tab_view">
@@ -306,155 +305,6 @@
                         </div>
                     </div>
                     <!--Tab 2-->
-                    <!--Tab 3-->
-                    <div class="tabs-panel table-mrg-btm" id="budget" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                        <div class="medium-12 bottom-mrg">
-                            <div class="clearfix tool-bar">
-                                <div class="button-group float-right report-mrg">
-                                    <a v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_INSERT')" class="my-button toolbox-btn small" @click="openInsertModal(1)">جدید</a>
-                                    <button class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="budgetSeasonDropDown">تعداد نمایش<span> {{ budgetSeasonItemInPage }} </span></button>
-                                    <div  style="width: 113px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" id="budgetSeasonDropDown" data-dropdown data-auto-focus="true">
-                                        <ul class="my-menu small-font ltr-dir">
-                                            <li><a  @click="changeItemInPage(2 , 2)">2<span v-show="budgetSeasonItemInPage == 2" class="fi-check checked-color size-14"></span></a></li>
-                                            <li><a  @click="changeItemInPage(4 , 2)">4<span v-show="budgetSeasonItemInPage == 4" class="fi-check checked-color size-14"></span></a></li>
-                                            <li><a  @click="changeItemInPage(8 , 2)">8<span v-show="budgetSeasonItemInPage == 8" class="fi-check checked-color size-14"></span></a></li>
-                                            <li><a  @click="changeItemInPage(10 , 2)">10<span v-show="budgetSeasonItemInPage == 10" class="fi-check checked-color size-14"></span></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="float-left">
-                                    <div class="input-group float-left">
-                                        <div class="inner-addon right-addon">
-                                            <i v-if="budgetSeasonSearchValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
-                                            <i v-if="budgetSeasonSearchValue != ''" v-on:click.stop="removeFilter(2)" class="fa fa-close btn-red"  aria-hidden="true"></i>
-                                            <input v-model="budgetSeasonSearchValue" v-on:keyup.enter="search(2)" class="search" type="text" placeholder="جستجو">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--Table Start-->
-                            <div class="tbl-div-container">
-                                <table class="tbl-head">
-                                    <colgroup>
-                                        <col width="100px"/>
-                                        <col width="200px"/>
-                                        <col width="150px"/>
-                                        <col width="100px"/>
-                                        <col width="100px"/>
-                                        <col width="200px"/>
-                                        <col width="12px"/>
-                                    </colgroup>
-                                    <tbody class="tbl-head-style">
-                                    <tr class="tbl-head-style-cell">
-                                        <th class="tbl-head-style-cell">فصل بودجه</th>
-                                        <th class="tbl-head-style-cell">طرح</th>
-                                        <th class="tbl-head-style-cell">ردیف</th>
-                                        <th class="tbl-head-style-cell">شهرستان</th>
-                                        <th class="tbl-head-style-cell">مبلغ اعتبار</th>
-                                        <th class="tbl-head-style-cell">شرح</th>
-                                        <th class="tbl-head-style-cell"></th>
-                                    </tr>
-                                    </tbody>
-                                </table>
-
-                                <div class="tbl_body_style dynamic-height-level2">
-                                    <table class="tbl-body-contain unstriped">
-                                        <colgroup>
-                                            <col width="100px"/>
-                                            <col width="200px"/>
-                                            <col width="150px"/>
-                                            <col width="100px"/>
-                                            <col width="100px"/>
-                                            <col width="200px"/>
-                                        </colgroup>
-                                        <tbody class="tbl-head-style-cell">
-                                        <template v-for="(bs, index) in cdPlansOrderByBudget">
-                                            <tr class="tbl-head-style-cell" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
-                                                <td :rowspan="getBsPlanCount(bs.cdp_title_has_credit_distribution_plan)">{{ bs.bsSubject }}</td>
-                                                <td :rowspan="bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan.length">{{ bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].credit_distribution_title.cdtIdNumber + ' - ' + bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].credit_distribution_title.cdtSubject }}</td>
-                                                <td class="text-center">{{ bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].credit_distribution_row.cdSubject }}</td>
-                                                <td class="text-center">{{ bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].county.coName }}</td>
-                                                <td class="text-center">{{ $parent.calcDispAmount(bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].cdpCredit , false)  }}</td>
-                                                <td>
-                                                    <div class="grid-x">
-                                                        <div class="medium-11 text-justify">
-                                                            {{ bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].cdpDescription }}
-                                                        </div>
-                                                        <div v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT') || $can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                            <a class="dropdown small sm-btn-align" :data-toggle="'cdPlanBudget' + bs.id"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                            <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'cdPlanBudget' + bs.id" data-dropdown data-auto-focus="true">
-                                                                <ul class="my-menu small-font text-right">
-                                                                    <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT')"><a v-on:click.prevent="openUpdateModal(bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0] , bs.cdp_title_has_credit_distribution_plan[0].credit_distribution_plan[0].credit_distribution_title.cdtBsId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                    <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')"><a v-on:click.prevent="openDeleteModal(bs.cdp_title_has_credit_distribution_plan[0].id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <template v-for="(cdTitle , cdtIndex) in bs.cdp_title_has_credit_distribution_plan">
-                                                <tr class="tbl-head-style-cell" v-if="cdtIndex > 0" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
-                                                    <td :rowspan="cdTitle.credit_distribution_plan.length">{{ cdTitle.credit_distribution_plan[0].credit_distribution_title.cdtIdNumber + ' - ' + cdTitle.credit_distribution_plan[0].credit_distribution_title.cdtSubject }}</td>
-                                                    <td class="text-center">{{ cdTitle.credit_distribution_plan[0].credit_distribution_row.cdSubject }}</td>
-                                                    <td class="text-center">{{ cdTitle.credit_distribution_plan[0].county.coName }}</td>
-                                                    <td class="text-center">{{ $parent.calcDispAmount(cdTitle.credit_distribution_plan[0].cdpCredit , false)  }}</td>
-                                                    <td>
-                                                        <div class="grid-x">
-                                                            <div class="medium-11 text-justify">
-                                                                {{ cdTitle.credit_distribution_plan[0].cdpDescription }}
-                                                            </div>
-                                                            <div v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT') || $can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                                <a class="dropdown small sm-btn-align" :data-toggle="'cdPlanBudget' + bs.id + cdTitle.id"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                                <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'cdPlanBudget' + bs.id + cdTitle.id" data-dropdown data-auto-focus="true">
-                                                                    <ul class="my-menu small-font text-right">
-                                                                        <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT')"><a v-on:click.prevent="openUpdateModal(cdTitle.credit_distribution_plan[0] , cdTitle.credit_distribution_plan[0].credit_distribution_title.cdtBsId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                        <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')"><a v-on:click.prevent="openDeleteModal(cdTitle.credit_distribution_plan[0].id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <template v-for="(cdPlan , cdIndex) in cdTitle.credit_distribution_plan">
-                                                    <tr class="tbl-head-style-cell" v-if="cdIndex > 0" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
-                                                        <td class="text-center">{{ cdPlan.credit_distribution_row.cdSubject }}</td>
-                                                        <td class="text-center">{{ cdPlan.county.coName }}</td>
-                                                        <td class="text-center">{{ $parent.calcDispAmount(cdPlan.cdpCredit , false)  }}</td>
-                                                        <td>
-                                                            <div class="grid-x">
-                                                                <div class="medium-11 text-justify">
-                                                                    {{ cdPlan.cdpDescription }}
-                                                                </div>
-                                                                <div v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT') || $can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')" class="medium-1 cell-vertical-center text-left">
-                                                                    <a class="dropdown small sm-btn-align" :data-toggle="'cdPlanBudget' + bs.id + cdTitle.id + cdPlan.id"><i class="fa fa-ellipsis-v size-18"></i></a>
-                                                                    <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'cdPlanBudget' + bs.id + cdTitle.id + cdPlan.id" data-dropdown data-auto-focus="true">
-                                                                        <ul class="my-menu small-font text-right">
-                                                                            <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_EDIT')"><a v-on:click.prevent="openUpdateModal(cdPlan , cdTitle.credit_distribution_plan[0].credit_distribution_title.cdtBsId)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
-                                                                            <li v-show="$can('BUDGET_CREDIT_DISTRIBUTION_PLAN_DELETE')"><a v-on:click.prevent="openDeleteModal(cdPlan.id)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </template>
-                                            </template>
-                                        </template>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="grid-x">
-                                <div class="medium-12">
-                                    <vue-pagination  v-bind:pagination="budget_pagination"
-                                                     v-on:click.native="fetchData_byBudgetSeaon(budget_pagination.current_page)"
-                                                     :offset="4">
-                                    </vue-pagination>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--Tab 3-->
                     <!--Tab 4-->
                     <div class="tabs-panel table-mrg-btm" id="province" xmlns:v-on="http://www.w3.org/1999/xhtml">
                         <div class="medium-12 bottom-mrg">
@@ -895,9 +745,7 @@
         created: function () {
             this.fetchData_byPlan();
             this.fetchData_byRow();
-            this.fetchData_byBudgetSeaon();
             this.fetchData_byCounty();
-
             this.setUpdateDataThread();
         },
 
@@ -950,20 +798,6 @@
                     });
             },
 
-            fetchData_byBudgetSeaon: function (page = 1) {
-                axios.get('/budget/credit_distribution/capital_assets/provincial/plans/byBudgetSeason/fetchData?page=' + page , {params:{
-                    searchValue: this.budgetSeasonSearchValue,
-                    itemInPage: this.budgetSeasonItemInPage
-                }})
-                    .then((response) => {
-                        this.setData(response.data.data ,2);
-                        this.makePagination(response.data , "budget");
-                        console.log(response);
-                    },(error) => {
-                        console.log(error);
-                    });
-            },
-
             fetchData_byCounty: function (page = 1) {
                 axios.get('/budget/credit_distribution/capital_assets/provincial/plans/byCounty/fetchData?page=' + page , {params:{
                     searchValue: this.countySearchValue,
@@ -984,8 +818,6 @@
                     this.fetchData_byPlan();
                 }else if (type == 1){
                     this.fetchData_byRow();
-                }else if (type == 2){
-                    this.fetchData_byBudgetSeaon();
                 }else if (type == 3){
                     this.fetchData_byCounty();
                 }
@@ -998,9 +830,6 @@
                 }else if (type == 1){
                     this.rowItemInPage = number;
                     this.fetchData_byRow();
-                }else if (type == 2){
-                    this.budgetSeasonItemInPage = number;
-                    this.fetchData_byBudgetSeaon();
                 }else if (type == 3){
                     this.countyItemInPage = number;
                     this.fetchData_byCounty();
@@ -1015,9 +844,6 @@
                 }else if (type == 1){
                     this.rowSearchValue = '';
                     this.fetchData_byRow();
-                }else if (type == 2){
-                    this.budgetSeasonSearchValue = '';
-                    this.fetchData_byBudgetSeaon();
                 }else if (type == 3){
                     this.countySearchValue = '';
                     this.fetchData_byCounty();
@@ -1032,10 +858,6 @@
                 else if (type == 1) {
                     this.cdPlansOrderByRow = data;
                     this.selectAll(this.cdPlansOrderByRow);
-                }
-                else if (type == 2) {
-                    this.cdPlansOrderByBudget = data;
-                    this.selectAll(this.cdPlansOrderByBudget);
                 }
                 else if (type == 3) {
                     this.cdPlansOrderByCounty = data;
@@ -1126,7 +948,6 @@
                                 this.setData(response.data.data ,0);
                                 this.makePagination(response.data , "plan");
                                 this.fetchData_byRow(this.row_pagination.current_page);
-                                this.fetchData_byBudgetSeaon(this.budget_pagination.current_page);
                                 this.fetchData_byCounty(this.county_pagination.current_page);
                                 this.showInsertModal = false;
                                 this.$parent.displayNotif(response.status);
@@ -1174,7 +995,6 @@
                                 this.setData(response.data.data ,0);
                                 this.makePagination(response.data , "plan");
                                 this.fetchData_byRow(this.row_pagination.current_page);
-                                this.fetchData_byBudgetSeaon(this.budget_pagination.current_page);
                                 this.fetchData_byCounty(this.county_pagination.current_page);
 
                                 this.showUpdateModal = false;
@@ -1209,7 +1029,6 @@
                             this.setData(response.data.data ,0);
                             this.makePagination(response.data , "plan");
                             this.fetchData_byRow(this.row_pagination.current_page);
-                            this.fetchData_byBudgetSeaon(this.budget_pagination.current_page);
                             this.fetchData_byCounty(this.county_pagination.current_page);
                         }
                         this.showDeleteModal = false;
@@ -1383,7 +1202,6 @@
                 console.log("...................................................... creditDistribution plan update thread");
                 this.fetchData_byPlan();
                 this.fetchData_byRow();
-                this.fetchData_byBudgetSeaon();
                 this.fetchData_byCounty();
             },
         }

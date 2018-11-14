@@ -43,11 +43,18 @@ class ProjectController extends Controller
                             ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%');
                     });
             })
-            ->with('capitalAssetsProject.creditSource')
-            ->with('capitalAssetsProject.creditSource.creditDistributionRow')
-            ->with('capitalAssetsProject.creditSource.tinySeason.seasonTitle.season')
-            ->with('capitalAssetsProject.creditSource.howToRun')
-            ->with('capitalAssetsProject.county')
+            ->with(['capitalAssetsProject' => function($q) use($searchValue){
+                return $q->where('cpSubject' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('cpCode' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('cpDescription' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhereHas('county' , function ($qTemp) use($searchValue){
+                        return $qTemp->where('coName' , 'LIKE' , '%' . $searchValue . '%');
+                    })
+                    ->with('creditSource.creditDistributionRow')
+                    ->with('creditSource.tinySeason.seasonTitle.season')
+                    ->with('creditSource.howToRun')
+                    ->with('county');
+            }])
             ->with('creditDistributionTitle.county')
             ->orderBy('id', 'DESC')
             ->paginate($itemInPage);

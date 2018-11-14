@@ -12,7 +12,6 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
     Route::prefix('credit_distribution')->group(function () {
         Route::get('capital_assets/provincial/plans/fetchData', 'CreditDistributionController@fetchCreditDistributionPlan');
         Route::get('capital_assets/provincial/plans/byRow/fetchData', 'CreditDistributionController@fetchCreditDistributionPlanByRow');
-        Route::get('capital_assets/provincial/plans/byBudgetSeason/fetchData', 'CreditDistributionController@fetchCreditDistributionPlanByBudgetSeason');
         Route::get('capital_assets/provincial/plans/byCounty/fetchData', 'CreditDistributionController@fetchCreditDistributionPlanByCounty');
         Route::post('capital_assets/provincial/plans/report', 'BudgetReportController@planProvincial');
 
