@@ -793,55 +793,66 @@
                                                         <td :data-toggle="'plan' + plan.id" class="text-center">{{$root.dispMoneyFormat(plan.capSumOfAllocation)}}</td>
                                                         <td :data-toggle="'plan' + plan.id" class="text-center">{{$root.dispMoneyFormat(plan.capSumOfReserved)}}
                                                             <div class="clearfix tool-bar">
-                                                                <div  style="width: 39vw;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="100px"  data-position="top" data-alignment="auto" :id="'plan' + plan.id" data-dropdown data-auto-focus="true">
+                                                                <div  style="width: 49vw;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="100px"  data-position="top" data-alignment="auto" :id="'plan' + plan.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font">
                                                                         <div class="grid-x">
-                                                                            <!--Table Start-->
-                                                                            <div style="height: 40vh" class="tbl_body_style">
-                                                                                <table class="stack text-right">
-                                                                                    <tbody>
-                                                                                    <tr>
-                                                                                        <td width="150" class="black-color">شماره موافقتنامه :</td>
-                                                                                        <td width="450">{{plan.capLetterNumber}}</td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td class="black-color">تاریخ موافقتنامه :</td>
-                                                                                        <td>{{plan.capLetterDate}}</td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td class="black-color">تاریخ موافقتنامه :</td>
-                                                                                        <td>{{plan.capLetterDate}}</td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td class="black-color">نوع موافقتنامه :</td>
-                                                                                        <td v-show="plan.capProvinceOrNational == 0">استانی</td>
-                                                                                        <td v-show="plan.capProvinceOrNational == 1">ملی</td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td class="black-color">شرح موافقتنامه :</td>
-                                                                                        <td class="text-justify">{{plan.capDescription}}</td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td class="black-color"> طرح :</td>
-                                                                                        <td>{{plan.credit_distribution_title.cdtIdNumber}} - {{plan.credit_distribution_title.cdtSubject}}</td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td class="black-color">عنوان فصل بودجه:</td>
-                                                                                        <td>{{plan.credit_distribution_title.budget_season.bsSubject}}</td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td class="black-color">شرح فصل بودجه:</td>
-                                                                                        <td class="text-justify">{{plan.credit_distribution_title.budget_season.bsDescription}}</td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td class="black-color">شرح طرح :</td>
-                                                                                        <td class="text-justify">{{plan.credit_distribution_title.cdtDescription}}</td>
-                                                                                    </tr>
+                                                                            <div class="large-6 medium-6">
+                                                                                <!--Table Start-->
+                                                                                <div style="height: 40vh" class="tbl_body_style">
+                                                                                    <table class="stack text-right">
+                                                                                        <tbody>
+                                                                                        <tr>
+                                                                                            <td width="150" class="black-color">شماره موافقتنامه :</td>
+                                                                                            <td width="450">{{plan.capLetterNumber}}</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td class="black-color">تاریخ موافقتنامه :</td>
+                                                                                            <td>{{plan.capLetterDate}}</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td class="black-color">تاریخ موافقتنامه :</td>
+                                                                                            <td>{{plan.capLetterDate}}</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td class="black-color">نوع موافقتنامه :</td>
+                                                                                            <td v-show="plan.capProvinceOrNational == 0">استانی</td>
+                                                                                            <td v-show="plan.capProvinceOrNational == 1">ملی</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td class="black-color">شرح موافقتنامه :</td>
+                                                                                            <td class="text-justify">{{plan.capDescription}}</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td class="black-color"> طرح :</td>
+                                                                                            <td>{{plan.credit_distribution_title.cdtIdNumber}} - {{plan.credit_distribution_title.cdtSubject}}</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td class="black-color">عنوان فصل بودجه:</td>
+                                                                                            <td>{{plan.credit_distribution_title.budget_season.bsSubject}}</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td class="black-color">شرح فصل بودجه:</td>
+                                                                                            <td class="text-justify">{{plan.credit_distribution_title.budget_season.bsDescription}}</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td class="black-color">شرح طرح :</td>
+                                                                                            <td class="text-justify">{{plan.credit_distribution_title.cdtDescription}}</td>
+                                                                                        </tr>
 
-                                                                                    </tbody>
-                                                                                </table>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+                                                                                <!--Table Body End-->
                                                                             </div>
-                                                                            <!--Table Body End-->
+                                                                            <div class="large-6 medium-6">
+                                                                                <template>
+                                                                                    <div class="grid-x">
+                                                                                        <div class="large-12">
+                                                                                            <apexcharts width="300" height="300" type="radialBar" :options="chartOptions" :series="getSeries(plan)"></apexcharts>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </template>
+                                                                            </div>
                                                                         </div>
                                                                     </ul>
                                                                 </div>
@@ -1625,10 +1636,12 @@
 </template>
 <script>
     import VueElementLoading from 'vue-element-loading';
+    import VueApexCharts from 'vue-apexcharts';
 export default{
     props:['baseAmount','UserIsVerifier','requestFill','requestId','requestType' , 'factorCount' , 'searchValue'],
     components: {
         VueElementLoading,
+        apexcharts: VueApexCharts,
     },
     data () {
         return {
@@ -1687,6 +1700,54 @@ export default{
             checkEditCapAmount:false,
             editCapAmountFill:0,
             capEditSelectedIndex:'',
+
+            chartOptions: {
+                chart: {
+                    id: 'vuechart-example'
+                },
+                plotOptions: {
+                    radialBar: {
+                        offsetY: -30,
+                        startAngle: 0,
+                        endAngle: 270,
+                        hollow: {
+                            margin: 5,
+                            size: '30%',
+                            background: 'transparent',
+                            image: undefined,
+                        },
+                        dataLabels: {
+                            name: {
+                                show: false,
+
+                            },
+                            value: {
+                                show: false,
+                            }
+                        }
+                    }
+                },
+                legend: {
+                    show: true,
+                    floating: true,
+                    fontSize: '16px',
+                    position: 'left',
+                    verticalAlign: 'top',
+                    textAnchor: 'end',
+                    itemMargin: {
+                        vertical: 20,
+                    },
+                    containerMargin: {
+                        left: 20,
+                        top: 20
+                    }
+                },
+
+                labels:['مجموع تخصیص', 'رزرو شده', 'تعهد', 'هزینه شده'],
+
+            },
+            series: [],
+
 
         }
 
@@ -1867,7 +1928,7 @@ export default{
                     this.capitalAssetsFound = response.data.capFound;
                     this.addNewFieldInCapitalAssetsCollection();
                     this.showLoaderProgress = false;
-                    console.log(JSON.stringify(this.completeCapitalAssetsAgrement));
+                    //console.log(JSON.stringify(this.completeCapitalAssetsAgrement));
                     console.log(response);
                 }, (error) => {
                     console.log(error);
@@ -2989,6 +3050,10 @@ export default{
             $('.dynamic-height-level-modal1').css('height', (x-320) + 'px');
             $('.dynamic-height-level-modal2').css('height', (x-460) + 'px');
             $('.dynamic-height-level-modal3').css('height', (x-580) + 'px');
+        },
+
+        getSeries:function (plan) {
+            return [plan.capSumOfAllocation,plan.capSumOfReserved,20,30];
         },
     }
 }

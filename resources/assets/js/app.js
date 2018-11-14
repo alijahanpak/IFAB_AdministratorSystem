@@ -18,6 +18,10 @@ import money from 'v-money';
 import VuePersianDatetimePicker from 'vue-persian-datetime-picker';
 import messageDialog from './public_component/message_dialog.vue';
 
+import VueApexCharts from 'vue-apexcharts';
+
+Vue.use(VueApexCharts);
+
 
 Vue.use(vSelectPage, {
     // server side data loader
