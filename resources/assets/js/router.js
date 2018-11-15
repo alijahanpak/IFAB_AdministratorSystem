@@ -672,13 +672,16 @@ var app = new Vue({
 
         checkCount: function (page=1) {
             var allChecks=[];
+            this.allCheckCount=0;
+            var CountTemp=0;
             axios.get('financial/check/list/get_all_data?page=' + page , {params:{searchValue:null}})
                 .then((response) => {
                     allChecks = response.data.data;
                     allChecks.forEach(item =>{
                         if(item.check_state.csState == 'WAITING_FOR_PRINT')
-                            this.allCheckCount +=1;
+                            CountTemp += 1;
                     });
+                    this.allCheckCount = CountTemp;
                     console.log(response);
                 }, (error) => {
                     console.log(error);

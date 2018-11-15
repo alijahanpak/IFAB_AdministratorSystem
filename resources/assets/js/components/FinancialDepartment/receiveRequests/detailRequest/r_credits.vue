@@ -775,7 +775,7 @@
                                             <!--Table Head End-->
                                             <!--Table Body Start-->
                                             <div class="tbl_body_style dynamic-height-level-modal1">
-                                                <vue-element-loading style="width: 100%;z-index: 2" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
+                                                <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
                                                 <table class="tbl-body-contain">
                                                     <colgroup>
                                                         <col width="150px"/>
@@ -787,13 +787,13 @@
                                                         <col width="150px"/>
                                                         <col width="40px"/>
                                                     </colgroup>
-                                                    <tbody class="tbl-head-style-cell">
+                                                    <tbody style="z-index:9;" class="tbl-head-style-cell">
                                                     <tr class="table-row"  v-for="plan in completeCapitalAssetsAgrement">
                                                         <td :data-toggle="'plan' + plan.id" class="text-center">{{plan.credit_distribution_title.cdtIdNumber}}</td>
                                                         <td :data-toggle="'plan' + plan.id" class="text-center">{{$root.dispMoneyFormat(plan.capSumOfAllocation)}}</td>
                                                         <td :data-toggle="'plan' + plan.id" class="text-center">{{$root.dispMoneyFormat(plan.capSumOfReserved)}}
                                                             <div class="clearfix tool-bar">
-                                                                <div  style="width: 49vw;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="100px"  data-position="top" data-alignment="auto" :id="'plan' + plan.id" data-dropdown data-auto-focus="true">
+                                                                <div  style="width: 49vw;z-index: 999;position: absolute;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="100px"  data-position="top" data-alignment="auto" :id="'plan' + plan.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font">
                                                                         <div class="grid-x">
                                                                             <div class="large-6 medium-6">

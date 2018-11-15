@@ -326,12 +326,13 @@
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <label>تاریخ تحویل
                                     <date-picker
-                                            :color="'#5c6bc0'"
+                                            :color="checkDateValid ? '#d9534f' : '#5c6bc0'"
                                             v-model="checkDeliverTime"
                                             input-class="form-control form-control-lg date-picker-bottom-margin"
                                             id="checkDeliver-Date"
                                             placeholder="انتخاب تاریخ">
                                     </date-picker>
+                                    <p style="margin-top:3px !important;" v-show="checkDateValid" class="error-font">لطفا تاریخ چک مورد نظر را انتخاب نمایید!</p>
                                 </label>
                             </div>
                         </div>
@@ -460,6 +461,15 @@
             inputCheck: function (newQuestion, oldQuestion) {
                 if(this.inputCheck.date != null)
                     this.checkDateValid=false;
+            },
+
+            checkDeliverTime: function (newQuestion, oldQuestion) {
+                if(this.checkDeliverTime.date != '')
+                    this.checkDateValid=false;
+            },
+
+            allChecks: function (newQuestion, oldQuestion) {
+                this.$root.checkCount();
             }
         },
 
@@ -729,21 +739,25 @@
             },
 
             checkDeliver:function(){
-                axios.post('/financial/check/deliver', {
-                    cId:this.checkId,
-                    date:this.checkDeliverTime,
-                    searchValue:"",
-                }).then((response) => {
-                    this.allChecks = response.data.data;
-                    this.makePagination(response.data);
-                    this.showCheckDeliverModal=false;
-                    this.showPrintCheckModal=false;
-                    this.$parent.displayNotif(response.status);
-                    console.log(response);
-                }, (error) => {
-                    console.log(error);
-                    this.$parent.displayNotif(error.response.status);
-                });
+                if(this.checkDeliverTime == '')
+                    this.checkDateValid = true;
+                if(!this.checkDateValid ){
+                    axios.post('/financial/check/deliver', {
+                        cId:this.checkId,
+                        date:this.checkDeliverTime,
+                        searchValue:"",
+                    }).then((response) => {
+                        this.allChecks = response.data.data;
+                        this.makePagination(response.data);
+                        this.showCheckDeliverModal=false;
+                        this.showPrintCheckModal=false;
+                        this.$parent.displayNotif(response.status);
+                        console.log(response);
+                    }, (error) => {
+                        console.log(error);
+                        this.$parent.displayNotif(error.response.status);
+                    });
+                }
             },
 
             openReportFile: function (fId,cId) {
