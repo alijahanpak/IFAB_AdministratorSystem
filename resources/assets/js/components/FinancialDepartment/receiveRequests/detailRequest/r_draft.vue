@@ -345,12 +345,12 @@
                                         placeholder="انتخاب تاریخ">
                                 </date-picker>
                             </label>
-                            <p style="margin-top:3px !important;" v-show="letterDateAlert" class="error-font">لطفا تاریخ مورد نظر را وارد نمایید!</p>
+                            <p style="margin-top:3px !important;" v-show="letterDateAlert" class="error-font">لطفا تاریخ ثبت نامه را تعیین کنید!</p>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr">
                             <label> شماره
                                 <input class="form-element-margin-btm" type="text" name="letterNumber" v-model="letterNumber" v-validate="'required'" data-vv-as="field" :class="{'input': true, 'error-border': errors.has('letterNumber')}">
-                                <span v-show="errors.has('letterNumber')" class="error-font"></span>
+                                <span v-show="errors.has('letterNumber')" class="error-font">شماره نامه فراموش شده / نامعتبر است!</span>
                             </label>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
@@ -558,7 +558,7 @@
                                     </div>
                                 </suggestions>
                             </label>
-                            <p style="margin-top: 0.8rem !important;" v-show="checkRepeatAlert" class="error-font">عنوان دریافت کننده چک تکراری می باشد.</p>
+                            <p style="margin-top: 1.3rem !important;" v-show="checkRepeatAlert" class="error-font">عنوان دریافت کننده چک تکراری می باشد.</p>
                         </div>
                     </div>
                     <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">

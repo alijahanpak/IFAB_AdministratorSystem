@@ -252,8 +252,9 @@
             </div>
         </modal-large>
         <!-- Request Edit Modal -->
-
-
+        <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
+            {{dialogMessage}}
+        </messageDialog>
     </div>
 </template>
 <script>
@@ -284,6 +285,9 @@
                     precision: 0,
                     masked: true
                 },
+                dialogMessage: '',
+                showDialogModal: false,
+
             }
 
         },
@@ -391,7 +395,7 @@
 
             openUpdateRequestModal:function(){
                 if(!this.selectedRequest.rAllowUpdateInReceived){
-                    this.dialogMessage = 'با توجه به اینکه درخواست شما در مرحله بعد مشاهده شده است، امکان ویرایش درخواست در این مرحله امکانپذیر نیست!';
+                    this.dialogMessage = 'ویرایش درخواست در این مرحله امکانپذیر نیست!';
                     this.showDialogModal = true;
                 }
                 else {

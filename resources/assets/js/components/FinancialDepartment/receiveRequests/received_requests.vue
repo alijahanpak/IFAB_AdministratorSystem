@@ -20,7 +20,7 @@
         </div>
         <div class="grid-x my-callout-box container-mrg-top dynamic-height-level1">
             <!--receive_Requests_tab_view Start-->
-            <div class="large-12 medium-12 small-12 padding-lr table-mrg-top">
+            <div class="large-12 medium-12 small-12 padding-lr">
                 <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="receive_Requests_tab_view">
                     <li v-if="receiveRequests.REQUEST.unreadCount > 0" class="tabs-title is-active"><a href="#rr_REQUEST" aria-selected="true">  درخواست  <span v-show="receiveRequests.REQUEST.unreadCount > 0" class="notif-badge-purple">{{receiveRequests.REQUEST.unreadCount}}</span></a></li>
                     <li v-else class="tabs-title is-active"><a href="#rr_REQUEST" aria-selected="true">  درخواست  <span v-show="receiveRequests.REQUEST.readCount > 0" class="notif-badge-gray">{{receiveRequests.REQUEST.readCount}}</span></a></li>
@@ -854,7 +854,7 @@
                                                                     <p class="small-top-m text-justify gray-colors">
                                                                         {{recipientUser.rhDescription}}
                                                                     </p>
-                                                                    <div v-if="recipientUser.destination_user_info != null && requestState != 'WAITING_FOR_PAY_REQUEST'">
+                                                                    <div v-if="recipientUser.destination_user_info != null && selectedRequest.request_state.rsState != 'WAITING_FOR_PAY_REQUEST'">
                                                                         <p v-if="recipientUser.source_user_info.id != recipientUser.destination_user_info.id" style="margin-bottom: 0" class="small-top-m">گیرنده:</p>
                                                                         <div v-if="recipientUser.source_user_info.id != recipientUser.destination_user_info.id" class="grid-x">
                                                                             <div class="large-1 medium-2 small-12">
@@ -1068,6 +1068,7 @@
         <modal-tiny v-if="showResponseRequestModal" @close="showResponseRequestModal = false">
             <div  slot="body">
                 <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                    <form v-on:submit.prevent="responseRequest">
                     <div class="grid-x">
                         <div class="large-12 medium-12 small-12 padding-lr response-panel">
                             <p class="modal-text response-header">پاسخ به :</p>
@@ -1075,16 +1076,17 @@
                             <p style="margin-bottom:-10px;color:#9E9E9E;" class="direction-ltr small-font"><span class="black-color">ارجاع دهنده : </span> {{selectedRequest.rLastRef.source_user_info.name + ' - ' + selectedRequest.rLastRef.source_user_info.role.rSubject}}</p>
 
                         </div>
-                        <div class="large-12 medium-12 small-12 small-top-m">
-                            <label>متن پاسخ
-                                <textarea v-model="responseDescription"  class="form-element-margin-btm"  style="min-height: 150px;" name="referralDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('responseDescription')}"></textarea>
-                                <span v-show="errors.has('responseDescription')" class="error-font">لطفا متن پاسخ را وارد کنید!</span>
-                            </label>
+                            <div class="large-12 medium-12 small-12 small-top-m">
+                                <label>متن پاسخ
+                                    <textarea v-model="responseDescription"  class="form-element-margin-btm"  style="min-height: 150px;" name="responseDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('responseDescription')}"></textarea>
+                                    <span v-show="errors.has('responseDescription')" class="error-font">لطفا متن پاسخ را وارد کنید!</span>
+                                </label>
+                            </div>
+                            <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
+                                <button type="submit"  class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  پاسخ</span></button>
+                            </div>
                         </div>
-                        <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
-                            <button @click="responseRequest()"  class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  پاسخ</span></button>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </modal-tiny>

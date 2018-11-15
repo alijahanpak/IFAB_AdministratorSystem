@@ -105,9 +105,9 @@
                                 <li class="tabs-title is-active"><a href="#checkTab" aria-selected="true">چک</a></li>
                                 <li class="tabs-title"><a href="#historyCheckTab">تاریخچه پرینت </a></li>
                             </ul>
-                            <div style="height: 65vh;" class="tabs-content inner-vh" data-tabs-content="request_print_check_tab_view">
+                            <div style="height: 63vh;" class="tabs-content inner-vh" data-tabs-content="request_print_check_tab_view">
                                 <!--Tab 1-->
-                                <div style="height: 64vh;" class="tabs-panel is-active table-mrg-btm inner-vh-unsize" id="checkTab">
+                                <div style="height: 61vh;" class="tabs-panel is-active table-mrg-btm inner-vh-unsize" id="checkTab">
                                     <div class="grid-x">
                                         <div class="large-6 medium-6 small-12 padding-lr">
                                             <label>شماره چک
@@ -167,19 +167,10 @@
                                             </label>
                                         </div>
                                     </div>
-
-                                    <div class="grid-x small-top-m" style="bottom: 0px">
-                                        <div class="large-12 medium-12 small-12 padding-lr">
-                                            <div class="stacked-for-small button-group float-left">
-                                                <button v-show="deliverBtn" @click="openCheckDeliverModal()" class="my-button my-success float-left"><span class="btn-txt-mrg">  تحویل </span></button>
-                                                <button v-show="previewBtn" @click="showCheckPreview()" class="my-button my-success float-left"><span class="btn-txt-mrg">  پیش نمایش چک </span></button>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                                 <!--Tab 1-->
                                 <!--Tab 2-->
-                                <div style="height: 64vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="historyCheckTab">
+                                <div style="height: 63vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="historyCheckTab">
                                     <div class="grid-x">
                                         <div class="tbl-div-container">
                                             <table class="tbl-head">
@@ -202,7 +193,7 @@
                                                 <!--Table Head End-->
                                                 <!--Table Body Start-->
                                             </table>
-                                            <div style="height: 50vh;" class="tbl_body_style inner-vh-unsize">
+                                            <div style="height: 52vh;" class="tbl_body_style inner-vh-unsize">
                                                 <table class="tbl-body-contain">
                                                     <colgroup>
                                                         <col width="250px"/>
@@ -253,7 +244,7 @@
                                                                                     </tr>
                                                                                     <tr>
                                                                                         <td class="black-color">تاریخ پرینت :</td>
-                                                                                        <td class="text-justify"></td>
+                                                                                        <td class="text-justify">{{ pHistory.pShamsiPrintDate }}</td>
                                                                                     </tr>
                                                                                     </tbody>
                                                                                 </table>
@@ -275,6 +266,14 @@
                                     </div>
                                 </div>
                                 <!--Tab 2-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid-x small-top-m">
+                        <div class="large-12 medium-12 small-12 padding-lr">
+                            <div class="stacked-for-small button-group float-left" style="margin-bottom: 0px">
+                                <button v-show="deliverBtn" @click="openCheckDeliverModal()" class="my-button my-success float-left"><span class="btn-txt-mrg">  تحویل </span></button>
+                                <button v-show="previewBtn" @click="showCheckPreview()" class="my-button my-success float-left"><span class="btn-txt-mrg">  پیش نمایش چک </span></button>
                             </div>
                         </div>
                     </div>
