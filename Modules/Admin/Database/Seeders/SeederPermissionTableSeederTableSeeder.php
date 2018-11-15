@@ -774,5 +774,11 @@ class SeederPermissionTableSeederTableSeeder extends Seeder
         $permission->pSubject = 'بروزرسانی قرارداد';
         $permission->pPermission = 'UNIT_OF_CONTRACT_UPDATE_CONTRACT';
         $permission->save();
+
+        $permission = new Permission;
+        $permission->pSspId = 17;
+        $permission->pSubject = 'جستجوی کلیه درخواست ها';
+        $permission->pPermission = 'GLOBAL_SEARCH';
+        $permission->save();
     }
 }

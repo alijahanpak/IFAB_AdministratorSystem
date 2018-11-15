@@ -817,13 +817,13 @@
                                                         <col width="150px"/>
                                                         <col width="40px"/>
                                                     </colgroup>
-                                                    <tbody class="tbl-head-style-cell">
+                                                    <tbody style="z-index:9;" class="tbl-head-style-cell">
                                                     <tr class="table-row"  v-for="plan in completeCapitalAssetsAgrement">
                                                         <td :data-toggle="'plan' + plan.id" class="text-center">{{plan.credit_distribution_title.cdtIdNumber}}</td>
                                                         <td :data-toggle="'plan' + plan.id" class="text-center">{{$root.dispMoneyFormat(plan.capSumOfAllocation)}}</td>
                                                         <td :data-toggle="'plan' + plan.id" class="text-center">{{$root.dispMoneyFormat(plan.capSumOfReserved)}}
                                                             <div class="clearfix tool-bar">
-                                                                <div  style="width: 49vw;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="100px"  data-position="top" data-alignment="auto" :id="'plan' + plan.id" data-dropdown data-auto-focus="true">
+                                                                <div  style="width: 49vw;z-index: 999;position: absolute;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="100px"  data-position="top" data-alignment="auto" :id="'plan' + plan.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font">
                                                                         <div class="grid-x">
                                                                             <div class="large-6 medium-6">

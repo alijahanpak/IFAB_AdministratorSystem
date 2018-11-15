@@ -189,7 +189,7 @@
                                         <ul class="menu vertical nested is-active">
                                             <li data-close><router-link to="/financial_department/submissions">ارسالی</router-link></li>
                                             <li data-close><router-link to="/financial_department/received_requests">دریافتی   <span v-show="unReadRequestCount > 0" class="notif-badage">@{{ unReadRequestCount }}</span></router-link></li>
-                                            <li data-close><router-link to="/financial_department/search_requests">جستجو</router-link></li>
+                                            <li data-close v-show="$can('GLOBAL_SEARCH')"><router-link to="/financial_department/search_requests">جستجو</router-link></li>
                                         </ul>
                                     </li>
                                     <!--Financial Department End-->

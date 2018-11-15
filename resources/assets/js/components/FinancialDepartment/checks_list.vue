@@ -100,14 +100,14 @@
             <div slot="body">
                 <div class="small-font">
                     <div class="grid-x">
-                        <div class="large-12 medium-12 small-12 container-vh">
+                        <div class="large-12 medium-12 small-12 container-vh" style="height: 60vh">
                             <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="request_print_check_tab_view">
                                 <li class="tabs-title is-active"><a href="#checkTab" aria-selected="true">چک</a></li>
                                 <li class="tabs-title"><a href="#historyCheckTab">تاریخچه پرینت </a></li>
                             </ul>
-                            <div style="height: 63vh;" class="tabs-content inner-vh" data-tabs-content="request_print_check_tab_view">
+                            <div style="height: 55vh;" class="tabs-content inner-vh" data-tabs-content="request_print_check_tab_view">
                                 <!--Tab 1-->
-                                <div style="height: 61vh;" class="tabs-panel is-active table-mrg-btm inner-vh-unsize" id="checkTab">
+                                <div style="height: 54vh;" class="tabs-panel is-active table-mrg-btm inner-vh-unsize" id="checkTab">
                                     <div class="grid-x">
                                         <div class="large-6 medium-6 small-12 padding-lr">
                                             <label>شماره چک
@@ -124,7 +124,7 @@
                                                         id="inputCheck-Date"
                                                         placeholder="انتخاب تاریخ">
                                                 </date-picker>
-                                                <p style="margin-top:3px !important;" v-show="checkDateValid" class="error-font">لطفا تاریخ چک مورد نظر را انتخاب نمایید!</p>
+                                                <p style="margin-top:3px !important;" v-show="checkDateValid" class="error-font">تاریخ چک فراموش شده است!</p>
                                             </label>
                                         </div>
                                     </div>
@@ -170,7 +170,7 @@
                                 </div>
                                 <!--Tab 1-->
                                 <!--Tab 2-->
-                                <div style="height: 63vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="historyCheckTab">
+                                <div style="height: 55vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="historyCheckTab">
                                     <div class="grid-x">
                                         <div class="tbl-div-container">
                                             <table class="tbl-head">
@@ -193,7 +193,7 @@
                                                 <!--Table Head End-->
                                                 <!--Table Body Start-->
                                             </table>
-                                            <div style="height: 52vh;" class="tbl_body_style inner-vh-unsize">
+                                            <div style="height: 44vh;" class="tbl_body_style inner-vh-unsize">
                                                 <table class="tbl-body-contain">
                                                     <colgroup>
                                                         <col width="250px"/>
@@ -323,14 +323,17 @@
                     <div class="small-font">
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12 padding-lr">
+                                <p class="black-color text-justify" style="font-size: 1rem">کاربر گرامی:</p>
+                                <p class="large-offset-1 modal-text text-justify">توجه فرمایید که تحویل چک به معنای تکمیل فرایند پرداخت بوده و مبلغ چک بعنوان هزینه از محل های تامین اعتبار در نظر گرفته می شود بنابراین پس از تحویل قطعی چک نسبت به اعلام تحویل از طریق این فرم اقدام نمایید.</p>
                                 <label>تاریخ تحویل
                                     <date-picker
-                                            :color="'#5c6bc0'"
+                                            :color="checkDateValid ? '#d9534f' : '#5c6bc0'"
                                             v-model="checkDeliverTime"
                                             input-class="form-control form-control-lg date-picker-bottom-margin"
                                             id="checkDeliver-Date"
                                             placeholder="انتخاب تاریخ">
                                     </date-picker>
+                                    <p style="margin-top:3px !important;" v-show="checkDateValid" class="error-font">تاریخ تحویل چک فراموش شده است!</p>
                                 </label>
                             </div>
                         </div>
@@ -353,7 +356,8 @@
                 <div class="small-font">
                     <div class="grid-x">
                         <div class="large-12 medium-12 small-12 padding-lr">
-                            <p class="btn-red">کاربر گرامی : شما قبلا این چک را تحویل داده اید! برای پرینت مجدد باید علت پرینت چک را وارد نمایید.</p>
+                            <p class="black-color text-justify" style="font-size: 1rem">کاربر گرامی:</p>
+                            <p class="large-offset-1 btn-red">شما قبلا این چک را تحویل داده اید! برای پرینت مجدد باید علت پرینت چک را وارد نمایید.</p>
                             <label>علت پرینت مجدد
                                 <textarea v-model="inputCheck.description"  class="form-element-margin-btm"  style="min-height: 150px;" name="description"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('description')}"></textarea>
                                 <span v-show="errors.has('description')" class="error-font">لطفا علت پرینت مجدد چک را وارد کنید!</span>
@@ -459,6 +463,15 @@
             inputCheck: function (newQuestion, oldQuestion) {
                 if(this.inputCheck.date != null)
                     this.checkDateValid=false;
+            },
+
+            checkDeliverTime: function (newQuestion, oldQuestion) {
+                if(this.checkDeliverTime.date != '')
+                    this.checkDateValid=false;
+            },
+
+            allChecks: function (newQuestion, oldQuestion) {
+                this.$root.checkCount();
             }
         },
 
@@ -728,21 +741,25 @@
             },
 
             checkDeliver:function(){
-                axios.post('/financial/check/deliver', {
-                    cId:this.checkId,
-                    date:this.checkDeliverTime,
-                    searchValue:"",
-                }).then((response) => {
-                    this.allChecks = response.data.data;
-                    this.makePagination(response.data);
-                    this.showCheckDeliverModal=false;
-                    this.showPrintCheckModal=false;
-                    this.$parent.displayNotif(response.status);
-                    console.log(response);
-                }, (error) => {
-                    console.log(error);
-                    this.$parent.displayNotif(error.response.status);
-                });
+                if(this.checkDeliverTime == '')
+                    this.checkDateValid = true;
+                if(!this.checkDateValid ){
+                    axios.post('/financial/check/deliver', {
+                        cId:this.checkId,
+                        date:this.checkDeliverTime,
+                        searchValue:"",
+                    }).then((response) => {
+                        this.allChecks = response.data.data;
+                        this.makePagination(response.data);
+                        this.showCheckDeliverModal=false;
+                        this.showPrintCheckModal=false;
+                        this.$parent.displayNotif(response.status);
+                        console.log(response);
+                    }, (error) => {
+                        console.log(error);
+                        this.$parent.displayNotif(error.response.status);
+                    });
+                }
             },
 
             openReportFile: function (fId,cId) {

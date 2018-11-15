@@ -63,7 +63,7 @@ const routes = [
     { path: '/financial_department', component: fdDashboard , meta:{permission: 'FINANCIAL_DASHBOARD_DISPLAY'}},
     { path: '/financial_department/submissions', component: submissions , meta:{permission: 'public'}},
     { path: '/financial_department/received_requests', component: received_requests , meta:{permission: 'public'}},
-    { path: '/financial_department/search_requests', component: search_requests , meta:{permission: 'public'}},
+    { path: '/financial_department/search_requests', component: search_requests , meta:{permission: 'GLOBAL_SEARCH'}},
     { path: '/financial_department/checks/list', component: checks_list , meta:{permission: 'CHECK_LIST_DISPLAY'}},
     { path: '/financial_department/checks/templates', component: checks_template , meta:{permission: 'CREATE_NEW_CHECK_TEMPLATE'}},
     { path: '/financial_department/refund', component: refund , meta:{permission: 'DISPLAY_REFUNDS'}},
@@ -672,13 +672,16 @@ var app = new Vue({
 
         checkCount: function (page=1) {
             var allChecks=[];
+            this.allCheckCount=0;
+            var CountTemp=0;
             axios.get('financial/check/list/get_all_data?page=' + page , {params:{searchValue:null}})
                 .then((response) => {
                     allChecks = response.data.data;
                     allChecks.forEach(item =>{
                         if(item.check_state.csState == 'WAITING_FOR_PRINT')
-                            this.allCheckCount +=1;
+                            CountTemp += 1;
                     });
+                    this.allCheckCount = CountTemp;
                     console.log(response);
                 }, (error) => {
                     console.log(error);
