@@ -351,7 +351,7 @@
                                                                             <template>
                                                                                 <div class="grid-x">
                                                                                     <div class="large-12">
-                                                                                        <apexcharts width="300" height="300" type="radialBar" :options="chartOptions" :series="[(parseInt(plan.caSumOfAllocation) / parseInt(plan.caSumOfAllocation)) * 100 , (parseInt(plan.caSumOfReserved) / parseInt(plan.caSumOfAllocation)) * 100 , (parseInt(plan.caSumOfCommitment) / parseInt(plan.caSumOfAllocation)) * 100 , (parseInt(plan.caSumOfCost) / parseInt(plan.caSumOfAllocation)) * 100]"></apexcharts>
+                                                                                        <apexcharts width="100%" height="300" type="radialBar" :options="chartOptions" :series="[(parseInt(plan.caSumOfAllocation) / parseInt(plan.caSumOfAllocation)) * 100 , (parseInt(plan.caSumOfReserved) / parseInt(plan.caSumOfAllocation)) * 100 , (parseInt(plan.caSumOfCommitment) / parseInt(plan.caSumOfAllocation)) * 100 , (parseInt(plan.caSumOfCost) / parseInt(plan.caSumOfAllocation)) * 100]"></apexcharts>
                                                                                     </div>
                                                                                 </div>
                                                                             </template>
@@ -834,10 +834,6 @@
                                                                                         <tr>
                                                                                             <td width="170" class="black-color">شماره موافقتنامه :</td>
                                                                                             <td width="430">{{plan.capLetterNumber}}</td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <td class="black-color">تاریخ موافقتنامه :</td>
-                                                                                            <td>{{plan.capLetterDate}}</td>
                                                                                         </tr>
                                                                                         <tr>
                                                                                             <td class="black-color">تاریخ موافقتنامه :</td>
@@ -1550,7 +1546,7 @@
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
                             <button v-show="!$root.btnLoadingCheckStatus" v-on:click="applyFromRefund" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
-                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </div>

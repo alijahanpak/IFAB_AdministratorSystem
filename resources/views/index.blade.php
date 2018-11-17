@@ -200,7 +200,7 @@
                                     <!--checks list-->
                                     <!--fund-->
                                     <li data-close v-show="$can('DISPLAY_REFUNDS')">
-                                        <router-link class="right-mp right-menu-btm-border" to="/financial_department/refund">تنخواه گردان کارپردازی</router-link>
+                                        <router-link class="right-mp right-menu-btm-border" to="/financial_department/refund"> تنخواه گردان کارپردازی<span v-show="allRefundCount > 0" class="notif-badage">@{{ allRefundCount }}</span></router-link>
                                     </li>
                                     <!--fund-->
                                 </ul>
