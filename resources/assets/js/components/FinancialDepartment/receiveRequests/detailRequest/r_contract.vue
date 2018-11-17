@@ -161,7 +161,7 @@
                         <div class="grid-x">
                             <div class="large-8 medium-8 small-12 padding-lr">
                                 <label>مجری
-                                    <suggestions style="margin-bottom: -18px;height: 41px;" name="executorTitle" :class="executorAlert ? 'select-error' : ''"
+                                    <suggestions style="margin-bottom: -18px;height: 41px;" autocomplete="off" name="executorTitle" :class="executorAlert ? 'select-error' : ''"
                                                  v-model="contractInput.executor"
                                                  :options="executorOptions"
                                                  :onInputChange="onExecutorInputChange">
@@ -327,7 +327,7 @@
                         <div class="grid-x">
                             <div class="large-8 medium-8 small-12 padding-lr">
                                 <label>مجری
-                                    <suggestions style="margin-bottom: -18px;height: 41px;" name="executorTitle" :class="executorAlert ? 'select-error' : ''"
+                                    <suggestions autocomplete="off" style="margin-bottom: -18px;height: 41px;" name="executorTitle" :class="executorAlert ? 'select-error' : ''"
                                                  v-model="contractInput.executor"
                                                  :options="executorOptions"
                                                  :onInputChange="onExecutorInputChange">

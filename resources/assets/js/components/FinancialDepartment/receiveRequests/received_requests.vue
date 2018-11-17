@@ -700,7 +700,7 @@
                             </ul>
                             <div class="tabs-content inner-vh" data-tabs-content="request_tab_view">
                                 <!--Tab 1-->
-                                <div style="height: 63vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" :class="selectedRequest.request_level.rlLevel == 'REQUEST' ? 'is-active' : ''" id="requestDetailTab">
+                                <div class="tabs-panel table-mrg-btm inner-vh-unsize" :class="selectedRequest.request_level.rlLevel == 'REQUEST' ? 'is-active' : ''" id="requestDetailTab">
                                     <rDetails v-on:updateReceiveRequestData="updateReceiveRequestData"
                                               v-bind:requestTypeDetail="selectedRequest.request_type.rtType"
                                               v-bind:requestFill="selectedRequest"
@@ -713,7 +713,7 @@
                                 </div>
                                 <!--Tab 1-->
                                 <!--Tab 2-->
-                                <div style="height: 63vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="requestVerifiersTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                <div style="height: 65vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="requestVerifiersTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x">
                                         <div v-for="verifier in selectedRequest.verifiers" class="large-12 medium-12 small-12 verifier-panel">
                                             <div class="grid-x">
@@ -831,7 +831,7 @@
                                 </div>
                                 <!--Tab 6-->
                                 <!--Tab 7-->
-                                <div style="height: 63vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="requestHistoryTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                <div style="height: 65vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="requestHistoryTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12 large-top-m">
                                             <div style="margin-top:-50px;" v-for="recipientUser in selectedRequest.history" class="grid-x timeline">
@@ -886,7 +886,7 @@
                                 <!--Tab 7-->
 
                                 <!--Tab 8-->
-                                <div class="tabs-panel table-mrg-btm inner-vh-2" id="requestAttachmentsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                <div style="height: 65vh;" class="tabs-panel table-mrg-btm inner-vh-2" id="requestAttachmentsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x">
                                         <vue-element-loading :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
                                         <div class="medium-12 padding-lr">
@@ -1107,12 +1107,12 @@
                                         placeholder="انتخاب تاریخ">
                                 </date-picker>
                             </label>
-                            <p style="margin-top:3px !important;" v-show="letterDateAlert" class="error-font">لطفا تاریخ مورد نظر را وارد نمایید!</p>
+                            <p style="margin-top:3px !important;" v-show="letterDateAlert" class="error-font">لطفا تاریخ ثبت درخواست را انتخاب نمایید!</p>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr">
                             <label> شماره
                                 <input class="form-element-margin-btm" type="text" name="letterNumber" v-model="letterNumber" v-validate="'required'" data-vv-as="field" :class="{'input': true, 'error-border': errors.has('letterNumber')}">
-                                <span v-show="errors.has('letterNumber')" class="error-font"></span>
+                                <span v-show="errors.has('letterNumber')" class="error-font">شماره ثبت فراموش شده / نامعتبر است!</span>
                             </label>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">

@@ -103,7 +103,7 @@
         <modal-large v-if="showBuyCommodityModal" @close="showBuyCommodityModal = false">
             <div  slot="body">
                 <!--v-loading="'<i class=\'fa fa-spinner fa-spin\'></i>'"-->
-                <form v-on:submit.prevent="createRequest" >
+                <form v-on:submit.prevent="createRequest">
                     <div class="small-font container-vh">
                         <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="commodity_tab_view">
                             <li class="tabs-title is-active"><a href="#reciverTab" aria-selected="true">دریافت کنندگان</a></li>
@@ -112,7 +112,7 @@
                         </ul>
                         <div class="tabs-content inner-vh" data-tabs-content="commodity_tab_view">
                             <!--Tab 1-->
-                            <div class="tabs-panel is-active inner-vh-unsize" id="reciverTab">
+                            <div style="height: 60vh" class="tabs-panel is-active inner-vh-unsize" id="reciverTab">
                                 <div class="grid-x tbl_body_style">
                                     <div v-for="recipientsGroup in recipients"  class="large-12 medium-12 small-12">
                                         <div class="grid-x">
@@ -165,7 +165,7 @@
                             <!--Tab 1-->
 
                             <!--Tab 2-->
-                            <div class="tabs-panel table-mrg-btm inner-vh-unsize" id="commodityTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                            <div style="height: 60vh" class="tabs-panel table-mrg-btm inner-vh-unsize" id="commodityTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                 <div style="margin-top: 25px" class="grid-x">
                                     <div class="large-6 medium-6 small-12">
                                         <label>موضوع
@@ -292,7 +292,7 @@
                             <!--Tab 2-->
 
                             <!--Tab 3 - Attachment Tab-->
-                            <div class="tabs-panel table-mrg-btm inner-vh-unsize" id="attachmentTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                            <div style="height: 60vh" class="tabs-panel table-mrg-btm inner-vh-unsize" id="attachmentTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                 <div class="grid-x tbl_body_style">
                                     <div class="large-12 medium-12 small-12 padding-lr">
                                         <label class="my-button toolbox-btn"> انتخاب فایل
@@ -331,7 +331,7 @@
                                                                 <p v-if="Number((attachment.size / 1000).toFixed(1)) > 1024" class="gray-colors">{{  Number(((attachment.size / 1000)/1024).toFixed(1)) + ' مگابایت'}}</p>
                                                             </div>
                                                             <div style="direction:rtl;" class="large-2 medium-2">
-                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'attachmentDel' + index"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                <a class="dropdown small sm-btn-align" :data-toggle="'attachmentDel' + index"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                 <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'attachmentDel' + index" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
                                                                         <li><a @click="removeAttachment(index)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
@@ -349,8 +349,8 @@
                             <!--Tab 3 - Attachment Tab-->
                         </div>
                     </div>
-                    <div class="large-12 medium-12 small-12 padding-lr medium-top-m">
-                        <div style="margin-bottom:-10px;" class="stacked-for-small button-group">
+                    <div class="large-12 medium-12 small-12 padding-lr" style="margin-top: 5px">
+                        <div class="stacked-for-small button-group">
                             <button  v-show="!$root.btnLoadingCheckStatus" type="submit"  class="my-button my-success float-left"><span class="btn-txt-mrg">   ثبت   </span></button>
                             <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             <!--v-loading="'<i class=\'fa fa-spinner fa-spin\'></i>'"-->
@@ -827,15 +827,15 @@
             <div  slot="body">
                 <div class="large-12 medium-12 small-12">
                     <form v-on:submit.prevent="registerPayRequest" >
-                        <div class="small-font">
-                            <div class="large-12 medium-12 small-12 container-vh">
+                        <div class="small-font" style="height: 77vh">
+                            <div class="large-12 medium-12 small-12 container-vh" style="height: 63vh">
                                 <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="payment_request_tab_view">
                                     <li class="tabs-title is-active"><a href="#peymentVerifiersTab" aria-selected="true">امضا کنندگان</a></li>
                                     <li class="tabs-title"><a href="#paymentTab">پرداخت </a></li>
                                 </ul>
                                 <div class="tabs-content inner-vh" data-tabs-content="payment_request_tab_view">
                                     <!--Tab 1-->
-                                    <div style="height: 65vh;" class="tabs-panel is-active table-mrg-btm inner-vh-unsize" id="peymentVerifiersTab">
+                                    <div style="height: 60vh;" class="tabs-panel is-active table-mrg-btm inner-vh-unsize" id="peymentVerifiersTab">
                                         <div class="grid-x">
                                             <div class="large-9 medium-9 small-12">
                                                 <div class="grid-x">
@@ -860,7 +860,7 @@
                                     </div>
                                     <!--Tab 1-->
                                     <!--Tab 2-->
-                                    <div style="height: 65vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="paymentTab">
+                                    <div style="height: 60vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="paymentTab">
                                         <div class="grid-x">
                                             <div class="large-12 medium-12 small-12 padding-lr">
                                                 <label>قرارداد
@@ -934,9 +934,9 @@
                                     <!--Tab 2-->
                                 </div>
                             </div>
-                            <div class="grid-x medium-top-m padding-lr input-bottom-margin">
-                                <div class="large-12 medium-12 small-12 padding-lr">
-                                    <div class="stacked-for-small button-group float-left">
+                            <div class="grid-x medium-top-m input-bottom-margin">
+                                <div class="large-12 medium-12 small-12">
+                                    <div class="stacked-for-small button-group float-left" style="margin-bottom: 0px">
                                         <button v-show="!$root.btnLoadingCheckStatus" type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
                                         <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                                     </div>

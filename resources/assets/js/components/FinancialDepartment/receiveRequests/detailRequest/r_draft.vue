@@ -375,7 +375,7 @@
                                         <div class="grid-x">
                                             <div class="large-12 medium-12  small-12">
                                                 <label>{{ percentDecCategory.pdcSubject }}<span class="btn-red size-12" v-if="percentDecCategory.necessary"> - الزامی</span><span class="btn-red size-12" v-if="percentDecCategory.delivered"> - تحویل داده شده</span>
-                                                    <select v-model="percentDecInput['percentage' + percentDecCategory.id]" :disabled="percentDecCategory.isNeed == true || requestType == 'FUND'" v-on:change="calculatePercentAmount(percentDecInput['percentage' + percentDecCategory.id], index)">
+                                                    <select v-model="percentDecInput['percentage' + percentDecCategory.id]" :disabled="percentDecCategory.isNeed == true || requestType == 'FUND'" @change="calculatePercentAmount(percentDecInput['percentage' + percentDecCategory.id], index)">
                                                         <option value=""></option>
                                                         <option v-for="pd in percentDecCategory.percentage_decrease" :value="pd.id">{{pd.pdSubject}} - {{'(' + pd.pdPercent + '%)'}}</option>
                                                     </select>
@@ -1124,6 +1124,7 @@
                                     }
                                 });
 
+
                                 if (isExist)
                                     Vue.set(item, "amountDec", Math.round((item.pdPercent * this.draftAmount) / 100));
                                 else
@@ -1221,17 +1222,18 @@
                     });
                 }
 
-                if (this.baseAmounts.length == 0)
-                {
-                    if (this.requestType != 'BUY_COMMODITY')
-                    {
-                        var obj={};
-                        Vue.set(obj,"payTo",this.draftPayTo);
-                        Vue.set(obj,"for",this.draftFor);
-                        Vue.set(obj,"amount",this.remainingBaseAmount);
-                        this.baseAmounts.push(obj);
-                        this.remainingBaseAmount = 0;
+                if (this.requestType != 'BUY_COMMODITY') {
+                    var obj = {};
+                    Vue.set(obj, "payTo", this.draftPayTo);
+                    Vue.set(obj, "for", this.draftFor);
+                    if (this.baseAmounts.length == 0) {
+                        Vue.set(obj, "amount", this.remainingBaseAmount);
+                    } else {
+                        this.baseAmounts = [];
+                        Vue.set(obj, "amount", Math.round(this.draftAmount - lastTemp));
                     }
+                    this.baseAmounts.push(obj);
+                    this.remainingBaseAmount = 0;
                 }
             },
 

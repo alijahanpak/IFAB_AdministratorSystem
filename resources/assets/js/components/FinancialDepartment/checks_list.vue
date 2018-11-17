@@ -531,9 +531,9 @@
                 this.checkSelectTemp.push(check);
                 console.log(JSON.stringify(this.checkSelectTemp));
                 this.checkSelectTemp.forEach(item =>{
-                    this.dPayTo=item.draft.dPayTo;
-                    this.dFor=item.cPdId != null ? item.percentage_decrease.pdSubject + ' - ' + item.draft.dFor : item.draft.dFor;
-                    this.cAmount=item.cAmount;
+                    this.dPayTo = item.cPdId != null ? item.percentage_decrease.pdPayTo : item.draft.dPayTo;
+                    this.dFor = item.cPdId != null ? item.percentage_decrease.pdSubject + ' - ' + item.draft.dFor : item.draft.dFor;
+                    this.cAmount = item.cAmount;
                 });
 
                 this.checkSelectTemp.forEach(item =>{

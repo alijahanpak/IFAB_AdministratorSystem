@@ -171,12 +171,12 @@
                                         placeholder="انتخاب تاریخ">
                                 </date-picker>
                             </label>
-                            <p style="margin-top:3px !important;" v-show="letterDateAlert" class="error-font">لطفا تاریخ مورد نظر را وارد نمایید!</p>
+                            <p style="margin-top:3px !important;" v-show="letterDateAlert" class="error-font">لطفا تاریخ ثبت درخواست را انتخاب کنید!</p>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr">
                             <label> شماره
                                 <input class="form-element-margin-btm" type="text" name="letterNumber" v-model="letterNumber" v-validate="'required'" data-vv-as="field" :class="{'input': true, 'error-border': errors.has('letterNumber')}">
-                                <span v-show="errors.has('letterNumber')" class="error-font"></span>
+                                <span v-show="errors.has('letterNumber')" class="error-font">تاریخ فراموش شده / نامعتبر است!</span>
                             </label>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
@@ -194,14 +194,14 @@
             <div  slot="body">
                 <form v-on:submit.prevent="addNewDraft" >
                     <div class="small-font">
-                        <div class="large-12 medium-12 small-12">
+                        <div class="large-12 medium-12 small-12 container-vh">
                             <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="draft_tab_view">
                                 <li class="tabs-title is-active"><a href="#verTab" aria-selected="true">امضا کننده</a></li>
                                 <li class="tabs-title"><a href="#drafTab">حواله </a></li>
                             </ul>
-                            <div class="tabs-content" data-tabs-content="draft_tab_view">
+                            <div class="tabs-content inner-vh" data-tabs-content="draft_tab_view">
                                 <!--Tab 1-->
-                                <div class="tabs-panel is-active table-mrg-btm" id="verTab">
+                                <div class="tabs-panel is-active table-mrg-btm inner-vh-unsize" id="verTab">
                                     <div class="grid-x">
                                         <div class="large-8 medium-8 small-12">
                                             <label>امضا کننده
@@ -216,7 +216,7 @@
                                 </div>
                                 <!--Tab 1-->
                                 <!--Tab 2-->
-                                <div class="tabs-panel table-mrg-btm" id="drafTab">
+                                <div style="height: 65vh" class="tabs-panel table-mrg-btm inner-vh-unsize" id="drafTab">
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12 padding-lr">
                                             <label>بابت
@@ -275,7 +275,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                                 <!--Tab 2-->
                             </div>

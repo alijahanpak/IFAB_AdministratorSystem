@@ -2295,7 +2295,7 @@ input[type="search"]:valid + label {
 }
 
 .inner-vh {
-    height: 90%;
+    /*height: 90%;*/
     position: absolute;
     width: 100%;
 
@@ -2311,7 +2311,7 @@ input[type="search"]:valid + label {
 .inner-vh-3 {
     width: 100%;
     overflow-x: auto;
-    height: 51vh;
+    height: 48vh;
     position: relative;
 }
 
