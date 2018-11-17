@@ -213,6 +213,7 @@ var app = new Vue({
         unReadRequestCount: 0,
         btnLoadingCheckStatus:true,
         allCheckCount:0,
+        allRefundCount:0,
     },
 
     updated: function () {
@@ -276,6 +277,7 @@ var app = new Vue({
             this.getAmountBase();
             this.getAllAmountBase();
             this.checkCount();
+            this.getRefundCount();
             this._getUnReadReceivedRequest();
         },
 
@@ -682,6 +684,29 @@ var app = new Vue({
                             CountTemp += 1;
                     });
                     this.allCheckCount = CountTemp;
+                    console.log(response);
+                }, (error) => {
+                    console.log(error);
+                });
+        },
+
+        getRefundCount: function () {
+            axios.get('/financial/refund/fetch_all_refund')
+                .then((response) => {
+                    this.refunds = response.data;
+                    var refundCountTemp=0;
+                    this.refunds.forEach(item => {
+                        item.factor.forEach(fac => {
+                            if(fac.factor_state.fsState =='PENDING_REVIEW')
+                                refundCountTemp += 1;
+                        });
+                        item.rRelativeFactor.forEach(rFac => {
+                            if(rFac.factor_state.fsState =='PENDING_REVIEW')
+                                refundCountTemp += 1;
+                        });
+                        this.allRefundCount=refundCountTemp;
+
+                    });
                     console.log(response);
                 }, (error) => {
                     console.log(error);

@@ -131,8 +131,8 @@
                                                </td>
                                            </template>
                                            <template v-else>
-                                               <td colspan="3" class="text-center" v-show="factor.factor_state.fsState == 'NOT_ACCEPTED'"><span class="blocked-label">{{ factor.factor_state.fsSubject }}</span></td>
-                                               <td colspan="3" class="text-center" v-show="factor.factor_state.fsState == 'ACCEPTED'"><span class="success-label">{{ factor.factor_state.fsSubject }}</span></td>
+                                               <td width="350" class="text-center" v-show="factor.factor_state.fsState == 'NOT_ACCEPTED'"><span class="blocked-label">{{ factor.factor_state.fsSubject }}</span></td>
+                                               <td width="350" class="text-center" v-show="factor.factor_state.fsState == 'ACCEPTED'"><span class="success-label">{{ factor.factor_state.fsSubject }}</span></td>
 
                                            </template>
                                        </tr>
@@ -172,7 +172,7 @@
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
                             <button v-show="!$root.btnLoadingCheckStatus" v-on:click="acceptRefundFactor"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
-                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </div>
@@ -189,7 +189,7 @@
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
                             <button  v-show="!$root.btnLoadingCheckStatus" v-on:click="rejectRefundFactor"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
-                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </div>
@@ -257,7 +257,8 @@
             // whenever question changes, this function will run
             refunds: function (newQuestion, oldQuestion) {
                 this.selectedRefund=this.refunds[this.selectedIndex];
-            }
+                this.$root.getRefundCount();
+            },
         },
 
         methods: {
@@ -278,18 +279,28 @@
                 axios.get('/financial/refund/fetch_all_refund')
                     .then((response) => {
                         this.refunds = response.data;
-                        var pendingFactorsTemps=0;
-                        this.refunds.forEach(item => {
-                            item.factor.forEach(fac => {
-                                if(fac.factor_state.fsState =='PENDING_REVIEW')
-                                    pendingFactorsTemps += 1;
-                                });
-                            this.pendingFactors.push(pendingFactorsTemps)
-                        });
+                        this.getPendingFactors();
                         console.log(response);
                     }, (error) => {
                         console.log(error);
+                });
+            },
+
+            getPendingFactors: function(){
+                this.pendingFactors=[];
+                var pendingFactorsTemp=0;
+                this.refunds.forEach(item => {
+                    item.factor.forEach(fac => {
+                        if(fac.factor_state.fsState =='PENDING_REVIEW')
+                            pendingFactorsTemp += 1;
                     });
+                    item.rRelativeFactor.forEach(rFac => {
+                        if(rFac.factor_state.fsState =='PENDING_REVIEW')
+                            pendingFactorsTemp += 1;
+                    });
+                    this.pendingFactors.push(pendingFactorsTemp);
+
+                });
             },
 
             openFactorDetailModal : function(index){
@@ -300,13 +311,18 @@
 
             getFactorDetail : function () {
                 this.factorTemp=[];
-                this.selectedRefund=this.refunds[this.selectedIndex]
-                this.factorTemp=this.selectedRefund.factor;
+                this.selectedRefund=[];
+                this.selectedRefund=this.refunds[this.selectedIndex];
+                console.log(JSON.stringify(this.selectedRefund));
+                //this.factorTemp=this.selectedRefund.factor;
+                console.log(JSON.stringify(this.factorTemp));
+                this.selectedRefund.factor.forEach(item => {
+                    this.factorTemp.push(item);
+                });
                 this.selectedRefund.rRelativeFactor.forEach(item => {
                     this.factorTemp.push(item);
                 });
-                console.log(JSON.stringify(this.factorTemp));
-
+                //console.log(JSON.stringify(this.factorTemp));
             },
 
             openConfirmFactor: function(fId){
@@ -326,6 +342,7 @@
                     this.getFactorDetail();
                     this.$emit('closeModal');
                     this.showAcceptRefundFactor=false;
+                    this.getPendingFactors();
                     this.$root.displayNotif(response.status);
                     console.log(response);
                 }, (error) => {
