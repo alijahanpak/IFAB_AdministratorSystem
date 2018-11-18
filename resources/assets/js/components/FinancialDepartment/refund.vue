@@ -76,69 +76,91 @@
                            <!--Table Start-->
                            <!--Table Head Start-->
                            <div class="tbl-div-container">
-                               <table class="tbl-head">
-                                   <colgroup>
-                                       <col width="300px"/>
-                                       <col width="150px"/>
-                                       <col width="200px"/>
-                                       <col width="300px"/>
-                                       <col width="150px"/>
-                                       <col width="80px"/>
-                                       <col width="120px"/>
-                                       <col width="12px"/>
-                                   </colgroup>
-                                   <tbody class="tbl-head-style ">
-                                   <tr class="tbl-head-style-cell">
-                                       <th class="tbl-head-style-cell">عنوان</th>
-                                       <th class="tbl-head-style-cell">مبلغ</th>
-                                       <th class="tbl-head-style-cell">فروشنده</th>
-                                       <th class="tbl-head-style-cell">شرح</th>
-                                       <th class="tbl-head-style-cell"></th>
-                                       <th class="tbl-head-style-cell">وضعیت</th>
-                                       <th class="tbl-head-style-cell"></th>
-                                       <th class="tbl-head-style-cell"> </th>
-                                       <th class="tbl-head-style-cell"></th>
-                                       <th class="tbl-head-style-cell"></th>
-                                   </tr>
-                                   </tbody>
-                                   <!--Table Head End-->
-                                   <!--Table Body Start-->
-                               </table>
-                               <div style="height: 43vh;" class="tbl_body_style inner-vh-unsize">
-                                   <table class="tbl-body-contain">
+                               <template>
+                                   <table class="tbl-head">
                                        <colgroup>
                                            <col width="300px"/>
                                            <col width="150px"/>
                                            <col width="200px"/>
                                            <col width="300px"/>
-                                           <col width="150px"/>
-                                           <col width="80px"/>
-                                           <col width="120px"/>
-                                       </colgroup>
-                                       <tbody class="tbl-head-style-cell">
-                                       <tr v-for="factor in factorTemp">
-                                           <td>{{factor.fSubject}}</td>
-                                           <td class="text-center">{{$root.dispMoneyFormat(factor.fAmount)}}</td>
-                                           <td class="text-center">{{factor.seller.sSubject}}</td>
-                                           <td class="text-justify">{{factor.fDescription}}</td>
-                                           <template v-if="factor.factor_state.fsState == 'PENDING_REVIEW'">
-                                               <td class="text-center" v-show="factor.factor_state.fsState == 'PENDING_REVIEW'"><span class="reserved-label">{{ factor.factor_state.fsSubject }}</span></td>
-                                               <td class="text-center">
-                                                   <a style="margin-bottom: 0px" class="my-button my-success small" @click="openConfirmFactor(factor.id)">تایید</a>
-                                               </td>
-                                               <td class="text-center">
-                                                   <a style="margin-bottom: 0px" class="my-button toolbox-btn small" @click="openRejectFactor(factor.id)">عدم تایید</a>
-                                               </td>
+                                           <template v-if=" pendingFactorsTemp > 0">
+                                               <col width="150px"/>
+                                               <col width="80px"/>
+                                               <col width="120px"/>
                                            </template>
                                            <template v-else>
-                                               <td width="350" class="text-center" v-show="factor.factor_state.fsState == 'NOT_ACCEPTED'"><span class="blocked-label">{{ factor.factor_state.fsSubject }}</span></td>
-                                               <td width="350" class="text-center" v-show="factor.factor_state.fsState == 'ACCEPTED'"><span class="success-label">{{ factor.factor_state.fsSubject }}</span></td>
-
+                                               <col width="150px"/>
                                            </template>
+                                           <col width="12px"/>
+                                       </colgroup>
+                                       <tbody class="tbl-head-style ">
+                                       <tr class="tbl-head-style-cell">
+                                           <th class="tbl-head-style-cell">عنوان</th>
+                                           <th class="tbl-head-style-cell">مبلغ</th>
+                                           <th class="tbl-head-style-cell">فروشنده</th>
+                                           <th class="tbl-head-style-cell">شرح</th>
+                                           <template v-if=" pendingFactorsTemp > 0">
+                                               <th class="tbl-head-style-cell"></th>
+                                               <th class="tbl-head-style-cell">وضعیت</th>
+                                               <th class="tbl-head-style-cell"></th>
+                                               <th class="tbl-head-style-cell"> </th>
+                                               <th class="tbl-head-style-cell"></th>
+                                           </template>
+                                           <template v-else>
+                                               <th class="tbl-head-style-cell">وضعیت</th>
+                                           </template>
+                                           <th class="tbl-head-style-cell"></th>
                                        </tr>
                                        </tbody>
+                                       <!--Table Head End-->
+                                       <!--Table Body Start-->
                                    </table>
-                               </div>
+                                   <div style="height: 43vh;" class="tbl_body_style inner-vh-unsize">
+                                       <table class="tbl-body-contain">
+                                           <colgroup>
+                                               <col width="300px"/>
+                                               <col width="150px"/>
+                                               <col width="200px"/>
+                                               <col width="300px"/>
+                                               <template v-if=" pendingFactorsTemp > 0">
+                                                   <col width="150px"/>
+                                                   <col width="80px"/>
+                                                   <col width="120px"/>
+                                               </template>
+                                               <template v-else>
+                                                   <col width="150px"/>
+                                               </template>
+                                           </colgroup>
+                                           <tbody class="tbl-head-style-cell">
+                                           <tr v-for="factor in factorTemp">
+                                               <td>{{factor.fSubject}}</td>
+                                               <td class="text-center">{{$root.dispMoneyFormat(factor.fAmount)}}</td>
+                                               <td class="text-center">{{factor.seller.sSubject}}</td>
+                                               <td class="text-justify">{{factor.fDescription}}</td>
+                                               <template v-if=" pendingFactorsTemp > 0">
+                                                   <template v-if="factor.factor_state.fsState == 'PENDING_REVIEW'">
+                                                       <td class="text-center" v-show="factor.factor_state.fsState == 'PENDING_REVIEW'"><span class="reserved-label">{{ factor.factor_state.fsSubject }}</span></td>
+                                                       <td class="text-center">
+                                                           <a style="margin-bottom: 0px" class="my-button my-success small" @click="openConfirmFactor(factor.id)">تایید</a>
+                                                       </td>
+                                                       <td class="text-center">
+                                                           <a style="margin-bottom: 0px" class="my-button toolbox-btn small" @click="openRejectFactor(factor.id)">عدم تایید</a>
+                                                       </td>
+                                                   </template>
+                                                   <template v-else>
+                                                       <td colspan="3" class="text-center" v-show="factor.factor_state.fsState == 'NOT_ACCEPTED'"><span class="blocked-label">{{ factor.factor_state.fsSubject }}</span></td>
+                                                       <td colspan="3" class="text-center" v-show="factor.factor_state.fsState == 'ACCEPTED'"><span class="success-label">{{ factor.factor_state.fsSubject }}</span></td>
+                                                   </template>
+                                               </template>
+                                               <template v-else>
+                                                   <td class="text-center" v-show="factor.factor_state.fsState == 'NOT_ACCEPTED'"><span class="blocked-label">{{ factor.factor_state.fsSubject }}</span></td>
+                                                   <td class="text-center" v-show="factor.factor_state.fsState == 'ACCEPTED'"><span class="success-label">{{ factor.factor_state.fsSubject }}</span></td>
+                                               </template>
+                                           </tr>
+                                           </tbody>
+                                       </table>
+                                   </div>
+                               </template>
                            </div>
                            <!--Table Body End-->
                        </div>
@@ -231,6 +253,7 @@
                 factorId:'',
                 selectedRefund:[],
                 selectedIndex:'',
+                pendingFactorsTemp:0
 
             }
         },
@@ -288,18 +311,18 @@
 
             getPendingFactors: function(){
                 this.pendingFactors=[];
-                var pendingFactorsTemp=0;
+                this.pendingFactorsTemp=0;
                 this.refunds.forEach(item => {
                     item.factor.forEach(fac => {
                         if(fac.factor_state.fsState =='PENDING_REVIEW')
-                            pendingFactorsTemp += 1;
+                            this.pendingFactorsTemp += 1;
                     });
                     item.rRelativeFactor.forEach(rFac => {
                         if(rFac.factor_state.fsState =='PENDING_REVIEW')
-                            pendingFactorsTemp += 1;
+                            this.pendingFactorsTemp += 1;
                     });
-                    this.pendingFactors.push(pendingFactorsTemp);
-
+                    this.pendingFactors.push( this.pendingFactorsTemp);
+                    console.log(JSON.stringify(this.pendingFactors));
                 });
             },
 
@@ -367,6 +390,7 @@
                     this.getFactorDetail();
                     this.$emit('closeModal');
                     this.showRejectRefundFactor=false;
+                    this.getPendingFactors();
                     this.$root.displayNotif(response.status);
                     console.log(response);
                 }, (error) => {
