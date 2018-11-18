@@ -2,6 +2,7 @@
     <div class="grid-x">
         <div class="large-12 medium-12 small-12">
             <a class="my-button toolbox-btn small" @click="openUpdateRequestModal()">ویرایش</a>
+            <a class="my-button toolbox-btn small" @click="openRequestPdfModal()">پیش نمایش</a>
         </div>
         <div v-show="requestTypeDetail == 'BUY_SERVICES'" class="large-12 medium-12 small-12">
             <table>
@@ -244,24 +245,40 @@
                         </div>
                         <!--Fund End-->
                         <div class="large-12 medium-12 small-12" style="margin-top: 10px">
-                            <button type="submit"  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" type="submit"  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </form>
             </div>
         </modal-large>
         <!-- Request Edit Modal -->
-
-
+        <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
+            {{dialogMessage}}
+        </messageDialog>
+        <!-- PDF report modal -->
+        <modal-large v-if="showReportModal" @close="showReportModal = false">
+            <div  slot="body">
+                <div class="grid-x">
+                    <div class="large-12 medium-12 small-12" style="width: 100%;height: 75vh">
+                        <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
+                        <iframe style="width: 100%;height: 100%;border: 0px" :src="pdfFilePath" />
+                    </div>
+                </div>
+            </div>
+        </modal-large>
+        <!-- PDF report modal -->
     </div>
 </template>
 <script>
     import Suggestions from "v-suggestions/src/Suggestions";
+    import VueElementLoading from 'vue-element-loading';
     export default{
         components: {
             Suggestions,
+            VueElementLoading,
         },
-        props:['requestTypeDetail','selectedBuffer','selectedIndex','selectedRequest'],
+        props:['requestTypeDetail','selectedBuffer','selectedIndex','selectedRequest' , 'searchValue'],
         data () {
             return {
                 showEditRequestModal:false,
@@ -283,6 +300,12 @@
                     precision: 0,
                     masked: true
                 },
+                dialogMessage: '',
+                showDialogModal: false,
+                pdfFilePath:'',
+                showReportModal:false,
+                showLoaderProgress: false,
+
             }
 
         },
@@ -390,7 +413,7 @@
 
             openUpdateRequestModal:function(){
                 if(!this.selectedRequest.rAllowUpdateInReceived){
-                    this.dialogMessage = 'با توجه به اینکه درخواست شما در مرحله بعد مشاهده شده است، امکان ویرایش درخواست در این مرحله امکانپذیر نیست!';
+                    this.dialogMessage = 'ویرایش درخواست در این مرحله امکانپذیر نیست!';
                     this.showDialogModal = true;
                 }
                 else {
@@ -437,6 +460,9 @@
                         if (this.requestType == 'FUND') {
                             this.sumOfCommodityPrice = this.requestFill.fundEstimated.split(',').join('');
                         }
+                        var config = {
+                            allowLoading:true,
+                        };
                         console.log(JSON.stringify(this.commodityRequest));
                         axios.post('/financial/request/update', {
                             id: this.requestFill.id,
@@ -444,9 +470,10 @@
                             costEstimation: this.sumOfCommodityPrice,
                             description: this.requestFill.fullDescription,
                             furtherDetails: this.requestFill.furtherDescription,
+                            searchValue: this.searchValue,
                             resultType: 'RECEIVED',
                             items: this.requestType == 'BUY_COMMODITY' ? this.commodityRequest : null,
-                        }).then((response) => {
+                        },config).then((response) => {
                             this.$emit('updateReceiveRequestData' , response.data);
                             this.$emit('closeModal');
                             this.showEditRequestModal = false;
@@ -458,6 +485,27 @@
                         });
                     }
                 });
+            },
+
+            openRequestPdfModal: function (){
+                this.pdfFilePath='';
+                this.requestPrintPreviewModal();
+                this.showReportModal=true;
+            },
+
+            requestPrintPreviewModal: function () {
+                this.showLoaderProgress = true;
+                axios.post('/financial/report/request' , {rId: this.selectedRequest.id} , {responseType:'blob'})
+                    .then((response) => {
+                        console.log(response.data);
+                        var file = new Blob([response.data], {type: 'application/pdf'});
+                        var fileURL = window.URL.createObjectURL(file);
+                        this.pdfFilePath = decodeURI(fileURL + '#zome=50');
+                        this.showLoaderProgress = false;
+                    },(error) => {
+                        console.log(error);
+                        this.showLoaderProgress = false;
+                    });
             },
         }
     }

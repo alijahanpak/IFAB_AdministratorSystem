@@ -75,18 +75,18 @@
         </div>
         <!-- pdf  modal -->
         <modal-small v-if="showPdfModal" @close="showPdfModal = false">
-            <div style="height: 88vh;" slot="body">
+            <div slot="body">
                 <div class="grid-x">
                     <div class="large-12 medium-12 small-12">
-                        <div class="grid-x" :style="{ width: '100%' , height: !payRequestIsBlocked ? '82vh' : '91vh'}">
+                        <div class="grid-x" :style="{ width: '100%' , height: !payRequestIsBlocked ? '80vh' : '91vh'}">
                             <div class="large-12">
                                 <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
                                 <iframe style="width: 100%;height: 100%;border: 0px" :src="payRequestPdfPath" />
                             </div>
                         </div>
-                        <div class="grid-x" v-if="!payRequestIsBlocked" style="margin-top: 0.5rem">
+                        <div class="grid-x" v-if="!payRequestIsBlocked" style="margin-top: 0.5rem;margin-bottom: 0px">
                             <div style="margin-bottom:-20px;margin-top: 5px;" class="large-12 medium-12 small-12">
-                                <div class="stacked-for-small button-group float-right">
+                                <div class="stacked-for-small button-group float-right" style="margin-bottom: 0px">
                                     <button v-show="$can('FINANCIAL_REGISTER_AND_NUMBERING_PAY_REQUEST') && prLetterNumber == null && prLetterDate == null" @click="openRegisterAndNumberingModal()"  class="my-button my-success"><span class="btn-txt-mrg">   ثبت در دبیرخانه   </span></button>
                                     <button v-if="youArePayRequestVerifier" @click="checkAccept()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید و امضا   </span></button>
                                     <button v-show="$can('FINANCIAL_ADD_NEW_DRAFT')" @click="openInsertDraftModal()"  class="my-button toolbox-btn"><span class="btn-txt-mrg">   تهیه پیشنویس حواله  </span></button>
@@ -114,7 +114,8 @@
                                 <p class="btn-red size-14">تایید شما به منزله امضا درخواست می باشد.</p>
                             </div>
                             <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
-                                <button @click="accept()"  class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  تایید</span></button>
+                                <button v-show="!$root.btnLoadingCheckStatus" @click="accept()"  class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  تایید</span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </template>
                         <template v-else>
@@ -148,7 +149,8 @@
                         </div>
                     </div>
                     <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
-                        <button type="submit"  class="my-button my-success"><span class="btn-txt-mrg">  مسدود</span></button>
+                        <button v-show="!$root.btnLoadingCheckStatus" type="submit"  class="my-button my-success"><span class="btn-txt-mrg">  مسدود</span></button>
+                        <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                     </div>
                 </form>
             </div>
@@ -162,22 +164,24 @@
                         <div class="large-12 medium-12 small-12 padding-lr">
                             <label>تاریخ
                                 <date-picker
-                                        :color="'#5c6bc0'"
+                                        :color="letterDateAlert ? '#d9534f' : '#5c6bc0'"
                                         v-model="registerDate"
                                         input-class="form-control form-control-lg date-picker-bottom-margin"
                                         id="my-custom-input"
                                         placeholder="انتخاب تاریخ">
                                 </date-picker>
                             </label>
+                            <p style="margin-top:3px !important;" v-show="letterDateAlert" class="error-font">لطفا تاریخ ثبت درخواست را انتخاب کنید!</p>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr">
                             <label> شماره
                                 <input class="form-element-margin-btm" type="text" name="letterNumber" v-model="letterNumber" v-validate="'required'" data-vv-as="field" :class="{'input': true, 'error-border': errors.has('letterNumber')}">
-                                <span v-show="errors.has('letterNumber')" class="error-font"></span>
+                                <span v-show="errors.has('letterNumber')" class="error-font">تاریخ فراموش شده / نامعتبر است!</span>
                             </label>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
-                            <button @click="registerAndNumberingPayRequest()"  class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                            <button  v-show="!$root.btnLoadingCheckStatus" @click="registerAndNumberingPayRequest()"  class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </div>
@@ -187,17 +191,17 @@
 
         <!--Insert Draft Start-->
         <modal-small v-if="showInsertDraftModal" @close="showInsertDraftModal = false">
-            <div  slot="body">
+            <div slot="body">
                 <form v-on:submit.prevent="addNewDraft" >
                     <div class="small-font">
-                        <div class="large-12 medium-12 small-12">
+                        <div class="large-12 medium-12 small-12 container-vh">
                             <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="draft_tab_view">
                                 <li class="tabs-title is-active"><a href="#verTab" aria-selected="true">امضا کننده</a></li>
                                 <li class="tabs-title"><a href="#drafTab">حواله </a></li>
                             </ul>
-                            <div class="tabs-content" data-tabs-content="draft_tab_view">
+                            <div class="tabs-content inner-vh" data-tabs-content="draft_tab_view">
                                 <!--Tab 1-->
-                                <div class="tabs-panel is-active table-mrg-btm" id="verTab">
+                                <div class="tabs-panel is-active table-mrg-btm inner-vh-unsize" id="verTab">
                                     <div class="grid-x">
                                         <div class="large-8 medium-8 small-12">
                                             <label>امضا کننده
@@ -212,7 +216,7 @@
                                 </div>
                                 <!--Tab 1-->
                                 <!--Tab 2-->
-                                <div class="tabs-panel table-mrg-btm" id="drafTab">
+                                <div style="height: 65vh" class="tabs-panel table-mrg-btm inner-vh-unsize" id="drafTab">
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12 padding-lr">
                                             <label>بابت
@@ -271,7 +275,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                                 <!--Tab 2-->
                             </div>
@@ -279,7 +282,8 @@
                         <div class="grid-x medium-top-m padding-lr">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <div class="stacked-for-small button-group float-left">
-                                    <button type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <button v-show="!$root.btnLoadingCheckStatus" type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                                 </div>
                             </div>
                         </div>
@@ -298,7 +302,7 @@
     import Suggestions from "v-suggestions/src/Suggestions";
     import VueElementLoading from 'vue-element-loading';
     export default{
-        props:['payRequests','requestId' , 'lastRefPrId','drafts','rAcceptedAmount','rCommitmentAmount','contracts','factors','requestType' , 'sumOfDraftAmount'],
+        props:['payRequests','requestId' , 'lastRefPrId','drafts','rAcceptedAmount','rCommitmentAmount','contracts','factors','requestType' , 'sumOfDraftAmount' , 'searchValue'],
         components: {
             Suggestions,
             VueElementLoading,
@@ -335,6 +339,7 @@
                 canResponse:'',
                 payRequestPdfPath:'',
                 registerDate: '',
+                letterDateAlert:false,
                 letterNumber: '',
                 moneyState:'none',
 
@@ -365,6 +370,13 @@
 
         mounted: function () {
             this.checkOpenLastRef();
+        },
+
+        watch:{
+            registerDate: function (newQuestion, oldQuestion) {
+                if(this.registerDate != null)
+                    this.letterDateAlert=false;
+            },
         },
 
         methods : {
@@ -405,7 +417,8 @@
                   this.showPdfModal=true;
                 if(payRequest.prLastRef.rhPrHasBeenSeen == false) {
                     axios.post('/financial/payment_request/was_seen', {
-                        rhId: payRequest.prLastRef.id
+                        rhId: payRequest.prLastRef.id,
+                        searchValue: this.searchValue
                     }).then((response) => {
                         this.$emit('updateReceiveRequestData' , response.data);
                         console.log(response);
@@ -435,10 +448,14 @@
             },
 
             accept: function () {
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/financial/payment_request/accept', {
                     rId: this.requestId,
-                    prvId:this.verifierId
-                }).then((response) => {
+                    prvId:this.verifierId,
+                    searchValue: this.searchValue
+                } , config).then((response) => {
                     this.$emit('updateReceiveRequestData' , response.data);
                     this.$emit('closeModal');
                     this.$root.displayNotif(response.status);
@@ -475,11 +492,15 @@
             requestBlock: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post('/financial/payment_request/block' , {
                             prId: this.payRequestId,
                             lastRefPrId: this.lastRefPrId,
-                            description: this.blockInput.description
-                        })
+                            description: this.blockInput.description,
+                            searchValue: this.searchValue
+                        } , config)
                             .then((response) => {
                                 this.$emit('updateReceiveRequestData' , response.data);
                                 if (this.payRequestId == this.lastRefPrId)
@@ -498,8 +519,10 @@
             },
 
             openRegisterAndNumberingModal:function(){
-                if (!this.existRemainingVerifiers)
+                if (!this.existRemainingVerifiers){
+                    this.letterDateAlert=false;
                     this.showRegisterAndNumberingModal=true;
+                }
                 else
                 {
                     this.dialogMessage = 'درخواست باید توسط کلیه تایید کنندگان امضاء شده باشد!';
@@ -508,20 +531,32 @@
             },
 
             registerAndNumberingPayRequest: function () {
-                axios.post('/financial/payment_request/numbering', {
-                    rId: this.requestId,
-                    prId:this.payRequestId,
-                    letterDate: this.registerDate,
-                    letterNumber: this.letterNumber
-                }).then((response) => {
-                    this.$emit('updateReceiveRequestData' , response.data);
-                    this.$emit('closeModal');
-                    this.showRegisterAndNumberingModal = false;
-                    this.$root.displayNotif(response.status);
-                    console.log(response);
-                }, (error) => {
-                    console.log(error);
-                    this.$root.displayNotif(error.response.status);
+                this.$validator.validateAll().then((result) => {
+                    if (this.registerDate == '')
+                        this.letterDateAlert = true;
+                    if(!this.letterDateAlert){
+                        if (result) {
+                            var config = {
+                                allowLoading:true,
+                            };
+                            axios.post('/financial/payment_request/numbering', {
+                                rId: this.requestId,
+                                prId:this.payRequestId,
+                                letterDate: this.registerDate,
+                                letterNumber: this.letterNumber,
+                                searchValue: this.searchValue
+                            } , config).then((response) => {
+                                this.$emit('updateReceiveRequestData' , response.data);
+                                this.$emit('closeModal');
+                                this.showRegisterAndNumberingModal = false;
+                                this.$root.displayNotif(response.status);
+                                console.log(response);
+                            }, (error) => {
+                                console.log(error);
+                                this.$root.displayNotif(error.response.status);
+                            });
+                        }
+                    }
                 });
             },
 
@@ -657,6 +692,9 @@
                         }
 
                         else{
+                            var config = {
+                                allowLoading:true,
+                            };
                             axios.post('financial/draft/register', {
                                 rId: this.requestId,
                                 prId: this.payRequestId,
@@ -664,8 +702,9 @@
                                 payTo: this.draftInput.payTo,
                                 baseAmount: parseInt(this.draftInput.baseAmount.split(',').join(''),10),
                                 amount: this.draftBaseAmount,
-                                verifierId: this.draftInput.verifierId
-                            }).then((response) => {
+                                verifierId: this.draftInput.verifierId,
+                                searchValue: this.searchValue
+                            } , config).then((response) => {
                                 this.$emit('updateReceiveRequestData' , response.data);
                                 this.$emit('closeModal');
                                 this.showInsertDraftModal = false;

@@ -3,7 +3,7 @@
   "scripts": {
     "dev": "npm run development",
     "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --watch-poll --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "watch-poll": "npm run watch -- --watch-poll",
     "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
     "prod": "npm run production",
@@ -28,6 +28,7 @@
     "vue-template-compiler": "^2.5.3"
   },
   "dependencies": {
+    "apexcharts": "^2.2.1",
     "axios-base-url": "^0.2.0",
     "pdfvuer": "^1.0.3",
     "persian-datepicker": "^0.5.11",
@@ -47,8 +48,10 @@
     "vue-pdf": "^3.3.1",
     "vue-persian-datetime-picker": "^1.1.4",
     "vue-progressbar": "^0.7.3",
+    "vue-promise-btn": "^1.1.0",
     "vue-select": "^2.4.0",
     "vue-style-loader": "^3.0.3",
+    "vue2-form-loading": "^0.1.0",
     "vue2-persian-datepicker": "^1.4.0",
     "vuex": "^2.5.0"
   }

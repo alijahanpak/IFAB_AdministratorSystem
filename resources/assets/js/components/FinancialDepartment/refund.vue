@@ -76,69 +76,91 @@
                            <!--Table Start-->
                            <!--Table Head Start-->
                            <div class="tbl-div-container">
-                               <table class="tbl-head">
-                                   <colgroup>
-                                       <col width="300px"/>
-                                       <col width="150px"/>
-                                       <col width="200px"/>
-                                       <col width="300px"/>
-                                       <col width="150px"/>
-                                       <col width="80px"/>
-                                       <col width="120px"/>
-                                       <col width="12px"/>
-                                   </colgroup>
-                                   <tbody class="tbl-head-style ">
-                                   <tr class="tbl-head-style-cell">
-                                       <th class="tbl-head-style-cell">عنوان</th>
-                                       <th class="tbl-head-style-cell">مبلغ</th>
-                                       <th class="tbl-head-style-cell">فروشنده</th>
-                                       <th class="tbl-head-style-cell">شرح</th>
-                                       <th class="tbl-head-style-cell"></th>
-                                       <th class="tbl-head-style-cell">وضعیت</th>
-                                       <th class="tbl-head-style-cell"></th>
-                                       <th class="tbl-head-style-cell"> </th>
-                                       <th class="tbl-head-style-cell"></th>
-                                       <th class="tbl-head-style-cell"></th>
-                                   </tr>
-                                   </tbody>
-                                   <!--Table Head End-->
-                                   <!--Table Body Start-->
-                               </table>
-                               <div style="height: 43vh;" class="tbl_body_style inner-vh-unsize">
-                                   <table class="tbl-body-contain">
+                               <template>
+                                   <table class="tbl-head">
                                        <colgroup>
                                            <col width="300px"/>
                                            <col width="150px"/>
                                            <col width="200px"/>
                                            <col width="300px"/>
-                                           <col width="150px"/>
-                                           <col width="80px"/>
-                                           <col width="120px"/>
-                                       </colgroup>
-                                       <tbody class="tbl-head-style-cell">
-                                       <tr v-for="factor in factorTemp">
-                                           <td>{{factor.fSubject}}</td>
-                                           <td class="text-center">{{$root.dispMoneyFormat(factor.fAmount)}}</td>
-                                           <td class="text-center">{{factor.seller.sSubject}}</td>
-                                           <td class="text-justify">{{factor.fDescription}}</td>
-                                           <template v-if="factor.factor_state.fsState == 'PENDING_REVIEW'">
-                                               <td class="text-center" v-show="factor.factor_state.fsState == 'PENDING_REVIEW'"><span class="reserved-label">{{ factor.factor_state.fsSubject }}</span></td>
-                                               <td class="text-center">
-                                                   <a style="margin-bottom: 0px" class="my-button my-success small" @click="openConfirmFactor(factor.id)">تایید</a>
-                                               </td>
-                                               <td class="text-center">
-                                                   <a style="margin-bottom: 0px" class="my-button toolbox-btn small" @click="openRejectFactor(factor.id)">عدم تایید</a>
-                                               </td>
+                                           <template v-if=" pendingFactorsTemp > 0">
+                                               <col width="150px"/>
+                                               <col width="80px"/>
+                                               <col width="120px"/>
                                            </template>
                                            <template v-else>
-                                               <td colspan="3" class="text-center" v-show="factor.factor_state.fsState == 'NOT_ACCEPTED'"><span class="blocked-label">{{ factor.factor_state.fsSubject }}</span></td>
-                                               <td colspan="3" class="text-center" v-show="factor.factor_state.fsState == 'ACCEPTED'"><span class="success-label">{{ factor.factor_state.fsSubject }}</span></td>
-
+                                               <col width="150px"/>
                                            </template>
+                                           <col width="12px"/>
+                                       </colgroup>
+                                       <tbody class="tbl-head-style ">
+                                       <tr class="tbl-head-style-cell">
+                                           <th class="tbl-head-style-cell">عنوان</th>
+                                           <th class="tbl-head-style-cell">مبلغ</th>
+                                           <th class="tbl-head-style-cell">فروشنده</th>
+                                           <th class="tbl-head-style-cell">شرح</th>
+                                           <template v-if=" pendingFactorsTemp > 0">
+                                               <th class="tbl-head-style-cell"></th>
+                                               <th class="tbl-head-style-cell">وضعیت</th>
+                                               <th class="tbl-head-style-cell"></th>
+                                               <th class="tbl-head-style-cell"> </th>
+                                               <th class="tbl-head-style-cell"></th>
+                                           </template>
+                                           <template v-else>
+                                               <th class="tbl-head-style-cell">وضعیت</th>
+                                           </template>
+                                           <th class="tbl-head-style-cell"></th>
                                        </tr>
                                        </tbody>
+                                       <!--Table Head End-->
+                                       <!--Table Body Start-->
                                    </table>
-                               </div>
+                                   <div style="height: 43vh;" class="tbl_body_style inner-vh-unsize">
+                                       <table class="tbl-body-contain">
+                                           <colgroup>
+                                               <col width="300px"/>
+                                               <col width="150px"/>
+                                               <col width="200px"/>
+                                               <col width="300px"/>
+                                               <template v-if=" pendingFactorsTemp > 0">
+                                                   <col width="150px"/>
+                                                   <col width="80px"/>
+                                                   <col width="120px"/>
+                                               </template>
+                                               <template v-else>
+                                                   <col width="150px"/>
+                                               </template>
+                                           </colgroup>
+                                           <tbody class="tbl-head-style-cell">
+                                           <tr v-for="factor in factorTemp">
+                                               <td>{{factor.fSubject}}</td>
+                                               <td class="text-center">{{$root.dispMoneyFormat(factor.fAmount)}}</td>
+                                               <td class="text-center">{{factor.seller.sSubject}}</td>
+                                               <td class="text-justify">{{factor.fDescription}}</td>
+                                               <template v-if=" pendingFactorsTemp > 0">
+                                                   <template v-if="factor.factor_state.fsState == 'PENDING_REVIEW'">
+                                                       <td class="text-center" v-show="factor.factor_state.fsState == 'PENDING_REVIEW'"><span class="reserved-label">{{ factor.factor_state.fsSubject }}</span></td>
+                                                       <td class="text-center">
+                                                           <a style="margin-bottom: 0px" class="my-button my-success small" @click="openConfirmFactor(factor.id)">تایید</a>
+                                                       </td>
+                                                       <td class="text-center">
+                                                           <a style="margin-bottom: 0px" class="my-button toolbox-btn small" @click="openRejectFactor(factor.id)">عدم تایید</a>
+                                                       </td>
+                                                   </template>
+                                                   <template v-else>
+                                                       <td colspan="3" class="text-center" v-show="factor.factor_state.fsState == 'NOT_ACCEPTED'"><span class="blocked-label">{{ factor.factor_state.fsSubject }}</span></td>
+                                                       <td colspan="3" class="text-center" v-show="factor.factor_state.fsState == 'ACCEPTED'"><span class="success-label">{{ factor.factor_state.fsSubject }}</span></td>
+                                                   </template>
+                                               </template>
+                                               <template v-else>
+                                                   <td class="text-center" v-show="factor.factor_state.fsState == 'NOT_ACCEPTED'"><span class="blocked-label">{{ factor.factor_state.fsSubject }}</span></td>
+                                                   <td class="text-center" v-show="factor.factor_state.fsState == 'ACCEPTED'"><span class="success-label">{{ factor.factor_state.fsSubject }}</span></td>
+                                               </template>
+                                           </tr>
+                                           </tbody>
+                                       </table>
+                                   </div>
+                               </template>
                            </div>
                            <!--Table Body End-->
                        </div>
@@ -171,7 +193,8 @@
                     <p class="large-offset-1 modal-text">آیا برای تایید فاکتور اطمینان دارید؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
-                            <button v-on:click="acceptRefundFactor"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" v-on:click="acceptRefundFactor"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </div>
@@ -187,7 +210,8 @@
                     <p class="large-offset-1 modal-text">آیا برای عدم تایید فاکتور اطمینان دارید؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
-                            <button v-on:click="rejectRefundFactor"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <button  v-show="!$root.btnLoadingCheckStatus" v-on:click="rejectRefundFactor"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </div>
@@ -229,6 +253,7 @@
                 factorId:'',
                 selectedRefund:[],
                 selectedIndex:'',
+                pendingFactorsTemp:0
 
             }
         },
@@ -255,7 +280,8 @@
             // whenever question changes, this function will run
             refunds: function (newQuestion, oldQuestion) {
                 this.selectedRefund=this.refunds[this.selectedIndex];
-            }
+                this.$root.getRefundCount();
+            },
         },
 
         methods: {
@@ -276,18 +302,28 @@
                 axios.get('/financial/refund/fetch_all_refund')
                     .then((response) => {
                         this.refunds = response.data;
-                        var pendingFactorsTemps=0;
-                        this.refunds.forEach(item => {
-                            item.factor.forEach(fac => {
-                                if(fac.factor_state.fsState =='PENDING_REVIEW')
-                                    pendingFactorsTemps += 1;
-                                });
-                            this.pendingFactors.push(pendingFactorsTemps)
-                        });
+                        this.getPendingFactors();
                         console.log(response);
                     }, (error) => {
                         console.log(error);
+                });
+            },
+
+            getPendingFactors: function(){
+                this.pendingFactors=[];
+                this.pendingFactorsTemp=0;
+                this.refunds.forEach(item => {
+                    item.factor.forEach(fac => {
+                        if(fac.factor_state.fsState =='PENDING_REVIEW')
+                            this.pendingFactorsTemp += 1;
                     });
+                    item.rRelativeFactor.forEach(rFac => {
+                        if(rFac.factor_state.fsState =='PENDING_REVIEW')
+                            this.pendingFactorsTemp += 1;
+                    });
+                    this.pendingFactors.push( this.pendingFactorsTemp);
+                    console.log(JSON.stringify(this.pendingFactors));
+                });
             },
 
             openFactorDetailModal : function(index){
@@ -298,13 +334,18 @@
 
             getFactorDetail : function () {
                 this.factorTemp=[];
-                this.selectedRefund=this.refunds[this.selectedIndex]
-                this.factorTemp=this.selectedRefund.factor;
+                this.selectedRefund=[];
+                this.selectedRefund=this.refunds[this.selectedIndex];
+                console.log(JSON.stringify(this.selectedRefund));
+                //this.factorTemp=this.selectedRefund.factor;
+                console.log(JSON.stringify(this.factorTemp));
+                this.selectedRefund.factor.forEach(item => {
+                    this.factorTemp.push(item);
+                });
                 this.selectedRefund.rRelativeFactor.forEach(item => {
                     this.factorTemp.push(item);
                 });
-                console.log(JSON.stringify(this.factorTemp));
-
+                //console.log(JSON.stringify(this.factorTemp));
             },
 
             openConfirmFactor: function(fId){
@@ -313,14 +354,18 @@
             },
 
             acceptRefundFactor: function(){
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/financial/refund/factor/accept', {
                     fId:this.factorId,
                     rId: this.selectedRefund.id
-                }).then((response) => {
+                } , config).then((response) => {
                     this.refunds = response.data;
                     this.getFactorDetail();
                     this.$emit('closeModal');
                     this.showAcceptRefundFactor=false;
+                    this.getPendingFactors();
                     this.$root.displayNotif(response.status);
                     console.log(response);
                 }, (error) => {
@@ -335,13 +380,17 @@
             },
 
             rejectRefundFactor: function(){
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/financial/refund/factor/reject', {
                     fId:this.factorId,
-                }).then((response) => {
+                } , config).then((response) => {
                     this.refunds = response.data;
                     this.getFactorDetail();
                     this.$emit('closeModal');
                     this.showRejectRefundFactor=false;
+                    this.getPendingFactors();
                     this.$root.displayNotif(response.status);
                     console.log(response);
                 }, (error) => {

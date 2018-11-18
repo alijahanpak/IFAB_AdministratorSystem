@@ -20,7 +20,7 @@
         </div>
         <div class="grid-x my-callout-box container-mrg-top dynamic-height-level1">
             <!--receive_Requests_tab_view Start-->
-            <div class="large-12 medium-12 small-12 padding-lr table-mrg-top">
+            <div class="large-12 medium-12 small-12 padding-lr">
                 <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="receive_Requests_tab_view">
                     <li v-if="receiveRequests.REQUEST.unreadCount > 0" class="tabs-title is-active"><a href="#rr_REQUEST" aria-selected="true">  درخواست  <span v-show="receiveRequests.REQUEST.unreadCount > 0" class="notif-badge-purple">{{receiveRequests.REQUEST.unreadCount}}</span></a></li>
                     <li v-else class="tabs-title is-active"><a href="#rr_REQUEST" aria-selected="true">  درخواست  <span v-show="receiveRequests.REQUEST.readCount > 0" class="notif-badge-gray">{{receiveRequests.REQUEST.readCount}}</span></a></li>
@@ -37,6 +37,19 @@
                     <!--receiveRequests_REQUEST Tab-->
                     <div class="tabs-panel is-active table-mrg-btm" id="rr_REQUEST">
                         <div class="grid-x">
+                            <div class="large-12 medium-12 small-12">
+                                <div class="clearfix tool-bar">
+                                    <div class="float-left">
+                                        <div class="input-group float-left">
+                                            <div class="inner-addon right-addon">
+                                                <i v-if="requestSearchValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                                <i v-if="requestSearchValue != ''" v-on:click.stop="removeFilter()" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                                <input v-model="requestSearchValue" v-on:keyup.enter="search()" class="search" type="text" placeholder="جستجو">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="large-12 medium-12 small-12">
                                 <div class="tbl-div-container">
                                     <table class="tbl-head">
@@ -67,7 +80,7 @@
                                     </table>
                                     <!--Table Head End-->
                                     <!--Table Body Start-->
-                                    <div class="tbl_body_style dynamic-height-levelR">
+                                    <div class="tbl_body_style dynamic-height-level2">
                                         <table class="tbl-body-contain">
                                             <colgroup>
                                                 <col width="15vw"/>
@@ -153,6 +166,19 @@
                     <div class="tabs-panel table-mrg-btm" id="rr_FINANCIAL">
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12">
+                                <div class="clearfix tool-bar">
+                                    <div class="float-left">
+                                        <div class="input-group float-left">
+                                            <div class="inner-addon right-addon">
+                                                <i v-if="requestSearchValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                                <i v-if="requestSearchValue != ''" v-on:click.stop="removeFilter()" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                                <input v-model="requestSearchValue" v-on:keyup.enter="search()" class="search" type="text" placeholder="جستجو">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="large-12 medium-12 small-12">
                                 <div class="tbl-div-container">
                                     <table class="tbl-head">
                                         <colgroup>
@@ -182,7 +208,7 @@
                                     </table>
                                     <!--Table Head End-->
                                     <!--Table Body Start-->
-                                    <div class="tbl_body_style dynamic-height-levelR">
+                                    <div class="tbl_body_style dynamic-height-level2">
                                         <table class="tbl-body-contain">
                                             <colgroup>
                                                 <col width="80px"/>
@@ -271,6 +297,19 @@
                     <div class="tabs-panel table-mrg-btm" id="rr_PURCHASE_AND_CONTRACT">
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12">
+                                <div class="clearfix tool-bar">
+                                    <div class="float-left">
+                                        <div class="input-group float-left">
+                                            <div class="inner-addon right-addon">
+                                                <i v-if="requestSearchValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                                <i v-if="requestSearchValue != ''" v-on:click.stop="removeFilter()" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                                <input v-model="requestSearchValue" v-on:keyup.enter="search()" class="search" type="text" placeholder="جستجو">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="large-12 medium-12 small-12">
                                 <div class="tbl-div-container">
                                     <table class="tbl-head">
                                         <colgroup>
@@ -300,7 +339,7 @@
                                     </table>
                                     <!--Table Head End-->
                                     <!--Table Body Start-->
-                                    <div class="tbl_body_style dynamic-height-levelR">
+                                    <div class="tbl_body_style dynamic-height-level2">
                                         <table class="tbl-body-contain">
                                             <colgroup>
                                                 <col width="80px"/>
@@ -386,6 +425,19 @@
                     <div class="tabs-panel table-mrg-btm" id="rr_PAYMENT">
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12">
+                                <div class="clearfix tool-bar">
+                                    <div class="float-left">
+                                        <div class="input-group float-left">
+                                            <div class="inner-addon right-addon">
+                                                <i v-if="requestSearchValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                                <i v-if="requestSearchValue != ''" v-on:click.stop="removeFilter()" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                                <input v-model="requestSearchValue" v-on:keyup.enter="search()" class="search" type="text" placeholder="جستجو">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="large-12 medium-12 small-12">
                                 <div class="tbl-div-container">
                                     <table class="tbl-head">
                                         <colgroup>
@@ -415,7 +467,7 @@
                                     </table>
                                     <!--Table Head End-->
                                     <!--Table Body Start-->
-                                    <div class="tbl_body_style dynamic-height-levelR">
+                                    <div class="tbl_body_style dynamic-height-level2">
                                         <table class="tbl-body-contain">
                                             <colgroup>
                                                 <col width="80px"/>
@@ -501,6 +553,19 @@
                     <div class="tabs-panel table-mrg-btm" id="rr_DRAFT">
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12">
+                                <div class="clearfix tool-bar">
+                                    <div class="float-left">
+                                        <div class="input-group float-left">
+                                            <div class="inner-addon right-addon">
+                                                <i v-if="requestSearchValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                                <i v-if="requestSearchValue != ''" v-on:click.stop="removeFilter()" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                                <input v-model="requestSearchValue" v-on:keyup.enter="search()" class="search" type="text" placeholder="جستجو">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="large-12 medium-12 small-12">
                                 <div class="tbl-div-container">
                                     <table class="tbl-head">
                                         <colgroup>
@@ -530,7 +595,7 @@
                                     </table>
                                     <!--Table Head End-->
                                     <!--Table Body Start-->
-                                    <div class="tbl_body_style dynamic-height-levelR">
+                                    <div class="tbl_body_style dynamic-height-level2">
                                         <table class="tbl-body-contain">
                                             <colgroup>
                                                 <col width="80px"/>
@@ -635,7 +700,7 @@
                             </ul>
                             <div class="tabs-content inner-vh" data-tabs-content="request_tab_view">
                                 <!--Tab 1-->
-                                <div class="tabs-panel table-mrg-btm" :class="selectedRequest.request_level.rlLevel == 'REQUEST' ? 'is-active' : ''" id="requestDetailTab">
+                                <div class="tabs-panel table-mrg-btm inner-vh-unsize" :class="selectedRequest.request_level.rlLevel == 'REQUEST' ? 'is-active' : ''" id="requestDetailTab">
                                     <rDetails v-on:updateReceiveRequestData="updateReceiveRequestData"
                                               v-bind:requestTypeDetail="selectedRequest.request_type.rtType"
                                               v-bind:requestFill="selectedRequest"
@@ -643,12 +708,12 @@
                                               v-bind:selectedIndex="selectedIndex"
                                               v-bind:selectedRequest="selectedRequest"
                                               v-on:setRepoExistCountParent="setRepoExistCount"
-                                    >
+                                              v-bind:searchValue="requestSearchValue">
                                     </rDetails>
                                 </div>
                                 <!--Tab 1-->
                                 <!--Tab 2-->
-                                <div style="height: 63vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="requestVerifiersTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                <div style="height: 65vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="requestVerifiersTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x">
                                         <div v-for="verifier in selectedRequest.verifiers" class="large-12 medium-12 small-12 verifier-panel">
                                             <div class="grid-x">
@@ -678,7 +743,8 @@
                                               v-bind:requestFill="selectedRequest"
                                               v-bind:UserIsVerifier="selectedRequest.rRemainingVerifiers"
                                               v-bind:requestId="requestId"
-                                              v-bind:factorCount="selectedRequest.factor.length">
+                                              v-bind:factorCount="selectedRequest.factor.length"
+                                              v-bind:searchValue="requestSearchValue">
                                     </rCredits>
                                     <div v-else class="text-center inner-vh-unsize" style="height: 60vh;display: table">
                                         <div style="display: table-cell; vertical-align: middle;">
@@ -702,7 +768,8 @@
                                                v-bind:requestSubject="selectedRequest.rSubject"
                                                v-bind:rCreditIsAccepted="selectedRequest.rCreditIsAccepted"
                                                v-bind:rCostEstimation="selectedRequest.rCostEstimation"
-                                               v-bind:rCreditIsExist="selectedRequest.rCreditIsExist">
+                                               v-bind:rCreditIsExist="selectedRequest.rCreditIsExist"
+                                               v-bind:searchValue="requestSearchValue">
                                     </rContract>
                                 </div>
                                 <!--Tab 4-->
@@ -716,7 +783,8 @@
                                              v-bind:rCreditIsAccepted="selectedRequest.rCreditIsAccepted"
                                              v-bind:rCreditIsExist="selectedRequest.rCreditIsExist"
                                              v-bind:isFromRefundCosts="selectedRequest.isFromRefundCosts"
-                                             v-bind:request="selectedRequest">
+                                             v-bind:request="selectedRequest"
+                                             v-bind:searchValue="requestSearchValue">
                                     </rFactor>
                                 </div>
                                 <!--Tab 5-->
@@ -738,7 +806,7 @@
                                             v-bind:drafts="selectedRequest.draft"
                                             v-bind:sumOfDraftAmount="selectedRequest.rSumOfDraftAmount"
                                             v-bind:paymentRequestAmount="paymentRequestAmount"
-                                    >
+                                            v-bind:searchValue="requestSearchValue">
                                     </r-pay-request>
                                 </div>
                                 <!--Tab 6-->
@@ -758,12 +826,12 @@
                                              v-bind:sumOfDraftAmount="selectedRequest.rSumOfDraftAmount"
                                              v-bind:lastRefDId="selectedRequest.rLastRef.rhDId"
                                              v-bind:resultType="'RECEIVED'"
-                                             v-bind:searchValue="''">
+                                             v-bind:searchValue="requestSearchValue">
                                     </rDraft>
                                 </div>
                                 <!--Tab 6-->
                                 <!--Tab 7-->
-                                <div style="height: 63vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="requestHistoryTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                <div style="height: 65vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="requestHistoryTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12 large-top-m">
                                             <div style="margin-top:-50px;" v-for="recipientUser in selectedRequest.history" class="grid-x timeline">
@@ -786,7 +854,7 @@
                                                                     <p class="small-top-m text-justify gray-colors">
                                                                         {{recipientUser.rhDescription}}
                                                                     </p>
-                                                                    <div v-if="recipientUser.destination_user_info != null && requestState != 'WAITING_FOR_PAY_REQUEST'">
+                                                                    <div v-if="recipientUser.destination_user_info != null && selectedRequest.request_state.rsState != 'WAITING_FOR_PAY_REQUEST'">
                                                                         <p v-if="recipientUser.source_user_info.id != recipientUser.destination_user_info.id" style="margin-bottom: 0" class="small-top-m">گیرنده:</p>
                                                                         <div v-if="recipientUser.source_user_info.id != recipientUser.destination_user_info.id" class="grid-x">
                                                                             <div class="large-1 medium-2 small-12">
@@ -818,7 +886,7 @@
                                 <!--Tab 7-->
 
                                 <!--Tab 8-->
-                                <div class="tabs-panel table-mrg-btm inner-vh-2" id="requestAttachmentsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                                <div style="height: 65vh;" class="tabs-panel table-mrg-btm inner-vh-2" id="requestAttachmentsTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <div class="grid-x">
                                         <vue-element-loading :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
                                         <div class="medium-12 padding-lr">
@@ -929,7 +997,8 @@
                         </div>
                     </div>
                     <div class="large-12 medium-12 small-12 padding-lr small-top-m">
-                        <button type="submit"  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ارجاع</span></button>
+                        <button v-show="!$root.btnLoadingCheckStatus" type="submit"  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ارجاع</span></button>
+                        <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left btn-for-load"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                     </div>
                 </form>
             </div>
@@ -949,7 +1018,8 @@
                                 <p class="btn-red">تایید شما به منزله امضا درخواست می باشد.</p>
                             </div>
                             <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
-                                <button @click="acceptRequest()"  class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  تایید</span></button>
+                                <button v-show="!$root.btnLoadingCheckStatus" @click="acceptRequest()"  class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  تایید</span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </template>
                         <template v-if="selectedRequest.rRemainingVerifiers.length > 0">
@@ -998,6 +1068,7 @@
         <modal-tiny v-if="showResponseRequestModal" @close="showResponseRequestModal = false">
             <div  slot="body">
                 <div class="small-font" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                    <form v-on:submit.prevent="responseRequest">
                     <div class="grid-x">
                         <div class="large-12 medium-12 small-12 padding-lr response-panel">
                             <p class="modal-text response-header">پاسخ به :</p>
@@ -1005,16 +1076,17 @@
                             <p style="margin-bottom:-10px;color:#9E9E9E;" class="direction-ltr small-font"><span class="black-color">ارجاع دهنده : </span> {{selectedRequest.rLastRef.source_user_info.name + ' - ' + selectedRequest.rLastRef.source_user_info.role.rSubject}}</p>
 
                         </div>
-                        <div class="large-12 medium-12 small-12 small-top-m">
-                            <label>متن پاسخ
-                                <textarea v-model="responseDescription"  class="form-element-margin-btm"  style="min-height: 150px;" name="referralDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('responseDescription')}"></textarea>
-                                <span v-show="errors.has('responseDescription')" class="error-font">لطفا متن پاسخ را وارد کنید!</span>
-                            </label>
+                            <div class="large-12 medium-12 small-12 small-top-m">
+                                <label>متن پاسخ
+                                    <textarea v-model="responseDescription"  class="form-element-margin-btm"  style="min-height: 150px;" name="responseDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('responseDescription')}"></textarea>
+                                    <span v-show="errors.has('responseDescription')" class="error-font">لطفا متن پاسخ را وارد کنید!</span>
+                                </label>
+                            </div>
+                            <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
+                                <button type="submit"  class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  پاسخ</span></button>
+                            </div>
                         </div>
-                        <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
-                            <button @click="responseRequest()"  class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  پاسخ</span></button>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </modal-tiny>
@@ -1035,16 +1107,17 @@
                                         placeholder="انتخاب تاریخ">
                                 </date-picker>
                             </label>
-                            <p style="margin-top:3px !important;" v-show="letterDateAlert" class="error-font">لطفا تاریخ مورد نظر را وارد نمایید!</p>
+                            <p style="margin-top:3px !important;" v-show="letterDateAlert" class="error-font">لطفا تاریخ ثبت درخواست را انتخاب نمایید!</p>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr">
                             <label> شماره
                                 <input class="form-element-margin-btm" type="text" name="letterNumber" v-model="letterNumber" v-validate="'required'" data-vv-as="field" :class="{'input': true, 'error-border': errors.has('letterNumber')}">
-                                <span v-show="errors.has('letterNumber')" class="error-font"></span>
+                                <span v-show="errors.has('letterNumber')" class="error-font">شماره ثبت فراموش شده / نامعتبر است!</span>
                             </label>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
-                            <button @click="registerAndNumbering()"  class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" @click="registerAndNumbering()"  class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </div>
@@ -1071,7 +1144,8 @@
                         </div>
                     </div>
                     <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
-                        <button type="submit"  class="my-button my-success"><span class="btn-txt-mrg">  مسدود</span></button>
+                        <button v-show="!$root.btnLoadingCheckStatus" type="submit"  class="my-button my-success"><span class="btn-txt-mrg">  مسدود</span></button>
+                        <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                     </div>
                 </form>
             </div>
@@ -1093,7 +1167,8 @@
                         </div>
                     </div>
                     <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
-                        <button type="submit"  class="my-button my-success"><span class="btn-txt-mrg">  خاتمه</span></button>
+                        <button v-show="!$root.btnLoadingCheckStatus" type="submit"  class="my-button my-success"><span class="btn-txt-mrg">  خاتمه</span></button>
+                        <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                     </div>
                 </form>
             </div>
@@ -1132,6 +1207,7 @@
         },
         data () {
             return {
+                requestSearchValue: '',
                 selectedBuffer: '',
                 selectedIndex: -1,
                 selectedRequest:{},
@@ -1366,8 +1442,17 @@
                 this.fetchData();
             },
 
+            search: function () {
+                this.fetchData();
+            },
+
+            removeFilter: function () {
+                this.requestSearchValue = '';
+                this.fetchData();
+            },
+
             fetchData: function (page=1) {
-                axios.get('/financial/request/received/fetchData?page=' + page)
+                axios.get('/financial/request/received/fetchData?page=' + page , {params:{searchValue:this.requestSearchValue}})
                     .then((response) => {
                         this.loadReceivedData(response.data);
                         this.$parent._getUnReadReceivedRequest();
@@ -1428,7 +1513,8 @@
                 this.selectedRequest = this.receiveRequests[this.selectedBuffer].data[this.selectedIndex];
                 if(this.selectedRequest.rLastRef.rhHasBeenSeen==false) {
                     axios.post('/financial/request/received/was_seen', {
-                        rhId: this.selectedRequest.rLastRef.id
+                        rhId: this.selectedRequest.rLastRef.id,
+                        searchValue: this.requestSearchValue
                     }).then((response) => {
                         this.loadReceivedData(response.data);
                         this.$parent._getUnReadReceivedRequest();
@@ -1456,6 +1542,9 @@
             requestReferral: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post('/financial/request/referral', {
                             acceptPermission: this.referralPermission == true ? 1 : 0,
                             destUId: this.referralInput.destUId,
@@ -1463,8 +1552,9 @@
                             description: this.referralInput.description,
                             verifierId:this.youAreVerifier,
                             dId:this.referralDId,
-                            prId:this.referralPrId
-                        }).then((response) => {
+                            prId:this.referralPrId,
+                            searchValue: this.requestSearchValue
+                        } , config).then((response) => {
                             this.loadReceivedData(response.data);
                             this.$parent._getUnReadReceivedRequest();
                             this.makePagination(response.data);
@@ -1496,11 +1586,15 @@
             acceptRequest: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post('/financial/request/accept', {
                             lastRefId: this.selectedRequest.rLastRef.id,
                             verifierId: this.youAreVerifier,
-                            itemExistCount: this.repoExistCount
-                        }).then((response) => {
+                            itemExistCount: this.repoExistCount,
+                            searchValue: this.requestSearchValue
+                        }, config).then((response) => {
                             this.loadReceivedData(response.data);
                             this.$parent._getUnReadReceivedRequest();
                             this.makePagination(response.data);
@@ -1530,7 +1624,8 @@
                             lastRefId: this.selectedRequest.rLastRef.id,
                             description: this.responseDescription,
                             dId: this.referralDId,
-                            prId: this.referralPrId
+                            prId: this.referralPrId,
+                            searchValue: this.requestSearchValue
                         }).then((response) => {
                             this.loadReceivedData(response.data);
                             this.$parent._getUnReadReceivedRequest();
@@ -1564,11 +1659,15 @@
                         this.letterDateAlert = true;
                     if(!this.letterDateAlert){
                         if (result) {
+                            var config = {
+                                allowLoading:true,
+                            };
                             axios.post('/financial/request/secretariat/numbering/register', {
                                 rId: this.requestId,
                                 letterDate: this.registerDate,
-                                letterNumber: this.letterNumber
-                            }).then((response) => {
+                                letterNumber: this.letterNumber,
+                                searchValue: this.requestSearchValue
+                            } , config).then((response) => {
                                 this.loadReceivedData(response.data);
                                 this.$parent._getUnReadReceivedRequest();
                                 this.makePagination(response.data);
@@ -1645,7 +1744,8 @@
                 this.showDeleteAttachmentConfirmModal = false;
                 axios.post('/financial/request/attachment/delete', {
                     rId: this.requestId,
-                    id: this.attachmentIdForDelete
+                    id: this.attachmentIdForDelete,
+                    searchValue: this.requestSearchValue
                 }).then((response) => {
                     this.updateReceiveRequestData(response.data);
                     this.$parent.displayNotif(response.status);
@@ -1670,10 +1770,14 @@
             requestBlock: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post('/financial/request/block' , {
                             rId: this.requestId,
-                            description: this.blockInput.description
-                        }).then((response) => {
+                            description: this.blockInput.description,
+                            searchValue: this.requestSearchValue
+                        } , config).then((response) => {
                             this.loadReceivedData(response.data);
                             this.$parent._getUnReadReceivedRequest();
                             this.makePagination(response.data);
@@ -1699,10 +1803,14 @@
             },
 
             requestTerminate: function () {
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/financial/request/terminate' , {
                     rId: this.requestId,
-                    description: this.terminateInput.description
-                }).then((response) => {
+                    description: this.terminateInput.description,
+                    searchValue: this.requestSearchValue
+                } , config).then((response) => {
                     this.loadReceivedData(response.data);
                     this.$parent._getUnReadReceivedRequest();
                     this.makePagination(response.data);

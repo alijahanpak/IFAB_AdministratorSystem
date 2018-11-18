@@ -59,14 +59,29 @@ class RequestController extends Controller
 
     function fetchPostedRequestsData(Request $request)
     {
-        $req = $this->getAllPostedRequests(Auth::user()->id);
+        $req = $this->getAllPostedRequests(Auth::user()->id , $request->searchValue);
         return \response()->json($req);
     }
 
-    function getAllPostedRequests($uId)
+    function getAllPostedRequests($uId , $searchValue)
     {
+        $searchValue = PublicSetting::checkPersianCharacters($searchValue);
         return _Request::where('rUId' , '=' , $uId)
             ->where('rFyId' , '=' , Auth::user()->seFiscalYear)
+            ->where(function ($q) use($searchValue){
+                return $q->where('rSubject' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('rCostEstimation' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('rDescription' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('rFurtherDetails' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('rLetterNumber' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('rLetterDate' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhereHas('requestState' , function($q) use($searchValue){
+                        return $q->where('rsSubject' , 'LIKE' , '%' . $searchValue . '%');
+                    })
+                    ->orWhereHas('requestType' , function($q) use($searchValue){
+                        return $q->where('rtSubject' , 'LIKE' , '%' . $searchValue . '%');
+                    });
+            })
             ->with('requestState')
             ->with('requestType')
             ->with('attachment')
@@ -100,11 +115,11 @@ class RequestController extends Controller
             if ($request->resultType == 'POSTED')
             {
                 if ($req->rAllowUpdateInPosted == false)
-                    return \response()->json($this->getAllPostedRequests(Auth::user()->id) , 400);
+                    return \response()->json($this->getAllPostedRequests(Auth::user()->id , $request->searchValue) , 400);
             }else if ($request->resultType == 'RECEIVED')
             {
                 if ($req->rAllowUpdateInReceived == false)
-                    return \response()->json($this->getAllReceivedRequests($this->getLastReceivedRequestIdList()) , 400);
+                    return \response()->json($this->getAllReceivedRequests($this->getLastReceivedRequestIdList() , $request->searchValue) , 400);
             }
             $req->rSubject = PublicSetting::checkPersianCharacters($request->subject);
             $req->rCostEstimation = $request->costEstimation;
@@ -138,10 +153,10 @@ class RequestController extends Controller
             SystemLog::setFinancialSubSystemLog('تغییر درخواست ' . $req->rSubject);
             if ($request->resultType == 'POSTED')
             {
-                return \response()->json($this->getAllPostedRequests(Auth::user()->id));
+                return \response()->json($this->getAllPostedRequests(Auth::user()->id , $request->searchValue));
             }else if ($request->resultType == 'RECEIVED')
             {
-                return \response()->json($this->getAllReceivedRequests($this->getLastReceivedRequestIdList()));
+                return \response()->json($this->getAllReceivedRequests($this->getLastReceivedRequestIdList() , $request->searchValue));
             }
         });
 
@@ -230,7 +245,7 @@ class RequestController extends Controller
             $reqType = RequestType::find($request->rtId);
             SystemLog::setFinancialSubSystemLog('ثبت درخواست ' . $reqType->rtSubject);
 
-            return \response()->json($this->getAllPostedRequests(Auth::user()->id));
+            return \response()->json($this->getAllPostedRequests(Auth::user()->id , $request->searchValue));
         });
 
         return $result;
@@ -257,7 +272,7 @@ class RequestController extends Controller
                     }
                 }
 
-                return \response()->json($this->getAllReceivedRequests($this->getLastReceivedRequestIdList()));
+                return \response()->json($this->getAllReceivedRequests($this->getLastReceivedRequestIdList() , $request->searchValue));
             }
         });
 
@@ -274,7 +289,7 @@ class RequestController extends Controller
             @unlink($storagePath . '/' . $attachment->aPath);
 
             return \response()->json(
-                $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
+                $this->getAllReceivedRequests($this->getLastReceivedRequestIdList() , $request->searchValue)
             );
         });
 
@@ -284,12 +299,13 @@ class RequestController extends Controller
     function fetchReceivedRequestsData(Request $request)
     {
         return \response()->json(
-            $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
+            $this->getAllReceivedRequests($this->getLastReceivedRequestIdList() , $request->searchValue)
         );
     }
 
-    function getAllReceivedRequests($reqIds)
+    function getAllReceivedRequests($reqIds , $searchValue)
     {
+        $searchValue = PublicSetting::checkPersianCharacters($searchValue);
         $requestLevels = RequestLevel::all();
         $result = [];
         $allowRequestStates = RequestState::where('rsState' , '=' , 'ACTIVE')
@@ -301,18 +317,33 @@ class RequestController extends Controller
                 ->whereIn('rRsId' , $allowRequestStates)
                 ->where('rRlId' , '=' , $level->id)
                 ->where('rFyId' , '=' , Auth::user()->seFiscalYear)
+                ->where(function ($q) use($searchValue){
+                    return $q->where('rSubject' , 'LIKE' , '%' . $searchValue . '%')
+                        ->orWhere('rCostEstimation' , 'LIKE' , '%' . $searchValue . '%')
+                        ->orWhere('rDescription' , 'LIKE' , '%' . $searchValue . '%')
+                        ->orWhere('rFurtherDetails' , 'LIKE' , '%' . $searchValue . '%')
+                        ->orWhere('rLetterNumber' , 'LIKE' , '%' . $searchValue . '%')
+                        ->orWhere('rLetterDate' , 'LIKE' , '%' . $searchValue . '%')
+                        ->orWhereHas('requestState' , function($q) use($searchValue){
+                            return $q->where('rsSubject' , 'LIKE' , '%' . $searchValue . '%');
+                        })
+                        ->orWhereHas('requestType' , function($q) use($searchValue){
+                            return $q->where('rtSubject' , 'LIKE' , '%' . $searchValue . '%');
+                        });
+                })
                 ->with('requestState')
-                ->with('attachment')
                 ->with('requestType')
                 ->with('verifiers.user.role.officeUnit')
                 ->with(['requestCommodity' => function($q){
                     return $q->where('rcIsExist' , '=' , 0)
                         ->with('commodity');
                 }])
+                ->with('attachment')
                 ->with('history.sourceUserInfo.role')
                 ->with('history.destinationUserInfo.role')
                 ->with('history.requestState')
                 ->with('contract.executor')
+                ->with('contract.increaseAmount')
                 ->with('factor.seller')
                 ->with('factor.factorState')
                 ->with('factor.refundFactor')
@@ -381,6 +412,7 @@ class RequestController extends Controller
             }])
             ->with('attachment')
             ->with('contract.executor')
+            ->with('contract.increaseAmount')
             ->with('factor.seller')
             ->with('factor.factorState')
             ->with('draft.verifier.user.role')
@@ -422,7 +454,7 @@ class RequestController extends Controller
             }
 
             return \response()->json(
-                $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
+                $this->getAllReceivedRequests($this->getLastReceivedRequestIdList() , $request->searchValue)
             );
         });
 
@@ -619,7 +651,7 @@ class RequestController extends Controller
                     }
                     SystemLog::setFinancialSubSystemLog('تایید درخواست توسط ' . Auth::user()->name);
                     return response()->json(
-                        $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
+                        $this->getAllReceivedRequests($this->getLastReceivedRequestIdList() , $request->searchValue)
                     );
                 });
 
@@ -652,7 +684,7 @@ class RequestController extends Controller
             SystemLog::setFinancialSubSystemLog('پاسخ به ارجاع درخواست');
 
             return \response()->json(
-                $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
+                $this->getAllReceivedRequests($this->getLastReceivedRequestIdList() , $request->searchValue)
             );
         });
         return $result;
@@ -686,7 +718,7 @@ class RequestController extends Controller
             SystemLog::setFinancialSubSystemLog('شماره گذاری درخواست ' . $req->rSubject . ' در دبیرخانه');
 
             return \response()->json(
-                $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
+                $this->getAllReceivedRequests($this->getLastReceivedRequestIdList() , $request->searchValue)
             );
         });
 
@@ -700,7 +732,7 @@ class RequestController extends Controller
         $rHistory->save();
 
         return \response()->json(
-            $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
+            $this->getAllReceivedRequests($this->getLastReceivedRequestIdList() , $request->searchValue)
         );
     }
 
@@ -728,7 +760,7 @@ class RequestController extends Controller
 
             SystemLog::setFinancialSubSystemLog('مسدود کردن درخواست با عنوان ' . $req->rSubject);
             return \response()->json(
-                $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
+                $this->getAllReceivedRequests($this->getLastReceivedRequestIdList() , $request->searchValue)
             );
         });
 
@@ -755,7 +787,7 @@ class RequestController extends Controller
             SystemLog::setFinancialSubSystemLog('خاتمه دادن به درخواست ' . $req->rSubject);
 
             return \response()->json(
-                $this->getAllReceivedRequests($this->getLastReceivedRequestIdList())
+                $this->getAllReceivedRequests($this->getLastReceivedRequestIdList() , $request->searchValue)
             );
         });
 

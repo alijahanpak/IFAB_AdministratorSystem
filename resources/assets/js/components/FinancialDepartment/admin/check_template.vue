@@ -80,7 +80,7 @@
                                     <div class="large-2 medium-2 small-12 padding-lr">
                                         <label> فعال
                                             <div class="switch tiny">
-                                                <input checked="false" v-model="inputCheck.state" class="switch-input" id="is-require-state" type="checkbox">
+                                                <input v-model="inputCheck.state" class="switch-input" id="is-require-state" type="checkbox">
                                                 <label class="switch-paddle" for="is-require-state">
                                                     <span class="switch-active" aria-hidden="true">بلی</span>
                                                     <span class="switch-inactive" aria-hidden="true">خیر</span>
@@ -274,7 +274,8 @@
                             </div>
                             <div class="large-12 medium-12 small-12 padding-lr small-top-m">
                                 <div class="stacked-for-small button-group float-left">
-                                    <button type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <button v-show="!$root.btnLoadingCheckStatus" type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                                 </div>
                             </div>
                         </div>
@@ -356,12 +357,16 @@
 
             openAddNewCheckModal: function () {
                 this.inputCheck={};
+                this.inputCheck.state=true;
                 this.showAddNewCheckModal=true;
             },
 
             insertNewCheck: function(){
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post('/financial/admin/check/format/register', {
                             subject:this.inputCheck.subject,
                             state:this.inputCheck.state = true ? 1 : 0,
@@ -391,7 +396,7 @@
                             secondSignatureWidth:this.inputCheck.secondSignatureWidth == null ? 0 :this.inputCheck.secondSignatureWidth,
                             width:this.inputCheck.width,
                             height:this.inputCheck.height,
-                        }).then((response) => {
+                        }, config).then((response) => {
                             this.allCheckFormat = response.data;
                             this.showAddNewCheckModal=false;
                             this.$parent.displayNotif(response.status);

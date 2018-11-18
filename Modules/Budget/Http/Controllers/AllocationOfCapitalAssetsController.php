@@ -40,16 +40,30 @@ class AllocationOfCapitalAssetsController extends Controller
         $searchValue = PublicSetting::checkPersianCharacters($searchValue);
         return CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
             ->where('capProvinceOrNational' , '=' , $pOrN)
+            ->where(function($q) use($searchValue){
+                return $q->where('capLetterNumber' , 'LIKE' , '%' . $searchValue . '%')
+                        ->orWhere('capLetterDate' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('capDescription' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhereHas('creditDistributionTitle' , function ($query) use($searchValue){
+                        return $query->where('cdtIdNumber' , 'LIKE' , '%' . $searchValue . '%')
+                            ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%');
+                    })
+                    ->orWhereHas('capitalAssetsProjectHasCreditSource' , function ($query) use($searchValue){
+                        return $query->where('cpSubject' , 'LIKE' , '%' . $searchValue . '%')
+                            ->orWhere('cpCode' , 'LIKE' , '%' . $searchValue . '%')
+                            ->orWhere('cpDescription' , 'LIKE' , '%' . $searchValue . '%');
+                    })
+                    ->orWhereHas('capitalAssetsProjectHasCreditSource.creditSourceHasAllocation.creditDistributionRow' , function ($q) use($searchValue){
+                        return $q->where('cdSubject' , 'LIKE' , '%' . $searchValue . '%')
+                            ->orWhere('cdDescription' , 'LIKE' , '%' . $searchValue . '%');
+                    });
+            })
             ->has('capitalAssetsProjectHasCreditSource.creditSourceHasAllocation.Allocation')
             ->with('capitalAssetsProjectHasCreditSource.creditSourceHasAllocation.Allocation')
             ->with('capitalAssetsProjectHasCreditSource.creditSourceHasAllocation.creditDistributionRow')
             ->with('capitalAssetsProjectHasCreditSource.creditSourceHasAllocation.tinySeason.seasonTitle.season')
             ->with('capitalAssetsProjectHasCreditSource.creditSourceHasAllocation.howToRun')
             ->with('creditDistributionTitle')
-            ->whereHas('creditDistributionTitle' , function ($query) use($searchValue){
-                return $query->where('cdtIdNumber' , 'LIKE' , '%' . $searchValue . '%')
-                    ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%');
-            })
             ->with('creditDistributionTitle.county')
             ->orderBy('id', 'DESC')
             ->paginate($itemInPage);
@@ -311,13 +325,26 @@ class AllocationOfCapitalAssetsController extends Controller
         return CostAgreement::where('caFyId' , '=' , Auth::user()->seFiscalYear)
             ->where('caProvinceOrNational' , '=' , $pOrN)
             ->where(function($query) use($searchValue){
-                return $query->where('caLetterNumber' , 'LIKE' , '%' . $searchValue . '%');
+                return $query->where('caLetterNumber' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhereHas('caCreditSourceHasAllocation.creditDistributionTitle' , function ($q) use($searchValue){
+                        return $q->where('cdtIdNumber' , 'LIKE' , '%' . $searchValue . '%')
+                            ->orWhere('cdtSubject' , 'LIKE' , '%' . $searchValue . '%');
+                    })
+                    ->orWhereHas('caCreditSourceHasAllocation.creditDistributionRow' , function ($q) use($searchValue){
+                        return $q->where('cdSubject' , 'LIKE' , '%' . $searchValue . '%')
+                            ->orWhere('cdDescription' , 'LIKE' , '%' . $searchValue . '%');
+                    })
+                    ->orWhereHas('caCreditSourceHasAllocation.allocation' , function ($q) use($searchValue){
+                        return $q->where('caAmount' , 'LIKE' , '%' . $searchValue . '%')
+                            ->orWhere('caLetterNumber' , 'LIKE' , '%' . $searchValue . '%')
+                            ->orWhere('caLetterDate' , 'LIKE' , '%' . $searchValue . '%')
+                            ->orWhere('caDescription' , 'LIKE' , '%' . $searchValue . '%');
+                    });
             })
             ->has('caCreditSourceHasAllocation')
             ->with('caCreditSourceHasAllocation.allocation')
             ->with('caCreditSourceHasAllocation.creditDistributionRow')
             ->with('caCreditSourceHasAllocation.tinySeason.seasonTitle.season')
-            ->with('caCreditSourceHasAllocation.creditDistributionTitle')
             ->with('caCreditSourceHasAllocation.creditDistributionTitle.county')
             ->orderBy('id', 'DESC')
             ->paginate($itemInPage);

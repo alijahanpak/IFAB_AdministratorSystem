@@ -189,18 +189,18 @@
                                         <ul class="menu vertical nested is-active">
                                             <li data-close><router-link to="/financial_department/submissions">ارسالی</router-link></li>
                                             <li data-close><router-link to="/financial_department/received_requests">دریافتی   <span v-show="unReadRequestCount > 0" class="notif-badage">@{{ unReadRequestCount }}</span></router-link></li>
-                                            <li data-close><router-link to="/financial_department/search_requests">جستجو</router-link></li>
+                                            <li data-close v-show="$can('GLOBAL_SEARCH')"><router-link to="/financial_department/search_requests">جستجو</router-link></li>
                                         </ul>
                                     </li>
                                     <!--Financial Department End-->
                                     <!--checks list-->
                                     <li data-close v-show="$can('CHECK_LIST_DISPLAY')">
-                                        <router-link class="right-mp right-menu-btm-border" to="/financial_department/checks/list">چک</router-link>
+                                        <router-link class="right-mp right-menu-btm-border" to="/financial_department/checks/list">چک <span v-show="allCheckCount > 0" class="notif-badage">@{{ allCheckCount }}</span></router-link>
                                     </li>
                                     <!--checks list-->
                                     <!--fund-->
                                     <li data-close v-show="$can('DISPLAY_REFUNDS')">
-                                        <router-link class="right-mp right-menu-btm-border" to="/financial_department/refund">تنخواه گردان کارپردازی</router-link>
+                                        <router-link class="right-mp right-menu-btm-border" to="/financial_department/refund"> تنخواه گردان کارپردازی<span v-show="allRefundCount > 0" class="notif-badage">@{{ allRefundCount }}</span></router-link>
                                     </li>
                                     <!--fund-->
                                 </ul>

@@ -109,7 +109,7 @@ class CheckController extends Controller
                 }
 
                 return \response()->json(
-                    $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
+                    $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList() , $request->searchValue)
                 );
             }else if ($request->resultType == 'SEARCH'){
                 return $rController->normalSearch($request);

@@ -53,7 +53,7 @@
                                         <span v-show="factor.factor_state.fsState == 'TEMPORARY'" class="danger-label">{{ factor.factor_state.fsSubject }}</span>
                                     </div>
                                     <div class="medium-1 cell-vertical-center text-left" v-show="($can('SUPPLIER_DELETE_FACTOR') || $can('SUPPLIER_UPDATE_FACTOR')) && factor.factor_state.fsState == 'TEMPORARY'">
-                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'factorMenu' + factor.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                        <a class="dropdown small sm-btn-align" :data-toggle="'factorMenu' + factor.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" :id="'factorMenu' + factor.id" data-dropdown data-auto-focus="true">
                                             <ul class="my-menu small-font text-right">
                                                 <li v-show="$can('SUPPLIER_UPDATE_FACTOR')"><a v-on:click.prevent="openUpdateFactorModal(factor)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -270,7 +270,7 @@
 <script>
     import Suggestions from "v-suggestions/src/Suggestions";
     export default{
-        props:['factors','refundFactor','requestId','request'],
+        props:['factors','refundFactor','requestId','request' , 'searchValue'],
         components: {
             Suggestions,
         },
@@ -396,6 +396,7 @@
             acceptFactor: function(){
                 axios.post('/financial/refund/factor/check_request', {
                     rId: this.requestId,
+                    searchValue: this.searchValue
                 }).then((response) => {
                     this.$emit('updateSubmissionData' , response.data);
                     this.$emit('closeModal');
@@ -411,6 +412,7 @@
             deleteFactor: function() {
                 axios.post('/financial/refund/factor/delete', {
                     fId: this.selectedFactorId,
+                    searchValue: this.searchValue
                 }).then((response) => {
                     if (response.status == 200)
                         this.$emit('updateSubmissionData' , response.data);
@@ -466,13 +468,14 @@
             addNewFactor:function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        if ((parseInt(this.factorInput.amount.split(',').join(''),10) <= 0) || (parseInt(this.factorInput.amount.split(',').join(''),10) > this.refundRemainingAmount))
+                        if ((parseInt(this.factorInput.amount.split(',').join(''),10) <= 0) || (this.refundRemainingAmount < 0))
                         {
                             this.moneyState = 'block';
                         }else {
                             this.moneyState = 'none';
                             axios.post('/financial/refund/factor/new', {
                                 rId: this.requestId,
+                                searchValue: this.searchValue,
                                 subject: this.factorInput.subject,
                                 seller: this.factorInput.seller,
                                 amount: parseInt(this.factorInput.amount.split(',').join(''), 10),
@@ -519,13 +522,14 @@
             updateFactor: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
-                        if ((parseInt(this.factorInput.amount.split(',').join(''),10) <= 0) || (parseInt(this.factorInput.amount.split(',').join(''),10) > this.refundRemainingAmount))
+                        if ((parseInt(this.factorInput.amount.split(',').join(''),10) <= 0) || (this.refundRemainingAmount < 0))
                         {
                             this.moneyState = 'block';
                         }else{
                             this.moneyState = 'none';
                             axios.post('/financial/request/factor/update', {
                                 id: this.selectedFactorId,
+                                searchValue: this.searchValue,
                                 refundId: '',
                                 subject: this.factorInput.subject,
                                 seller: this.factorInput.seller,

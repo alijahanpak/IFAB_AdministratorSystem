@@ -122,7 +122,7 @@
                                         <div v-show="contract.cIsAccepted == 0"><span class="reserved-label">تایید نشده</span></div>
                                     </div>
                                     <div v-show="!contract.cIsAccepted" class="medium-1 cell-vertical-center text-left">
-                                        <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'contractMenu' + contract.id"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                        <a class="dropdown small sm-btn-align" :data-toggle="'contractMenu' + contract.id"><i class="fa fa-ellipsis-v size-18"></i></a>
                                         <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="left" :id="'contractMenu' + contract.id" data-dropdown data-auto-focus="true">
                                             <ul class="my-menu small-font text-right">
                                                 <li v-show="$can('UNIT_OF_CONTRACT_DELETE_CONTRACT')"><a v-on:click.prevent="openUpdateContractModal(index)"><i class="fa fa-pencil-square-o size-16"></i>  ویرایش</a></li>
@@ -161,7 +161,7 @@
                         <div class="grid-x">
                             <div class="large-8 medium-8 small-12 padding-lr">
                                 <label>مجری
-                                    <suggestions style="margin-bottom: -18px;height: 41px;" name="executorTitle" :class="executorAlert ? 'select-error' : ''"
+                                    <suggestions style="margin-bottom: -18px;height: 41px;" autocomplete="off" name="executorTitle" :class="executorAlert ? 'select-error' : ''"
                                                  v-model="contractInput.executor"
                                                  :options="executorOptions"
                                                  :onInputChange="onExecutorInputChange">
@@ -197,7 +197,7 @@
                         <div v-show="displayWarning" class="grid-x"  style="margin-top: -10px; margin-bottom: 10px">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <span class="btn-red size-12">اخطار! </span>
-                                <span class="black-color size-12">کارشناس محترم، مبلغ نهایی قرارداد از مبلغ براورد بیشتر است.</span>
+                                <span class="black-color size-12">کارشناس محترم، مبلغ نهایی قرارداد از مبلغ براورد بیشتر است, آیا برای ثبت قرارداد اطمینان دارید؟</span>
                             </div>
                         </div>
                         <div class="grid-x">
@@ -278,7 +278,7 @@
                                             <div v-show="displayWarning" class="grid-x"  style="margin-top: -10px">
                                                 <div class="large-12 medium-12  small-12">
                                                     <span class="btn-red size-12">اخطار! </span>
-                                                    <span class="black-color size-12">کارشناس محترم، مبلغ نهایی قرارداد از مبلغ براورد بیشتر است.</span>
+                                                    <span class="black-color size-12">کارشناس محترم، مبلغ نهایی قرارداد از مبلغ براورد بیشتر است, آیا برای ثبت قرارداد اطمینان دارید؟</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -300,7 +300,8 @@
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <div class="stacked-for-small button-group float-left">
-                                    <button type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <button  v-show="!$root.btnLoadingCheckStatus" type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                                 </div>
                             </div>
                         </div>
@@ -326,7 +327,7 @@
                         <div class="grid-x">
                             <div class="large-8 medium-8 small-12 padding-lr">
                                 <label>مجری
-                                    <suggestions style="margin-bottom: -18px;height: 41px;" name="executorTitle" :class="executorAlert ? 'select-error' : ''"
+                                    <suggestions autocomplete="off" style="margin-bottom: -18px;height: 41px;" name="executorTitle" :class="executorAlert ? 'select-error' : ''"
                                                  v-model="contractInput.executor"
                                                  :options="executorOptions"
                                                  :onInputChange="onExecutorInputChange">
@@ -362,7 +363,7 @@
                         <div v-show="displayWarning" class="grid-x"  style="margin-top: -10px; margin-bottom: 10px">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <span class="btn-red size-12">اخطار! </span>
-                                <span class="black-color size-12">کارشناس محترم، مبلغ نهایی قرارداد از مبلغ براورد بیشتر است.</span>
+                                <span class="black-color size-12">کارشناس محترم، مبلغ نهایی قرارداد از مبلغ براورد بیشتر است, آیا برای ثبت قرارداد اطمینان دارید؟</span>
                             </div>
                         </div>
                         <div class="grid-x">
@@ -441,7 +442,7 @@
                                             <div v-show="displayWarning" class="grid-x"  style="margin-top: -10px">
                                                 <div class="large-12 medium-12  small-12">
                                                     <span class="btn-red size-12">اخطار! </span>
-                                                    <span class="black-color size-12">کارشناس محترم، مبلغ نهایی قرارداد از مبلغ براورد بیشتر است.</span>
+                                                    <span class="black-color size-12">کارشناس محترم، مبلغ نهایی قرارداد از مبلغ براورد بیشتر است, آیا برای ثبت قرارداد اطمینان دارید؟</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -463,7 +464,8 @@
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <div class="stacked-for-small button-group float-left">
-                                    <button type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <button v-show="!$root.btnLoadingCheckStatus" type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                                 </div>
                             </div>
                         </div>
@@ -485,7 +487,8 @@
                     <p class="large-offset-1 modal-text">تایید اطلاعات قرارداد به منزله ایجاد تعهد در محل های تامین اعتبار است، آیا صحت اطلاعات را تایید می کنید؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
-                            <button v-on:click="acceptContract"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" v-on:click="acceptContract" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </div>
@@ -501,7 +504,8 @@
                     <p class="large-offset-1 modal-text">آیا مایل هستید قرارداد را حذف کنید؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
-                            <button v-on:click="deleteContract"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" v-on:click="deleteContract"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </div>
@@ -513,7 +517,7 @@
 <script>
     import Suggestions from "v-suggestions/src/Suggestions";
     export default{
-        props:['contracts','requestId' , 'rCreditIsAccepted' , 'rCreditIsExist', 'requestSubject' , 'rCostEstimation'],
+        props:['contracts','requestId' , 'rCreditIsAccepted' , 'rCreditIsExist', 'requestSubject' , 'rCostEstimation' , 'searchValue'],
         components: {
             Suggestions,
         },
@@ -665,7 +669,7 @@
                     });
                     if (selectedPercent != null)
                     {
-                        var tempAmount = Math.round(selectedPercent.piPercent * parseInt(this.contractInput.amount.split(',').join(''),10)) / 100;
+                        var tempAmount = Math.round((selectedPercent.piPercent * parseInt(this.contractInput.amount.split(',').join(''),10)) / 100);
                         var amountInc = 0;
                         this.percentageIncreaseCategory[catIndex].percentage_increase.forEach(item => {
                             if (selectedPercent.id == item.id) {
@@ -736,9 +740,13 @@
             },
 
             acceptContract: function(){
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/financial/request/contract/accept', {
                     rId: this.requestId,
-                }).then((response) => {
+                    searchValue: this.searchValue
+                } , config).then((response) => {
                     this.$emit('updateReceiveRequestData' , response.data);
                     this.$emit('closeModal');
                     this.$root.displayNotif(response.status);
@@ -750,10 +758,14 @@
             },
 
             deleteContract: function() {
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/financial/request/contract/delete', {
                     rId: this.requestId,
                     cId: this.cIdForDelete,
-                }).then((response) => {
+                    searchValue: this.searchValue
+                } , config).then((response) => {
                     if (response.status == 200)
                         this.$emit('updateReceiveRequestData' , response.data);
                     this.showDeleteConfirmModal = false;
@@ -822,6 +834,9 @@
                                      }
                                  });
                              });
+                             var config = {
+                                 allowLoading:true,
+                             };
                              axios.post('/financial/request/contract/insert', {
                                  rId: this.requestId,
                                  subject: this.contractInput.subject,
@@ -835,7 +850,8 @@
                                  endDate: this.contractInput.endDate,
                                  description: this.contractInput.description,
                                  increaseItems: increaseTemp,
-                             }).then((response) => {
+                                 searchValue: this.searchValue
+                             } , config).then((response) => {
                                  this.$emit('updateReceiveRequestData', response.data);
                                  this.showInsertContractModal = false;
                                  this.$root.displayNotif(response.status);
@@ -905,6 +921,9 @@
                                     }
                                 });
                             });
+                            var config = {
+                                allowLoading:true,
+                            };
                             axios.post('/financial/request/contract/update', {
                                 id: this.contractInput.id,
                                 rId: this.requestId,
@@ -919,7 +938,8 @@
                                 endDate: this.contractInput.endDate,
                                 description: this.contractInput.description,
                                 increaseItems: increaseTemp,
-                            }).then((response) => {
+                                searchValue: this.searchValue
+                            } , config).then((response) => {
                                 this.$emit('updateReceiveRequestData', response.data);
                                 this.showUpdateContractModal = false;
                                 this.$root.displayNotif(response.status);

@@ -60,7 +60,7 @@ class ContractController extends Controller
 
         $rController = new RequestController();
         return \response()->json(
-            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
+            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList() , $request->searchValue)
         );
     }
 
@@ -104,7 +104,7 @@ class ContractController extends Controller
 
             SystemLog::setFinancialSubSystemLog('اصلاح قرارداد ' . $request->subject . ' برای درخواست ' . _Request::find($request->rId)->rSubject);
             $rController = new RequestController();
-            return \response()->json($rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList()));
+            return \response()->json($rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList() , $request->searchValue));
         });
 
         return $result;
@@ -156,7 +156,7 @@ class ContractController extends Controller
 
         $rController = new RequestController();
         return \response()->json(
-            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
+            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList() , $request->searchValue)
         );
     }
 
@@ -168,9 +168,9 @@ class ContractController extends Controller
             if ($contract->cIsAccepted == false)
             {
                 Contract::where('id' , '=' , $request->cId)->delete();
-                return \response()->json($rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList()));
+                return \response()->json($rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList() , $request->searchValue));
             }else{
-                return \response()->json($rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList()) , 204);
+                return \response()->json($rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList() , $request->searchValue) , 204);
             }
         });
 

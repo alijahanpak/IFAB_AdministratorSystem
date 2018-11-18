@@ -40,8 +40,9 @@ class BudgetReportController extends Controller
                 $pdf->loadHTML(view('budget::reports.approved.plan_provincial', ['options' => $options, 'items' => $request->get('selectedItems')]));
             else
                 $pdf->loadHTML(view('budget::reports.approved.plan_national', ['options' => $options, 'items' => $request->get('selectedItems')]));
-            $pdf->save('pdfFiles/temp' . Auth::user()->id . '.pdf', true);
-            return url('pdfFiles/temp' . Auth::user()->id . '.pdf');
+            return $pdf->inline();
+            //$pdf->save('pdfFiles/temp' . Auth::user()->id . '.pdf', true);
+            //return url('pdfFiles/temp' . Auth::user()->id . '.pdf');
         } else if ($request->type == 'excel') {
             Excel::create('temp' . Auth::user()->id, function ($excel) use ($request) {
                 $excel->getDefaultStyle()
@@ -122,8 +123,9 @@ class BudgetReportController extends Controller
                 $pdf->loadHTML(view('budget::reports.approved.project_provincial', ['options' => $options, 'items' => $request->get('selectedItems')]));
             else
                 $pdf->loadHTML(view('budget::reports.approved.project_national', ['options' => $options, 'items' => $request->get('selectedItems')]));
-            $pdf->save('pdfFiles/temp' . Auth::user()->id . '.pdf', true);
-            return url('pdfFiles/temp' . Auth::user()->id . '.pdf');
+            return $pdf->inline();
+/*            $pdf->save('pdfFiles/temp' . Auth::user()->id . '.pdf', true);
+            return url('pdfFiles/temp' . Auth::user()->id . '.pdf');*/
         } else if ($request->type == 'excel') {
             Excel::create('temp' . Auth::user()->id, function ($excel) use ($request) {
                 $excel->getDefaultStyle()
@@ -252,8 +254,9 @@ class BudgetReportController extends Controller
             $options = $request->get('options');
             $pdf = $this->initPdf($options);
             $pdf->loadHTML(view('budget::reports.admin.plan_cost_title', ['options' => $options, 'items' => $request->get('selectedItems')]));
-            $pdf->save('pdfFiles/temp' . Auth::user()->id . '.pdf', true);
-            return url('pdfFiles/temp' . Auth::user()->id . '.pdf');
+            return $pdf->inline();
+            //$pdf->save('pdfFiles/temp' . Auth::user()->id . '.pdf', true);
+            //return url('pdfFiles/temp' . Auth::user()->id . '.pdf');
         } else if ($request->type == 'excel') {
             Excel::create('temp' . Auth::user()->id, function ($excel) use ($request) {
                 $excel->getDefaultStyle()
@@ -305,8 +308,9 @@ class BudgetReportController extends Controller
             $options = $request->get('options');
             $pdf = $this->initPdf($options);
             $pdf->loadHTML(view('budget::reports.admin.deprived_area_prov', ['options' => $options, 'items' => $request->get('selectedItems')]));
-            $pdf->save('pdfFiles/temp' . Auth::user()->id . '.pdf', true);
-            return url('pdfFiles/temp' . Auth::user()->id . '.pdf');
+            return $pdf->inline();
+            //$pdf->save('pdfFiles/temp' . Auth::user()->id . '.pdf', true);
+            //return url('pdfFiles/temp' . Auth::user()->id . '.pdf');
         } else if ($request->type == 'excel') {
             Excel::create('temp' . Auth::user()->id, function ($excel) use ($request) {
                 $excel->getDefaultStyle()
@@ -353,8 +357,9 @@ class BudgetReportController extends Controller
             $options = $request->get('options');
             $pdf = $this->initPdf($options);
             $pdf->loadHTML(view('budget::reports.allocation.capital_assets', ['options' => $options, 'items' => $request->get('selectedItems')]));
-            $pdf->save('pdfFiles/temp' . Auth::user()->id . '.pdf', true);
-            return url('pdfFiles/temp' . Auth::user()->id . '.pdf');
+            return $pdf->inline();
+            //$pdf->save('pdfFiles/temp' . Auth::user()->id . '.pdf', true);
+            //return url('pdfFiles/temp' . Auth::user()->id . '.pdf');
         } else if ($request->type == 'excel') {
             Excel::create('temp' . Auth::user()->id, function ($excel) use ($request) {
                 $excel->getDefaultStyle()
@@ -413,8 +418,9 @@ class BudgetReportController extends Controller
             $options = $request->get('options');
             $pdf = $this->initPdf($options);
             $pdf->loadHTML(view('budget::reports.creditDistribution.plan', ['options' => $options, 'items' => $request->get('selectedItems')]));
-            $pdf->save('pdfFiles/temp' . Auth::user()->id . '.pdf', true);
-            return url('pdfFiles/temp' . Auth::user()->id . '.pdf');
+            return $pdf->inline();
+            //$pdf->save('pdfFiles/temp' . Auth::user()->id . '.pdf', true);
+            //return url('pdfFiles/temp' . Auth::user()->id . '.pdf');
         } else if ($request->type == 'excel') {
             Excel::create('temp' . Auth::user()->id, function ($excel) use ($request) {
                 $excel->getDefaultStyle()
@@ -464,8 +470,9 @@ class BudgetReportController extends Controller
             $options = $request->get('options');
             $pdf = $this->initPdf($options);
             $pdf->loadHTML(view('budget::reports.creditDistribution.proposal', ['options' => $options, 'items' => $request->get('selectedItems')]));
-            $pdf->save('pdfFiles/temp' . Auth::user()->id . '.pdf', true);
-            return url('pdfFiles/temp' . Auth::user()->id . '.pdf');
+            return $pdf->inline();
+            //$pdf->save('pdfFiles/temp' . Auth::user()->id . '.pdf', true);
+            //return url('pdfFiles/temp' . Auth::user()->id . '.pdf');
         } else if ($request->type == 'excel') {
             Excel::create('temp' . Auth::user()->id, function ($excel) use ($request) {
                 $excel->getDefaultStyle()
@@ -518,8 +525,9 @@ class BudgetReportController extends Controller
             $options = $request->get('options');
             $pdf = $this->initPdf($options);
             $pdf->loadHTML(view('budget::reports.allocation.cost', ['options' => $options, 'items' => $request->get('selectedItems')]));
-            $pdf->save('pdfFiles/temp' . Auth::user()->id . '.pdf', true);
-            return url('pdfFiles/temp' . Auth::user()->id . '.pdf');
+            return $pdf->inline();
+            //$pdf->save('pdfFiles/temp' . Auth::user()->id . '.pdf', true);
+            //return url('pdfFiles/temp' . Auth::user()->id . '.pdf');
         } else if ($request->type == 'excel') {
             Excel::create('temp' . Auth::user()->id, function ($excel) use ($request) {
                 $excel->getDefaultStyle()
@@ -572,8 +580,9 @@ class BudgetReportController extends Controller
             $options = $request->get('options');
             $pdf = $this->initPdf($options);
             $pdf->loadHTML(view('budget::reports.allocation.found_provincial', ['options' => $options, 'items' => $request->get('selectedItems')]));
-            $pdf->save('pdfFiles/temp' . Auth::user()->id . '.pdf', true);
-            return url('pdfFiles/temp' . Auth::user()->id . '.pdf');
+            return $pdf->inline();
+            //$pdf->save('pdfFiles/temp' . Auth::user()->id . '.pdf', true);
+            //return url('pdfFiles/temp' . Auth::user()->id . '.pdf');
         } else if ($request->type == 'excel') {
             Excel::create('temp' . Auth::user()->id, function ($excel) use ($request) {
                 $excel->getDefaultStyle()
@@ -621,8 +630,9 @@ class BudgetReportController extends Controller
             $options = $request->get('options');
             $pdf = $this->initPdf($options);
             $pdf->loadHTML(view('budget::reports.allocation.capital_found_provincial', ['options' => $options, 'items' => $request->get('selectedItems')]));
-            $pdf->save('pdfFiles/temp' . Auth::user()->id . '.pdf', true);
-            return url('pdfFiles/temp' . Auth::user()->id . '.pdf');
+            return $pdf->inline();
+            //$pdf->save('pdfFiles/temp' . Auth::user()->id . '.pdf', true);
+            //return url('pdfFiles/temp' . Auth::user()->id . '.pdf');
         } else if ($request->type == 'excel') {
             Excel::create('temp' . Auth::user()->id, function ($excel) use ($request) {
                 $excel->getDefaultStyle()
@@ -670,8 +680,9 @@ class BudgetReportController extends Controller
             $options = $request->get('options');
             $pdf = $this->initPdf($options);
             $pdf->loadHTML(view('budget::reports.approved.program', ['options' => $options, 'items' => $request->get('selectedItems')]));
-            $pdf->save('pdfFiles/temp' . Auth::user()->id . '.pdf', true);
-            return url('pdfFiles/temp' . Auth::user()->id . '.pdf');
+            return $pdf->inline();
+            //$pdf->save('pdfFiles/temp' . Auth::user()->id . '.pdf', true);
+            //return url('pdfFiles/temp' . Auth::user()->id . '.pdf');
         } else if ($request->type == 'excel') {
             Excel::create('temp' . Auth::user()->id, function ($excel) use ($request) {
                 $excel->getDefaultStyle()

@@ -85,6 +85,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
     });
 
     Route::prefix('report')->group(function () {
+        Route::post('/request' , 'ReportController@request');
         Route::post('/draft' , 'ReportController@draft');
         Route::post('/document' , 'ReportController@document');
         Route::post('/payment_request' , 'ReportController@paymentRequest');
@@ -98,6 +99,10 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
         Route::post('/numbering', 'PayRequestController@numbering');
         Route::post('/was_seen', 'PayRequestController@wasSeen');
         Route::post('/block', 'PayRequestController@block');
+    });
+
+    Route::prefix('deposit')->group(function () {
+        Route::get('/fetch_deposit_percentage_category' , 'DepositController@getDepositPercentage');
     });
 
     Route::prefix('admin')->group(function () {

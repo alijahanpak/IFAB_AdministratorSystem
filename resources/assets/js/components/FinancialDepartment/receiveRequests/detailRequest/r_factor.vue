@@ -88,7 +88,7 @@
                         <div v-if="isFromRefundCosts == true" class="grid-x">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <label>تنخواه گردان
-                                    <select class="form-element-margin-btm" v-model="refundId" name="selectRefunds" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('selectRefunds')}">
+                                    <select class="form-element-margin-btm" @change="calculateRemainingAmount(factorInput.amount)" v-model="refundId" name="selectRefunds" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('selectRefunds')}">
                                         <option value=""></option>
                                         <option v-for="refund in refunds" :value="refund.id">{{refund.rSubject}} - {{$root.dispMoneyFormat(refund.rCostEstimation)}} ریال</option>
                                     </select>
@@ -154,7 +154,8 @@
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <div class="stacked-for-small button-group float-left">
-                                    <button type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <button v-show="!$root.btnLoadingCheckStatus" type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                                 </div>
                             </div>
                         </div>
@@ -171,7 +172,7 @@
                         <div v-if="isFromRefundCosts == true" class="grid-x">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <label>تنخواه گردان
-                                    <select class="form-element-margin-btm" v-model="refundId" name="selectRefunds" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('selectRefunds')}">
+                                    <select class="form-element-margin-btm" @change="calculateRemainingAmount(factorInput.amount)" v-model="refundId" name="selectRefunds" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('selectRefunds')}">
                                         <option value=""></option>
                                         <option v-for="refund in refunds" :value="refund.id">{{refund.rSubject}} - {{$root.dispMoneyFormat(refund.rCostEstimation)}} ریال</option>
                                     </select>
@@ -237,7 +238,8 @@
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <div class="stacked-for-small button-group float-left">
-                                    <button type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <button v-show="!$root.btnLoadingCheckStatus" type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                                 </div>
                             </div>
                         </div>
@@ -258,7 +260,8 @@
                     <p class="large-offset-1 modal-text">تایید اطلاعات فاکتور به منزله ایجاد تعهد در محل های تامین اعتبار است، آیا صحت اطلاعات را تایید می کنید؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
-                            <button v-on:click="acceptFactor"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" v-on:click="acceptFactor"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </div>
@@ -274,7 +277,8 @@
                     <p class="large-offset-1 modal-text">آیا مایل هستید فاکتور را حذف کنید؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
-                            <button v-on:click="deleteFactor"   class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" v-on:click="deleteFactor" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </div>
@@ -286,7 +290,7 @@
 <script>
     import Suggestions from "v-suggestions/src/Suggestions";
     export default{
-        props:['factors','requestId' , 'rCreditIsAccepted' , 'rCreditIsExist','isFromRefundCosts' , 'request'],
+        props:['factors','requestId' , 'rCreditIsAccepted' , 'rCreditIsExist','isFromRefundCosts' , 'request' , 'searchValue'],
         components: {
             Suggestions,
         },
@@ -437,9 +441,14 @@
             },
 
             acceptFactor: function(){
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/financial/request/factor/accept', {
                     rId: this.requestId,
-                }).then((response) => {
+                    searchValue: this.searchValue
+                } , config).then((response) => {
+
                     this.$emit('updateReceiveRequestData' , response.data);
                     this.$emit('closeModal');
                     this.$root.displayNotif(response.status);
@@ -451,10 +460,14 @@
             },
 
             deleteFactor: function() {
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/financial/request/factor/delete', {
                     rId: this.requestId,
                     fId: this.selectedFactorId,
-                }).then((response) => {
+                    searchValue: this.searchValue
+                } , config).then((response) => {
                     if (response.status == 200)
                         this.$emit('updateReceiveRequestData' , response.data);
                     this.showDeleteConfirmModal = false;
@@ -475,7 +488,11 @@
 
             calculateRemainingAmount: function (inputValue = 0 , baseAmount = 0) {
                 inputValue = parseInt((inputValue + '').split(',').join(''),10); //for cast to string
-                this.refundRemainingAmount = ((this.request.rCostEstimation - this.getSumOfAllFactorAmount()) - inputValue) + baseAmount;
+                if (this.refunds.length > 0 && this.refundId != '')
+                    this.refundRemainingAmount = ((this.getSelectedRefund(this.refundId).rAcceptedAmount - this.getSelectedRefund(this.refundId).rSumOfFactorAmount) - inputValue) + baseAmount;
+                else
+                    this.refundRemainingAmount = ((this.request.rCostEstimation - this.getSumOfAllFactorAmount()) - inputValue) + baseAmount;
+
 
                 if (inputValue <= 0)
                     this.moneyState = true;
@@ -500,8 +517,8 @@
                     this.factorInput={};
                     this.factorInput.sumOfFactorAmount = this.getSumOfAllFactorAmount();
                     this.factorInput.amount = '0';
-                    this.calculateRemainingAmount(this.factorInput.amount);
                     this.refundId= '';
+                    this.calculateRemainingAmount(this.factorInput.amount);
                     this.showInsertFactorModal=true;
                 }else{
                     if (this.rCreditIsExist == true)
@@ -541,6 +558,9 @@
                                 this.moneyState = true;
                             }else{
                                 this.moneyState = false;
+                                var config = {
+                                    allowLoading:true,
+                                };
                                 axios.post('/financial/request/factor/insert', {
                                     refundId: this.refundId,
                                     rId: this.requestId,
@@ -548,13 +568,16 @@
                                     seller: this.factorInput.seller,
                                     amount: inputValue,
                                     description: this.factorInput.description,
-                                }).then((response) => {
+                                    searchValue: this.searchValue
+                                } , config).then((response) => {
                                     this.$emit('updateReceiveRequestData', response.data);
                                     this.showInsertFactorModal = false;
                                     this.$root.displayNotif(response.status);
                                     console.log(response);
                                 }, (error) => {
                                     console.log(error);
+                                    if (error.status == 420)
+                                        this.$emit('updateReceiveRequestData', error.response.data);
                                     this.$root.displayNotif(error.response.status);
                                 });
                             }
@@ -575,6 +598,9 @@
                                 this.moneyState = true;
                             } else {
                                 this.moneyState = false;
+                                var config = {
+                                    allowLoading:true,
+                                };
                                 axios.post('/financial/request/factor/update', {
                                     id: this.selectedFactorId,
                                     refundId: this.refundId,
@@ -582,14 +608,17 @@
                                     seller: this.factorInput.seller,
                                     amount: inputValue,
                                     description: this.factorInput.description,
+                                    searchValue: this.searchValue,
                                     resultType: 'RECEIVED'
-                                }).then((response) => {
+                                } , config).then((response) => {
                                     this.$emit('updateReceiveRequestData', response.data);
                                     this.showUpdateFactorModal = false;
                                     this.$root.displayNotif(response.status);
                                     console.log(response);
                                 }, (error) => {
                                     console.log(error);
+                                    if (error.status == 420)
+                                        this.$emit('updateReceiveRequestData', response.data);
                                     this.$root.displayNotif(error.response.status);
                                 });
                             }

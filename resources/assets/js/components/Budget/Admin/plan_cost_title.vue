@@ -168,7 +168,7 @@
                 </div>
             </div>
         </div>
-        <!--ModalInsert Start-->
+        <!--Modal Insert Start-->
         <modal-small v-if="showInsertModal" @close="showInsertModal = false">
             <div  slot="body">
                 <div class="padding-lr">
@@ -250,7 +250,8 @@
                             </div>
                         </div>
                         <div class="medium-6 columns padding-lr">
-                            <button type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">ثبت</span></button>
+                            <button  v-show="!$root.btnLoadingCheckStatus" type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">ثبت</span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </form>
                 </div>
@@ -339,7 +340,8 @@
                             </div>
                         </div>
                         <div class="medium-6 columns padding-lr">
-                            <button type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">ثبت</span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">ثبت</span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </form>
                 </div>
@@ -354,7 +356,8 @@
                     <p class="large-offset-1 modal-text">آیا برای حذف این رکورد اطمینان دارید؟</p>
                     <div class="grid-x">
                         <div class="medium-12 column text-center">
-                            <button v-on:click="deletePlanOrCostTitle" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" v-on:click="deletePlanOrCostTitle" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </div>
@@ -678,7 +681,11 @@
                                     jsonString += '"countyDesc' + county.id + '":"' + this.planOrCostInput['countyDesc' + county.id] + '",';
                             });
                             jsonString += '"":""}';
-                            axios.post('/budget/admin/credit_distribution_def/plan_cost_title/register' , JSON.parse(jsonString))
+
+                            var config = {
+                                allowLoading:true,
+                            };
+                            axios.post('/budget/admin/credit_distribution_def/plan_cost_title/register' , JSON.parse(jsonString) , config)
                                 .then((response) => {
                                     this.setData(response.data.data);
                                     this.makePagination(response.data);
@@ -720,7 +727,12 @@
                                 }
                             });
                             jsonString += '"":""}';
-                            axios.post('/budget/admin/credit_distribution_def/plan_cost_title/update' , JSON.parse(jsonString))
+
+                            var config = {
+                                allowLoading:true,
+                            };
+
+                            axios.post('/budget/admin/credit_distribution_def/plan_cost_title/update' , JSON.parse(jsonString) , config)
                                 .then((response) => {
                                     this.setData(response.data.data);
                                     this.makePagination(response.data);
@@ -741,11 +753,14 @@
             },
 
             deletePlanOrCostTitle: function () {
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/budget/admin/credit_distribution_def/plan_cost_title/delete' , {
                         id: this.selectedPcIdForDelete,
                         searchValue: this.searchValue,
                         itemInPage: this.itemInPage
-                    })
+                    } , config)
                     .then((response) => {
                         if (response.status != 204)
                             this.setData(response.data.data);

@@ -67,9 +67,7 @@
                                 <tbody class="tbl-head-style-cell">
                                 <tr class="table-row" @click="getRequestDetail(index)" v-for="(allRequest , index) in allRequests">
                                     <td>{{allRequest.rSubject}}</td>
-                                    <td class="text-center" v-if="allRequest.rRtId==1"> خدمات</td>
-                                    <td class="text-center" v-else-if="allRequest.rRtId==2"> کالا</td>
-                                    <td class="text-center" v-else="allRequest.rRtId==3"> تنخواه</td>
+                                    <td class="text-center">{{ allRequest.request_type.rtSubject }}</td>
                                     <td class="text-center">{{$parent.dispMoneyFormat(allRequest.rCostEstimation)}}</td>
                                     <td class="text-center">{{allRequest.rLetterNumber}}</td>
                                     <td class="text-center">{{allRequest.rLetterDate}}</td>
@@ -104,6 +102,9 @@
                             <div class="tabs-content inner-vh" data-tabs-content="request_tab_view">
                                 <!--Tab 1-->
                                 <div style="height: 63vh;" class="tabs-panel is-active table-mrg-btm inner-vh-unsize" id="requestDetailTab">
+                                    <div class="large-12 medium-12 small-12">
+                                        <a class="my-button toolbox-btn small" @click="openRequestPdfModal()">پیش نمایش</a>
+                                    </div>
                                     <div class="grid-x">
                                         <div v-show="allRequests[selectedIndex].request_type.rtType == 'BUY_SERVICES'" class="large-12 medium-12 small-12">
                                             <table>
@@ -331,7 +332,18 @@
             </div>
         </modal-large>
         <!-- Request Detail Modal End-->
-
+        <!-- PDF report modal -->
+        <modal-large v-if="showReportModal" @close="showReportModal = false">
+            <div  slot="body">
+                <div class="grid-x">
+                    <div class="large-12 medium-12 small-12" style="width: 100%;height: 75vh">
+                        <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
+                        <iframe style="width: 100%;height: 100%;border: 0px" :src="pdfFilePath" />
+                    </div>
+                </div>
+            </div>
+        </modal-large>
+        <!-- PDF report modal -->
     </div>
 </template>
 
@@ -340,6 +352,7 @@
     import VuePersianDatetimePicker from 'vue-persian-datetime-picker';
     import VuePagination from '../../public_component/pagination.vue';
     import rDraft from '../FinancialDepartment/receiveRequests/detailRequest/r_draft.vue';
+    import VueElementLoading from 'vue-element-loading';
     export default {
         components: {
             Suggestions,
@@ -347,6 +360,7 @@
             datePicker: VuePersianDatetimePicker,
             'vue-pagination' : VuePagination,
             rDraft,
+            VueElementLoading,
         },
 
         data () {
@@ -366,6 +380,9 @@
                     current_page: 1,
                     last_page: ''
                 },
+                pdfFilePath:'',
+                showReportModal:false,
+                showLoaderProgress: false,
 
             }
         },
@@ -437,6 +454,27 @@
 
             search: function () {
                 this.fetchData();
+            },
+
+            openRequestPdfModal: function (){
+                this.pdfFilePath='';
+                this.requestPrintPreviewModal();
+                this.showReportModal=true;
+            },
+
+            requestPrintPreviewModal: function () {
+                this.showLoaderProgress = true;
+                axios.post('/financial/report/request' , {rId: this.allRequests[this.selectedIndex].id} , {responseType:'blob'})
+                    .then((response) => {
+                        console.log(response.data);
+                        var file = new Blob([response.data], {type: 'application/pdf'});
+                        var fileURL = window.URL.createObjectURL(file);
+                        this.pdfFilePath = decodeURI(fileURL + '#zome=50');
+                        this.showLoaderProgress = false;
+                    },(error) => {
+                        console.log(error);
+                        this.showLoaderProgress = false;
+                    });
             },
 
     }

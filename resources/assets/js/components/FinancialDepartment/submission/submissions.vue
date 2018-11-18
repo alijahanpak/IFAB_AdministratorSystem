@@ -21,13 +21,28 @@
         <div class="grid-x my-callout-box container-mrg-top dynamic-height-level1">
             <div class="medium-12 padding-lr" style="margin-top: 15px;">
                 <div class="clearfix tool-bar">
-                    <button style="width: 120px;" class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="insertDropDown">جدید</button>
-                    <div  style="width: 120px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="insertDropDown" data-dropdown data-auto-focus="true">
-                        <ul class="my-menu small-font">
-                            <template v-for="submissionsTypes in submissionsType">
-                                <li v-show="$can(submissionsTypes.rtPermission)" :value="submissionsTypes.id"><a  @click="openSubmissionsModal(submissionsTypes)">{{ submissionsTypes.rtSubject }}</a></li>
-                            </template>
-                        </ul>
+                    <div class="grid-x">
+                        <div class="large-6 medium-6 small-12">
+                            <button style="width: 120px;" class="my-button toolbox-btn small dropdown small sm-btn-align"  type="button" data-toggle="insertDropDown">جدید</button>
+                            <div  style="width: 120px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" id="insertDropDown" data-dropdown data-auto-focus="true">
+                                <ul class="my-menu small-font">
+                                    <template v-for="submissionsTypes in submissionsType">
+                                        <li v-show="$can(submissionsTypes.rtPermission)" :value="submissionsTypes.id"><a  @click="openSubmissionsModal(submissionsTypes)">{{ submissionsTypes.rtSubject }}</a></li>
+                                    </template>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="large-6 medium-6 small-12">
+                            <div class="float-left">
+                                <div class="input-group float-left">
+                                    <div class="inner-addon right-addon">
+                                        <i v-if="requestSearchValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                        <i v-if="requestSearchValue != ''" v-on:click.stop="removeFilter()" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                        <input v-model="requestSearchValue" v-on:keyup.enter="search()" class="search" type="text" placeholder="جستجو">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                     <div class="tbl-div-container">
@@ -65,10 +80,10 @@
                                 <tbody class="tbl-head-style-cell">
                                 <tr class="table-row" @click="openSubmissionDetail(index)" v-for="(allSubmissions,index) in submissions">
                                     <td>{{allSubmissions.rSubject}}</td>
-                                    <td>{{allSubmissions.request_type.rtSubject}}</td>
-                                    <td>{{ $parent.dispMoneyFormat(allSubmissions.rCostEstimation) }}</td>
-                                    <td>{{allSubmissions.rLetterNumber}}</td>
-                                    <td>{{allSubmissions.rLetterDate}}</td>
+                                    <td class="text-center">{{allSubmissions.request_type.rtSubject}}</td>
+                                    <td class="text-left">{{ $parent.dispMoneyFormat(allSubmissions.rCostEstimation) }}</td>
+                                    <td class="text-center">{{allSubmissions.rLetterNumber}}</td>
+                                    <td class="text-center">{{allSubmissions.rLetterDate}}</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -87,7 +102,8 @@
         <!-- Submission Buy Modal -->
         <modal-large v-if="showBuyCommodityModal" @close="showBuyCommodityModal = false">
             <div  slot="body">
-                <form v-on:submit.prevent="createRequest" >
+                <!--v-loading="'<i class=\'fa fa-spinner fa-spin\'></i>'"-->
+                <form v-on:submit.prevent="createRequest">
                     <div class="small-font container-vh">
                         <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="commodity_tab_view">
                             <li class="tabs-title is-active"><a href="#reciverTab" aria-selected="true">دریافت کنندگان</a></li>
@@ -96,7 +112,7 @@
                         </ul>
                         <div class="tabs-content inner-vh" data-tabs-content="commodity_tab_view">
                             <!--Tab 1-->
-                            <div class="tabs-panel is-active  inner-vh-unsize" id="reciverTab">
+                            <div style="height: 60vh" class="tabs-panel is-active inner-vh-unsize" id="reciverTab">
                                 <div class="grid-x tbl_body_style">
                                     <div v-for="recipientsGroup in recipients"  class="large-12 medium-12 small-12">
                                         <div class="grid-x">
@@ -149,7 +165,7 @@
                             <!--Tab 1-->
 
                             <!--Tab 2-->
-                            <div class="tabs-panel table-mrg-btm inner-vh-unsize" id="commodityTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                            <div style="height: 60vh" class="tabs-panel table-mrg-btm inner-vh-unsize" id="commodityTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                 <div style="margin-top: 25px" class="grid-x">
                                     <div class="large-6 medium-6 small-12">
                                         <label>موضوع
@@ -208,6 +224,7 @@
                                             </tr>
                                             </tbody>
                                         </table>
+                                        <p v-show="commodityNullAllert" class="error-font">هیچ کالای درخواستی ثبت نشده است!</p>
                                     </div>
                                     <!--Commodity End-->
 
@@ -275,7 +292,7 @@
                             <!--Tab 2-->
 
                             <!--Tab 3 - Attachment Tab-->
-                            <div class="tabs-panel table-mrg-btm inner-vh-unsize" id="attachmentTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                            <div style="height: 60vh" class="tabs-panel table-mrg-btm inner-vh-unsize" id="attachmentTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                 <div class="grid-x tbl_body_style">
                                     <div class="large-12 medium-12 small-12 padding-lr">
                                         <label class="my-button toolbox-btn"> انتخاب فایل
@@ -314,7 +331,7 @@
                                                                 <p v-if="Number((attachment.size / 1000).toFixed(1)) > 1024" class="gray-colors">{{  Number(((attachment.size / 1000)/1024).toFixed(1)) + ' مگابایت'}}</p>
                                                             </div>
                                                             <div style="direction:rtl;" class="large-2 medium-2">
-                                                                <a class="dropdown small sm-btn-align"  type="button" :data-toggle="'attachmentDel' + index"><i class="fa fa-ellipsis-v size-18"></i></a>
+                                                                <a class="dropdown small sm-btn-align" :data-toggle="'attachmentDel' + index"><i class="fa fa-ellipsis-v size-18"></i></a>
                                                                 <div class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true"  data-position="bottom" data-alignment="right" :id="'attachmentDel' + index" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font text-right">
                                                                         <li><a @click="removeAttachment(index)"><i class="fa fa-trash-o size-16"></i>  حذف</a></li>
@@ -332,9 +349,11 @@
                             <!--Tab 3 - Attachment Tab-->
                         </div>
                     </div>
-                    <div class="large-12 medium-12 small-12 padding-lr medium-top-m">
-                        <div style="margin-bottom:-10px;" class="stacked-for-small button-group">
-                            <button type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت</span></button>
+                    <div class="large-12 medium-12 small-12 padding-lr" style="margin-top: 5px">
+                        <div class="stacked-for-small button-group">
+                            <button  v-show="!$root.btnLoadingCheckStatus" type="submit"  class="my-button my-success float-left"><span class="btn-txt-mrg">   ثبت   </span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
+                            <!--v-loading="'<i class=\'fa fa-spinner fa-spin\'></i>'"-->
                         </div>
                     </div>
                 </form>
@@ -362,6 +381,7 @@
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12">
                                             <a class="my-button toolbox-btn small" @click="openUpdateRequestModal()">ویرایش</a>
+                                            <a class="my-button toolbox-btn small" @click="openRequestPdfModal()">پیش نمایش</a>
                                         </div>
                                         <div v-if="requestTypeDetail == 'SERVICES'" class="large-12 medium-12 small-12">
                                             <table>
@@ -497,7 +517,8 @@
                                              v-bind:requestId="requestId"
                                              v-bind:factors="factors"
                                              v-bind:request="submissions[selectedSubmissionIndex]"
-                                             v-bind:refundFactor="refundFactor">
+                                             v-bind:refundFactor="refundFactor"
+                                            v-bind:searchValue="requestSearchValue">
                                     </sFactor>
                                 </div>
                                 <!--Tab 3 Factor-->
@@ -598,7 +619,7 @@
                                                             <col width="200px"/>
                                                         </colgroup>
                                                         <tbody class="tbl-head-style-cell">
-                                                        <tr @click="openPdfModal(payRequest)" class="table-row" v-for="payRequest in payRequests">
+                                                        <tr @click="openPayRequestPdfModal(payRequest)" class="table-row" v-for="payRequest in payRequests">
                                                             <td class="text-center">{{'%' + payRequest.prPhysicalProgress}}</td>
                                                             <td class="text-center">{{payRequest.prIsFinal == true ? (payRequest.prPhysicalProgress - 100 > 0 ? (payRequest.prPhysicalProgress - 100) + '% افزایش' : ((payRequest.prPhysicalProgress - 100) * (-1)) + '% کاهش') : '--'}}</td>
                                                             <td class="text-center">{{'%' + payRequest.prAmountProgress}}</td>
@@ -793,7 +814,8 @@
                         </div>
                         <!--Fund End-->
                         <div class="large-12 medium-12 small-12" style="margin-top: 10px">
-                            <button type="submit"  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </div>
                 </form>
@@ -804,137 +826,139 @@
         <!--Insert Payment Request End-->
         <modal-small v-if="showInsertPaymentRequestModal" @close="showInsertPaymentRequestModal = false">
             <div  slot="body">
-                <form v-on:submit.prevent="registerPayRequest" >
-                    <div class="small-font">
-                        <div class="large-12 medium-12 small-12">
-                            <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="payment_request_tab_view">
-                                <li class="tabs-title is-active"><a href="#peymentVerifiersTab" aria-selected="true">امضا کنندگان</a></li>
-                                <li class="tabs-title"><a href="#paymentTab">پرداخت </a></li>
-                            </ul>
-                            <div class="tabs-content" data-tabs-content="payment_request_tab_view">
-                                <!--Tab 1-->
-                                <div class="tabs-panel is-active table-mrg-btm" id="peymentVerifiersTab">
-                                    <div class="grid-x">
-                                        <div class="large-9 medium-9 small-12">
-                                            <div class="grid-x tbl_body_style">
-                                                <div v-for="payVerifier in payRequestVerifiers"  class="large-12 medium-12 small-12">
-                                                    <div class="grid-x">
-                                                        <div class="large-12 medium-12 small-12">
-                                                            <label>{{payVerifier.category.cSubject}}
-                                                                <select :name="'payVerifier' + payVerifier.id" @change="calculateVerifiers(payVerifier.id, paymentInput['payVerifier_user' + payVerifier.id])" v-model="paymentInput['payVerifier_user' + payVerifier.id]"  v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('payVerifier'+payVerifier.id)}">
-                                                                    <option value=""></option>
-                                                                    <template v-for="rolCat in payVerifier.category.role_category">
-                                                                        <option v-for="user in rolCat.role.user" :value="user" >{{user.name}} - {{rolCat.role.rSubject}}</option>
-                                                                    </template>
-                                                                </select>
-                                                                <p v-show="errors.has('payVerifier'+payVerifier.id)" class="error-font">لطفا فیلد {{payVerifier.category.cSubject}}  را انتخاب کنید!</p>
-                                                            </label>
+                <div class="large-12 medium-12 small-12">
+                    <form v-on:submit.prevent="registerPayRequest" >
+                        <div class="small-font" style="height: 77vh">
+                            <div class="large-12 medium-12 small-12 container-vh" style="height: 63vh">
+                                <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="payment_request_tab_view">
+                                    <li class="tabs-title is-active"><a href="#peymentVerifiersTab" aria-selected="true">امضا کنندگان</a></li>
+                                    <li class="tabs-title"><a href="#paymentTab">پرداخت </a></li>
+                                </ul>
+                                <div class="tabs-content inner-vh" data-tabs-content="payment_request_tab_view">
+                                    <!--Tab 1-->
+                                    <div style="height: 60vh;" class="tabs-panel is-active table-mrg-btm inner-vh-unsize" id="peymentVerifiersTab">
+                                        <div class="grid-x">
+                                            <div class="large-9 medium-9 small-12">
+                                                <div class="grid-x">
+                                                    <div v-for="payVerifier in payRequestVerifiers"  class="large-12 medium-12 small-12">
+                                                        <div class="grid-x">
+                                                            <div class="large-12 medium-12 small-12">
+                                                                <label>{{payVerifier.category.cSubject}}
+                                                                    <select :name="'payVerifier' + payVerifier.id" @change="calculateVerifiers(payVerifier.id, paymentInput['payVerifier_user' + payVerifier.id])" v-model="paymentInput['payVerifier_user' + payVerifier.id]"  v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('payVerifier'+payVerifier.id)}">
+                                                                        <option value=""></option>
+                                                                        <template v-for="rolCat in payVerifier.category.role_category">
+                                                                            <option v-for="user in rolCat.role.user" :value="user" >{{user.name}} - {{rolCat.role.rSubject}}</option>
+                                                                        </template>
+                                                                    </select>
+                                                                    <p v-show="errors.has('payVerifier'+payVerifier.id)" class="error-font">لطفا فیلد {{payVerifier.category.cSubject}}  را انتخاب کنید!</p>
+                                                                </label>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <!--Tab 1-->
-                                <!--Tab 2-->
-                                <div class="tabs-panel table-mrg-btm" id="paymentTab">
-                                    <div class="grid-x">
-                                        <div class="large-12 medium-12 small-12 padding-lr">
-                                            <label>قرارداد
-                                                <select name="contract_input" @change="getContractInfo(contractTemp)" v-validate data-vv-rules="required"  v-model="contractTemp" :class="{'input': true, 'select-error': errors.has('contract_input')}">
-                                                    <option value=""></option>
-                                                    <template v-for="contract in contracts">
-                                                        <option :value="contract">{{contract.cSubject}} - {{contract.cLetterNumber}} - {{contract.cLetterDate}}</option>
-                                                    </template>
-                                                </select>
-                                                <p v-show="errors.has('contract_input')" class="error-font">لطفا قرارداد را انتخاب کنید!</p>
-                                            </label>
+                                    <!--Tab 1-->
+                                    <!--Tab 2-->
+                                    <div style="height: 60vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="paymentTab">
+                                        <div class="grid-x">
+                                            <div class="large-12 medium-12 small-12 padding-lr">
+                                                <label>قرارداد
+                                                    <select name="contract_input" @change="getContractInfo(contractTemp)" v-validate data-vv-rules="required"  v-model="contractTemp" :class="{'input': true, 'select-error': errors.has('contract_input')}">
+                                                        <option value=""></option>
+                                                        <template v-for="contract in contracts">
+                                                            <option :value="contract">{{contract.cSubject}} - {{contract.cLetterNumber}} - {{contract.cLetterDate}}</option>
+                                                        </template>
+                                                    </select>
+                                                    <p v-show="errors.has('contract_input')" class="error-font">لطفا قرارداد را انتخاب کنید!</p>
+                                                </label>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="grid-x">
-                                        <div class="large-6 medium-6 small-6 padding-lr">
-                                            <label>درصد پیشرفت فیزیکی
-                                                <input type="text" name="physical_progress" v-model="paymentInput.physicalProgress" v-validate="'min_value:0|max_value:' + contractPercent + '|required'" :class="{'input': true, 'error-border': errors.has('physical_progress')}">
-                                            </label>
-                                            <p v-show="errors.has('physical_progress')" class="error-font">لطفا درصد پیشرفت فیزیکی را وارد / اصلاح نمایید!</p>
+                                        <div class="grid-x">
+                                            <div class="large-6 medium-6 small-6 padding-lr">
+                                                <label>درصد پیشرفت فیزیکی
+                                                    <input type="text" name="physical_progress" v-model="paymentInput.physicalProgress" v-validate="'min_value:0|max_value:' + contractPercent + '|required'" :class="{'input': true, 'error-border': errors.has('physical_progress')}">
+                                                </label>
+                                                <p v-show="errors.has('physical_progress')" class="error-font">لطفا درصد پیشرفت فیزیکی را وارد / اصلاح نمایید!</p>
+                                            </div>
+                                            <div class="large-6 medium-6 small-6 padding-lr">
+                                                <label>درصد پیشرفت ریالی
+                                                    <input type="text" @keyup="calculatePaymentRialProgress()" name="rial_progress" v-model="paymentInput.rialProgress" v-validate="'min_value:0|max_value:' + contractPercent + '|required'" :class="{'input': true, 'error-border': errors.has('rial_progress')}">
+                                                </label>
+                                                <p v-show="errors.has('rial_progress')" class="error-font">لطفا درصد پیشرفت ریالی را وارد / اصلاح نمایید!</p>
+                                            </div>
                                         </div>
-                                        <div class="large-6 medium-6 small-6 padding-lr">
-                                            <label>درصد پیشرفت ریالی
-                                                <input type="text" @keyup="calculatePaymentRialProgress()" name="rial_progress" v-model="paymentInput.rialProgress" v-validate="'min_value:0|max_value:' + contractPercent + '|required'" :class="{'input': true, 'error-border': errors.has('rial_progress')}">
-                                            </label>
-                                            <p v-show="errors.has('rial_progress')" class="error-font">لطفا درصد پیشرفت ریالی را وارد / اصلاح نمایید!</p>
+                                        <div style="margin-top:8px;"  class="grid-x">
+                                            <div class="large-6 medium-6 small-12 padding-lr">
+                                                <label>مبلغ <span class="btn-red">(ریال)  </span>
+                                                    <money @change.native="calculatePaymentAmount()" v-model="paymentInput.amount"  v-bind="money" class="form-input input-lg text-margin-btm direction-ltr"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('paymentAmount')}"></money>
+                                                </label>
+                                                <p v-show="errors.has('baseAmount')" class="error-font"> مبلغ صورت وضعیت مورد نظر نامعتبر است!</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div style="margin-top:8px;"  class="grid-x">
-                                        <div class="large-6 medium-6 small-12 padding-lr">
-                                            <label>مبلغ <span class="btn-red">(ریال)  </span>
-                                                <money @change.native="calculatePaymentAmount()" v-model="paymentInput.amount"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('paymentAmount')}"></money>
-                                            </label>
-                                            <p v-show="errors.has('baseAmount')" class="error-font"> مبلغ صورت وضعیت مورد نظر نامعتبر است!</p>
-                                        </div>
-                                    </div>
-                                    <div style="margin-top: 8px;" class="grid-x">
-                                        <div class="large-12 medium-12 small-12 padding-lr">
-                                            <div class="panel-separator padding-lr">
-                                                <div class="grid-x">
-                                                    <div class="large-6 medium-6 small-12 padding-lr input-bottom-margin">
-                                                        <div class="grid-x">
-                                                            <div class="large-3 medium-4 small-12">
-                                                                <div class="switch tiny">
-                                                                    <input :disabled="finalPaymentDisable" v-on:change="finalPaymentCheck(finalPaymentState)" class="switch-input" v-model="finalPaymentState" id="finalPayment_state" type="checkbox">
-                                                                    <label class="switch-paddle" for="finalPayment_state">
-                                                                        <span class="switch-active" aria-hidden="true">بلی</span>
-                                                                        <span class="switch-inactive" aria-hidden="true">خیر</span>
-                                                                    </label>
+                                        <div style="margin-top: 8px;" class="grid-x">
+                                            <div class="large-12 medium-12 small-12 padding-lr">
+                                                <div class="panel-separator padding-lr">
+                                                    <div class="grid-x">
+                                                        <div class="large-6 medium-6 small-12 padding-lr input-bottom-margin">
+                                                            <div class="grid-x">
+                                                                <div class="large-3 medium-4 small-12">
+                                                                    <div class="switch tiny">
+                                                                        <input :disabled="finalPaymentDisable" v-on:change="finalPaymentCheck(finalPaymentState)" class="switch-input" v-model="finalPaymentState" id="finalPayment_state" type="checkbox">
+                                                                        <label class="switch-paddle" for="finalPayment_state">
+                                                                            <span class="switch-active" aria-hidden="true">بلی</span>
+                                                                            <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="large-9 medium-8  small-12">
+                                                                    <p class="input-bottom-margin">تحویل موقت</p>
                                                                 </div>
                                                             </div>
-                                                            <div class="large-9 medium-8  small-12">
-                                                                <p class="input-bottom-margin">پرداخت نهایی</p>
-                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="large-6 medium-6 small-12 padding-lr input-bottom-margin">
-                                                        <p v-show="incAndDecPercentMsg" class="input-bottom-margin">درصد افزایش و کاهش :<span class="btn-red">{{incAndDecPercent > 0 ? incAndDecPercent + '% افزایش' : (incAndDecPercent * (-1)) + '% کاهش'}}</span></p>
+                                                        <div class="large-6 medium-6 small-12 padding-lr input-bottom-margin">
+                                                            <p v-show="incAndDecPercentMsg" class="input-bottom-margin">درصد افزایش و کاهش :<span class="btn-red">{{incAndDecPercent > 0 ? incAndDecPercent + '% افزایش' : (incAndDecPercent * (-1)) + '% کاهش'}}</span></p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="grid-x">
-                                        <div class="large-12 medium-12 small-12 padding-lr input-top-margin">
-                                            <label>شرح
-                                                <textarea class="form-element-margin-btm" style="min-height: 150px;" name="paymentDescription" v-model="paymentDescription"></textarea>
-                                            </label>
+                                        <div class="grid-x">
+                                            <div class="large-12 medium-12 small-12 padding-lr input-top-margin">
+                                                <label>شرح
+                                                    <textarea class="form-element-margin-btm" style="min-height: 150px;" name="paymentDescription" v-model="paymentDescription"></textarea>
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <!--Tab 2-->
-                            </div>
-                        </div>
-                        <div class="grid-x medium-top-m padding-lr input-bottom-margin">
-                            <div class="large-12 medium-12 small-12 padding-lr">
-                                <div class="stacked-for-small button-group float-left">
-                                    <button type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <!--Tab 2-->
                                 </div>
                             </div>
+                            <div class="grid-x medium-top-m input-bottom-margin">
+                                <div class="large-12 medium-12 small-12">
+                                    <div class="stacked-for-small button-group float-left" style="margin-bottom: 0px">
+                                        <button v-show="!$root.btnLoadingCheckStatus" type="submit" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                        <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </modal-small>
         <!--Insert Payment Request End-->
 
         <!-- PDF Payment modal -->
         <modal-small v-if="showPdfModal" @close="showPdfModal = false">
-            <div style="height: 90vh;" slot="body">
+            <div slot="body">
                 <div class="grid-x">
                     <div class="large-12 medium-12 small-12">
                         <div class="grid-x" style="width:100%;height :85.5vh">
                             <div class="large-12">
                                 <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
-                                <iframe style="width: 100%;height: 100%;border: 0px" :src="payRequestPdfPath" />
+                                <iframe style="width: 100%;height: 100%;border: 0px" :src="pdfFilePath" />
                             </div>
                         </div>
                     </div>
@@ -942,7 +966,18 @@
             </div>
         </modal-small>
         <!-- PDF Payment modal -->
-
+        <!-- PDF report modal -->
+        <modal-large v-if="showReportModal" @close="showReportModal = false">
+            <div slot="body">
+                <div class="grid-x">
+                    <div class="large-12 medium-12 small-12" style="width: 100%;height: 75vh">
+                        <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
+                        <iframe style="width: 100%;height: 100%;border: 0px" :src="pdfFilePath" />
+                    </div>
+                </div>
+            </div>
+        </modal-large>
+        <!-- PDF report modal -->
         <!-- Generate Checks  modal -->
         <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
             {{dialogMessage}}
@@ -969,6 +1004,7 @@
         },
         data () {
             return {
+                requestSearchValue: '',
                 imgUrl: [],
                 attachments: [],
                 extension:[],
@@ -986,6 +1022,7 @@
                 showInsertPaymentRequestModal:false,
                 finalPaymentState: false,
                 showPdfModal:false,
+                showReportModal:false,
                 showDialogModal: false,
                 showInsertDraftModal:false,
                 showEditRequestModal:false,
@@ -1036,7 +1073,7 @@
                 contractId:'',
                 payRequests:[],
                 payRequestId:'',
-                payRequestPdfPath:'',
+                pdfFilePath:'',
                 finalPaymentDisable:false,
                 requestState: '',
                 selectedSubmissionIndex:'',
@@ -1051,6 +1088,7 @@
                 selectedSubmisson:[],
                 selectedIndex:'',
                 btnState:true,
+                commodityNullAllert:false,
 
             }
         },
@@ -1077,12 +1115,11 @@
         },
         watch: {
             submissions: function (newValue , oldValue) {
-                this.selectedSubmisson=this.submissions[this.selectedIndex];
+                this.selectedSubmisson = this.submissions[this.selectedIndex];
             }
         },
 
         methods: {
-
             myResizeModal: function() {
                 var x = $.w.outerHeight();
                 $('.dynamic-height-level-modal1').css('height', (x-280) + 'px');
@@ -1109,12 +1146,21 @@
             },
 
             updateSubmissionData: function(requests){
-                this.submissions=requests.data;
+                this.submissions = requests.data;
                 this.makePagination(requests);
             },
 
+            search: function () {
+                this.fetchData();
+            },
+
+            removeFilter: function () {
+                this.requestSearchValue = '';
+                this.fetchData();
+            },
+
             fetchData: function (page=1) {
-                axios.get('/financial/request/posted/fetchData?page=' + page)
+                axios.get('/financial/request/posted/fetchData?page=' + page , {params:{searchValue:this.requestSearchValue}})
                     .then((response) => {
                         this.submissions = response.data.data;
                         this.makePagination(response.data);
@@ -1203,6 +1249,7 @@
             -----------------------------------------------------------------------------*/
 
             openSubmissionsModal: function (st) {
+                this.commodityNullAllert=false;
                 this.submitBtnState=true;
                 this.requestInput={};
                 this.commodityList=[];
@@ -1234,6 +1281,7 @@
                 if(this.commodityRequest.length >= 0){
                     this.btnState=false;
                 }
+                this.commodityNullAllert=false;
 
             },
 
@@ -1247,75 +1295,82 @@
 
             createRequest: function () {
                 this.$validator.validateAll().then((result) => {
-                    if (result) {
-                        var config = {
-                            headers: {'Content-Type': 'multipart/form-data'},
-                            onUploadProgress: function (progressEvent) {
-                                this.percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                                this.$forceUpdate();
-                            }.bind(this)
-                        };
+                    var state=true;
+                    if(this.$validator.validateAll() && this.requestTypeSend == 'BUY_COMMODITY' && this.commodityRequest.length < 1){
+                        this.commodityNullAllert=true;
+                        state=false;
+                    }
+                    if (state){
+                        if (result) {
+                            var config = {
+                                allowLoading:true,
+                                headers: {'Content-Type': 'multipart/form-data'},
+                                onUploadProgress: function (progressEvent) {
+                                    this.percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                                    this.$forceUpdate();
+                                }.bind(this)
+                            };
 
-                        this.recipients.forEach(item => {
-                            if (this.recipientUsersTemp[item.id] != null) {
-                                var recipientUsersInput = {};
-                                recipientUsersInput.stepId = item.id;
-                                recipientUsersInput.userId = this.recipientUsersTemp[item.id];
-                                this.recipientUsers.push(recipientUsersInput);
-                                console.log(JSON.stringify(this.recipientUsers))
-                            }
-                        });
-                        if (this.requestTypeSend == 'BUY_SERVICES') {
-                            this.sumOfCommodityPrice = this.requestInput.serviceEstimated.split(',').join('');
-
-                        }
-                        if (this.requestTypeSend == 'FUND') {
-                            this.sumOfCommodityPrice = this.requestInput.fundEstimated.split(',').join('');
-
-
-                        }
-                        this.prepareFields();
-                        this.data.append('subject', this.requestInput.rSubject);
-                        this.data.append('rtId', this.requestTypeId);
-                        this.data.append('costEstimation', this.sumOfCommodityPrice);
-                        this.data.append('description', this.requestInput.fullDescription == undefined ? '' : this.requestInput.fullDescription);
-                        this.data.append('furtherDetails', this.requestInput.furtherDescription == undefined ? '' : this.requestInput.furtherDescription);
-                        if (this.requestTypeSend == 'BUY_COMMODITY') {
-                            this.commodityRequest.forEach((items, index) => {
-                                this.data.append('items[' + index + '][subject]', items.commodityName);
-                                this.data.append('items[' + index + '][count]', items.commodityCount);
-                                this.data.append('items[' + index + '][costEstimation]', items.commodityPrice.split(',').join(''));
-                                this.data.append('items[' + index + '][description]', items.commodityDescription == undefined ? '' : items.commodityDescription);
+                            this.recipients.forEach(item => {
+                                if (this.recipientUsersTemp[item.id] != null) {
+                                    var recipientUsersInput = {};
+                                    recipientUsersInput.stepId = item.id;
+                                    recipientUsersInput.userId = this.recipientUsersTemp[item.id];
+                                    this.recipientUsers.push(recipientUsersInput);
+                                    console.log(JSON.stringify(this.recipientUsers))
+                                }
                             });
+                            if (this.requestTypeSend == 'BUY_SERVICES') {
+                                this.sumOfCommodityPrice = this.requestInput.serviceEstimated.split(',').join('');
+
+                            }
+                            if (this.requestTypeSend == 'FUND') {
+                                this.sumOfCommodityPrice = this.requestInput.fundEstimated.split(',').join('');
+
+
+                            }
+                            this.prepareFields();
+                            this.data.append('searchValue', '');
+                            this.data.append('subject', this.requestInput.rSubject);
+                            this.data.append('rtId', this.requestTypeId);
+                            this.data.append('costEstimation', this.sumOfCommodityPrice);
+                            this.data.append('description', this.requestInput.fullDescription == undefined ? '' : this.requestInput.fullDescription);
+                            this.data.append('furtherDetails', this.requestInput.furtherDescription == undefined ? '' : this.requestInput.furtherDescription);
+                            if (this.requestTypeSend == 'BUY_COMMODITY') {
+                                this.commodityRequest.forEach((items, index) => {
+                                    this.data.append('items[' + index + '][subject]', items.commodityName);
+                                    this.data.append('items[' + index + '][count]', items.commodityCount);
+                                    this.data.append('items[' + index + '][costEstimation]', items.commodityPrice.split(',').join(''));
+                                    this.data.append('items[' + index + '][description]', items.commodityDescription == undefined ? '' : items.commodityDescription);
+                                });
+                            }
+                            else {
+                                this.data.append('items', null);
+                            }
+                            this.recipientUsers.forEach((user, index) => {
+                                this.data.append('verifiers[' + index + '][rstId]', user.stepId);
+                                this.data.append('verifiers[' + index + '][uId]', user.userId);
+                            });
+
+
+                            axios.post('/financial/request/register', this.data, config).then((response) => {
+                                this.submissions = response.data.data;
+                                this.makePagination(response.data);
+                                this.showBuyCommodityModal = false;
+                                this.$parent.displayNotif(response.status);
+                                console.log(response);
+                                this.resetData();
+                            }, (error) => {
+                                console.log(error);
+                                this.$parent.displayNotif(error.response.status);
+                                this.data = new FormData();
+                            });
+
+
                         }
-                        else {
-                            this.data.append('items', null);
-                        }
-                        this.recipientUsers.forEach((user, index) => {
-                            this.data.append('verifiers[' + index + '][rstId]', user.stepId);
-                            this.data.append('verifiers[' + index + '][uId]', user.userId);
-                        });
-
-
-                        axios.post('/financial/request/register', this.data, config).then((response) => {
-                            this.submissions = response.data.data;
-                            this.makePagination(response.data);
-                            this.showBuyCommodityModal = false;
-                            this.$parent.displayNotif(response.status);
-                            console.log(response);
-                            this.resetData();
-                        }, (error) => {
-                            console.log(error);
-                            this.$parent.displayNotif(error.response.status);
-                            this.data = new FormData();
-                        });
-
-
                     }
                 });
-
-
-                },
+            },
 
             getUserRecipients:function (stepId , user) {
                 this.recipientUsersTemp[stepId] = user.id;
@@ -1478,6 +1533,9 @@
             registerPayRequest:function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post('/financial/payment_request/register', {
                             rId: this.requestId,
                             cId: this.contractId,
@@ -1487,9 +1545,9 @@
                             isFinal: this.finalPaymentState == true ? 1 : 0,
                             description: this.paymentDescription,
                             verifiers:this.payVerifiers,
-                        }).then((response) => {
-                            this.updateRequestData(response.data.data , this.requestId);
-                            this.makePagination(response.data);
+                        } , config).then((response) => {
+                            this.submissions = response.data.data;
+                            this.getSubmissionDetail(this.selectedIndex);
                             this.showInsertPaymentRequestModal = false;
                             this.$root.displayNotif(response.status);
                             console.log(response);
@@ -1512,9 +1570,9 @@
                 });
             },
 
-            openPdfModal: function (payRequest){
+            openPayRequestPdfModal: function (payRequest){
                 this.payRequestId=payRequest.id;
-                this.payRequestPdfPath='';
+                this.pdfFilePath='';
                 this.openReportFile();
                 this.showPdfModal=true;
             },
@@ -1526,7 +1584,7 @@
                         console.log(response.data);
                         var file = new Blob([response.data], {type: 'application/pdf'});
                         var fileURL = window.URL.createObjectURL(file);
-                        this.payRequestPdfPath=fileURL;
+                        this.pdfFilePath=fileURL;
                         this.showLoaderProgress = false;
                     },(error) => {
                         console.log(error);
@@ -1581,6 +1639,9 @@
                         if (this.requestType == 'FUND') {
                             this.sumOfCommodityPrice = this.requestFill.fundEstimated.split(',').join('');
                         }
+                        var config = {
+                            allowLoading:true,
+                        };
                         console.log(JSON.stringify(this.commodityRequest));
                         axios.post('/financial/request/update', {
                             id: this.requestId,
@@ -1588,9 +1649,10 @@
                             costEstimation: this.sumOfCommodityPrice,
                             description: this.requestFill.fullDescription,
                             furtherDetails: this.requestFill.furtherDescription,
+                            searchValue: '',
                             resultType: 'POSTED',
                             items: this.requestType == 'BUY_COMMODITY' ? this.commodityRequest : null,
-                        }).then((response) => {
+                        },config).then((response) => {
                             this.submissions = response.data.data;
                             this.getSubmissionDetail(this.selectedIndex);
                             this.showEditRequestModal = false;
@@ -1658,6 +1720,26 @@
                 this.attachments = [];
             },
             /*----------------------------- File Upload End---------------------------------*/
+            openRequestPdfModal: function (){
+                this.pdfFilePath='';
+                this.requestPrintPreviewModal();
+                this.showReportModal=true;
+            },
+
+            requestPrintPreviewModal: function () {
+                this.showLoaderProgress = true;
+                axios.post('/financial/report/request' , {rId: this.requestId} , {responseType:'blob'})
+                    .then((response) => {
+                        console.log(response.data);
+                        var file = new Blob([response.data], {type: 'application/pdf'});
+                        var fileURL = window.URL.createObjectURL(file);
+                        this.pdfFilePath = decodeURI(fileURL + '#zome=50');
+                        this.showLoaderProgress = false;
+                    },(error) => {
+                        console.log(error);
+                        this.showLoaderProgress = false;
+                    });
+            },
     }
 }
 </script>

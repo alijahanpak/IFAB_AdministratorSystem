@@ -20,13 +20,11 @@
         </style>
     </head>
     <body class="BZar">
-        <div class="grid-x">
-            <div class="large-12">
-                <p style="z-index: 999;" class="size-12">شماره حواله : <span class="number_ltr">{{$draftInfo['dLetterNumber']}}</span></p>
-                <p style="margin-top: -10px;" class="size-12">تاریخ : <span>{{$draftInfo['dLetterDate']}}</span></p>
-            </div>
+        <div class="text-right" style="width: 100px;position: fixed; left: 0px">
+            <p style="z-index: 999;" class="size-12">شماره: <span class="number_ltr">{{$draftInfo['dLetterNumber']}}</span></p>
+            <p style="margin-top: -10px;" class="size-12">تاریخ: <span>{{$draftInfo['dLetterDate']}}</span></p>
         </div>
-        <div style="margin-top: -45px;" class="grid-x">
+        <div style="margin-top: 20px;" class="grid-x">
             <div class="large-12 text-center">
                 <div>
                     <div class="text-center">

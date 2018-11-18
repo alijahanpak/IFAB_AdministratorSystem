@@ -100,14 +100,14 @@
             <div slot="body">
                 <div class="small-font">
                     <div class="grid-x">
-                        <div class="large-12 medium-12 small-12 container-vh">
+                        <div class="large-12 medium-12 small-12 container-vh" style="height: 60vh">
                             <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="request_print_check_tab_view">
                                 <li class="tabs-title is-active"><a href="#checkTab" aria-selected="true">چک</a></li>
                                 <li class="tabs-title"><a href="#historyCheckTab">تاریخچه پرینت </a></li>
                             </ul>
-                            <div style="height: 65vh;" class="tabs-content inner-vh" data-tabs-content="request_print_check_tab_view">
+                            <div style="height: 55vh;" class="tabs-content inner-vh" data-tabs-content="request_print_check_tab_view">
                                 <!--Tab 1-->
-                                <div style="height: 64vh;" class="tabs-panel is-active table-mrg-btm inner-vh-unsize" id="checkTab">
+                                <div style="height: 54vh;" class="tabs-panel is-active table-mrg-btm inner-vh-unsize" id="checkTab">
                                     <div class="grid-x">
                                         <div class="large-6 medium-6 small-12 padding-lr">
                                             <label>شماره چک
@@ -118,13 +118,13 @@
                                         <div class="large-6 medium-6 small-12 padding-lr">
                                             <label>تاریخ چک
                                                 <date-picker
-                                                        :color="'#5c6bc0'"
+                                                        :color="checkDateValid ? '#d9534f' : '#5c6bc0'"
                                                         v-model="inputCheck.date"
                                                         input-class="form-control form-control-lg date-picker-bottom-margin"
                                                         id="inputCheck-Date"
                                                         placeholder="انتخاب تاریخ">
                                                 </date-picker>
-                                                <p style="margin-top:3px !important;" v-show="checkDateValid" class="error-font">لطفا تاریخ چک مورد نظر را انتخاب نمایید!</p>
+                                                <p style="margin-top:3px !important;" v-show="checkDateValid" class="error-font">تاریخ چک فراموش شده است!</p>
                                             </label>
                                         </div>
                                     </div>
@@ -150,6 +150,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <p style="margin-top:3px !important;" v-show="checkVerifierAlert" class="error-font">لطفا با توجه به قالب چک انتخاب شده، امضا کننده را انتخاب نمایید.!</p>
                                             </div>
                                         </div>
                                     </div>
@@ -166,19 +167,10 @@
                                             </label>
                                         </div>
                                     </div>
-
-                                    <div class="grid-x small-top-m" style="bottom: 0px">
-                                        <div class="large-12 medium-12 small-12 padding-lr">
-                                            <div class="stacked-for-small button-group float-left">
-                                                <button v-show="deliverBtn" @click="openCheckDeliverModal()" class="my-button my-success float-left"><span class="btn-txt-mrg">  تحویل </span></button>
-                                                <button v-show="previewBtn" @click="showCheckPreview()" class="my-button my-success float-left"><span class="btn-txt-mrg">  پیش نمایش چک </span></button>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                                 <!--Tab 1-->
                                 <!--Tab 2-->
-                                <div style="height: 64vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="historyCheckTab">
+                                <div style="height: 55vh;" class="tabs-panel table-mrg-btm inner-vh-unsize" id="historyCheckTab">
                                     <div class="grid-x">
                                         <div class="tbl-div-container">
                                             <table class="tbl-head">
@@ -201,7 +193,7 @@
                                                 <!--Table Head End-->
                                                 <!--Table Body Start-->
                                             </table>
-                                            <div style="height: 50vh;" class="tbl_body_style inner-vh-unsize">
+                                            <div style="height: 44vh;" class="tbl_body_style inner-vh-unsize">
                                                 <table class="tbl-body-contain">
                                                     <colgroup>
                                                         <col width="250px"/>
@@ -252,7 +244,7 @@
                                                                                     </tr>
                                                                                     <tr>
                                                                                         <td class="black-color">تاریخ پرینت :</td>
-                                                                                        <td class="text-justify"></td>
+                                                                                        <td class="text-justify">{{ pHistory.pShamsiPrintDate }}</td>
                                                                                     </tr>
                                                                                     </tbody>
                                                                                 </table>
@@ -263,7 +255,7 @@
                                                                 </div>
                                                             </td>
                                                             <td :data-toggle="'pHistory' + pHistory.id" class="text-center">{{$root.dispMoneyFormat(pHistory.phAmount)}}</td>
-                                                            <td :data-toggle="'pHistory' + pHistory.id" class="text-center"></td>
+                                                            <td :data-toggle="'pHistory' + pHistory.id" class="text-center">{{ pHistory.pShamsiPrintDate }}</td>
                                                         </tr>
                                                     </template>
                                                     </tbody>
@@ -274,6 +266,14 @@
                                     </div>
                                 </div>
                                 <!--Tab 2-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid-x small-top-m">
+                        <div class="large-12 medium-12 small-12 padding-lr">
+                            <div class="stacked-for-small button-group float-left" style="margin-bottom: 0px">
+                                <button v-show="deliverBtn" @click="openCheckDeliverModal()" class="my-button my-success float-left"><span class="btn-txt-mrg">  تحویل </span></button>
+                                <button v-show="previewBtn" @click="showCheckPreview()" class="my-button my-success float-left"><span class="btn-txt-mrg">  پیش نمایش چک </span></button>
                             </div>
                         </div>
                     </div>
@@ -306,7 +306,8 @@
                     <div class="grid-x small-top-m">
                         <div class="large-12 medium-12 small-12 padding-lr">
                             <div class="stacked-for-small button-group float-left">
-                                <button @click="getReprintingCause()" class="my-button my-success float-left"><span class="btn-txt-mrg">  چاپ </span></button>
+                                <button v-show="!$root.btnLoadingCheckStatus" @click="getReprintingCause()" class="my-button my-success float-left"><span class="btn-txt-mrg">  چاپ </span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </div>
                     </div>
@@ -322,14 +323,17 @@
                     <div class="small-font">
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12 padding-lr">
+                                <p class="black-color text-justify" style="font-size: 1rem">کاربر گرامی:</p>
+                                <p class="large-offset-1 modal-text text-justify">توجه فرمایید که تحویل چک به معنای تکمیل فرایند پرداخت بوده و مبلغ چک بعنوان هزینه از محل های تامین اعتبار در نظر گرفته می شود بنابراین پس از تحویل قطعی چک نسبت به اعلام تحویل از طریق این فرم اقدام نمایید.</p>
                                 <label>تاریخ تحویل
                                     <date-picker
-                                            :color="'#5c6bc0'"
+                                            :color="checkDateValid ? '#d9534f' : '#5c6bc0'"
                                             v-model="checkDeliverTime"
                                             input-class="form-control form-control-lg date-picker-bottom-margin"
                                             id="checkDeliver-Date"
                                             placeholder="انتخاب تاریخ">
                                     </date-picker>
+                                    <p style="margin-top:3px !important;" v-show="checkDateValid" class="error-font">تاریخ تحویل چک فراموش شده است!</p>
                                 </label>
                             </div>
                         </div>
@@ -352,7 +356,8 @@
                 <div class="small-font">
                     <div class="grid-x">
                         <div class="large-12 medium-12 small-12 padding-lr">
-                            <p class="btn-red">کاربر گرامی : شما قبلا این چک را تحویل داده اید! برای پرینت مجدد باید علت پرینت چک را وارد نمایید.</p>
+                            <p class="black-color text-justify" style="font-size: 1rem">کاربر گرامی:</p>
+                            <p class="large-offset-1 btn-red">شما قبلا این چک را تحویل داده اید! برای پرینت مجدد باید علت پرینت چک را وارد نمایید.</p>
                             <label>علت پرینت مجدد
                                 <textarea v-model="inputCheck.description"  class="form-element-margin-btm"  style="min-height: 150px;" name="description"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('description')}"></textarea>
                                 <span v-show="errors.has('description')" class="error-font">لطفا علت پرینت مجدد چک را وارد کنید!</span>
@@ -430,6 +435,7 @@
                 letterDatePersian:'',
                 checkHistoryState:false,
                 checkDateValid:false,
+                checkVerifierAlert:false,
                 checkPdfPath:'',
             }
         },
@@ -457,6 +463,15 @@
             inputCheck: function (newQuestion, oldQuestion) {
                 if(this.inputCheck.date != null)
                     this.checkDateValid=false;
+            },
+
+            checkDeliverTime: function (newQuestion, oldQuestion) {
+                if(this.checkDeliverTime.date != '')
+                    this.checkDateValid=false;
+            },
+
+            allChecks: function (newQuestion, oldQuestion) {
+                this.$root.checkCount();
             }
         },
 
@@ -516,9 +531,9 @@
                 this.checkSelectTemp.push(check);
                 console.log(JSON.stringify(this.checkSelectTemp));
                 this.checkSelectTemp.forEach(item =>{
-                    this.dPayTo=item.draft.dPayTo;
-                    this.dFor=item.cPdId != null ? item.percentage_decrease.pdSubject + ' - ' + item.draft.dFor : item.draft.dFor;
-                    this.cAmount=item.cAmount;
+                    this.dPayTo = item.cPdId != null ? item.percentage_decrease.pdPayTo : item.draft.dPayTo;
+                    this.dFor = item.cPdId != null ? item.percentage_decrease.pdSubject + ' - ' + item.draft.dFor : item.draft.dFor;
+                    this.cAmount = item.cAmount;
                 });
 
                 this.checkSelectTemp.forEach(item =>{
@@ -575,11 +590,21 @@
 
             showCheckPreview:function(){
                 this.checkPdfPath='';
-                this.checkDateValid=false;
                 this.$validator.validateAll().then((result) => {
-                    if (result) {
-                        if(this.inputCheck.date != null) {
-                            this.checkDateValid = false;
+                    if (this.inputCheck.date == null)
+                        this.checkDateValid = true;
+                    this.checkVerifierName=[];
+                    this.allCheckVerifiers.forEach(item =>{
+                        if(item.checked ==  true){
+                            this.checkVerifierName.push(item.user.name);
+                            this.checkVerifierName.push(item.user.role.rSubject)
+                        }
+                        console.log(JSON.stringify(this.checkVerifierName));
+                    });
+                    if(this.checkVerifierName.length < 1)
+                        this.checkVerifierAlert=true;
+                    if(!this.checkDateValid &&  !this.checkVerifierAlert){
+                        if (result) {
                             this.fillCheck.subject=this.checkActiveFormatSelect.cfSubject;
                             this.fillCheck.dateTop=this.checkActiveFormatSelect.cfDateTop;
                             this.fillCheck.dateRight=this.checkActiveFormatSelect.cfDateRight;
@@ -608,14 +633,6 @@
                             this.fillCheck.secondSignatureWidth=this.checkActiveFormatSelect.cfSecondSignatureWidth;
                             this.fillCheck.width=this.checkActiveFormatSelect.cfWidth;
                             this.fillCheck.height=this.checkActiveFormatSelect.cfHeight;
-                            this.checkVerifierName=[];
-                            this.allCheckVerifiers.forEach(item =>{
-                                if(item.checked ==  true){
-                                    this.checkVerifierName.push(item.user.name);
-                                    this.checkVerifierName.push(item.user.role.rSubject)
-                                }
-                                console.log(JSON.stringify(this.checkVerifierName));
-                            });
                             this.convertDateToLetter();
                             this.showGetCheckPreviewModal=true;
                         }
@@ -633,6 +650,7 @@
                 verifierTemp.rSubject = verifier.user.role.rSubject;
                 verifierTemp.index = index;
                 if(state == false){
+                    this.checkVerifierAlert = true;
                     this.allCheckVerifiers.forEach(item =>{
                         if(item.id == verifierTemp.id){
                             this.allCheckVerifiers.forEach(item =>{
@@ -647,6 +665,7 @@
                     });
                 }
                 if(state == true){
+                    this.checkVerifierAlert = false;
                     this.allCheckVerifiers.forEach(item =>{
                         if(verifierTemp.id == item.id){
                             Vue.set(item,"name",verifierTemp.name);
@@ -686,6 +705,9 @@
                     }
                 });
                 console.log(JSON.stringify(verifierTempForCheck));
+                    var config = {
+                        allowLoading:true,
+                    };
                     axios.post('/financial/check/print/update', {
                         verifiers:verifierTempForCheck,
                         cId:this.checkId,
@@ -694,7 +716,7 @@
                         cfSubject:this.fillCheck.subject,
                         description:this.inputCheck.description = undefined ? '' : this.inputCheck.description,
                         searchValue:"",
-                    }).then((response) => {
+                    }, config).then((response) => {
                         if(response.status == 200){
                             this.openReportFile(this.inputCheck.checkFormat.id,this.checkId);
                             this.allChecks = response.data.data;
@@ -719,21 +741,25 @@
             },
 
             checkDeliver:function(){
-                axios.post('/financial/check/deliver', {
-                    cId:this.checkId,
-                    date:this.checkDeliverTime,
-                    searchValue:"",
-                }).then((response) => {
-                    this.allChecks = response.data.data;
-                    this.makePagination(response.data);
-                    this.showCheckDeliverModal=false;
-                    this.showPrintCheckModal=false;
-                    this.$parent.displayNotif(response.status);
-                    console.log(response);
-                }, (error) => {
-                    console.log(error);
-                    this.$parent.displayNotif(error.response.status);
-                });
+                if(this.checkDeliverTime == '')
+                    this.checkDateValid = true;
+                if(!this.checkDateValid ){
+                    axios.post('/financial/check/deliver', {
+                        cId:this.checkId,
+                        date:this.checkDeliverTime,
+                        searchValue:"",
+                    }).then((response) => {
+                        this.allChecks = response.data.data;
+                        this.makePagination(response.data);
+                        this.showCheckDeliverModal=false;
+                        this.showPrintCheckModal=false;
+                        this.$parent.displayNotif(response.status);
+                        console.log(response);
+                    }, (error) => {
+                        console.log(error);
+                        this.$parent.displayNotif(error.response.status);
+                    });
+                }
             },
 
             openReportFile: function (fId,cId) {

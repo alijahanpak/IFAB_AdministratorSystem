@@ -94,7 +94,7 @@ class PayRequestController extends Controller
 
             SystemLog::setFinancialSubSystemLog('ثبت درخواست پرداخت برای درخواست ' . $req->rSubject);
             $rController = new RequestController();
-            return \response()->json($rController->getAllPostedRequests(Auth::user()->id));
+            return \response()->json($rController->getAllPostedRequests(Auth::user()->id , $request->searchValue));
 
         });
         return $result;
@@ -153,7 +153,7 @@ class PayRequestController extends Controller
                     SystemLog::setFinancialSubSystemLog('تایید درخواست پرداخت توسط ' . Auth::user()->name);
                     $rController = new RequestController();
                     return \response()->json(
-                        $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
+                        $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList() , $request->searchValue)
                     );
                 });
 
@@ -212,7 +212,7 @@ class PayRequestController extends Controller
 
             $rController = new RequestController();
             return \response()->json(
-                $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
+                $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList() , $request->searchValue)
             );
         });
 
@@ -227,7 +227,7 @@ class PayRequestController extends Controller
 
         $rController = new RequestController();
         return \response()->json(
-            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
+            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList() , $request->searchValue)
         );
     }
 
@@ -260,7 +260,7 @@ class PayRequestController extends Controller
             SystemLog::setFinancialSubSystemLog('مسدود کردن درخواست پرداخت برای قرارداد ' . $payRequest->contract->cSubject);
             $rController = new RequestController();
             return \response()->json(
-                $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
+                $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList() , $request->searchValue)
             );
         });
 

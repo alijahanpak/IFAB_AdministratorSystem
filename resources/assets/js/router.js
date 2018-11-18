@@ -63,7 +63,7 @@ const routes = [
     { path: '/financial_department', component: fdDashboard , meta:{permission: 'FINANCIAL_DASHBOARD_DISPLAY'}},
     { path: '/financial_department/submissions', component: submissions , meta:{permission: 'public'}},
     { path: '/financial_department/received_requests', component: received_requests , meta:{permission: 'public'}},
-    { path: '/financial_department/search_requests', component: search_requests , meta:{permission: 'public'}},
+    { path: '/financial_department/search_requests', component: search_requests , meta:{permission: 'GLOBAL_SEARCH'}},
     { path: '/financial_department/checks/list', component: checks_list , meta:{permission: 'CHECK_LIST_DISPLAY'}},
     { path: '/financial_department/checks/templates', component: checks_template , meta:{permission: 'CREATE_NEW_CHECK_TEMPLATE'}},
     { path: '/financial_department/refund', component: refund , meta:{permission: 'DISPLAY_REFUNDS'}},
@@ -85,8 +85,10 @@ router.beforeEach((to, from, next) => {
 /////////////////////// config axios request /////////////////////////////////////
 axios.interceptors.response.use(response => {
     app.finish();
+    app.btnLoadingCheckStatus=false;
     return response;
 },function (error) {
+    app.btnLoadingCheckStatus=false;
     console.log(error);
     app.fail();
     return Promise.reject(error);
@@ -95,6 +97,10 @@ axios.interceptors.response.use(response => {
 axios.interceptors.request.use(function (config) {
     app.start();
     config.headers = JSON.parse(sessionStorage.getItem("ifab_token_info")); //set headers to config axios request
+    if(config.hasOwnProperty('allowLoading'))
+        app.btnLoadingCheckStatus=config.allowLoading;
+    else
+        app.btnLoadingCheckStatus=false;
     return config;
 }, function (error) {
     return Promise.reject(error);
@@ -205,6 +211,9 @@ var app = new Vue({
         baseAvatar:window.hostname + '/pic/avatars/avatar.jpg',
         temp:[],
         unReadRequestCount: 0,
+        btnLoadingCheckStatus:true,
+        allCheckCount:0,
+        allRefundCount:0,
     },
 
     updated: function () {
@@ -267,6 +276,8 @@ var app = new Vue({
             this.getPublicParams();
             this.getAmountBase();
             this.getAllAmountBase();
+            this.checkCount();
+            this.getRefundCount();
             this._getUnReadReceivedRequest();
         },
 
@@ -557,7 +568,7 @@ var app = new Vue({
                     this.$refs.errorAlarm.play();
                     break;
                 case 420:
-                    this.$notify({title: 'پیام سیستم', text: 'با توجه به تغییرات مبالغ اعتبارات، لطفا مجدد نسبت به تامین اعتبار اقدام کنید.' , type: 'error'});
+                    this.$notify({title: 'پیام سیستم', text: 'با توجه به تغییرات مبالغ در بانک اطلاعاتی، لطفا مجدد نسبت به تعیین مبلغ اقدام کنید.' , type: 'error'});
                     this.$refs.errorAlarm.play();
                     break;
                 case 800: //doesn`t select records
@@ -659,6 +670,47 @@ var app = new Vue({
         },
         currentAllAmountBase: function () {
             return this.amountBase.id;
+        },
+
+        checkCount: function (page=1) {
+            var allChecks=[];
+            this.allCheckCount=0;
+            var CountTemp=0;
+            axios.get('financial/check/list/get_all_data?page=' + page , {params:{searchValue:null}})
+                .then((response) => {
+                    allChecks = response.data.data;
+                    allChecks.forEach(item =>{
+                        if(item.check_state.csState == 'WAITING_FOR_PRINT')
+                            CountTemp += 1;
+                    });
+                    this.allCheckCount = CountTemp;
+                    console.log(response);
+                }, (error) => {
+                    console.log(error);
+                });
+        },
+
+        getRefundCount: function () {
+            axios.get('/financial/refund/fetch_all_refund')
+                .then((response) => {
+                    this.refunds = response.data;
+                    var refundCountTemp=0;
+                    this.refunds.forEach(item => {
+                        item.factor.forEach(fac => {
+                            if(fac.factor_state.fsState =='PENDING_REVIEW')
+                                refundCountTemp += 1;
+                        });
+                        item.rRelativeFactor.forEach(rFac => {
+                            if(rFac.factor_state.fsState =='PENDING_REVIEW')
+                                refundCountTemp += 1;
+                        });
+                        this.allRefundCount=refundCountTemp;
+
+                    });
+                    console.log(response);
+                }, (error) => {
+                    console.log(error);
+                });
         },
 
 

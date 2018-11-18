@@ -33,7 +33,15 @@ class FactorController extends Controller
 {
     function addNewFactor(Request $request)
     {
-        DB::transaction(function () use($request){
+        $result = DB::transaction(function () use($request){
+            $rController = new RequestController();
+            if ($request->refundId)
+            {
+                $req = _Request::find($request->refundId);
+                if ($request->amount > ($req->rAcceptedAmount - $req->rSumOfFactorAmount))
+                    return \response()->json($rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList() , $request->searchValue) , 420);
+            }
+
             $sId = Seller::firstOrCreate(['sSubject' => PublicSetting::checkPersianCharacters(trim($request->seller))]);
             $factor = new Factor();
             $factor->fRId = $request->rId;
@@ -53,18 +61,34 @@ class FactorController extends Controller
             }
 
             SystemLog::setFinancialSubSystemLog('ثبت فاکتور ' . $request->subject . ' برای درخواست ' . _Request::find($request->rId)->rSubject);
+            return \response()->json($rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList() , $request->searchValue));
         });
 
-        $rController = new RequestController();
-        return \response()->json($rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList()));
+        return $result;
 
     }
 
     public function update(Request $request)
     {
         $result = DB::transaction(function () use($request){
-            $sId = Seller::firstOrCreate(['sSubject' => PublicSetting::checkPersianCharacters(trim($request->seller))]);
+            $rController = new RequestController();
             $factor = Factor::find($request->id);
+
+            if ($request->refundId)
+            {
+                $req = _Request::find($request->refundId);
+                if (($request->amount - $factor->fAmount) > ($req->rAcceptedAmount - $req->rSumOfFactorAmount))
+                    return \response()->json($rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList() , $request->searchValue) , 420);
+            }
+
+            if ($request->resultType == 'POSTED') {
+                $req = _Request::find($factor->fRId);
+                if (($request->amount - $factor->fAmount) > ($req->rAcceptedAmount - $req->rSumOfFactorAmount))
+                    return \response()->json($rController->getAllPostedRequests(Auth::user()->id , $request->searchValue) , 420);
+            }
+
+
+            $sId = Seller::firstOrCreate(['sSubject' => PublicSetting::checkPersianCharacters(trim($request->seller))]);
             $factor->fSId = $sId->id;
             $factor->fSubject = PublicSetting::checkPersianCharacters($request->subject);
             $factor->fAmount = $request->amount;
@@ -77,13 +101,12 @@ class FactorController extends Controller
             }
 
             SystemLog::setFinancialSubSystemLog('اصلاح فاکتور ' . $factor->fSubject . ' برای درخواست ' . _Request::find($factor->fRId)->rSubject);
-            $rController = new RequestController();
             if ($request->resultType == 'POSTED')
             {
-                return \response()->json($rController->getAllPostedRequests(Auth::user()->id));
+                return \response()->json($rController->getAllPostedRequests(Auth::user()->id , $request->searchValue));
             }else if ($request->resultType == 'RECEIVED')
             {
-                return \response()->json($rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList()));
+                return \response()->json($rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList() , $request->searchValue));
             }
         });
 
@@ -92,7 +115,13 @@ class FactorController extends Controller
 
     function addNewRefundFactor(Request $request)
     {
-        DB::transaction(function () use($request){
+        $result = DB::transaction(function () use($request){
+            $rController = new RequestController();
+
+            $req = _Request::find($request->rId);
+            if ($request->amount > ($req->rAcceptedAmount - $req->rSumOfFactorAmount))
+                return \response()->json($rController->getAllPostedRequests(Auth::user()->id , $request->searchValue) , 420);
+
             $sId = Seller::firstOrCreate(['sSubject' => PublicSetting::checkPersianCharacters($request->seller)]);
             $factor = new Factor();
             $factor->fRId = $request->rId;
@@ -104,12 +133,13 @@ class FactorController extends Controller
             $factor->save();
 
             SystemLog::setFinancialSubSystemLog('ثبت فاکتور ' . $request->subject . ' برای درخواست ' . _Request::find($request->rId)->rSubject);
-        });
 
-        $rController = new RequestController();
-        return \response()->json(
-            $rController->getAllPostedRequests(Auth::user()->id)
-        );
+            return \response()->json(
+                $rController->getAllPostedRequests(Auth::user()->id , $request->searchValue)
+            );
+        });
+        return $result;
+
     }
 
     function deleteRefundFactor(Request $request)
@@ -127,7 +157,7 @@ class FactorController extends Controller
 
         $rController = new RequestController();
         return \response()->json(
-            $rController->getAllPostedRequests(Auth::user()->id),
+            $rController->getAllPostedRequests(Auth::user()->id , $request->searchValue),
             $resultCode
         );
     }
@@ -143,7 +173,7 @@ class FactorController extends Controller
 
         $rController = new RequestController();
         return \response()->json(
-            $rController->getAllPostedRequests(Auth::user()->id)
+            $rController->getAllPostedRequests(Auth::user()->id , $request->searchValue)
         );
     }
 
@@ -206,7 +236,7 @@ class FactorController extends Controller
 
         $rController = new RequestController();
         return \response()->json(
-            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList())
+            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList() , $request->searchValue)
         );
     }
 
@@ -319,9 +349,9 @@ class FactorController extends Controller
             if ($factor->fFsId == FactorState::where('fsState' , 'TEMPORARY')->value('id'))
             {
                 $factor->delete();
-                return \response()->json($rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList()));
+                return \response()->json($rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList() , $request->searchValue));
             }else{
-                return \response()->json($rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList()) , 204); //cannot delete contract
+                return \response()->json($rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList() , $request->searchValue) , 204); //cannot delete contract
             }
         });
         return $result;

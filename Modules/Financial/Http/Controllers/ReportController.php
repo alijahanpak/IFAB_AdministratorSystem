@@ -28,7 +28,7 @@ class ReportController extends Controller
         $pdf->setOption('encoding', 'UTF-8');
         $pdf->setOption('page-size', 'a4');
         $pdf->setOption('title', 'report');
-        $pdf->setOption('margin-bottom', 10);
+        $pdf->setOption('margin-bottom', 2);
         $pdf->setOrientation('portrait');
         $pdf->setOption('margin-top', 10);
         $pdf->setOption('lowquality', true);
@@ -42,9 +42,9 @@ class ReportController extends Controller
         $pdf->setOption('encoding', 'UTF-8');
         $pdf->setOption('page-size', 'a5');
         $pdf->setOption('title', 'report');
-        $pdf->setOption('margin-bottom', 25);
+        $pdf->setOption('margin-bottom', 2);
         $pdf->setOrientation('portrait');
-        $pdf->setOption('margin-top', 20);
+        $pdf->setOption('margin-top', 15);
         $pdf->setOption('lowquality', true);
         $pdf->setOption('zoom', 1.2);
         return $pdf;
@@ -157,6 +157,19 @@ class ReportController extends Controller
         $check['dateText'] = self::convertDateToText($check->cDate);
         $pdf = $this->initCustomSize($checkFormat->cfHeight * 10 , $checkFormat-> cfWidth* 10);
         $pdf->loadHTML(view('financial::reports.draft.check' , ['checkFormat' => $checkFormat , 'check' => $check , 'baseMargin' =>$baseMargin]));
+        return $pdf->inline();
+    }
+
+    public function request(Request $request)
+    {
+        $request = _Request::where('id' , $request->rId)
+            ->with('requestType')
+            ->with('verifiers.user.role.officeUnit')
+            ->with('verifiers.signature')
+            ->with('requestCommodity.commodity')
+            ->first();
+        $pdf = $this->initA4Pdf();
+        $pdf->loadHTML(view('financial::reports.request.request' , ['request' => $request]));
         return $pdf->inline();
     }
 

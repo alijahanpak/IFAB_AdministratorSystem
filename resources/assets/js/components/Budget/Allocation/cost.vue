@@ -101,7 +101,7 @@
                                 <!--Table Head End-->
                                 <!--Table Body Start-->
                                 <div class="tbl_body_style dynamic-height-level2">
-                                    <table class="tbl-body-contain">
+                                    <table class="tbl-body-contain unstriped">
                                         <colgroup>
                                             <col width="150px"/>
                                             <col width="150px"/>
@@ -113,8 +113,8 @@
                                             <col v-show="selectColumn" width="15px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
-                                        <template v-for="progs in provCostAllocations">
-                                            <tr class="tbl-head-style-cell" >
+                                        <template v-for="(progs, index) in provCostAllocations">
+                                            <tr class="tbl-head-style-cell" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                 <td class="text-center" :rowspan="getProjectAllocCount(progs.ca_credit_source_has_allocation)">{{ progs.caLetterNumber }}
                                                     <div v-show="!progs.caActive" class="text-center" style="margin-top: 5px">
                                                         <span class="new-badage">غیر فعال</span>
@@ -148,7 +148,7 @@
                                                 </td>
                                             </tr>
                                             <template v-for="(credit_source , csIndex) in progs.ca_credit_source_has_allocation">
-                                                <tr class="tbl-head-style-cell" v-if="csIndex > 0">
+                                                <tr class="tbl-head-style-cell" v-if="csIndex > 0" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                     <td :rowspan="credit_source.allocation.length">{{ credit_source.credit_distribution_title.cdtIdNumber + ' - ' + credit_source.credit_distribution_title.cdtSubject }}</td>
                                                     <td :rowspan="credit_source.allocation.length" class="text-center">{{ $parent.calcDispAmount(getCsAllocationSum(credit_source.allocation) , false) }}</td>
                                                     <td class="text-center" :rowspan="credit_source.allocation.length">{{ credit_source.credit_distribution_row.cdSubject }}</td>
@@ -176,7 +176,7 @@
                                                     </td>
                                                 </tr>
                                                 <template v-for="(alloc , allocIndex) in credit_source.allocation">
-                                                    <tr class="tbl-head-style-cell" v-if="allocIndex > 0">
+                                                    <tr class="tbl-head-style-cell" v-if="allocIndex > 0" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                         <td class="text-center" v-if="alloc.caFoundId == null">{{ alloc.caLetterNumber }}</td>
                                                         <td class="text-center" v-if="alloc.caFoundId != null"><i class="fa fa-exchange btn-red has-tip top" data-tooltip aria-haspopup="true" data-disable-hover="false" title="تبدیل شده از تنخواه"></i></td>
                                                         <td class="text-center">{{ alloc.caLetterDate }}</td>
@@ -296,7 +296,7 @@
                                 <!--Table Head End-->
                                 <!--Table Body Start-->
                                 <div class="tbl_body_style dynamic-height-level2">
-                                    <table class="tbl-body-contain">
+                                    <table class="tbl-body-contain unstriped">
                                         <colgroup>
                                             <col width="150px"/>
                                             <col width="150px"/>
@@ -308,8 +308,8 @@
                                             <col v-show="selectColumn" width="15px"/>
                                         </colgroup>
                                         <tbody class="tbl-head-style-cell">
-                                        <template v-for="progs in natCostAllocations">
-                                            <tr class="tbl-head-style-cell" >
+                                        <template v-for="(progs , index) in natCostAllocations">
+                                            <tr class="tbl-head-style-cell" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                 <td :rowspan="getProjectAllocCount(progs.ca_credit_source_has_allocation)" class="text-center">{{ progs.caLetterNumber }}</td>
                                                 <td :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length">{{ progs.ca_credit_source_has_allocation[0].credit_distribution_title.cdtIdNumber + ' - ' + progs.ca_credit_source_has_allocation[0].credit_distribution_title.cdtSubject }}</td>
                                                 <td :rowspan="progs.ca_credit_source_has_allocation[0].allocation.length" class="text-center">{{ $parent.calcDispAmount(getProgAllocationSum(progs.ca_credit_source_has_allocation[0].allocation) , false) }}</td>
@@ -337,7 +337,7 @@
                                                 </td>
                                             </tr>
                                             <template v-for="(credit_source , csIndex) in progs.ca_credit_source_has_allocation">
-                                                <tr class="tbl-head-style-cell" v-if="csIndex > 0">
+                                                <tr class="tbl-head-style-cell" v-if="csIndex > 0" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                     <td :rowspan="credit_source.allocation.length">{{ credit_source.credit_distribution_title.cdtIdNumber + ' - ' + credit_source.credit_distribution_title.cdtSubject }}</td>
                                                     <td :rowspan="credit_source.allocation.length" class="text-center">{{ $parent.calcDispAmount(getCsAllocationSum(credit_source.allocation) , false) }}</td>
                                                     <td :rowspan="credit_source.allocation.length" class="text-center">{{ credit_source.credit_distribution_row.cdSubject }}</td>
@@ -364,7 +364,7 @@
                                                     </td>
                                                 </tr>
                                                 <template v-for="(alloc , allocIndex) in credit_source.allocation">
-                                                    <tr class="tbl-head-style-cell" v-if="allocIndex > 0">
+                                                    <tr class="tbl-head-style-cell" v-if="allocIndex > 0" :style="index % 2 == 1 ? 'background-color: #efefef' : ''">
                                                         <td class="text-center">{{ alloc.caLetterNumber }}</td>
                                                         <td class="text-center">{{ alloc.caLetterDate }}</td>
                                                         <td class="text-center">
@@ -523,13 +523,14 @@
                                 <div class="large-6 medium-6 small-12 padding-lr">
                                     <label>تاریخ
                                         <date-picker
-                                                :color="'#5c6bc0'"
+                                                :color="checkAllocationDateValid ? '#d9534f' : '#5c6bc0'"
                                                 v-model="AllocationInput.date"
                                                 input-class="form-control form-control-lg date-picker-bottom-margin"
                                                 id="AllocationInputDate"
                                                 placeholder="انتخاب تاریخ">
                                         </date-picker>
                                     </label>
+                                    <p style="margin-top:3px !important;" v-show="checkAllocationDateValid" class="error-font">لطفا تاریخ مورد نظر را انتخاب نمایید!</p>
                                 </div>
                             </div>
                             <div class="grid-x">
@@ -586,7 +587,8 @@
                                 </div>
                             </div>
                             <div class="medium-6 columns padding-lr padding-bottom-modal">
-                                <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <button v-show="!$root.btnLoadingCheckStatus" name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </form>
                     </div>
@@ -678,7 +680,8 @@
                                 </div>
                             </div>
                             <div class="medium-6 columns padding-lr padding-bottom-modal">
-                                <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <button v-show="!$root.btnLoadingCheckStatus" name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </form>
                     </div>
@@ -692,7 +695,8 @@
                             <p class="large-offset-1 modal-text">آیا برای حذف این رکورد اطمینان دارید؟</p>
                             <div class="grid-x">
                                 <div class="medium-12 column text-center">
-                                    <button v-on:click="deleteCostAllocation" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                                    <button v-show="!$root.btnLoadingCheckStatus" v-on:click="deleteCostAllocation" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                                    <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                                 </div>
                             </div>
                         </div>
@@ -708,13 +712,14 @@
                                     <label>تاریخ
                                         <!--<date-picker v-on:closed="checkValidDate(foundInput)" errMessage="تاریخ دریافت تنخواه فراموش شده است!" :isValid="dateIsValid_found"-->
                                         <date-picker
-                                                :color="'#5c6bc0'"
+                                                :color="checkAllocationDateValid ? '#d9534f' : '#5c6bc0'"
                                                 v-model="foundInput.date"
                                                 input-class="form-control form-control-lg date-picker-bottom-margin"
                                                 id="foundInputDate"
                                                 placeholder="انتخاب تاریخ">
                                         </date-picker>
                                     </label>
+                                    <p style="margin-top:3px !important;" v-show="checkAllocationDateValid" class="error-font">لطفا تاریخ مورد نظر را انتخاب نمایید!</p>
                                 </div>
                             </div>
                             <div class="grid-x">
@@ -733,7 +738,8 @@
                                 </div>
                             </div>
                             <div class="medium-6 columns padding-lr padding-bottom-modal">
-                                <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <button v-show="!$root.btnLoadingCheckStatus" name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </form>
                     </div>
@@ -906,7 +912,8 @@
                                 </div>
                             </div>
                             <div class="medium-6 columns padding-lr padding-bottom-modal">
-                                <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <button v-show="!$root.btnLoadingCheckStatus" name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </form>
                     </div>
@@ -1069,6 +1076,18 @@
                     </div>
                 </modal-tiny>
                 <!--Report Found Modal End-->
+                <!-- report pdf modal -->
+                <modal-large v-show="showPdfModal" @close="showPdfModal =false">
+                    <div  slot="body">
+                        <div class="grid-x">
+                            <div class="large-12 medium-12 small-12" style="width: 100%;height: 75vh">
+                                <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
+                                <iframe style="width: 100%;height: 100%;border: 0px" :src="reportPdfPath" />
+                            </div>
+                        </div>
+                    </div>
+                </modal-large>
+                <!-- end report pdf modal -->
                 <!--Forms End-->
                 <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
                     {{dialogMessage}}
@@ -1079,6 +1098,7 @@
 </template>
 <script>
     import VuePagination from '../../../public_component/pagination.vue';
+    import VueElementLoading from 'vue-element-loading';
     export default {
         data(){
             return {
@@ -1102,6 +1122,7 @@
                 showUpdateModal: false,
                 showDeleteModal: false,
                 showModalReport:false,
+                showPdfModal: false,
                 selectColumn:false,
                 showInsertFoundModal: false,
                 showUpdateFoundModal: false,
@@ -1142,6 +1163,20 @@
                 },
                 sumOfSelectedAmount: 0,
                 overflowError: false,
+                reportPdfPath: '',
+                showLoaderProgress: false,
+                checkAllocationDateValid:false,
+            }
+        },
+
+        watch: {
+            AllocationInput: function (newQuestion, oldQuestion) {
+            if(this.AllocationInput.date != null)
+                this.checkAllocationDateValid=false;
+            },
+            foundInput: function (newQuestion, oldQuestion) {
+            if(this.foundInput.date != null)
+                this.checkAllocationDateValid=false;
             }
         },
 
@@ -1170,6 +1205,7 @@
 
         components:{
             'vue-pagination' : VuePagination,
+            VueElementLoading,
         },
 
         methods:{
@@ -1335,6 +1371,7 @@
             },
 
             openInsertModal: function (type) {
+                this.checkAllocationDateValid=false;
                 this.lastCaCsId = 0;
                 this.creditSourceInfo = '';
                 this.AllocationInput = [];
@@ -1347,38 +1384,41 @@
             },
 
             createCostAllocation: function () {
-                if ($('#datePicker').val() == '')
-                    this.AllocationInput.date = '';
                 this.$validator.validateAll().then((result) => {
-                    if (result) {
-                        axios.post('/budget/allocation/cost/register' , {
-                            idNumber: this.AllocationInput.idNumber,
-                            date: this.AllocationInput.date,
-                            caCsId: this.AllocationInput.caCsId,
-                            amount: this.AllocationInput.amount,
-                            description: this.AllocationInput.description,
-                            pOrN: this.provOrNat,
-                            searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
-                            itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
-                        })
-                            .then((response) => {
-                                if (this.provOrNat == 0)
-                                {
-                                    this.setData(0,response.data.data);
-                                    this.makePagination(response.data , "provincial");
-                                }
-                                else
-                                {
-                                    this.setData(1,response.data.data);
-                                    this.makePagination(response.data , "national");
-                                }
-                                this.showInsertModal = false;
-                                this.$parent.displayNotif(response.status);
-                                console.log(response);
-                            },(error) => {
-                                console.log(error);
+                    if(this.AllocationInput.date == null)
+                        this.checkAllocationDateValid=true;
+                    if(!this.checkAllocationDateValid ) {
+                        if (result) {
+                            var config = {
+                                allowLoading:true,
+                            };
+                            axios.post('/budget/allocation/cost/register', {
+                                idNumber: this.AllocationInput.idNumber,
+                                date: this.AllocationInput.date,
+                                caCsId: this.AllocationInput.caCsId,
+                                amount: this.AllocationInput.amount,
+                                description: this.AllocationInput.description,
+                                pOrN: this.provOrNat,
+                                searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
+                                itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
+                            } , config)
+                                .then((response) => {
+                                    if (this.provOrNat == 0) {
+                                        this.setData(0, response.data.data);
+                                        this.makePagination(response.data, "provincial");
+                                    }
+                                    else {
+                                        this.setData(1, response.data.data);
+                                        this.makePagination(response.data, "national");
+                                    }
+                                    this.showInsertModal = false;
+                                    this.$parent.displayNotif(response.status);
+                                    console.log(response);
+                                }, (error) => {
+                                    console.log(error);
 
-                            });
+                                });
+                        }
                     }
                 });
             },
@@ -1391,7 +1431,7 @@
                 }else{
                     this.AllocationFill.isFound = true;
                 }
-
+                this.checkAllocationDateValid=false;
                 this.AllocationFill.idNumber = item.caLetterNumber;
                 this.AllocationFill.date = item.caLetterDate;
                 this.AllocationFill.caCsId = item.caCcsId;
@@ -1408,10 +1448,11 @@
             },
 
             updateCostAllocation: function () {
-                if ($('#updateDatePicker').val() == '')
-                    this.AllocationInput.date = '';
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post('/budget/allocation/cost/update' , {
                             id: this.AllocationFill.id,
                             idNumber: this.AllocationFill.idNumber,
@@ -1422,7 +1463,7 @@
                             pOrN: this.provOrNat,
                             searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
                             itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
-                        })
+                        } , config)
                             .then((response) => {
                                 if (this.provOrNat == 0)
                                 {
@@ -1457,12 +1498,15 @@
             },
 
             deleteCostAllocation: function () {
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/budget/allocation/cost/delete' , {
                     id: this.caIdForDelete,
                     pOrN: this.provOrNat,
                     searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
                     itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
-                    })
+                    } , config)
                     .then((response) => {
                         if (response.status != 204)
                         {
@@ -1502,27 +1546,35 @@
 
             openInsertFoundModal:function () {
                 this.foundInput = [];
+                this.checkAllocationDateValid=false;
                 this.showInsertFoundModal = true;
             },
 
             createProvincialFound: function () {
                 this.$validator.validateAll().then((result) => {
-                    if (result) {
-                        if (this.checkValidDate(this.foundInput)) {
-                            axios.post('/budget/allocation/cost/found/register' , {
-                                date: this.foundInput.date,
-                                amount: this.foundInput.amount,
-                                description: this.foundInput.description,
-                                pOrN: 0
-                            })
-                                .then((response) => {
-                                    this.foundSetData(response.data);
-                                    this.showInsertFoundModal = false;
-                                    this.$parent.displayNotif(response.status);
-                                    console.log(response);
-                                },(error) => {
-                                    console.log(error);
-                                });
+                    if(this.foundInput.date == null)
+                        this.checkAllocationDateValid=true;
+                    if(!this.checkAllocationDateValid ) {
+                        if (result) {
+                            var config = {
+                                allowLoading: true,
+                            };
+                            if (this.checkValidDate(this.foundInput)) {
+                                axios.post('/budget/allocation/cost/found/register', {
+                                    date: this.foundInput.date,
+                                    amount: this.foundInput.amount,
+                                    description: this.foundInput.description,
+                                    pOrN: 0
+                                }, config)
+                                    .then((response) => {
+                                        this.foundSetData(response.data);
+                                        this.showInsertFoundModal = false;
+                                        this.$parent.displayNotif(response.status);
+                                        console.log(response);
+                                    }, (error) => {
+                                        console.log(error);
+                                    });
+                            }
                         }
                     }
                 });
@@ -1604,6 +1656,9 @@
                                     if (cost.checked)
                                         this.selectedCostFinance.push(cost);
                                 });
+                                var config = {
+                                    allowLoading:true,
+                                };
                                 axios.post('/budget/allocation/cost/found/convert_to_allocation' , {
                                     id: this.foundIdForConvertTo,
                                     caCsId: this.AllocationInput.caCsId,
@@ -1612,7 +1667,7 @@
                                     costFinancings: this.selectedCostFinance,
                                     searchValue: this.provSearchValue,
                                     itemInPage: this.itemInPage
-                                })
+                                } , config)
                                     .then((response) => {
                                         this.provCostFounds = response.data.found;
                                         this.provCostAllocations = response.data.allocation_prov.data;
@@ -1751,13 +1806,38 @@
             },
 
             openReportFile: function () {
-                axios.post('/budget/allocation/cost/report' , {pOrN: this.provOrNat , type: this.reportType ,options: this.reportOptions , selectedItems: this.selectedItems})
-                    .then((response) => {
-                        console.log(response.data);
-                        window.open(response.data);
-                    },(error) => {
-                        console.log(error);
-                    });
+                if (this.reportType == 'pdf')
+                {
+                    this.reportPdfPath = '';
+                    this.showModalReport = false;
+                    this.showLoaderProgress = true;
+                    this.showPdfModal = true;
+                    axios.post('budget/allocation/cost/report' , {pOrN: this.provOrNat ,
+                            type: this.reportType ,
+                            options: this.reportOptions ,
+                            selectedItems: this.selectedItems},
+                        {responseType: 'blob'})
+                        .then((response) => {
+                            var file = new Blob([response.data], {type: 'application/pdf'});
+                            var fileURL = window.URL.createObjectURL(file);
+                            this.reportPdfPath = fileURL;
+                            this.showLoaderProgress = false;
+                        },(error) => {
+                            this.showLoaderProgress = false;
+                            console.log(error);
+                        });
+                }else{
+                    axios.post('budget/allocation/cost/report' , {pOrN: this.provOrNat ,
+                        type: this.reportType ,
+                        options: this.reportOptions ,
+                        selectedItems: this.selectedItems})
+                        .then((response) => {
+                            window.open(response.data);
+                            this.showModalReport = false;
+                        },(error) => {
+                            console.log(error);
+                        });
+                }
             },
 
             showSelectColumn: function (progs) {
@@ -1856,13 +1936,36 @@
             },
 
             foundOpenReportFile: function () {
-                axios.post('budget/allocation/cost/found/report' , {type: this.reportType ,options: this.reportOptions , selectedItems: this.selectedItems})
-                    .then((response) => {
-                        console.log(response.data);
-                        window.open(response.data);
-                    },(error) => {
-                        console.log(error);
-                    });
+                if (this.reportType == 'pdf')
+                {
+                    this.reportPdfPath = '';
+                    this.showModalReportFound = false;
+                    this.showLoaderProgress = true;
+                    this.showPdfModal = true;
+                    axios.post('budget/allocation/cost/found/report' , {type: this.reportType ,
+                            options: this.reportOptions ,
+                            selectedItems: this.selectedItems},
+                        {responseType: 'blob'})
+                        .then((response) => {
+                            var file = new Blob([response.data], {type: 'application/pdf'});
+                            var fileURL = window.URL.createObjectURL(file);
+                            this.reportPdfPath = fileURL;
+                            this.showLoaderProgress = false;
+                        },(error) => {
+                            this.showLoaderProgress = false;
+                            console.log(error);
+                        });
+                }else{
+                    axios.post('budget/allocation/cost/found/report' , {type: this.reportType ,
+                        options: this.reportOptions ,
+                        selectedItems: this.selectedItems})
+                        .then((response) => {
+                            window.open(response.data);
+                            this.showModalReport = false;
+                        },(error) => {
+                            console.log(error);
+                        });
+                }
             },
 
             foundShowSelectColumn: function (found) {
