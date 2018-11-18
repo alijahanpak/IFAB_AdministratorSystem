@@ -3,6 +3,7 @@
 namespace Modules\Financial\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\Admin\Entities\Signature;
 use Modules\Admin\Entities\User;
 use Morilog\Jalali\Facades\jDate;
 
@@ -30,5 +31,10 @@ class RequestVerifiers extends Model
     public function getRvShamsiTimeAttribute()
     {
         return jDate::forge($this->updated_at)->format('time');
+    }
+
+    public function signature()
+    {
+        return $this->belongsTo(Signature::class , 'rvSId' , 'id');
     }
 }

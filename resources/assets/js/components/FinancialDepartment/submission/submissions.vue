@@ -381,6 +381,7 @@
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12">
                                             <a class="my-button toolbox-btn small" @click="openUpdateRequestModal()">ویرایش</a>
+                                            <a class="my-button toolbox-btn small" @click="openRequestPdfModal()">پیش نمایش</a>
                                         </div>
                                         <div v-if="requestTypeDetail == 'SERVICES'" class="large-12 medium-12 small-12">
                                             <table>
@@ -618,7 +619,7 @@
                                                             <col width="200px"/>
                                                         </colgroup>
                                                         <tbody class="tbl-head-style-cell">
-                                                        <tr @click="openPdfModal(payRequest)" class="table-row" v-for="payRequest in payRequests">
+                                                        <tr @click="openPayRequestPdfModal(payRequest)" class="table-row" v-for="payRequest in payRequests">
                                                             <td class="text-center">{{'%' + payRequest.prPhysicalProgress}}</td>
                                                             <td class="text-center">{{payRequest.prIsFinal == true ? (payRequest.prPhysicalProgress - 100 > 0 ? (payRequest.prPhysicalProgress - 100) + '% افزایش' : ((payRequest.prPhysicalProgress - 100) * (-1)) + '% کاهش') : '--'}}</td>
                                                             <td class="text-center">{{'%' + payRequest.prAmountProgress}}</td>
@@ -957,7 +958,7 @@
                         <div class="grid-x" style="width:100%;height :85.5vh">
                             <div class="large-12">
                                 <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
-                                <iframe style="width: 100%;height: 100%;border: 0px" :src="payRequestPdfPath" />
+                                <iframe style="width: 100%;height: 100%;border: 0px" :src="pdfFilePath" />
                             </div>
                         </div>
                     </div>
@@ -965,7 +966,18 @@
             </div>
         </modal-small>
         <!-- PDF Payment modal -->
-
+        <!-- PDF report modal -->
+        <modal-large v-if="showReportModal" @close="showReportModal = false">
+            <div  slot="body">
+                <div class="grid-x">
+                    <div class="large-12 medium-12 small-12" style="width: 100%;height: 75vh">
+                        <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
+                        <iframe style="width: 100%;height: 100%;border: 0px" :src="pdfFilePath" />
+                    </div>
+                </div>
+            </div>
+        </modal-large>
+        <!-- PDF report modal -->
         <!-- Generate Checks  modal -->
         <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
             {{dialogMessage}}
@@ -1010,6 +1022,7 @@
                 showInsertPaymentRequestModal:false,
                 finalPaymentState: false,
                 showPdfModal:false,
+                showReportModal:false,
                 showDialogModal: false,
                 showInsertDraftModal:false,
                 showEditRequestModal:false,
@@ -1060,7 +1073,7 @@
                 contractId:'',
                 payRequests:[],
                 payRequestId:'',
-                payRequestPdfPath:'',
+                pdfFilePath:'',
                 finalPaymentDisable:false,
                 requestState: '',
                 selectedSubmissionIndex:'',
@@ -1557,9 +1570,9 @@
                 });
             },
 
-            openPdfModal: function (payRequest){
+            openPayRequestPdfModal: function (payRequest){
                 this.payRequestId=payRequest.id;
-                this.payRequestPdfPath='';
+                this.pdfFilePath='';
                 this.openReportFile();
                 this.showPdfModal=true;
             },
@@ -1571,7 +1584,7 @@
                         console.log(response.data);
                         var file = new Blob([response.data], {type: 'application/pdf'});
                         var fileURL = window.URL.createObjectURL(file);
-                        this.payRequestPdfPath=fileURL;
+                        this.pdfFilePath=fileURL;
                         this.showLoaderProgress = false;
                     },(error) => {
                         console.log(error);
@@ -1707,6 +1720,26 @@
                 this.attachments = [];
             },
             /*----------------------------- File Upload End---------------------------------*/
+            openRequestPdfModal: function (){
+                this.pdfFilePath='';
+                this.requestPrintPreviewModal();
+                this.showReportModal=true;
+            },
+
+            requestPrintPreviewModal: function () {
+                this.showLoaderProgress = true;
+                axios.post('/financial/report/request' , {rId: this.requestId} , {responseType:'blob'})
+                    .then((response) => {
+                        console.log(response.data);
+                        var file = new Blob([response.data], {type: 'application/pdf'});
+                        var fileURL = window.URL.createObjectURL(file);
+                        this.pdfFilePath = decodeURI(fileURL + '#zome=50');
+                        this.showLoaderProgress = false;
+                    },(error) => {
+                        console.log(error);
+                        this.showLoaderProgress = false;
+                    });
+            },
     }
 }
 </script>

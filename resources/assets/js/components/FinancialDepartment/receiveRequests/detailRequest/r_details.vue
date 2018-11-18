@@ -2,6 +2,7 @@
     <div class="grid-x">
         <div class="large-12 medium-12 small-12">
             <a class="my-button toolbox-btn small" @click="openUpdateRequestModal()">ویرایش</a>
+            <a class="my-button toolbox-btn small" @click="openRequestPdfModal()">پیش نمایش</a>
         </div>
         <div v-show="requestTypeDetail == 'BUY_SERVICES'" class="large-12 medium-12 small-12">
             <table>
@@ -255,13 +256,27 @@
         <messageDialog v-show="showDialogModal" @close="showDialogModal =false">
             {{dialogMessage}}
         </messageDialog>
+        <!-- PDF report modal -->
+        <modal-large v-if="showReportModal" @close="showReportModal = false">
+            <div  slot="body">
+                <div class="grid-x">
+                    <div class="large-12 medium-12 small-12" style="width: 100%;height: 75vh">
+                        <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
+                        <iframe style="width: 100%;height: 100%;border: 0px" :src="pdfFilePath" />
+                    </div>
+                </div>
+            </div>
+        </modal-large>
+        <!-- PDF report modal -->
     </div>
 </template>
 <script>
     import Suggestions from "v-suggestions/src/Suggestions";
+    import VueElementLoading from 'vue-element-loading';
     export default{
         components: {
             Suggestions,
+            VueElementLoading,
         },
         props:['requestTypeDetail','selectedBuffer','selectedIndex','selectedRequest' , 'searchValue'],
         data () {
@@ -287,6 +302,9 @@
                 },
                 dialogMessage: '',
                 showDialogModal: false,
+                pdfFilePath:'',
+                showReportModal:false,
+                showLoaderProgress: false,
 
             }
 
@@ -467,6 +485,27 @@
                         });
                     }
                 });
+            },
+
+            openRequestPdfModal: function (){
+                this.pdfFilePath='';
+                this.requestPrintPreviewModal();
+                this.showReportModal=true;
+            },
+
+            requestPrintPreviewModal: function () {
+                this.showLoaderProgress = true;
+                axios.post('/financial/report/request' , {rId: this.selectedRequest.id} , {responseType:'blob'})
+                    .then((response) => {
+                        console.log(response.data);
+                        var file = new Blob([response.data], {type: 'application/pdf'});
+                        var fileURL = window.URL.createObjectURL(file);
+                        this.pdfFilePath = decodeURI(fileURL + '#zome=50');
+                        this.showLoaderProgress = false;
+                    },(error) => {
+                        console.log(error);
+                        this.showLoaderProgress = false;
+                    });
             },
         }
     }
