@@ -34,13 +34,11 @@
         </style>
     </head>
     <body class="BZar size-14">
-        <div class="grid-x">
-            <div class="large-12">
-                <p style="z-index: 999;" class="size-12">شماره سند : <span class="number_ltr">......................</span></p>
-                <p style="margin-top: -10px;" class="size-12">تاریخ سند : <span>......................</span></p>
-            </div>
+        <div class="text-right" style="width: 150px;position: fixed;top: 20px; left: 0px">
+            <p style="z-index: 999;" class="size-12">شماره: <span class="number_ltr">......................</span></p>
+            <p style="margin-top: -10px;" class="size-12">تاریخ: <span>......................</span></p>
         </div>
-        <div style="margin: 5px;margin-top: -60px;" class="grid-x">
+        <div style="margin: 5px;margin-top: 10px;" class="grid-x">
             <div class="large-12 text-center">
                 <div>
                     <div class="text-center">

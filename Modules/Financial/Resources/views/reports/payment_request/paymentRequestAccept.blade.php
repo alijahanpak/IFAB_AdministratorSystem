@@ -30,22 +30,14 @@
         </style>
     </head>
     <body class="BZar">
-        <div class="grid-x">
-            <div class="large-12">
-                <p style="z-index: 999;" class="size-14">شماره درخواست : <span class="number_ltr">{{$payRequestInfo['prLetterNumber']}}</span></p>
-                <p style="margin-top: -10px;" class="size-14">تاریخ : <span>{{$payRequestInfo['prLetterDate']}}</span></p>
-            </div>
+        <div class="text-right" style="width: 150px;position: fixed;top: 20px; left: 0px">
+            <p style="z-index: 999;" class="size-12">شماره: <span class="number_ltr">{{$payRequestInfo['prLetterNumber']}}</span></p>
+            <p style="margin-top: -10px;" class="size-12">تاریخ: <span>{{$payRequestInfo['prLetterDate']}}</span></p>
         </div>
-        <div style="margin-top: 20px;" class="grid-x">
-            <div class="large-12 text-center">
-                <div>
-                    <div class="text-center">
-                        <img style="z-index: 1;" src="{{ asset('pic/ir-logo.jpg') }}" width="170px" height="100px">
-                        <p style="margin-top: 15px;">(( فرم تایید پرداخت ))</p>
-                    </div>
-                </div>
-            </div>
+        <div class="text-right" style="top: 100px;">
+            <img style="z-index: 1;" src="{{ asset('pic/ir-logo.jpg') }}" width="170px" height="100px">
         </div>
+        <p class="text-center" style="margin-top: 25px;">(( فرم تایید پرداخت ))</p>
         <div style="width: 100%; padding: 2rem" class="text-justify report-line-height">
             <span class="black-color BZar size-18">بدینوسیله ضمن تایید انجام عملیات </span>
             <span class="gray-color BZar size-18">{{$payRequestInfo['contract']['cSubject']}}</span>
