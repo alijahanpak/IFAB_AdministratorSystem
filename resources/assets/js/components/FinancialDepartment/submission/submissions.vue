@@ -952,7 +952,7 @@
 
         <!-- PDF Payment modal -->
         <modal-small v-if="showPdfModal" @close="showPdfModal = false">
-            <div style="height: 88vh;" slot="body">
+            <div slot="body">
                 <div class="grid-x">
                     <div class="large-12 medium-12 small-12">
                         <div class="grid-x" style="width:100%;height :85.5vh">
@@ -968,7 +968,7 @@
         <!-- PDF Payment modal -->
         <!-- PDF report modal -->
         <modal-large v-if="showReportModal" @close="showReportModal = false">
-            <div  slot="body">
+            <div slot="body">
                 <div class="grid-x">
                     <div class="large-12 medium-12 small-12" style="width: 100%;height: 75vh">
                         <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>

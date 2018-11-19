@@ -197,7 +197,7 @@
 
         <!-- pdf  modal -->
         <modal-small v-if="showPdfModal" @close="showPdfModal = false">
-            <div style="height: 88vh;" slot="body">
+            <div style="height: 86vh;" slot="body">
                 <div class="grid-x">
                     <div class="large-12 medium-12 small-12">
                         <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="draftAndCheck_tab_view">
@@ -208,15 +208,15 @@
                         <div class="tabs-content" data-tabs-content="draftAndCheck_tab_view">
                             <!--Draft Tab -->
                             <div class="tabs-panel is-active table-mrg-btm" id="DraftTab">
-                                <div class="grid-x" :style="{ width: '100%' , height: !draftIsBlocked ? '72.5vh' : '76vh'}">
+                                <div class="grid-x" :style="{ width: '100%' , height: !draftIsBlocked ? '69.5vh' : '76vh'}">
                                     <div class="large-12">
                                         <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
                                         <object type='application/pdf' style="width: 100%;height: 100%;border: 0px" :data="draftPdfPath" />
                                     </div>
                                 </div>
-                                <div class="grid-x" v-if="!draftIsBlocked" style="margin-top: 0.5rem">
-                                    <div style="margin-bottom:-20px;margin-top: 5px;" class="large-12 medium-12 small-12">
-                                        <div class="stacked-for-small button-group float-right">
+                                <div class="grid-x" v-if="!draftIsBlocked" style="margin-top: 0.5rem;margin-bottom: 0px">
+                                    <div style="margin-bottom:0px;margin-top: 5px;" class="large-12 medium-12 small-12">
+                                        <div class="stacked-for-small button-group float-right" style="margin-bottom: 0px">
                                             <button v-show="$can('FINANCIAL_REGISTER_AND_NUMBERING_DRAFT') && resultType == 'RECEIVED'" @click="openRegisterAndNumberingModal()"  class="my-button my-success"><span class="btn-txt-mrg">   ثبت در دبیرخانه   </span></button>
                                             <button v-show="$can('FINANCIAL_ACCEPT_DRAFT') && youAreDraftVerifier  && resultType == 'RECEIVED'" @click="checkAcceptDraftConfirmModal()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید و امضا   </span></button>
                                             <button v-show="$can('FINANCIAL_ACCEPT_MINUTE_DRAFT') && isMinute  && resultType == 'RECEIVED'" @click="openAcceptMinuteConfirmModal()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید پیشنویس   </span></button>
@@ -264,7 +264,7 @@
                                                 <!--Table Head End-->
                                                 <!--Table Body Start-->
                                             </table>
-                                            <div class="tbl_body_style" style="height: 70vh">
+                                            <div class="tbl_body_style" style="height: 66vh">
                                                 <table class="tbl-body-contain">
                                                     <colgroup>
                                                         <col width="400px"/>

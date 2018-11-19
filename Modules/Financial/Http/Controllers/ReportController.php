@@ -28,7 +28,7 @@ class ReportController extends Controller
         $pdf->setOption('encoding', 'UTF-8');
         $pdf->setOption('page-size', 'a4');
         $pdf->setOption('title', 'report');
-        $pdf->setOption('margin-bottom', 10);
+        $pdf->setOption('margin-bottom', 2);
         $pdf->setOrientation('portrait');
         $pdf->setOption('margin-top', 10);
         $pdf->setOption('lowquality', true);
@@ -42,7 +42,7 @@ class ReportController extends Controller
         $pdf->setOption('encoding', 'UTF-8');
         $pdf->setOption('page-size', 'a5');
         $pdf->setOption('title', 'report');
-        $pdf->setOption('margin-bottom', 10);
+        $pdf->setOption('margin-bottom', 2);
         $pdf->setOrientation('portrait');
         $pdf->setOption('margin-top', 15);
         $pdf->setOption('lowquality', true);

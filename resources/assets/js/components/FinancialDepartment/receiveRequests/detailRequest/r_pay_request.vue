@@ -75,18 +75,18 @@
         </div>
         <!-- pdf  modal -->
         <modal-small v-if="showPdfModal" @close="showPdfModal = false">
-            <div style="height: 88vh;" slot="body">
+            <div slot="body">
                 <div class="grid-x">
                     <div class="large-12 medium-12 small-12">
-                        <div class="grid-x" :style="{ width: '100%' , height: !payRequestIsBlocked ? '82vh' : '91vh'}">
+                        <div class="grid-x" :style="{ width: '100%' , height: !payRequestIsBlocked ? '80vh' : '91vh'}">
                             <div class="large-12">
                                 <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
                                 <iframe style="width: 100%;height: 100%;border: 0px" :src="payRequestPdfPath" />
                             </div>
                         </div>
-                        <div class="grid-x" v-if="!payRequestIsBlocked" style="margin-top: 0.5rem">
+                        <div class="grid-x" v-if="!payRequestIsBlocked" style="margin-top: 0.5rem;margin-bottom: 0px">
                             <div style="margin-bottom:-20px;margin-top: 5px;" class="large-12 medium-12 small-12">
-                                <div class="stacked-for-small button-group float-right">
+                                <div class="stacked-for-small button-group float-right" style="margin-bottom: 0px">
                                     <button v-show="$can('FINANCIAL_REGISTER_AND_NUMBERING_PAY_REQUEST') && prLetterNumber == null && prLetterDate == null" @click="openRegisterAndNumberingModal()"  class="my-button my-success"><span class="btn-txt-mrg">   ثبت در دبیرخانه   </span></button>
                                     <button v-if="youArePayRequestVerifier" @click="checkAccept()"  class="my-button my-success"><span class="btn-txt-mrg">   تایید و امضا   </span></button>
                                     <button v-show="$can('FINANCIAL_ADD_NEW_DRAFT')" @click="openInsertDraftModal()"  class="my-button toolbox-btn"><span class="btn-txt-mrg">   تهیه پیشنویس حواله  </span></button>
@@ -191,7 +191,7 @@
 
         <!--Insert Draft Start-->
         <modal-small v-if="showInsertDraftModal" @close="showInsertDraftModal = false">
-            <div  slot="body">
+            <div slot="body">
                 <form v-on:submit.prevent="addNewDraft" >
                     <div class="small-font">
                         <div class="large-12 medium-12 small-12 container-vh">
