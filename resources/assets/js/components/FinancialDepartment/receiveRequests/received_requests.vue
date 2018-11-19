@@ -700,7 +700,7 @@
                             </ul>
                             <div class="tabs-content inner-vh" data-tabs-content="request_tab_view">
                                 <!--Tab 1-->
-                                <div class="tabs-panel table-mrg-btm inner-vh-unsize" :class="selectedRequest.request_level.rlLevel == 'REQUEST' ? 'is-active' : ''" id="requestDetailTab">
+                                <div class="tabs-panel table-mrg-btm" :class="selectedRequest.request_level.rlLevel == 'REQUEST' ? 'is-active' : ''" id="requestDetailTab">
                                     <rDetails v-on:updateReceiveRequestData="updateReceiveRequestData"
                                               v-bind:requestTypeDetail="selectedRequest.request_type.rtType"
                                               v-bind:requestFill="selectedRequest"
@@ -1083,7 +1083,8 @@
                                 </label>
                             </div>
                             <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
-                                <button type="submit"  class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  پاسخ</span></button>
+                                <button v-show="!$root.btnLoadingCheckStatus" type="submit"  class="my-button my-success btn-for-load"><span class="btn-txt-mrg">  پاسخ</span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </div>
                     </form>
@@ -1620,13 +1621,16 @@
             responseRequest: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post('/financial/request/response', {
                             lastRefId: this.selectedRequest.rLastRef.id,
                             description: this.responseDescription,
                             dId: this.referralDId,
                             prId: this.referralPrId,
                             searchValue: this.requestSearchValue
-                        }).then((response) => {
+                        } , config).then((response) => {
                             this.loadReceivedData(response.data);
                             this.$parent._getUnReadReceivedRequest();
                             this.makePagination(response.data);
