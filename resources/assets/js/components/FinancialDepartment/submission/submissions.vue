@@ -691,134 +691,136 @@
 
         <!-- Submission Edit Modal -->
         <modal-large v-if="showEditRequestModal" @close="showEditRequestModal = false">
-            <div  slot="body">
-                <form v-on:submit.prevent="updateRequest" >
-                    <div style="margin-top: 25px" class="grid-x">
-                        <div class="large-6 medium-6 small-12">
-                            <label>موضوع
-                                <input type="text" name="requestSubject" v-model="requestFill.rSubject" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('requestSubject')}">
-                            </label>
-                            <p v-show="errors.has('requestSubject')" class="error-font">لطفا موضوع را برای درخواست مورد نظر را وارد نمایید!</p>
-                        </div>
-                        <!--Commodity Start-->
-                        <div  v-show="requestType == 'BUY_COMMODITY'" style="margin-top: 20px;" class="large-12 medium-12 small-12">
-                            <table class="stack">
-                                <thead>
-                                <tr style="color: #575962;">
-                                    <th width="50">ردیف</th>
-                                    <th>شرح و نوع جنس</th>
-                                    <th width="100">تعداد</th>
-                                    <th width="200">مبلغ برآوردی <span class="btn-red small-font">(ریال)</span></th>
-                                    <th>توضیحات (موارد مصرف)</th>
-                                    <th>عملیات</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr v-for="(commodityRequests,index) in commodityRequest">
-                                    <td>{{index+1}}</td>
-                                    <td>{{commodityRequests.commodityName}}</td>
-                                    <td>{{commodityRequests.commodityCount}}</td>
-                                    <td>{{commodityRequests.commodityPrice}}</td>
-                                    <td>{{commodityRequests.commodityDescription}}</td>
-                                    <td class="text-center"><a @click="deleteCommodityItem(index)"><i class="far fa-trash-alt btn-red size-18"></i></a></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td>
-                                        <suggestions autocomplete="off" style="margin-bottom: -18px;" name="commodityTitle" v-validate :class="{'input': true, 'select-error': errors.has('commodityTitle')}"
-                                                     v-model="commodityQuery"
-                                                     :options="commodityOptions"
-                                                     :onInputChange="onCommodityInputChange">
-                                            <div slot="item" slot-scope="props" class="single-item">
-                                                <strong>{{props.item}}</strong>
-                                            </div>
-                                        </suggestions>
-                                    </td>
-                                    <td>
-                                        <input id="numberEdit" v-model="commodityItem.commodityCount" class="text-margin-btm" type="number" value="1">
-                                    </td>
-                                    <td>
-                                        <money v-model="commodityItem.commodityPrice"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('price')}"></money>
-                                    </td>
-                                    <td>
-                                        <input v-model="commodityItem.commodityDescription" class="text-margin-btm" type="text">
-                                    </td>
-                                    <td class="text-center"><a v-if="commodityQuery != '' && commodityItem.commodityCount != null && commodityItem.commodityPrice != 0" @click="addCommodityItem()"><i class="fas fa-check btn-green size-18"></i></a></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="4" class="text-center font-wei-bold"> مجموع برآورد</td>
-                                    <td colspan="2" class="text-center font-wei-bold">{{$parent.dispMoneyFormat(sumOfCommodityPrice)}} <span class="btn-red">{{  'ریال'  }}</span> </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <!--Commodity End-->
+            <div slot="body">
+                <div class="container-vh">
+                    <form class="inner-vh" v-on:submit.prevent="updateRequest" >
+                        <div style="margin-top: 25px;height: 50vh;" class="grid-x inner-vh-unsize">
+                            <div class="large-6 medium-6 small-12">
+                                <label>موضوع
+                                    <input type="text" name="requestSubject" v-model="requestFill.rSubject" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('requestSubject')}">
+                                </label>
+                                <p v-show="errors.has('requestSubject')" class="error-font">لطفا موضوع را برای درخواست مورد نظر را وارد نمایید!</p>
+                            </div>
+                            <!--Commodity Start-->
+                            <div  v-show="requestType == 'BUY_COMMODITY'" style="margin-top: 20px;" class="large-12 medium-12 small-12">
+                                <table class="stack">
+                                    <thead>
+                                    <tr style="color: #575962;">
+                                        <th width="50">ردیف</th>
+                                        <th>شرح و نوع جنس</th>
+                                        <th width="100">تعداد</th>
+                                        <th width="200">مبلغ برآوردی <span class="btn-red small-font">(ریال)</span></th>
+                                        <th>توضیحات (موارد مصرف)</th>
+                                        <th>عملیات</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr v-for="(commodityRequests,index) in commodityRequest">
+                                        <td>{{index+1}}</td>
+                                        <td>{{commodityRequests.commodityName}}</td>
+                                        <td>{{commodityRequests.commodityCount}}</td>
+                                        <td>{{commodityRequests.commodityPrice}}</td>
+                                        <td>{{commodityRequests.commodityDescription}}</td>
+                                        <td class="text-center"><a @click="deleteCommodityItem(index)"><i class="far fa-trash-alt btn-red size-18"></i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <suggestions autocomplete="off" style="margin-bottom: -18px;" name="commodityTitle" v-validate :class="{'input': true, 'select-error': errors.has('commodityTitle')}"
+                                                         v-model="commodityQuery"
+                                                         :options="commodityOptions"
+                                                         :onInputChange="onCommodityInputChange">
+                                                <div slot="item" slot-scope="props" class="single-item">
+                                                    <strong>{{props.item}}</strong>
+                                                </div>
+                                            </suggestions>
+                                        </td>
+                                        <td>
+                                            <input id="numberEdit" v-model="commodityItem.commodityCount" class="text-margin-btm" type="number" value="1">
+                                        </td>
+                                        <td>
+                                            <money v-model="commodityItem.commodityPrice"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('price')}"></money>
+                                        </td>
+                                        <td>
+                                            <input v-model="commodityItem.commodityDescription" class="text-margin-btm" type="text">
+                                        </td>
+                                        <td class="text-center"><a v-if="commodityQuery != '' && commodityItem.commodityCount != null && commodityItem.commodityPrice != 0" @click="addCommodityItem()"><i class="fas fa-check btn-green size-18"></i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" class="text-center font-wei-bold"> مجموع برآورد</td>
+                                        <td colspan="2" class="text-center font-wei-bold">{{$parent.dispMoneyFormat(sumOfCommodityPrice)}} <span class="btn-red">{{  'ریال'  }}</span> </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!--Commodity End-->
 
-                        <!--Service Start-->
-                        <div v-show="requestType == 'BUY_SERVICES'" class="large-12 medium-12 small-12">
-                            <div class="grid-x">
-                                <div class="large-12 medium-12 small-12">
-                                    <p style="margin-bottom: 5px;" class="btn-red"><span><i style="margin-left:8px;margin-top:2px;" class="fas fa-exclamation-circle btn-red size-21"></i></span>
-                                        <span class="black-color">کارشناس محترم، لطفا هنگام محاسبه مبلغ برآورد، کسورات قانونی سهم دولت (</span>
-                                        <span class="btn-red">کارفرما</span>
-                                        <span class="black-color">) را در نظر بگیرید، شامل: </span>
-                                        <span class="btn-red">مالیات بر ارزش افزوده</span>
-                                        <span class="black-color">، </span>
-                                        <span class="btn-red">بیمه سهم کارفرما </span>
-                                        <span class="black-color">و ...</span>
-                                    </p>
+                            <!--Service Start-->
+                            <div v-show="requestType == 'BUY_SERVICES'" class="large-12 medium-12 small-12">
+                                <div class="grid-x">
+                                    <div class="large-12 medium-12 small-12">
+                                        <p style="margin-bottom: 5px;" class="btn-red"><span><i style="margin-left:8px;margin-top:2px;" class="fas fa-exclamation-circle btn-red size-21"></i></span>
+                                            <span class="black-color">کارشناس محترم، لطفا هنگام محاسبه مبلغ برآورد، کسورات قانونی سهم دولت (</span>
+                                            <span class="btn-red">کارفرما</span>
+                                            <span class="black-color">) را در نظر بگیرید، شامل: </span>
+                                            <span class="btn-red">مالیات بر ارزش افزوده</span>
+                                            <span class="black-color">، </span>
+                                            <span class="btn-red">بیمه سهم کارفرما </span>
+                                            <span class="black-color">و ...</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="grid-x">
+                                    <div class="large-4 medium-4 small-12">
+                                        <label>برآورد تقریبی اعتبار مورد نیاز <span class="btn-red">(ریال)</span>
+                                            <money v-model="requestFill.serviceEstimated"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('serviceEstimated')}"></money>
+                                        </label>
+                                        <p v-show="errors.has('serviceEstimated')" class="error-font">لطفا مبلغ تقریبی را برای درخواست مورد نظر را وارد نمایید!</p>
+                                    </div>
+                                </div>
+                                <div style="margin-top:16px;" class="grid-x">
+                                    <div style="padding-left: 10px" class="large-6 medium-6 small-12">
+                                        <label>شرح کامل خدمات
+                                            <textarea v-if="requestType == 'BUY_SERVICES'"  style="min-height: 170px;" name="fullDescription" v-model="requestFill.fullDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('fullDescription')}"></textarea>
+                                            <textarea v-else="" class="form-element-margin-btm"  style="min-height: 170px;" name="fullDescription" v-model="requestFill.fullDescription"   :class="{'input': true, 'error-border': errors.has('fullDescription')}"></textarea>
+                                            <p v-show="errors.has('fullDescription')" class="error-font">لطفا شرح کامل خدمات را وارد کنید!</p>
+                                        </label>
+                                    </div>
+                                    <div style="padding-right: 10px" class="large-6 medium-6 small-12">
+                                        <label>توضیحات تکمیلی
+                                            <textarea class="form-element-margin-btm"  style="min-height: 170px;" name="furtherDescription" v-model="requestFill.furtherDescription"></textarea>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="grid-x">
-                                <div class="large-4 medium-4 small-12">
-                                    <label>برآورد تقریبی اعتبار مورد نیاز <span class="btn-red">(ریال)</span>
-                                        <money v-model="requestFill.serviceEstimated"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('serviceEstimated')}"></money>
-                                    </label>
-                                    <p v-show="errors.has('serviceEstimated')" class="error-font">لطفا مبلغ تقریبی را برای درخواست مورد نظر را وارد نمایید!</p>
-                                </div>
-                            </div>
-                            <div style="margin-top:16px;" class="grid-x">
-                                <div style="padding-left: 10px" class="large-6 medium-6 small-12">
-                                    <label>شرح کامل خدمات
-                                        <textarea v-if="requestType == 'BUY_SERVICES'"  style="min-height: 170px;" name="fullDescription" v-model="requestFill.fullDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('fullDescription')}"></textarea>
-                                        <textarea v-else="" class="form-element-margin-btm"  style="min-height: 170px;" name="fullDescription" v-model="requestFill.fullDescription"   :class="{'input': true, 'error-border': errors.has('fullDescription')}"></textarea>
-                                        <p v-show="errors.has('fullDescription')" class="error-font">لطفا شرح کامل خدمات را وارد کنید!</p>
-                                    </label>
-                                </div>
-                                <div style="padding-right: 10px" class="large-6 medium-6 small-12">
-                                    <label>توضیحات تکمیلی
-                                        <textarea class="form-element-margin-btm"  style="min-height: 170px;" name="furtherDescription" v-model="requestFill.furtherDescription"></textarea>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <!--Service End-->
+                            <!--Service End-->
 
-                        <!--Fund Start-->
-                        <div v-show="requestType == 'FUND'" class="large-12 medium-12 small-12">
-                            <div class="grid-x">
-                                <div class="large-4 medium-4 small-12">
-                                    <label> مبلغ تنخواه <span class="btn-red">(ریال)</span>
-                                        <money v-model="requestFill.fundEstimated"  v-bind="money"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('fundEstimated')}"></money>
-                                    </label>
-                                    <p v-show="errors.has('fundEstimated')" class="error-font">لطفا مبلغ تنخواه را برای درخواست مورد نظر را وارد نمایید!</p>
-                                </div>
-                                <div class="large-12 medium-12 small-12">
-                                    <label>متن درخواست
-                                        <textarea v-if="requestType == 'FUND'"  style="min-height: 150px;" name="requestText" v-model="requestFill.fullDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('fullDescription')}"></textarea>
-                                        <textarea v-else="" class="form-element-margin-btm"  style="min-height: 150px;" name="requestText" v-model="requestFill.fullDescription"></textarea>
-                                        <p v-show="errors.has('fullDescription')" class="error-font">لطفا شرح کامل خدمات را وارد کنید!</p>
-                                    </label>
+                            <!--Fund Start-->
+                            <div v-show="requestType == 'FUND'" class="large-12 medium-12 small-12">
+                                <div class="grid-x">
+                                    <div class="large-4 medium-4 small-12">
+                                        <label> مبلغ تنخواه <span class="btn-red">(ریال)</span>
+                                            <money v-model="requestFill.fundEstimated"  v-bind="money"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('fundEstimated')}"></money>
+                                        </label>
+                                        <p v-show="errors.has('fundEstimated')" class="error-font">لطفا مبلغ تنخواه را برای درخواست مورد نظر را وارد نمایید!</p>
+                                    </div>
+                                    <div class="large-12 medium-12 small-12">
+                                        <label>متن درخواست
+                                            <textarea v-if="requestType == 'FUND'"  style="min-height: 150px;" name="requestText" v-model="requestFill.fullDescription"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('fullDescription')}"></textarea>
+                                            <textarea v-else="" class="form-element-margin-btm"  style="min-height: 150px;" name="requestText" v-model="requestFill.fullDescription"></textarea>
+                                            <p v-show="errors.has('fullDescription')" class="error-font">لطفا شرح کامل خدمات را وارد کنید!</p>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
+                            <!--Fund End-->
+                            <div class="large-12 medium-12 small-12" style="margin-top: 10px">
+                                <button v-show="!$root.btnLoadingCheckStatus" type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
+                            </div>
                         </div>
-                        <!--Fund End-->
-                        <div class="large-12 medium-12 small-12" style="margin-top: 10px">
-                            <button v-show="!$root.btnLoadingCheckStatus" type="submit" class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
-                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </modal-large>
         <!-- Submission Edit Modal -->

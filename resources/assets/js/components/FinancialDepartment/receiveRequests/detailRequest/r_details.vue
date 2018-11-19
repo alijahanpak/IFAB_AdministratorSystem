@@ -1,5 +1,5 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
-    <div class="grid-x">
+    <div style="height: 63vh;" class="grid-x inner-vh-unsize">
         <div class="large-12 medium-12 small-12">
             <a class="my-button toolbox-btn small" @click="openUpdateRequestModal()">ویرایش</a>
             <a class="my-button toolbox-btn small" @click="openRequestPdfModal()">پیش نمایش</a>

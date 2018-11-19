@@ -100,7 +100,7 @@
                                                             </tr>
                                                             <tr>
                                                                 <td class="black-color">شرح  :</td>
-                                                                <td>{{contract.cDescription}}</td>
+                                                                <td class="text-justify">{{contract.cDescription}}</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -114,7 +114,13 @@
                             </td>
                             <td :data-toggle="'contract' + contract.id" class="text-center">{{contract.cLetterNumber}}</td>
                             <td :data-toggle="'contract' + contract.id" class="text-center">{{contract.cLetterDate}}</td>
-                            <td :data-toggle="'contract' + contract.id" class="one-line">{{contract.cDescription}}</td>
+                            <td :data-toggle="'contract' + contract.id">
+                                <div class="grid-x">
+                                    <div class="large-12 text-justify">
+                                        {{contract.cDescription}}
+                                    </div>
+                                </div>
+                            </td>
                             <td>
                                 <div class="grid-x">
                                     <div class="medium-11">

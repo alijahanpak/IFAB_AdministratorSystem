@@ -340,7 +340,8 @@
                         <div class="grid-x small-top-m">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <div class="stacked-for-small button-group float-left">
-                                    <button @click="" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <button v-show="!$root.btnLoadingCheckStatus" @click="" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                                 </div>
                             </div>
                         </div>
@@ -744,11 +745,14 @@
                 if(this.checkDeliverTime == '')
                     this.checkDateValid = true;
                 if(!this.checkDateValid ){
+                    var config = {
+                        allowLoading:true,
+                    };
                     axios.post('/financial/check/deliver', {
                         cId:this.checkId,
                         date:this.checkDeliverTime,
                         searchValue:"",
-                    }).then((response) => {
+                    } , config).then((response) => {
                         this.allChecks = response.data.data;
                         this.makePagination(response.data);
                         this.showCheckDeliverModal=false;
