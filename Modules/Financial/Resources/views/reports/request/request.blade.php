@@ -49,7 +49,7 @@
                         <img style="z-index: 1;" src="{{ asset('pic/ir-logo.jpg') }}" width="170px" height="100px">
                     </div>
                     <div class="text-center size-14">
-                        <div style="width: 100%; margin-top: 10px; border-bottom: 4px black groove"></div>
+                        <div style="width: 100%; margin-top: 10px; border-bottom: 3px black groove"></div>
                         @if($request['requestType']['rtType'] == 'BUY_SERVICES')
                             <p class="BTitrBold" style="margin-top: 2rem">درخواست خرید خدمات</p>
                             <div class="text-right BZar padding-lr">
@@ -68,12 +68,16 @@
                                     <tr style="min-height: 50px">
                                         <td colspan="2" class="BZar size-14 text-justify">{{ $request['rDescription'] }}</td>
                                     </tr>
-                                    <tr style="min-height: 50px">
-                                        <td class="BZar size-12 text-right">برآورد تقریبی اعتبار مورد نیاز <span class="btn-red">(ریال) </span></td>
+                                    <tr>
+                                        <td class="BZar size-12 text-right" rowspan="2">برآورد تقریبی اعتبار مورد نیاز <span class="btn-red">(ریال) </span></td>
                                         <td class="size-14">
-                                            <span class="text-left">{{ number_format($request['rCostEstimation'] , 0 , "." ,",") }}</span>
-                                            <p class="text-right" style="margin: 0">{{ \Modules\Financial\Http\Controllers\ReportController::digit_to_persain_letters($request['rCostEstimation']) . ' ریال' }}</p>
+                                            <p class="text-left" style="margin: 0">{{ number_format($request['rCostEstimation'] , 0 , "." ,",") }}</p>
                                         </td>
+                                    </tr>
+                                    <tr>
+                                       <td class="size-12">
+                                           <p class="text-right" style="margin: 0">{{ \Modules\Financial\Http\Controllers\ReportController::digit_to_persain_letters($request['rCostEstimation']) }}</p>
+                                       </td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -81,6 +85,34 @@
                             <div class="text-right BZar padding-lr">
                                 <span class="BTitrBold size-12" style="margin-top: 2rem">توضیحات تکمیلی:</span>
                                 <span class="text-justify">{{ ' ' . $request['rFurtherDetails'] }}</span>
+                            </div>
+                            <div class="padding-lr">
+                                <table style="width: 100%; margin-top: 2rem" class="unstriped unborder-table padding-lr">
+                                    <tbody class="unborder-table">
+                                    <?php
+                                    $row = 0;
+                                    ?>
+                                    @foreach($request['verifiers'] as $verifier)
+                                        @if($row % 2 == 0)
+                                            <tr class="unborder-table">
+                                                @endif
+                                                <td class="text-center unborder-table">
+                                                    <p class="BTitrBold">{{$verifier['user']['name']}}</p>
+                                                    <p style="margin-top: -10px;" class="text-center BTitrBold">{{$verifier['user']['role']['rSubject']}}</p>
+                                                    <img style="margin-top: -80px;z-index: 99;" src="{{$verifier['signature']['sPath']}}" width="150px" height="150px">
+                                                </td>
+                                                <?php
+                                                $row++;
+                                                ?>
+                                                @if($row % 2 == 0)
+                                            </tr>
+                                            @endif
+                                            @endforeach
+                                            @if($row % 2 != 0)
+                                            </tr>
+                                        @endif
+                                    </tbody>
+                                </table>
                             </div>
                         @elseif($request['requestType']['rtType'] == 'BUY_COMMODITY')
                             <p class="BTitrBold" style="margin-top: 2rem">فرم درخواست خرید</p>
@@ -117,35 +149,57 @@
                                 </table>
                                 <p></p>
                             </div>
-                        @endif
-                        <div class="padding-lr">
-                            <table style="width: 100%; margin-top: 2rem" class="unstriped unborder-table padding-lr">
-                                <tbody class="unborder-table">
-                                <?php
-                                $row = 0;
-                                ?>
-                                @foreach($request['verifiers'] as $verifier)
-                                    @if($row % 2 == 0)
-                                        <tr class="unborder-table">
+                            <div class="padding-lr">
+                                <table style="width: 100%; margin-top: 2rem" class="unstriped unborder-table padding-lr">
+                                    <tbody class="unborder-table">
+                                    <?php
+                                    $row = 0;
+                                    ?>
+                                    @foreach($request['verifiers'] as $verifier)
+                                        @if($row % 2 == 0)
+                                            <tr class="unborder-table">
+                                                @endif
+                                                <td class="text-center unborder-table">
+                                                    <p class="BTitrBold">{{$verifier['user']['name']}}</p>
+                                                    <p style="margin-top: -10px;" class="text-center BTitrBold">{{$verifier['user']['role']['rSubject']}}</p>
+                                                    <img style="margin-top: -80px;z-index: 99;" src="{{$verifier['signature']['sPath']}}" width="150px" height="150px">
+                                                </td>
+                                                <?php
+                                                $row++;
+                                                ?>
+                                                @if($row % 2 == 0)
+                                            </tr>
                                             @endif
-                                            <td class="text-center unborder-table">
-                                                <p class="BTitrBold">{{$verifier['user']['name']}}</p>
-                                                <p style="margin-top: -10px;" class="text-center BTitrBold">{{$verifier['user']['role']['rSubject']}}</p>
-                                                <img style="margin-top: -80px;z-index: 99;" src="{{$verifier['signature']['sPath']}}" width="150px" height="150px">
-                                            </td>
-                                            <?php
-                                            $row++;
-                                            ?>
-                                            @if($row % 2 == 0)
-                                        </tr>
+                                            @endforeach
+                                            @if($row % 2 != 0)
+                                            </tr>
                                         @endif
-                                        @endforeach
-                                        @if($row % 2 != 0)
-                                        </tr>
-                                    @endif
-                                </tbody>
-                            </table>
-                        </div>
+                                    </tbody>
+                                </table>
+                            </div>
+                        @elseif($request['requestType']['rtType'] == 'FUND')
+                            <p class="BTitrBold" style="margin-top: 2rem">درخواست تنخواه پرداخت</p>
+                            <div class="text-right BZar padding-lr">
+                                <p class="BTitrBold size-12">{{ $request['verifiers'][1]['user']['role']['rSubject'] . ' محترم' }}</p>
+                                <p class="text-justify" style="margin-bottom: 0px">با سلام و احترام</p>
+                                <p class="text-justify" style="text-indent: 50px">{{ 'خواهشمند است در صورت موافقت دستور فرمایید اقدام لازم در خصوص پرداخت مبلغ ' . number_format($request['rCostEstimation'] , 0 , "." ,",") . ' ریال تنخواه، بابت ' . $request['rSubject'] . ' به حساب کارپردازی مبذول گردد.'}}</p>
+                                <div class="text-center" style="width: 200px; float: left">
+                                    <p class="BTitrBold size-12">{{$request['verifiers'][0]['user']['name']}}</p>
+                                    <p style="margin-top: -10px;" class="text-center BTitrBold size-12">{{$request['verifiers'][0]['user']['role']['rSubject']}}</p>
+                                    <img style="margin-top: -80px;z-index: 99;" src="{{$request['verifiers'][0]['signature']['sPath']}}" width="150px" height="150px">
+                                </div>
+                            </div>
+                            <div class="text-right BZar padding-lr" style="margin-top: 150px">
+                                <p class="BTitrBold size-12">مسئول محترم امور مالی</p>
+                                <p class="text-justify" style="margin-bottom: 0px">با سلام</p>
+                                <p class="text-justify" style="text-indent: 50px">{{ 'در صورت وجود اعتبار، نسبت به پرداخت تنخواه به حساب کارپردازی اقدام نمایید.'}}</p>
+                                <div class="text-center" style="width: 200px; float: left">
+                                    <p class="BTitrBold size-12">{{$request['verifiers'][1]['user']['name']}}</p>
+                                    <p style="margin-top: -10px;" class="text-center BTitrBold size-12">{{$request['verifiers'][1]['user']['role']['rSubject']}}</p>
+                                    <img style="margin-top: -80px;z-index: 99;" src="{{$request['verifiers'][1]['signature']['sPath']}}" width="150px" height="150px">
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

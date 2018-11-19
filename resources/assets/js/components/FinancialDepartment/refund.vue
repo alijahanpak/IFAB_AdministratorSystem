@@ -340,10 +340,12 @@
                 //this.factorTemp=this.selectedRefund.factor;
                 console.log(JSON.stringify(this.factorTemp));
                 this.selectedRefund.factor.forEach(item => {
-                    this.factorTemp.push(item);
+                    if(item.factor_state.fsState != 'TEMPORARY')
+                        this.factorTemp.push(item);
                 });
                 this.selectedRefund.rRelativeFactor.forEach(item => {
-                    this.factorTemp.push(item);
+                    if(item.factor_state.fsState != 'TEMPORARY')
+                        this.factorTemp.push(item);
                 });
                 //console.log(JSON.stringify(this.factorTemp));
             },

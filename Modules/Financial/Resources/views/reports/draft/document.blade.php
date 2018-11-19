@@ -43,7 +43,7 @@
                 <div>
                     <div class="text-center">
                         <img style="z-index: 1;" src="{{ asset('pic/ir-logo.jpg') }}" width="170px" height="100px">
-                        <div style="width: 100%; margin-top: 10px; border-bottom: 4px black groove"></div>
+                        <div style="width: 100%; margin-top: 10px; border-bottom: 3px black groove"></div>
                         <div class="text-right" style="width: 100%; margin-top: 5px">
                             <span class="BZar size-14">گیرنده وجه:</span><span>{{ ' ' . $draft->dPayTo }}</span>
                         </div>
