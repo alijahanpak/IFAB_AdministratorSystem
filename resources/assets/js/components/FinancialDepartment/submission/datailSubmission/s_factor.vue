@@ -108,7 +108,7 @@
                         <div class="grid-x">
                             <div class="large-6 medium-6 small-12 padding-lr">
                                 <label>فروشنده
-                                    <suggestions style="margin-bottom: -18px;" name="sellerTitle" v-validate :class="{'input': true, 'select-error': errors.has('sellerTitle')}"
+                                    <suggestions style="margin-bottom: -18px;" autocomplete="off" name="sellerTitle" v-validate :class="{'input': true, 'select-error': errors.has('sellerTitle')}"
                                                  v-model="factorInput.seller"
                                                  :options="sellerList"
                                                  :onInputChange="onSellerInputChange">
@@ -353,9 +353,11 @@
                     return sellers.toLowerCase().includes(sellerInput.toLowerCase())
                 })
             },
+
             onSellerSelected(item) {
                 this.selectedSeller = item
             },
+
             onSearchItemSelected(item) {
                 this.selectedSearchItem = item
             },
@@ -396,7 +398,8 @@
             acceptFactor: function(){
                 axios.post('/financial/refund/factor/check_request', {
                     rId: this.requestId,
-                    searchValue: this.searchValue
+                    searchValue: this.searchValue,
+                    resultType: 'POSTED'
                 }).then((response) => {
                     this.$emit('updateSubmissionData' , response.data);
                     this.$emit('closeModal');
@@ -480,6 +483,7 @@
                                 seller: this.factorInput.seller,
                                 amount: parseInt(this.factorInput.amount.split(',').join(''), 10),
                                 description: this.factorInput.description,
+                                resultType: 'POSTED'
                             }).then((response) => {
                                 this.$emit('updateSubmissionData', response.data);
                                 this.showInsertFactorModal = false;

@@ -107,6 +107,9 @@ class FactorController extends Controller
             }else if ($request->resultType == 'RECEIVED')
             {
                 return \response()->json($rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList() , $request->searchValue));
+            }else if($request->resultType == 'REFUND'){
+                $rfController = new RefundController();
+                return \response()->json($rfController->getAllRefundData());
             }
         });
 
@@ -134,9 +137,16 @@ class FactorController extends Controller
 
             SystemLog::setFinancialSubSystemLog('ثبت فاکتور ' . $request->subject . ' برای درخواست ' . _Request::find($request->rId)->rSubject);
 
-            return \response()->json(
-                $rController->getAllPostedRequests(Auth::user()->id , $request->searchValue)
-            );
+            if ($request->resultType == 'POSTED')
+            {
+                return \response()->json(
+                    $rController->getAllPostedRequests(Auth::user()->id , $request->searchValue)
+                );
+            }else if ($request->resultType == 'REFUND')
+            {
+                $rfController = new RefundController();
+                return \response()->json($rfController->getAllRefundData());
+            }
         });
         return $result;
 
@@ -155,11 +165,18 @@ class FactorController extends Controller
             }
         });
 
-        $rController = new RequestController();
-        return \response()->json(
-            $rController->getAllPostedRequests(Auth::user()->id , $request->searchValue),
-            $resultCode
-        );
+        SystemLog::setFinancialSubSystemLog('حذف فاکتور موقت از لیست فاکتور های تنخواه گردان.');
+        if ($request->resultType == 'POSTED')
+        {
+            $rController = new RequestController();
+            return \response()->json(
+                $rController->getAllPostedRequests(Auth::user()->id , $request->searchValue),
+                $resultCode
+            );
+        }else if($request->resultType == 'REFUND'){
+            $rfController = new RefundController();
+            return \response()->json($rfController->getAllRefundData());
+        }
     }
 
     function checkRefundFactorRequest(Request $request)
@@ -171,10 +188,14 @@ class FactorController extends Controller
             SystemLog::setFinancialSubSystemLog('درخواست بررسی فاکتور های تنخواه گردان کارپردازی برای درخواست ' . _Request::find($request->rId)->rSubject);
         });
 
-        $rController = new RequestController();
-        return \response()->json(
-            $rController->getAllPostedRequests(Auth::user()->id , $request->searchValue)
-        );
+        if ($request->resultType == 'POSTED')
+        {
+            $rController = new RequestController();
+            return \response()->json($rController->getAllPostedRequests(Auth::user()->id , $request->searchValue));
+        }else if($request->resultType == 'REFUND'){
+            $rfController = new RefundController();
+            return \response()->json($rfController->getAllRefundData());
+        }
     }
 
     function accept(Request $request)
