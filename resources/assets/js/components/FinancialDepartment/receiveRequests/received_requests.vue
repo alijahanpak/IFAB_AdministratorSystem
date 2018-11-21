@@ -816,7 +816,7 @@
                                              v-on:updateReceiveRequestData="updateReceiveRequestData"
                                              v-on:openReferralsModal="openReferralsModal"
                                              v-on:openResponseRequestModal="openResponseRequestModal"
-                                             v-bind:requestId="requestId"
+                                             v-bind:request="selectedRequest"
                                              v-bind:contracts="selectedRequest.contract"
                                              v-bind:factors="selectedRequest.factor"
                                              v-bind:rAcceptedAmount="selectedRequest.rAcceptedAmount"
@@ -1112,7 +1112,7 @@
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr">
                             <label> شماره
-                                <input class="form-element-margin-btm" type="text" name="letterNumber" v-model="letterNumber" v-validate="'required'" data-vv-as="field" :class="{'input': true, 'error-border': errors.has('letterNumber')}">
+                                <input class="form-element-margin-btm" autocomplete="off" type="text" name="letterNumber" v-model="letterNumber" v-validate="'required'" data-vv-as="field" :class="{'input': true, 'error-border': errors.has('letterNumber')}">
                                 <span v-show="errors.has('letterNumber')" class="error-font">شماره ثبت فراموش شده / نامعتبر است!</span>
                             </label>
                         </div>

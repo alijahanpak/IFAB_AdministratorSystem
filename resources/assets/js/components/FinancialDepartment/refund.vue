@@ -186,7 +186,7 @@
                                </div>
                                <!--Tab 2-->
                                <div v-show="$can('REGISTER_FACTOR_IN_REFUND')" class="tabs-panel table-mrg-btm inner-vh-unsize" id="temporaryTab">
-                                   <a class="my-button toolbox-btn small" @click="openInsertFactorModal()">جدید</a>
+                                   <a class="my-button toolbox-btn small" @click="openInsertFactorModal()">فاکتور جدید</a>
                                    <div class="tbl-div-container">
                                        <table class="tbl-head">
                                            <colgroup>

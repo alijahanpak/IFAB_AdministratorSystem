@@ -324,7 +324,7 @@
                         <div class="grid-x">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <p class="black-color text-justify" style="font-size: 1rem">کاربر گرامی:</p>
-                                <p class="large-offset-1 modal-text text-justify">توجه فرمایید که تحویل چک به معنای تکمیل فرایند پرداخت بوده و مبلغ چک بعنوان هزینه از محل های تامین اعتبار در نظر گرفته می شود بنابراین پس از تحویل قطعی چک نسبت به اعلام تحویل از طریق این فرم اقدام نمایید.</p>
+                                <p class="large-offset-1 modal-text text-justify">توجه فرمایید که تحویل چک به معنای تکمیل فرایند پرداخت بوده و مبلغ چک بعنوان هزینه از محل های تامین اعتبار (به استثناء چک تنخواه کارپردازی) در نظر گرفته می شود بنابراین پس از تحویل قطعی چک نسبت به اعلام تحویل از طریق این فرم اقدام نمایید.</p>
                                 <label>تاریخ تحویل
                                     <date-picker
                                             :color="checkDateValid ? '#d9534f' : '#5c6bc0'"
@@ -340,7 +340,7 @@
                         <div class="grid-x small-top-m">
                             <div class="large-12 medium-12 small-12 padding-lr">
                                 <div class="stacked-for-small button-group float-left">
-                                    <button v-show="!$root.btnLoadingCheckStatus" @click="" class="my-button my-success float-left"><span class="btn-txt-mrg">  ثبت </span></button>
+                                    <button v-show="!$root.btnLoadingCheckStatus" @click="" class="my-button my-success float-left"><span class="btn-txt-mrg">تحویل داده شد</span></button>
                                     <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                                 </div>
                             </div>
@@ -528,6 +528,7 @@
 
             getRequestDetail:function(check){
                 this.checkSelectTemp=[];
+                this.checkDateValid=false;
                 this.previewBtn=false;
                 this.checkSelectTemp.push(check);
                 console.log(JSON.stringify(this.checkSelectTemp));

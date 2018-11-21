@@ -37,9 +37,11 @@ class PlanController extends Controller
     public function registerCapitalAssetsApprovedPlan(Request $request)
     {
         $result = DB::transaction(function () use($request){
-            if ((CapitalAssetsApprovedPlan::Where('capCdtId' , '=' , $request->cdtId)
+            if ((CapitalAssetsApprovedPlan::where('capFyId' , Auth::user()->seFiscalYear)
+                    ->Where('capCdtId' , '=' , $request->cdtId)
                     ->where('capProvinceOrNational' , '=' , $request->pOrN)->exists()) ||
-                (CapitalAssetsApprovedPlan::where('capProvinceOrNational' , '=' , $request->pOrN)
+                (CapitalAssetsApprovedPlan::where('capFyId' , Auth::user()->seFiscalYear)
+                    ->where('capProvinceOrNational' , '=' , $request->pOrN)
                     ->where('capLetterNumber' , '=' , $request->idNumber)->exists()))
             {
                 return \response()->json([] , 409);
