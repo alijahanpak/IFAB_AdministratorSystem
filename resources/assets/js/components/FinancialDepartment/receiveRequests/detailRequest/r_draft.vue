@@ -111,7 +111,7 @@
                                             <label>بابت
                                                 <suggestions autocomplete="off" style="margin-bottom: -18px;" name="forTitle" v-validate="'required'" :class="{'input': true, 'select-error': errors.has('forTitle')}"
                                                              v-model="draftInput.for"
-                                                             :options="forOptions"
+                                                             :options="forList"
                                                              :onInputChange="onForInputChange">
                                                     <div slot="item" slot-scope="props" class="single-item">
                                                         <strong>{{props.item}}</strong>
@@ -126,7 +126,7 @@
                                             <label>در وجه
                                                 <suggestions autocomplete="off" style="margin-bottom: -18px;" name="payToTitle" v-validate="'required'" :class="{'input': true, 'select-error': errors.has('payToTitle')}"
                                                              v-model="draftInput.payTo"
-                                                             :options="payToOptions"
+                                                             :options="payToList"
                                                              :onInputChange="onPayToInputChange">
                                                     <div slot="item" slot-scope="props" class="single-item">
                                                         <strong>{{props.item}}</strong>
@@ -349,8 +349,8 @@
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr">
                             <label> شماره
-                                <input class="form-element-margin-btm" type="text" name="letterNumber" v-model="letterNumber" v-validate="'required'" data-vv-as="field" :class="{'input': true, 'error-border': errors.has('letterNumber')}">
-                                <span v-show="errors.has('letterNumber')" class="error-font">شماره نامه فراموش شده / نامعتبر است!</span>
+                                <input class="form-element-margin-btm" autocomplete="off" type="text" name="letterNumber" v-model="letterNumber" v-validate="'required'" data-vv-as="field" :class="{'input': true, 'error-border': errors.has('letterNumber')}">
+                                <span v-show="errors.has('letterNumber')" class="error-font">شماره فراموش شده / نامعتبر است!</span>
                             </label>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">
@@ -579,7 +579,7 @@
     import Suggestions from "v-suggestions/src/Suggestions";
     import VueElementLoading from 'vue-element-loading';
     export default{
-        props:['drafts','requestId','rAcceptedAmount','rCommitmentAmount','contracts','factors','requestType' , 'sumOfDraftAmount' , 'lastRefDId' , 'resultType' , 'searchValue'],
+        props:['drafts','request','rAcceptedAmount','rCommitmentAmount','contracts','factors','requestType' , 'sumOfDraftAmount' , 'lastRefDId' , 'resultType' , 'searchValue'],
         components: {
             Suggestions,
             VueElementLoading,
@@ -624,8 +624,6 @@
                 forList: [],
                 payToList: [],
                 selectedFor: null,
-                forOptions: [],
-                payToOptions: [],
                 //for & PayTo input text
                 draftBaseAmount:0,
                 lastDrafts:0,
@@ -772,7 +770,7 @@
             /*-----------------------------------------------------------------------------
           ------------------ For Draft Start ------------------------------
           -----------------------------------------------------------------------------*/
-            getAllFor: function () {
+            getAllForAndPayTo: function () {
                 this.forItems = this.factors;
                 this.forList= [];
                 this.payToList= [];
@@ -780,6 +778,7 @@
                     this.forList.push(item.fSubject );
                     this.payToList.push(item.seller.sSubject);
                 });
+                this.forList.push(this.request.rSubject);
             },
 
             onForInputChange(forInput) {
@@ -912,7 +911,7 @@
                     allowLoading:true,
                 };
                 axios.post('/financial/draft/accept', {
-                    rId: this.requestId,
+                    rId: this.request.id,
                     dId:this.draftId,
                     searchValue: this.searchValue,
                 } , config).then((response) => {
@@ -945,7 +944,7 @@
                         this.requestBaseAmount=0,
                         this.requestCAmount=0,
                         this.forItems=[];
-                        this.getAllFor();
+                        this.getAllForAndPayTo();
                         this.draftInput = {};
                         this.setInitBaseAmount();
                         this.showInsertDraftModal = true;
@@ -968,7 +967,7 @@
                                 allowLoading:true,
                             };
                             axios.post('financial/draft/register', {
-                                rId: this.requestId,
+                                rId: this.request.id,
                                 for: this.draftInput.for,
                                 payTo: this.draftInput.payTo,
                                 baseAmount: parseInt(this.draftInput.baseAmount.split(',').join(''),10),
@@ -1012,7 +1011,7 @@
                                 allowLoading:true,
                             };
                             axios.post('/financial/draft/numbering', {
-                                rId: this.requestId,
+                                rId: this.request.id,
                                 dId:this.draftId,
                                 letterDate: this.registerDate,
                                 letterNumber: this.letterNumber,
@@ -1041,7 +1040,7 @@
                     allowLoading:true,
                 };
                 axios.post('/financial/draft/accept_minute', {
-                    rId: this.requestId,
+                    rId: this.request.id,
                     dId:this.draftId,
                     searchValue: this.searchValue
                 } , config).then((response) => {
@@ -1270,7 +1269,7 @@
                     allowLoading:true,
                 };
                 axios.post('/financial/check/generate', {
-                    rId: this.requestId,
+                    rId: this.request.id,
                     dId:this.draftId,
                     decreases:this.decreases,
                     baseCheckAmounts:this.baseAmounts,

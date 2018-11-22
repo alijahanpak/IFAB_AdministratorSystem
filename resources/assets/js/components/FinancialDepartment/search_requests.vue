@@ -213,7 +213,7 @@
                                 <div class="tabs-panel table-mrg-btm inner-vh-unsize" id="draftTab" xmlns:v-on="http://www.w3.org/1999/xhtml">
                                     <rDraft  v-on:closeModal="showRequestDetailModal=false"
                                              v-on:updateReceiveRequestData="updateReceiveRequestData"
-                                             v-bind:requestId="allRequests[selectedIndex].id"
+                                             v-bind:request="allRequests[selectedIndex]"
                                              v-bind:contracts="allRequests[selectedIndex].contract"
                                              v-bind:factors="allRequests[selectedIndex].factor"
                                              v-bind:rAcceptedAmount="allRequests[selectedIndex].rAcceptedAmount"

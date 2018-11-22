@@ -46,9 +46,12 @@ class RequestController extends Controller
         $userCat = RoleCategory::where('rcRId' , '=' , Auth::user()->rId)->pluck('rcCId');
         $rType = RequestStep::whereHas('requestType' , function ($q) use($request){
             return $q->where('rtType' , '=' , $request->requestType);
-        })->whereHas('category' , function ($q) use($userCat){
-            return $q->whereNotIn('id' , $userCat);
-        })->where('rstOrder' , '<>' , 1)
+        })->where(function ($q) use($userCat){
+            return $q->whereHas('category' , function ($query) use($userCat){
+                return $query->whereNotIn('id' , $userCat);
+            })->orWhere('rstIsRequire' , false);
+        })
+            ->where('rstOrder' , '<>' , 1)
             ->with(['category.roleCategory.role.user' => function($q){
                 return $q->where('isActive' , '=' , true);
             }])
@@ -222,10 +225,20 @@ class RequestController extends Controller
                 ->orderBy('rstOrder')
                 ->first();
 
+            $selectedStepsId = array();
+            if (is_array($request->get('verifiers'))) {
+                foreach ($request->get('verifiers') as $verifiers){
+                    $selectedStepsId[] = $verifiers['rstId'];
+                }
+            }
+
             RequestVerifiers::firstOrCreate(['rvSId' => $userSig->id , 'rvRstId' => $firstStepId->id , 'rvRId' => $req->id , 'rvUId' => Auth::user()->id]);
             foreach ($mySteps as $myStep)
             {
-                RequestVerifiers::firstOrCreate(['rvSId' => $userSig->id , 'rvRstId' => $myStep->id , 'rvRId' => $req->id , 'rvUId' => Auth::user()->id]);
+                if (!in_array($myStep->id , $selectedStepsId) && $myStep->rstIsRequire == true)
+                    RequestVerifiers::firstOrCreate(['rvSId' => $userSig->id , 'rvRstId' => $myStep->id , 'rvRId' => $req->id , 'rvUId' => Auth::user()->id]);
+                else if (in_array($myStep->id , $selectedStepsId) && $myStep->rstIsRequire == false)
+                    RequestVerifiers::firstOrCreate(['rvSId' => $userSig->id , 'rvRstId' => $myStep->id , 'rvRId' => $req->id , 'rvUId' => Auth::user()->id]);
             }
 
             if (is_array($request->get('verifiers'))) {

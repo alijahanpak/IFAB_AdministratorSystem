@@ -10,7 +10,7 @@
         <div class="large-12 medium-12 small-12 small-top-m">
             <!--Table Start-->
             <!--Table Head Start-->
-            <div style="height: 57.6vh;" class="tbl-div-container inner-vh-unsize">
+            <div style="height: 52vh;" class="tbl-div-container inner-vh-unsize">
                 <table class="tbl-head">
                     <colgroup>
                         <col width="200px"/>

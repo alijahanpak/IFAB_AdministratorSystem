@@ -281,16 +281,6 @@ var app = new Vue({
             this._getUnReadReceivedRequest();
         },
 
-        clearAllThreads: function()
-        {
-            if (this.updateAllPermissionThreadNowPlaying)
-                clearInterval(this.updateAllPermissionThreadNowPlaying);
-            if (this.updateUnReadReceivedRequestThreadNowPlaying)
-                clearInterval(this.updateUnReadReceivedRequestThreadNowPlaying);
-            if (this.prevNowPlaying)
-                clearInterval(this.prevNowPlaying);
-        },
-
         getAllPermission: function(){
             axios.get('/admin/user/getRoleAndPermissions')
                 .then((response) => {
@@ -323,19 +313,22 @@ var app = new Vue({
         },
 
         updateAllPermissions: function () {
-            console.log('.................. update all permissions');
-            axios.get('/admin/user/getRoleAndPermissions')
-                .then((response) => {
-                    this.userPermission = response.data;
-                    var accessPermissions = [];
-                    this.userPermission.permissions.forEach(per => {
-                        accessPermissions.push(per.permission.pPermission);
+            if (this.userIsLogin())
+            {
+                console.log('.................. update all permissions');
+                axios.get('/admin/user/getRoleAndPermissions')
+                    .then((response) => {
+                        this.userPermission = response.data;
+                        var accessPermissions = [];
+                        this.userPermission.permissions.forEach(per => {
+                            accessPermissions.push(per.permission.pPermission);
+                        });
+                        //this.access = accessPermissions;
+                        console.log(this.access);
+                    },(error) => {
+                        console.log(error);
                     });
-                    //this.access = accessPermissions;
-                    console.log(this.access);
-                },(error) => {
-                    console.log(error);
-                });
+            }
         },
 
         setUpdateAllPermissionThread: function () {
@@ -379,13 +372,16 @@ var app = new Vue({
         },
 
         _getUnReadReceivedRequest: function(){
-            axios.get('/financial/request/received/unread_count')
-                .then((response) => {
-                    console.log(response);
-                    this.unReadRequestCount = response.data;
-                },(error) => {
-                    console.log(error);
-                });
+            if (this.userIsLogin())
+            {
+                axios.get('/financial/request/received/unread_count')
+                    .then((response) => {
+                        console.log(response);
+                        this.unReadRequestCount = response.data;
+                    },(error) => {
+                        console.log(error);
+                    });
+            }
         },
 
         getUserInfo: function () {
@@ -645,10 +641,12 @@ var app = new Vue({
         },
 
         logout: function () {
-            this.clearAllThreads();
             this.$store.dispatch("logout");
             this.$router.go('/login');
+        },
 
+        userIsLogin: function(){
+            return this.$store.getters.isLoggedIn;
         },
 
         setExpireTokenThread: function () {

@@ -175,8 +175,8 @@
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr">
                             <label> شماره
-                                <input class="form-element-margin-btm" type="text" name="letterNumber" v-model="letterNumber" v-validate="'required'" data-vv-as="field" :class="{'input': true, 'error-border': errors.has('letterNumber')}">
-                                <span v-show="errors.has('letterNumber')" class="error-font">تاریخ فراموش شده / نامعتبر است!</span>
+                                <input class="form-element-margin-btm" autocomplete="off" type="text" name="letterNumber" v-model="letterNumber" v-validate="'required'" data-vv-as="field" :class="{'input': true, 'error-border': errors.has('letterNumber')}">
+                                <span v-show="errors.has('letterNumber')" class="error-font">شماره فراموش شده / نامعتبر است!</span>
                             </label>
                         </div>
                         <div class="large-12 medium-12 small-12 padding-lr small-top-m text-center">

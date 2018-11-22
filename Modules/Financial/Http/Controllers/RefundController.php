@@ -35,6 +35,7 @@ class RefundController extends Controller
             })
             ->with('factor.factorState')
             ->with('factor.seller')
+            ->orderBy('id' , 'DESC')
             ->get()
             ->where('rIsPaid' , true);
     }

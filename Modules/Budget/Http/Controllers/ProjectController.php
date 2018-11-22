@@ -30,6 +30,7 @@ class ProjectController extends Controller
         return CapitalAssetsApprovedPlan::where('capFyId' , '=' , Auth::user()->seFiscalYear)
             ->where('capActive' , '=' , true)
             ->where('capProvinceOrNational' , '=' , $pOrN)
+            ->has('capitalAssetsProject')
             ->where(function($q) use($searchValue){
                 return $q->whereHas('capitalAssetsProject' , function($query) use($searchValue){
                     return $query->where('cpSubject' , 'LIKE' , '%' . $searchValue . '%')
