@@ -81,6 +81,7 @@ Vue.component('modal-login', {template: '#modal-login-template'});
 Vue.component('modal-access-denied', {template: '#modal-access-denied-template'});
 
 Vue.component('messageDialog', messageDialog);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
