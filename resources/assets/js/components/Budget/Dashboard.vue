@@ -125,7 +125,7 @@
                 <div class="large-6 medium-6 small-12 dashboard-padding ">
                     <div class="grid-x">
                         <div style="padding: 10px;" class="large-12 medium-12 small-12 my-callout-box my-callout-bg-color"><i class="fa fa-area-chart" aria-hidden="true"></i> <span class="small-font">تملک داریی های سرمایه ای استانی</span>
-                            <a type="button" class="my-secondary button tiny float-left" @click="showCapitalAssetsChartDialog = true">اطلاعات بیشتر</a>
+                            <a style="margin-bottom: 0px;" type="button" class="my-secondary button small float-left" @click="showCapitalAssetsChartDialog = true">اطلاعات بیشتر</a>
                         </div>
                         <div class="large-12 medium-12 small-12 my-callout-box my-callout-bg-color text-center">
                             <lineChart
@@ -140,7 +140,7 @@
                 <div class="large-6 medium-6 small-12 dashboard-padding ">
                     <div class="grid-x">
                         <div style="padding: 10px;" class="large-12 medium-12 small-12 my-callout-box my-callout-bg-color"><i class="fa fa-area-chart" aria-hidden="true"></i> <span class="small-font">هزینه ای استانی</span>
-                            <a type="button" class="my-secondary button tiny float-left" @click="showCostChartDialog = true">اطلاعات بیشتر</a>
+                            <a style="margin-bottom: 0px;" type="button" class="my-secondary button small float-left" @click="showCostChartDialog = true">اطلاعات بیشتر</a>
                         </div>
                         <div class="large-12 medium-12 small-12 my-callout-box my-callout-bg-color text-center">
                             <lineChart
@@ -155,37 +155,41 @@
             </div>
 
             <div class="grid-x my-grid-margin">
-                <div class="medium-6 dashboard-padding ">
-                    <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fa fa-area-chart" aria-hidden="true"></i> <span class="small-font">تملک داریی های سرمایه ای ملی</span>
-                        <a type="button" class="my-secondary button tiny float-left" @click="showNatCapitalAssetsChartDialog = true">اطلاعات بیشتر</a>
-                    </div>
-                    <div class="medium-12 my-callout-box my-callout-bg-color text-center">
-                        <lineChart
-                                v-bind:chartOptions="natCapitalAssetsChartOptions"
-                                v-bind:series="natCapitalAssetsChart"
+                <div class="large-6 medium-6 small-12 dashboard-padding ">
+                    <div class="grid-x">
+                        <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fa fa-area-chart" aria-hidden="true"></i> <span class="small-font">تملک داریی های سرمایه ای ملی</span>
+                            <a style="margin-bottom: 0px;" type="button" class="my-secondary button small float-left" @click="showNatCapitalAssetsChartDialog = true">اطلاعات بیشتر</a>
+                        </div>
+                        <div class="medium-12 my-callout-box my-callout-bg-color text-center">
+                            <lineChart
+                                    v-bind:chartOptions="natCapitalAssetsChartOptions"
+                                    v-bind:series="natCapitalAssetsChart"
 
-                        ></lineChart>
-                        <div class="grid-x">
-                            <div class="medium-12 text-center">
-                                <small>مبالغ: <span class="btn-red">{{ $parent.getAmountBaseLabel()}}</span></small>
+                            ></lineChart>
+                            <div class="grid-x">
+                                <div class="medium-12 text-center">
+                                    <small>مبالغ: <span class="btn-red">{{ $parent.getAmountBaseLabel()}}</span></small>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="medium-6 dashboard-padding ">
-                    <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fa fa-area-chart" aria-hidden="true"></i> <span class="small-font">هزینه ای ملی</span>
-                        <a type="button" class="my-secondary button tiny float-left" @click="showNatCostChartDialog = true">اطلاعات بیشتر</a>
-                    </div>
-                    <div class="medium-12 my-callout-box my-callout-bg-color text-center">
-                        <!--<line-chart :chart-data="natCostChart"   :width="400" :height="200"></line-chart>-->
-                        <lineChart
-                                v-bind:chartOptions="natCostChartOptions"
-                                v-bind:series="natCostsChart"
+                <div class="large-6 medium-6 small-12 dashboard-padding ">
+                    <div class="grid-x">
+                        <div style="padding: 10px;" class="medium-12 my-callout-box my-callout-bg-color"><i class="fa fa-area-chart" aria-hidden="true"></i> <span class="small-font">هزینه ای ملی</span>
+                            <a style="margin-bottom: 0px;" type="button" class="my-secondary button small float-left" @click="showNatCostChartDialog = true">اطلاعات بیشتر</a>
+                        </div>
+                        <div class="medium-12 my-callout-box my-callout-bg-color text-center">
+                            <!--<line-chart :chart-data="natCostChart"   :width="400" :height="200"></line-chart>-->
+                            <lineChart
+                                    v-bind:chartOptions="natCostChartOptions"
+                                    v-bind:series="natCostsChart"
 
-                        ></lineChart>
-                        <div class="grid-x">
-                            <div class="medium-12 text-center">
-                                <small>مبالغ: <span class="btn-red">{{ $parent.getAmountBaseLabel()}}</span></small>
+                            ></lineChart>
+                            <div class="grid-x">
+                                <div class="medium-12 text-center">
+                                    <small>مبالغ: <span class="btn-red">{{ $parent.getAmountBaseLabel()}}</span></small>
+                                </div>
                             </div>
                         </div>
                     </div>
