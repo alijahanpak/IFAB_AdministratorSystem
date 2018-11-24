@@ -266,6 +266,7 @@ class _Request extends Model
                 ->where('rstRtId' , $this->rRtId)
                 ->orderBy('rstOrder')
                 ->first();
+
             if ($nextStep)
             {
                 return RequestVerifiers::where('rvRId' , $this->id)

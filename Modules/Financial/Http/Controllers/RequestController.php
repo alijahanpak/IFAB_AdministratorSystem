@@ -704,40 +704,6 @@ class RequestController extends Controller
 
     }
 
-    public function numbering(Request $request)
-    {
-        $result = DB::transaction(function () use($request){
-            $req = _Request::find($request->rId);
-            $req->rLetterNumber = $request->letterNumber;
-            $req->rLetterDate = $request->letterDate;
-            $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
-            $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'FINANCIAL')->value('id');
-            $req->save();
-
-            SecretariatRequestQueue::where('srqRId' , '=' , $req->id)->delete();
-
-            // make history for this request
-            $history = new RequestHistory();
-            $history->rhSrcUId = Auth::user()->id;
-            $history->rhDestUId = null; // for secretariat destination
-            $history->rhRId = $req->id;
-            $history->rhRsId = $req->rRsId;
-            $history->save();
-
-            $finReqQueue = new FinancialRequestQueue();
-            $finReqQueue->frqRId = $req->id;
-            $finReqQueue->save();
-
-            SystemLog::setFinancialSubSystemLog('شماره گذاری درخواست ' . $req->rSubject . ' در دبیرخانه');
-
-            return \response()->json(
-                $this->getAllReceivedRequests($this->getLastReceivedRequestIdList() , $request->searchValue)
-            );
-        });
-
-        return $result;
-    }
-
     public function wasSeen(Request $request)
     {
         $rHistory = RequestHistory::find($request->rhId);

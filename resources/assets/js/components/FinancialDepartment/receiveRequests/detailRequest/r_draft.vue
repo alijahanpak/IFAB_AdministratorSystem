@@ -990,6 +990,8 @@
             },
 
             openRegisterAndNumberingModal:function(){
+                this.letterNumber = '';
+                this.letterDate = '';
                 if (this.isAccepted){
                     this.letterDateAlert=false;
                     this.showRegisterAndNumberingModal=true;

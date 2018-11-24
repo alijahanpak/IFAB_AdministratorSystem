@@ -1647,6 +1647,8 @@
             },
 
             openRegisterAndNumberingModal: function (){
+                this.letterNumber = '';
+                this.registerDate = '';
                 if (this.selectedRequest.rRemainingVerifiers.length == 0){
                     this.showRegisterAndNumberingModal=true;
                     this.letterDateAlert=false;

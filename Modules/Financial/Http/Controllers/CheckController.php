@@ -133,6 +133,8 @@ class CheckController extends Controller
         return _Check::where('cFyId' , '=' , Auth::user()->seFiscalYear)
             ->where(function ($q) use($searchValue){
                 return $q->where('cDate' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('cPayTo' , 'LIKE' , '%' . $searchValue . '%')
+                    ->orWhere('cFor' , 'LIKE' , '%' . $searchValue . '%')
                     ->orWhere('cAmount' , '=' , $searchValue)
                     ->orWhere('cIdNumber' , '=' , $searchValue)
                     ->orWhereHas('percentageDecrease' , function ($query) use($searchValue){
@@ -146,8 +148,6 @@ class CheckController extends Controller
                             ->orWhere('dPayTo' , '=' , $searchValue);
                     });
             })
-            ->orWhere('cPayTo' , 'LIKE' , '%' . $searchValue . '%')
-            ->orWhere('cFor' , 'LIKE' , '%' . $searchValue . '%')
             ->with('draft')
             ->with('percentageDecrease')
             ->with('checkState')
@@ -214,45 +214,55 @@ class CheckController extends Controller
 
     public function updateCheckFields(Request $request)
     {
-        DB::transaction(function () use($request){
-            $checkVerifiers = CheckVerifier::whereIn('id' , $request->verifiers)->with('user.role')->orderBy('cvOrder')->get();
-            //$user = User::where('id' , $checkVerifier->cvUId)->with('role')->first();
-
-            $check = _Check::where('id' , $request->cId)->first();
-            $check->cDate = $request->date;
-            $check->cCsId = $check->cCsId == CheckState::where('csState' , 'WAITING_FOR_PRINT')->value('id') ? CheckState::where('csState' , 'WAITING_FOR_DELIVERY')->value('id') : $check->cCsId;
-            $check->cIdNumber = $request->idNumber;
-            $check->save();
-
-            SelectedCheckVerifier::where('scvCId' , $check->id)->delete();
-
-            foreach ($checkVerifiers as $cv)
+        $result = DB::transaction(function () use($request){
+            if (!_Check::where('cIdNumber' , $request->idNumber)->exists())
             {
-                $selectedCheckVerifier = new SelectedCheckVerifier();
-                $selectedCheckVerifier->scvCId = $check->id;
-                $selectedCheckVerifier->scvCvId = $cv->id;
-                $selectedCheckVerifier->save();
+                $checkVerifiers = CheckVerifier::whereIn('id' , $request->verifiers)->with('user.role')->orderBy('cvOrder')->get();
+                //$user = User::where('id' , $checkVerifier->cvUId)->with('role')->first();
 
+                $check = _Check::where('id' , $request->cId)->first();
+                $check->cDate = $request->date;
+                $check->cCsId = $check->cCsId == CheckState::where('csState' , 'WAITING_FOR_PRINT')->value('id') ? CheckState::where('csState' , 'WAITING_FOR_DELIVERY')->value('id') : $check->cCsId;
+                $check->cIdNumber = $request->idNumber;
+                $check->save();
+
+                SelectedCheckVerifier::where('scvCId' , $check->id)->delete();
+
+                foreach ($checkVerifiers as $cv)
+                {
+                    $selectedCheckVerifier = new SelectedCheckVerifier();
+                    $selectedCheckVerifier->scvCId = $check->id;
+                    $selectedCheckVerifier->scvCvId = $cv->id;
+                    $selectedCheckVerifier->save();
+
+                }
+
+                $printHistory = new PrintHistory();
+                $printHistory->phCId = $request->cId;
+                $printHistory->phDate = $check->cDate;
+                $printHistory->phIdNumber = $check->cIdNumber;
+                $printHistory->phVerifierName = $checkVerifiers[0]->user->name . ' - ' . $checkVerifiers[0]->user->role->rSubject;
+                if (count($checkVerifiers) > 1)
+                    $printHistory->phSecondVerifierName = $checkVerifiers[1]->user->name . ' - ' . $checkVerifiers[1]->user->role->rSubject;
+                $printHistory->phCheckFormat = $request->cfSubject;
+                $printHistory->phAmount = $check->cAmount;
+                $printHistory->phDescription = PublicSetting::checkPersianCharacters($request->description);
+                $printHistory->save();
+
+                SystemLog::setFinancialSubSystemLog('چاپ چک شماره ' .  $request->idNumber);
+
+                return response()->json(
+                    $this->getAllChecks($request->searchValue)
+                );
+            }else{
+                return response()->json(
+                    $this->getAllChecks($request->searchValue)
+                , 409);
             }
 
-            $printHistory = new PrintHistory();
-            $printHistory->phCId = $request->cId;
-            $printHistory->phDate = $check->cDate;
-            $printHistory->phIdNumber = $check->cIdNumber;
-            $printHistory->phVerifierName = $checkVerifiers[0]->user->name . ' - ' . $checkVerifiers[0]->user->role->rSubject;
-            if (count($checkVerifiers) > 1)
-                $printHistory->phSecondVerifierName = $checkVerifiers[1]->user->name . ' - ' . $checkVerifiers[1]->user->role->rSubject;
-            $printHistory->phCheckFormat = $request->cfSubject;
-            $printHistory->phAmount = $check->cAmount;
-            $printHistory->phDescription = PublicSetting::checkPersianCharacters($request->description);
-            $printHistory->save();
-
-            SystemLog::setFinancialSubSystemLog('چاپ چک شماره ' .  $request->idNumber);
         });
 
-        return response()->json(
-            $this->getAllChecks($request->searchValue)
-        );
+        return $result;
     }
 
     public function deliver(Request $request)

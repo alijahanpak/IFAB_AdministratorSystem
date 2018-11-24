@@ -43,7 +43,7 @@
                 <div>
                     <div class="text-center">
                         <img style="z-index: 1;" src="{{ asset('pic/ir-logo.jpg') }}" width="170px" height="100px">
-                        <div style="width: 100%; margin-top: 10px; border-bottom: 3px black groove"></div>
+                        <div style="width: 100%; margin-top: 10px; border-bottom: 2px black groove"></div>
                         <div class="text-right" style="width: 100%; margin-top: 5px">
                             <span class="BZar size-14">گیرنده وجه:</span><span>{{ ' ' . $draft->dPayTo }}</span>
                         </div>
@@ -97,7 +97,7 @@
                             <span class="BTitrBold size-12">تاریخ </span>
                             <span class="BZar size-14">..............................</span>
                         </div>
-                        <div style="width: 100%; margin-top: 10px; border-bottom: 4px black groove"></div>
+                        <div style="width: 100%; margin-top: 10px; border-bottom: 2px black groove"></div>
                         <div class="text-right" style="width: 100%; margin-top: 5px;margin-bottom: 0">
                             <p class="BTitrBold size-12">گواهی تنظیم کننده سند:</p>
                             <p class="BZar size-14" style="margin-top: -10px">گواهی می شود که این سند هزینه بموجب اسناد و املاک به پیوست طبق مقررات مالی و معاملاتی موسسات پژوهشی وزارت متبوع تنظیم گردید.</p>
@@ -124,7 +124,7 @@
                             </tr>
                             </tbody>
                         </table>
-                        <div style="width: 100%; margin-top: -10px; border-bottom: 4px black groove"></div>
+                        <div style="width: 100%; margin-top: -10px; border-bottom: 2px black groove"></div>
                         <div class="text-right" style="width: 100%; margin-top: 5px">
                             <p class="BTitrBold size-12" style="margin-bottom: 0px">تامین اعتبار:</p>
                             @foreach($capFinancing as $item)
@@ -146,7 +146,7 @@
                             <span class="BZar size-14"> تاریخ </span>
                             <span class="BZar size-14">....................</span>
                         </div>
-                        <div style="width: 100%; margin-top: 10px; border-bottom: 4px black groove"></div>
+                        <div style="width: 100%; margin-top: 10px; border-bottom: 2px black groove"></div>
                         <div class="text-right" style="width: 100%; margin-top: 5px">
                             <span class="BZar size-14">بموجب حواله / چک شماره </span>
                             <span class="BZar size-14">.................................</span>

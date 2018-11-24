@@ -26,7 +26,7 @@ class CreateRequestsTable extends Migration
                 $table->unsignedBigInteger('rCostEstimation');
                 $table->longText('rDescription')->nullable();
                 $table->longText('rFurtherDetails')->nullable();
-                $table->string('rLetterNumber')->nullable();
+                $table->string('rLetterNumber')->unique()->nullable();
                 $table->string('rLetterDate')->nullable();
                 $table->boolean('isFromRefundCosts')->default(false);
                 $table->timestamps();

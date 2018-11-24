@@ -1,10 +1,10 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div class="grid-x">
-        <div class="inner-vh-unsize" style="height: 63vh;">
-            <div class="large-12 medium-12 small-12">
-                <a class="my-button toolbox-btn small" @click="openUpdateRequestModal()">ویرایش</a>
-                <a class="my-button toolbox-btn small" @click="openRequestPdfModal()">پیش نمایش</a>
-            </div>
+        <div class="large-12 medium-12 small-12">
+            <a class="my-button toolbox-btn small" @click="openUpdateRequestModal()">ویرایش</a>
+            <a class="my-button toolbox-btn small" @click="openRequestPdfModal()">پیش نمایش</a>
+        </div>
+        <div class="inner-vh-unsize" style="height: 53vh;">
             <div v-show="requestTypeDetail == 'BUY_SERVICES'" class="large-12 medium-12 small-12">
                 <table>
                     <tbody>
@@ -140,6 +140,7 @@
                                     <th width="50">ردیف</th>
                                     <th>شرح و نوع جنس</th>
                                     <th width="100">تعداد</th>
+                                    <th width="100">موجود در انبار</th>
                                     <th width="200">مبلغ برآوردی <span class="btn-red small-font">(ریال)</span></th>
                                     <th>توضیحات (موارد مصرف)</th>
                                     <th>عملیات</th>
@@ -149,7 +150,8 @@
                                 <tr v-for="(commodityRequests,index) in commodityRequest">
                                     <td>{{index+1}}</td>
                                     <td>{{commodityRequests.commodityName}}</td>
-                                    <td>{{commodityRequests.commodityCount}}</td>
+                                    <td>{{commodityRequests.commodityCount - commodityRequests.commodityExistCount}}</td>
+                                    <td>{{commodityRequests.commodityExistCount}}</td>
                                     <td>{{commodityRequests.commodityPrice}}</td>
                                     <td>{{commodityRequests.commodityDescription}}</td>
                                     <td class="text-center"><a @click="deleteCommodityItem(index)"><i class="far fa-trash-alt btn-red size-18"></i></a></td>
@@ -169,6 +171,7 @@
                                     <td>
                                         <input id="numberEdit" v-model="commodityItem.commodityCount" class="text-margin-btm" type="number" value="1">
                                     </td>
+                                    <td></td>
                                     <td>
                                         <money v-model="commodityItem.commodityPrice"  v-bind="money" class="form-input input-lg text-margin-btm"  v-validate="'required'" :class="{'input': true, 'error-border': errors.has('price')}"></money>
                                     </td>
@@ -389,7 +392,7 @@
 
             addCommodityItem: function () {
                 this.commodityItem.commodityName=this.commodityQuery;
-                this.commodityItem.commodityDescription=this.commodityItem.commodityDescription != null ? this.commodityItem.commodityDescription : '',
+                this.commodityItem.commodityDescription=this.commodityItem.commodityDescription != null ? this.commodityItem.commodityDescription : '';
                     console.log(JSON.stringify(this.commodityItem));
                 this.commodityRequest.push(this.commodityItem);
                 console.log(JSON.stringify(this.commodityRequest));
@@ -436,6 +439,7 @@
                         var commodityTemp = {};
                         commodityTemp.commodityName = com.commodity.cSubject;
                         commodityTemp.commodityCount = com.rcCount;
+                        commodityTemp.commodityExistCount = com.rcExistCount;
                         commodityTemp.commodityPrice = this.$root.dispMoneyFormat(com.rcCostEstimation);
                         commodityTemp.commodityDescription = com.rcDescription;
                         this.commodityRequest.push(commodityTemp);

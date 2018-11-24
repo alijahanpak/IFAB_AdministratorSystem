@@ -23,7 +23,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
         Route::post('block', 'RequestController@block');
         Route::post('terminate', 'RequestController@terminate');
         Route::post('accept', 'RequestController@accept');
-        Route::post('secretariat/numbering/register', 'RequestController@numbering');
+        Route::post('secretariat/numbering/register', 'NumberingController@requestNumbering');
         Route::get('financing', 'FinanceController@fetchAllFinancing');
         Route::post('financing/reservation', 'FinanceController@reserveFinancing');
         Route::post('financing/accept', 'FinanceController@acceptFinancing');
@@ -70,7 +70,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
         Route::post('/register', 'DraftController@register');
         Route::post('/accept', 'DraftController@accept');
         Route::post('/accept_minute', 'DraftController@acceptMinute');
-        Route::post('/numbering', 'DraftController@numbering');
+        Route::post('/numbering', 'NumberingController@draftNumbering');
         Route::get('/get_percentage_decrease' , 'DraftController@getPercentageDecrease');
         Route::post('/was_seen', 'DraftController@wasSeen');
         Route::post('/block', 'DraftController@block');

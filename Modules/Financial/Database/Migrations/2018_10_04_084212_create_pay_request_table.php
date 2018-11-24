@@ -23,7 +23,7 @@ class CreatePayRequestTable extends Migration
                 $table->unsignedTinyInteger('prAmountProgress');
                 $table->unsignedBigInteger('prAmount');
                 $table->boolean('prIsFinal')->default(false);
-                $table->string('prLetterNumber')->nullable();
+                $table->string('prLetterNumber')->unique()->nullable();
                 $table->string('prLetterDate')->nullable();
                 $table->longText('prDescription')->nullable();
                 $table->timestamps();

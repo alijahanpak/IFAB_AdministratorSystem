@@ -152,43 +152,6 @@ class DraftController extends Controller
         return $result;
     }
 
-    public function numbering(Request $request)
-    {
-        DB::transaction(function () use($request){
-            $draft = Draft::find($request->dId);
-            $draft->dLetterNumber = $request->letterNumber;
-            $draft->dLetterDate = $request->letterDate;
-            $draft->save();
-
-            $req = _Request::find($request->rId);
-            $req->rRsId = RequestState::where('rsState' , '=' , 'ACCOUNTANT_QUEUE')->value('id');
-            $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'DRAFT')->value('id');
-            $req->save();
-
-            SecretariatRequestQueue::where('srqRId' , '=' , $req->id)->delete();
-
-            // make history for this request
-            $history = new RequestHistory();
-            $history->rhSrcUId = Auth::user()->id;
-            $history->rhDestUId = null; // for accountant destination
-            $history->rhRId = $req->id;
-            $history->rhRsId = $req->rRsId;
-            $history->rhDId = $draft->id;
-            $history->save();
-
-            $accReqQueue = new AccountantRequestQueue();
-            $accReqQueue->arqRId = $req->id;
-            $accReqQueue->save();
-
-            SystemLog::setFinancialSubSystemLog('شماره گذاری حواله برای درخواست ' . $req->rSubject . ' در دبیرخانه');
-        });
-
-        $rController = new RequestController();
-        return \response()->json(
-            $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList() , $request->searchValue)
-        );
-    }
-
     public function getPercentageDecrease()
     {
         return \response()->json(
