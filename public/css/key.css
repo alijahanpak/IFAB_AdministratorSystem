@@ -12,6 +12,14 @@
 input[type="file"] {
     display: none;
 }
+
+button,
+html [type="button"],
+[type="reset"],
+[type="submit"] {
+    -webkit-appearance: none ;
+    /* 2 */ }
+
 .select-error{
     background-color: #fefefe;
     border: 1px solid #cc4b37 !important;
