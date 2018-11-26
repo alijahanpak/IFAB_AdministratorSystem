@@ -116,7 +116,7 @@
                             <td :data-toggle="'contract' + contract.id" class="text-center">{{contract.cLetterDate}}</td>
                             <td :data-toggle="'contract' + contract.id">
                                 <div class="grid-x">
-                                    <div class="large-12 text-justify">
+                                    <div class="large-12 text-justify one-line">
                                         {{contract.cDescription}}
                                     </div>
                                 </div>

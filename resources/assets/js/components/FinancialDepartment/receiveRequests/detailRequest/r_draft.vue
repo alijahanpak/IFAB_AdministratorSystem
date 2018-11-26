@@ -25,7 +25,7 @@
                     <tr class="tbl-head-style-cell">
                         <th class="tbl-head-style-cell">بابت</th>
                         <th class="tbl-head-style-cell">در وجه</th>
-                        <th class="tbl-head-style-cell">ارسال کننده</th>
+                        <th class="tbl-head-style-cell">آخرین ارجاع</th>
                         <th class="tbl-head-style-cell">درخواست پرداخت </th>
                         <th class="tbl-head-style-cell">مبلغ حواله </th>
                         <th class="tbl-head-style-cell">وضعیت</th>
@@ -329,7 +329,6 @@
             </div>
         </modal-tiny>
         <!-- Accept Draft Minute modal -->
-
         <!-- Register And Numbering Draft Start -->
         <modal-tiny v-if="showRegisterAndNumberingModal" @close="showRegisterAndNumberingModal = false">
             <div  slot="body">
@@ -385,6 +384,23 @@
                                     </div>
                                     <div class="large-4 medium-4 small-12 text-left">
                                         <p style="margin-top: 30px;" class="btn-red text-left">{{$root.dispMoneyFormat(percentDecCategory.amountDec)}} ریال</p>
+                                    </div>
+                                </div>
+                                <div  v-for="(depPercentCategory , index) in depositPercentageCategory" class="grid-x">
+                                    <div class="large-8 medium-8  small-12">
+                                        <div class="grid-x">
+                                            <div class="large-12 medium-12  small-12">
+                                                <label>{{ depPercentCategory.dpcSubject }}<span class="btn-red size-12" v-if="depPercentCategory.necessary"> - الزامی</span><span class="btn-red size-12" v-if="depPercentCategory.delivered"> - تحویل داده شده</span>
+                                                    <select v-model="depPercentInput['percentage' + depPercentCategory.id]" :disabled="depPercentCategory.isNeed == true || requestType == 'FUND'" @change="calculatePercentAmount(depPercentInput['percentage' + depPercentCategory.id], index)">
+                                                        <option value=""></option>
+                                                        <option v-for="pd in depPercentCategory.deposit_percentage" :value="pd.id">{{pd.dpSubject}} - {{'(' + pd.dpPercent + '%)'}}</option>
+                                                    </select>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="large-4 medium-4 small-12 text-left">
+                                        <p style="margin-top: 30px;" class="btn-red text-left">{{$root.dispMoneyFormat(depPercentCategory.amountDep)}} ریال</p>
                                     </div>
                                 </div>
                             </div>
@@ -642,10 +658,11 @@
                 moneyState:'none',
                 percentageDecreasesCategory:[],
                 percentDecInput:[],
+                depPercentInput:[],
                 isAccepted: false,
 
                 decreases:[],
-                depositPercentages:[],
+                depositPercentageCategory:[],
                 draftAmount:0,
                 draftFor:'',
                 draftPayTo: '',
@@ -1059,6 +1076,7 @@
 
             openGenerateChecksModal:function(){
                 this.percentDecInput = [];
+                this.depPercentInput = [];
                 this.getAllPercentageDecreases();
                 this.getAllDepositPercentages();
                 this.checkEdited = false;
@@ -1153,7 +1171,60 @@
             getAllDepositPercentages: function(){
                 axios.get('/financial/deposit/fetch_deposit_percentage_category')
                     .then((response) => {
-                        this.depositPercentages = response.data;
+                        this.depositPercentageCategory = response.data;
+                        this.depositPercentageCategory.forEach(category =>{
+                            Vue.set(category,"amountDep",0);
+                            category.deposit_percentage.forEach(item =>{
+                                Vue.set(item,"amountDep",0);
+                            });
+                        });
+                        console.log(JSON.stringify(this.depositPercentageCategory));
+                        this.depositPercentageCategory.forEach((category , index) => {
+                            var _isNeed = false;
+                            var _necessary = false;
+                            var _isChecked = false;
+                            var _delivered = false;
+                            var selectedValue = '';
+/*                            category.deposit_percentage.forEach(item => {
+                                var isExist = false;
+                                if (this.contracts.length > 0) {
+                                    this.contracts[0].increase_amount.forEach(incAM => {
+                                        if (item.pdPiId == incAM.icaPiId) {
+                                            isExist = true;
+                                            _isChecked = true;
+                                            _necessary = true;
+                                            _isNeed = true;
+                                        }
+                                    });
+                                }
+
+                                this.checks.forEach(check => {
+                                    if (check.cPdId == item.id) {
+                                        isExist = true;
+                                        _isChecked = true;
+                                        if (check.cDelivered) {
+                                            _delivered = true;
+                                            _isNeed = true;
+                                        }
+                                    }
+                                });
+
+
+                                if (isExist)
+                                    Vue.set(item, "amountDec", Math.round((item.pdPercent * this.draftAmount) / 100));
+                                else
+                                    Vue.set(item, "amountDec", 0);
+                                Vue.set(item, "checked", _isChecked);
+                                Vue.set(item, "delivered", _delivered);
+                                selectedValue = _isChecked == true ? item.id : '';
+                            });*/
+                            Vue.set(category, "isNeed", _isNeed);
+                            Vue.set(category, "necessary", _necessary);
+                            Vue.set(category, "delivered", _delivered);
+                            this.depPercentInput['percentage' + category.id] = selectedValue;
+                            //if (_isChecked)
+                                //this.calculatePercentAmount(selectedValue , index);
+                        });
                         console.log(response);
                     }, (error) => {
                         console.log(error);
@@ -1325,6 +1396,7 @@
                                 this.$emit('updateReceiveRequestData' , response.data);
                                 this.draftIsBlocked = true;
                                 this.showBlockModal = false;
+                                this.showPdfModal = false;
                                 this.$root.displayNotif(response.status);
                             },(error) => {
                                 console.log(error);

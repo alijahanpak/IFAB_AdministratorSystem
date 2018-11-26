@@ -370,7 +370,7 @@ class RequestController extends Controller
                 ->with('payRequest.contract.executor')
                 ->with('requestHistoryLastPoint')
                 ->with('requestLevel')
-                ->with('payRequest.draft')
+                ->with('payRequest.draft.draftState')
                 ->with('refundFactor')
                 ->with('contract.increaseAmount.percentageIncrease')
                 ->orderBy('id' , 'DESC')

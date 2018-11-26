@@ -68,7 +68,7 @@
                                         <tr class="tbl-head-style-cell">
                                             <th class="tbl-head-style-cell">وضعیت</th>
                                             <th class="tbl-head-style-cell">عنوان</th>
-                                            <th class="tbl-head-style-cell">ارسال کننده</th>
+                                            <th class="tbl-head-style-cell">آخرین ارجاع</th>
                                             <th class="tbl-head-style-cell">نوع درخواست</th>
                                             <th class="tbl-head-style-cell">مبلغ برآوردی <span class="btn-red small-font">(ریال)</span></th>
                                             <th class="tbl-head-style-cell">مبلغ نهایی <span class="btn-red small-font">(ریال)</span></th>
@@ -98,7 +98,7 @@
                                                 <td v-show="receiveRequest.rLastRef.rhHasBeenSeen == 0" class="text-center icon-padding-btm"><i class="far fa-envelope size-21 purple-color"></i></td>
                                                 <td v-show="receiveRequest.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 gray-colors"></i></td>
                                                 <td>{{receiveRequest.rSubject}}</td>
-                                                <td :data-toggle="'lastRef' + receiveRequest.id">{{receiveRequest.rLastRef.source_user_info.name}} - {{receiveRequest.rLastRef.source_user_info.role.rSubject}}
+                                                <td :data-toggle="'lastRef' + receiveRequest.id"><i v-if="receiveRequest.rLastRef.rhDescription !== null" class="far fa-comment size-12 btn-red" style="margin-top: 5px; margin-left: 5px"></i>{{receiveRequest.rLastRef.source_user_info.name}} - {{receiveRequest.rLastRef.source_user_info.role.rSubject}}
                                                     <div class="clearfix tool-bar" v-if="receiveRequest.rLastRef.rhDescription !== null">
                                                         <div  style="width: 300px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'lastRef' + receiveRequest.id" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font">
@@ -196,7 +196,7 @@
                                         <tr class="tbl-head-style-cell">
                                             <th class="tbl-head-style-cell">وضعیت</th>
                                             <th class="tbl-head-style-cell">عنوان</th>
-                                            <th class="tbl-head-style-cell">ارسال کننده</th>
+                                            <th class="tbl-head-style-cell">آخرین ارجاع</th>
                                             <th class="tbl-head-style-cell">نوع درخواست</th>
                                             <th class="tbl-head-style-cell">مبلغ برآوردی <span class="btn-red small-font">(ریال)</span></th>
                                             <th class="tbl-head-style-cell">مبلغ نهایی <span class="btn-red small-font">(ریال)</span></th>
@@ -226,7 +226,7 @@
                                                 <td v-show="receiveFinancial.rLastRef.rhHasBeenSeen == 0" class="text-center icon-padding-btm"><i class="far fa-envelope size-21 purple-color"></i></td>
                                                 <td v-show="receiveFinancial.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 gray-colors"></i></td>
                                                 <td>{{receiveFinancial.rSubject}}</td>
-                                                <td :data-toggle="'lastRef' + receiveFinancial.id">{{receiveFinancial.rLastRef.source_user_info.name}} - {{receiveFinancial.rLastRef.source_user_info.role.rSubject}}
+                                                <td :data-toggle="'lastRef' + receiveFinancial.id"><i v-if="receiveFinancial.rLastRef.rhDescription !== null" class="far fa-comment size-12 btn-red" style="margin-top: 5px; margin-left: 5px"></i>{{receiveFinancial.rLastRef.source_user_info.name}} - {{receiveFinancial.rLastRef.source_user_info.role.rSubject}}
                                                     <div class="clearfix tool-bar" v-if="receiveFinancial.rLastRef.rhDescription !== null || receiveFinancial.request_history_last_point.length > 0">
                                                         <div  style="width: 300px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'lastRef' + receiveFinancial.id" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font">
@@ -327,7 +327,7 @@
                                         <tr class="tbl-head-style-cell">
                                             <th class="tbl-head-style-cell">وضعیت</th>
                                             <th class="tbl-head-style-cell">عنوان</th>
-                                            <th class="tbl-head-style-cell">ارسال کننده</th>
+                                            <th class="tbl-head-style-cell">آخرین ارجاع</th>
                                             <th class="tbl-head-style-cell">نوع درخواست</th>
                                             <th class="tbl-head-style-cell">مبلغ برآوردی <span class="btn-red small-font">(ریال)</span></th>
                                             <th class="tbl-head-style-cell">مبلغ نهایی <span class="btn-red small-font">(ریال)</span></th>
@@ -357,7 +357,7 @@
                                                 <td v-show="receivePAndC.rLastRef.rhHasBeenSeen == 0" class="text-center icon-padding-btm"><i class="far fa-envelope size-21 purple-color"></i></td>
                                                 <td v-show="receivePAndC.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 gray-colors"></i></td>
                                                 <td>{{receivePAndC.rSubject}}</td>
-                                                <td :data-toggle="'lastRef' + receivePAndC.id">{{receivePAndC.rLastRef.source_user_info.name}} - {{receivePAndC.rLastRef.source_user_info.role.rSubject}}
+                                                <td :data-toggle="'lastRef' + receivePAndC.id"><i v-if="receivePAndC.rLastRef.rhDescription !== null" class="far fa-comment size-12 btn-red" style="margin-top: 5px; margin-left: 5px"></i>{{receivePAndC.rLastRef.source_user_info.name}} - {{receivePAndC.rLastRef.source_user_info.role.rSubject}}
                                                     <div class="clearfix tool-bar" v-if="receivePAndC.rLastRef.rhDescription !== null">
                                                         <div  style="width: 300px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'lastRef' + receivePAndC.id" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font">
@@ -455,7 +455,7 @@
                                         <tr class="tbl-head-style-cell">
                                             <th class="tbl-head-style-cell">وضعیت</th>
                                             <th class="tbl-head-style-cell">عنوان</th>
-                                            <th class="tbl-head-style-cell">ارسال کننده</th>
+                                            <th class="tbl-head-style-cell">آخرین ارجاع</th>
                                             <th class="tbl-head-style-cell">نوع درخواست</th>
                                             <th class="tbl-head-style-cell">مبلغ برآوردی <span class="btn-red small-font">(ریال)</span></th>
                                             <th class="tbl-head-style-cell">مبلغ نهایی <span class="btn-red small-font">(ریال)</span></th>
@@ -485,7 +485,7 @@
                                                 <td v-show="receivePayment.rLastRef.rhHasBeenSeen == 0" class="text-center icon-padding-btm"><i class="far fa-envelope size-21 purple-color"></i></td>
                                                 <td v-show="receivePayment.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 gray-colors"></i></td>
                                                 <td>{{receivePayment.rSubject}}</td>
-                                                <td :data-toggle="'lastRef' + receivePayment.id">{{receivePayment.rLastRef.source_user_info.name}} - {{receivePayment.rLastRef.source_user_info.role.rSubject}}
+                                                <td :data-toggle="'lastRef' + receivePayment.id"><i v-if="receivePayment.rLastRef.rhDescription !== null" class="far fa-comment size-12 btn-red" style="margin-top: 5px; margin-left: 5px"></i>{{receivePayment.rLastRef.source_user_info.name}} - {{receivePayment.rLastRef.source_user_info.role.rSubject}}
                                                     <div class="clearfix tool-bar" v-if="receivePayment.rLastRef.rhDescription !== null">
                                                         <div  style="width: 300px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'lastRef' + receivePayment.id" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font">
@@ -583,7 +583,7 @@
                                         <tr class="tbl-head-style-cell">
                                             <th class="tbl-head-style-cell">وضعیت</th>
                                             <th class="tbl-head-style-cell">عنوان</th>
-                                            <th class="tbl-head-style-cell">ارسال کننده</th>
+                                            <th class="tbl-head-style-cell">آخرین ارجاع</th>
                                             <th class="tbl-head-style-cell">نوع درخواست</th>
                                             <th class="tbl-head-style-cell">مبلغ برآوردی <span class="btn-red small-font">(ریال)</span></th>
                                             <th class="tbl-head-style-cell">مبلغ نهایی <span class="btn-red small-font">(ریال)</span></th>
@@ -613,7 +613,7 @@
                                                 <td v-show="receiveDraft.rLastRef.rhHasBeenSeen == 0" class="text-center icon-padding-btm"><i class="far fa-envelope size-21 purple-color"></i></td>
                                                 <td v-show="receiveDraft.rLastRef.rhHasBeenSeen == 1" class="text-center icon-padding-btm"><i class="far fa-envelope-open size-21 gray-colors"></i></td>
                                                 <td>{{receiveDraft.rSubject}}</td>
-                                                <td :data-toggle="'lastRef' + receiveDraft.id">{{receiveDraft.rLastRef.source_user_info.name}} - {{receiveDraft.rLastRef.source_user_info.role.rSubject}}
+                                                <td :data-toggle="'lastRef' + receiveDraft.id"><i v-if="receiveDraft.rLastRef.rhDescription !== null" class="far fa-comment size-12 btn-red" style="margin-top: 5px; margin-left: 5px"></i>{{receiveDraft.rLastRef.source_user_info.name}} - {{receiveDraft.rLastRef.source_user_info.role.rSubject}}
                                                     <div class="clearfix tool-bar" v-if="receiveDraft.rLastRef.rhDescription !== null">
                                                         <div  style="width: 300px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'lastRef' + receiveDraft.id" data-dropdown data-auto-focus="true">
                                                             <ul class="my-menu small-font">

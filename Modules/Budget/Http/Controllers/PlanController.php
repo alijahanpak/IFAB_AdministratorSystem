@@ -176,7 +176,8 @@ class PlanController extends Controller
             ->orderBy('id', 'DESC')
             ->get();
 
-        $capFound = CapitalAssetsAllocation::where('caaFound' , '<>' , false)->get();
+        $capFound = CapitalAssetsAllocation::where('caaFyId' , Auth::user()->seFiscalYear)
+            ->where('caaFound' , '<>' , false)->get();
         return \response()->json([
             'caApprovedPlan' => $caApprovedPlan,
             'capFound' => $capFound
@@ -737,7 +738,8 @@ class PlanController extends Controller
             ->orderBy('id', 'DESC')
             ->get();
 
-        $costFound = CostAllocation::where('caFound' , '<>' , false)->get();
+        $costFound = CostAllocation::where('caFyId' , Auth::user()->seFiscalYear)
+            ->where('caFound' , '<>' , false)->get();
 
         return \response()->json([
             'costAgreement' => $costAgreement,

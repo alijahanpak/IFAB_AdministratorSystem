@@ -33,7 +33,6 @@ class FinancialDatabaseSeeder extends Seeder
         $this->call(SeederPayRequestStatesTableSeeder::class);
         $this->call(SeederPayRequestStepsTableSeeder::class);
 
-        $this->call(SeederDepositTypeTableSeeder::class);
         $this->call(SeederDepositCategoryTableSeeder::class);
         $this->call(SeederDepositTableSeeder::class);
         $this->call(SeederRequestDepositStateTableSeeder::class);
