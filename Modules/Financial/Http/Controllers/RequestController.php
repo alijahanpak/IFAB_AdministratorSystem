@@ -364,6 +364,7 @@ class RequestController extends Controller
                 ->with('draft.check.percentageDecrease')
                 ->with('draft.check.checkState')
                 ->with('draft.draftState')
+                ->with('draft.check.deposit.depositPercentage')
                 ->with('payRequest.payRequestState')
                 ->with('payRequest.verifiers.user.role.officeUnit')
                 ->with('payRequest.verifiers.signature')
@@ -431,6 +432,7 @@ class RequestController extends Controller
             ->with('draft.verifier.user.role')
             ->with('draft.check.percentageDecrease')
             ->with('draft.check.checkState')
+            ->with('draft.check.deposit.depositPercentage')
             ->with('draft.draftState')
             ->orderBy('id' , 'DESC')
             ->paginate(20);

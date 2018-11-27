@@ -19,6 +19,7 @@ class CreateChecksTable extends Migration
                 $table->bigInteger('cDId')->length(20)->unsigned();
                 $table->bigInteger('cPdId')->length(20)->unsigned()->nullable();
                 $table->bigInteger('cCvId')->length(20)->unsigned()->nullable();
+                $table->bigInteger('cDpId')->length(20)->unsigned()->nullable();
                 $table->bigInteger('cFyId')->length(20)->unsigned();
                 $table->bigInteger('cCsId')->length(20)->unsigned();
                 $table->string('cDate')->nullable();
@@ -41,6 +42,11 @@ class CreateChecksTable extends Migration
 
                 $table->foreign('cPdId')
                     ->references('id')->on('tbl_percentage_decreases')
+                    ->onDelete('restrict')
+                    ->onUpdate('cascade');
+
+                $table->foreign('cDpId')
+                    ->references('id')->on('tbl_deposits')
                     ->onDelete('restrict')
                     ->onUpdate('cascade');
 

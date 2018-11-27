@@ -108,9 +108,14 @@ class ReportController extends Controller
     {
         $draft = Draft::where('id' , $request->dId)->with('payRequest')->first();
         //$req = _Request::where('id' , $draft->id)->first();
-        $checks = _Check::where('cDId' , $draft->id)
+        $decreaseChecks = _Check::where('cDId' , $draft->id)
             ->with('percentageDecrease')
             ->where('cPdId' , '<>' , null)
+            ->get();
+
+        $depositChecks = _Check::where('cDId' , $draft->id)
+            ->with('deposit.depositPercentage')
+            ->where('cDpId' , '<>' , null)
             ->get();
 
         $costAllocId = CostFinancing::where('cfRId' , $draft->dRId)
@@ -138,7 +143,8 @@ class ReportController extends Controller
         $pdf->loadHTML(view('financial::reports.draft.document' , ['draft' => $draft ,
             'costFinancing' => $cost ,
             'capFinancing' => $cap ,
-            'checks' => $checks]));
+            'decreaseChecks' => $decreaseChecks,
+            'depositChecks' => $depositChecks]));
         return $pdf->inline();
         //$pdf->save('pdfFiles/document_' . Auth::user()->id . '.pdf', true);
         //return url('pdfFiles/document_' . Auth::user()->id . '.pdf');
@@ -151,6 +157,7 @@ class ReportController extends Controller
         $check = _Check::where('id' , $request->id)
             ->with('draft')
             ->with('percentageDecrease')
+            ->with('deposit.depositPercentage')
             ->with('selectedVerifiers.verifier.user')
             ->first();
         $check['amountText'] = self::digit_to_persain_letters($check->cAmount);

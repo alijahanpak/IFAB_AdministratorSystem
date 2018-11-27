@@ -19,37 +19,9 @@ class SeederDepositTableSeeder extends Seeder
 
         $deposit = new DepositPercentage();
         $deposit->dpDpcId = 1;
-        $deposit->dpSubject = 'سپرده شماره ۱';
+        $deposit->dpSubject = 'سپرده حسن انجام کار';
         $deposit->dpTemporaryPayPercent = 5;
         $deposit->dpDefinativePayPercent = 5;
-        $deposit->dpFor = 'سپرده حس انجام کار ۱';
-        $deposit->dpPayTo = 'خزانه';
-        $deposit->save();
-
-        $deposit = new DepositPercentage();
-        $deposit->dpDpcId = 1;
-        $deposit->dpSubject = 'سپرده شماره ۲';
-        $deposit->dpTemporaryPayPercent = 5;
-        $deposit->dpDefinativePayPercent = 5;
-        $deposit->dpFor = 'سپرده حس انجام کار ۲';
-        $deposit->dpPayTo = 'خزانه';
-        $deposit->save();
-
-        $deposit = new DepositPercentage();
-        $deposit->dpDpcId = 2;
-        $deposit->dpSubject = 'سپرده شماره ۳';
-        $deposit->dpTemporaryPayPercent = 5;
-        $deposit->dpDefinativePayPercent = 5;
-        $deposit->dpFor = 'سپرده حس انجام کار ۳';
-        $deposit->dpPayTo = 'خزانه';
-        $deposit->save();
-
-        $deposit = new DepositPercentage();
-        $deposit->dpDpcId = 2;
-        $deposit->dpSubject = 'سپرده شماره ۴';
-        $deposit->dpTemporaryPayPercent = 5;
-        $deposit->dpDefinativePayPercent = 5;
-        $deposit->dpFor = 'سپرده حس انجام کار ۴';
         $deposit->dpPayTo = 'خزانه';
         $deposit->save();
     }

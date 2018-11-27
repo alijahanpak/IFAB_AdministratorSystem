@@ -18,6 +18,8 @@ use Modules\Financial\Entities\CheckState;
 use Modules\Financial\Entities\CheckVerifier;
 use Modules\Financial\Entities\CostFinancing;
 use Modules\Financial\Entities\CostSpent;
+use Modules\Financial\Entities\Deposit;
+use Modules\Financial\Entities\DepositState;
 use Modules\Financial\Entities\Draft;
 use Modules\Financial\Entities\PrintHistory;
 use Modules\Financial\Entities\RequestHistory;
@@ -80,9 +82,43 @@ class CheckController extends Controller
                     $insertedAId[$i++] = $check->id;
                 }
             }
+            //////////////////////// set deposit checks ////////////////////////////////
+            $insertedDId = array();
+            $j = 0;
+            if (is_array($request->get('deposits')))
+            {
+                foreach ($request->get('deposits') as $item)
+                {
+                    $deposit = Deposit::updateOrCreate(['dDrId' => $request->dId , 'dDpId' => $item['id']] , [
+                        'dAmount' => $item['amount'],
+                        'dDsId' => DepositState::where('dsState' , 'OWE')->value('id')
+                    ]);
+
+                    $insertedDId[$j++] = $deposit->id;
+
+                    $currentCheck = _Check::where('cDId' , $request->dId)
+                        ->where('cDpId' , $deposit->id)
+                        ->where('cFyId' , Auth::user()->seFiscalYear)
+                        ->first();
+
+                    $checkState = $currentCheck ? $currentCheck->cCsId : CheckState::where('csState' , 'WAITING_FOR_PRINT')->value('id');
+                    $check = _Check::updateOrCreate(['cDId' => $request->dId , 'cDpId' => $deposit->id , 'cFyId' => Auth::user()->seFiscalYear] , [
+                        'cAmount' => $item['amount'],
+                        'cCsId' => $checkState
+                    ]);
+
+                    $insertedAId[$i++] = $check->id;
+                }
+            }
+
+            ///////////////////////////////////////////////////////
 
             _Check::whereNotIn('id' , $insertedAId)
                 ->where('cDId' , '=' , $request->dId)
+                ->delete();
+
+            Deposit::whereNotIn('id' , $insertedDId)
+                ->where('dDrId' , $request->dId)
                 ->delete();
 
             SystemLog::setFinancialSubSystemLog('صدور چک های حواله ' . Draft::find($request->dId)->dFor);
@@ -150,6 +186,7 @@ class CheckController extends Controller
             })
             ->with('draft')
             ->with('percentageDecrease')
+            ->with('deposit.depositPercentage')
             ->with('checkState')
             ->with('printHistory')
             ->with('selectedVerifiers.verifier.user.role')

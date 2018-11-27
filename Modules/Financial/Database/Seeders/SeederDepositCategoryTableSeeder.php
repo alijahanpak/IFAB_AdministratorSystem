@@ -18,11 +18,7 @@ class SeederDepositCategoryTableSeeder extends Seeder
         Model::unguard();
 
         $dCategory = new DepositPercentageCategory();
-        $dCategory->dpcSubject = 'سپرده دسته بندی ۱';
-        $dCategory->save();
-
-        $dCategory = new DepositPercentageCategory();
-        $dCategory->dpcSubject = 'سپرده دسته بندی ۲';
+        $dCategory->dpcSubject = 'کسور سپرده';
         $dCategory->save();
     }
 }

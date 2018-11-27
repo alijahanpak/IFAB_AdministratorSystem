@@ -18,7 +18,6 @@ class CreateDepositPercentageTable extends Migration
                 $table->bigIncrements('id');
                 $table->bigInteger('dpDpcId')->length(20)->unsigned();
                 $table->string('dpSubject');
-                $table->string('dpFor');
                 $table->string('dpPayTo');
                 $table->unsignedTinyInteger('dpTemporaryPayPercent');
                 $table->unsignedTinyInteger('dpDefinativePayPercent');

@@ -69,9 +69,17 @@
                                 <td class="BZar size-10"></td>
                                 <td class="BZar size-10"></td>
                             </tr>
-                            @foreach($checks as $check)
+                            @foreach($decreaseChecks as $check)
                                 <tr style="min-height: 50px">
                                     <td class="BZar size-10"><span class="size-10">{{ $check['percentageDecrease']['pdSubject'] . ' - %' . $check['percentageDecrease']['pdPercent'] }}</span><span></span></td>
+                                    <td class="BZar size-10"></td>
+                                    <td class="BZar size-10">{{ number_format($check->cAmount , 0 , "." ,",") }}</td>
+                                    <td class="BZar size-10"></td>
+                                </tr>
+                            @endforeach
+                            @foreach($depositChecks as $check)
+                                <tr style="min-height: 50px">
+                                    <td class="BZar size-10"><span class="size-10">{{ $check['deposit']['depositPercentage']['dpSubject'] . ' - %' . $check['deposit']['depositPercentage']['dpSumOfPercents'] }}</span><span></span></td>
                                     <td class="BZar size-10"></td>
                                     <td class="BZar size-10">{{ number_format($check->cAmount , 0 , "." ,",") }}</td>
                                     <td class="BZar size-10"></td>
@@ -80,8 +88,8 @@
                             <tr>
                                 <td class="BTitrBold size-10">مبلغ محاسبه شده<span class="btn-red">(ریال) </span></td>
                                 <td class="BZar size-10">{{ number_format($draft->dAmount , 0 , "." ,",") }}</td>
-                                <td class="BZar size-10">{{ number_format($checks->sum('cAmount') , 0 , "." ,",") }}</td>
-                                <td class="BZar size-10">{{ number_format($draft->dAmount - $checks->sum('cAmount') , 0 , "." ,",") }}</td>
+                                <td class="BZar size-10">{{ number_format(($decreaseChecks->sum('cAmount') + $depositChecks->sum('cAmount')) , 0 , "." ,",") }}</td>
+                                <td class="BZar size-10">{{ number_format($draft->dAmount - ($decreaseChecks->sum('cAmount') + $depositChecks->sum('cAmount')) , 0 , "." ,",") }}</td>
                             </tr>
                             </tbody>
                         </table>

@@ -72,8 +72,12 @@
                                     <td class="text-center">{{allCheck.cIdNumber}}</td>
                                     <td class="text-center">{{allCheck.cDate}}</td>
                                     <td class="text-center">{{$parent.dispMoneyFormat(allCheck.cAmount)}}</td>
-                                    <td>{{allCheck.cPdId != null ? allCheck.percentage_decrease.pdSubject + ' - ' + allCheck.draft.dFor : allCheck.cFor}}</td>
-                                    <td class="text-center">{{allCheck.cPdId != null ? allCheck.percentage_decrease.pdPayTo : allCheck.cPayTo}}</td>
+                                    <td v-if="allCheck.cPdId != null">{{ allCheck.percentage_decrease.pdSubject + ' - ' + allCheck.draft.dFor }}</td>
+                                    <td v-else-if="allCheck.cDpId != null">{{ allCheck.deposit.deposit_percentage.dpSubject  + ' - ' + allCheck.draft.dFor}}</td>
+                                    <td v-else>{{ allCheck.cFor }}</td>
+                                    <td v-if="allCheck.cPdId != null" class="text-center">{{ allCheck.percentage_decrease.pdPayTo }}</td>
+                                    <td v-else-if="allCheck.cDpId != null" class="text-center">{{ allCheck.deposit.deposit_percentage.dpPayTo}}</td>
+                                    <td v-else class="text-center">{{ allCheck.cPayTo}}</td>
                                     <td class="text-center">{{ allCheck.cDeliveryDate }}</td>
                                     <td v-show="allCheck.check_state.csState == 'WAITING_FOR_PRINT'" class="text-center"><span class="danger-label">{{ allCheck.check_state.csSubject }}</span></td>
                                     <td v-show="allCheck.check_state.csState == 'WAITING_FOR_DELIVERY'" class="text-center"><span class="reserved-label">{{ allCheck.check_state.csSubject }}</span></td>
@@ -533,8 +537,21 @@
                 this.checkSelectTemp.push(check);
                 console.log(JSON.stringify(this.checkSelectTemp));
                 this.checkSelectTemp.forEach(item =>{
-                    this.dPayTo = item.cPdId != null ? item.percentage_decrease.pdPayTo : item.draft.dPayTo;
-                    this.dFor = item.cPdId != null ? item.percentage_decrease.pdSubject + ' - ' + item.draft.dFor : item.draft.dFor;
+                    if (item.cPdId != null)
+                    {
+                        this.dPayTo = item.percentage_decrease.pdPayTo;
+                        this.dFor = item.percentage_decrease.pdSubject + ' - ' + item.draft.dFor;
+                    }
+                    else if (item.cDpId != null)
+                    {
+                        this.dPayTo = item.deposit.deposit_percentage.dpPayTo;
+                        this.dFor = item.deposit.deposit_percentage.dpSubject + ' - ' + item.draft.dFor;
+                    }
+                    else
+                    {
+                        this.dPayTo = item.draft.dPayTo;
+                        this.dFor = item.draft.dFor;
+                    }
                     this.cAmount = item.cAmount;
                 });
 

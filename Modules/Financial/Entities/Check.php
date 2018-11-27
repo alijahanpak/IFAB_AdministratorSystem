@@ -8,12 +8,17 @@ use Morilog\Jalali\jDate;
 class _Check extends Model
 {
     protected $appends = ['cDelivered' , 'cSpentAmount'];
-    protected $fillable = ['cDId' , 'cPdId' , 'cAmount' ,'cFyId' , 'cCsId' , 'cFor' , 'cPayTo'];
+    protected $fillable = ['cDId' , 'cPdId' , 'cDpId' , 'cAmount' ,'cFyId' , 'cCsId' , 'cFor' , 'cPayTo'];
     protected $table = 'tbl_checks';
 
     public function percentageDecrease()
     {
         return $this->belongsTo(PercentageDecrease::class , 'cPdId' , 'id');
+    }
+
+    public function deposit()
+    {
+        return $this->belongsTo(Deposit::class , 'cDpId' , 'id');
     }
 
     public function draft()
