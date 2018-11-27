@@ -125,7 +125,7 @@
         <modal-large v-if="showEditRequestModal" @close="showEditRequestModal = false">
             <div  slot="body">
                 <form v-on:submit.prevent="updateRequest" >
-                    <div style="margin-top: 25px" class="grid-x">
+                    <div style="margin-top: 25px;height: 50vh;" class="grid-x">
                         <div class="large-6 medium-6 small-12">
                             <label>موضوع
                                 <input type="text" name="requestSubject" v-model="requestFill.rSubject" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('requestSubject')}">

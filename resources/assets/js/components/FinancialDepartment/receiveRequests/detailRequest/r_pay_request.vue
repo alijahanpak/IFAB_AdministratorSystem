@@ -18,9 +18,9 @@
                     <tbody class="tbl-head-style ">
                     <tr class="tbl-head-style-cell">
                         <th class="tbl-head-style-cell"></th>
-                        <th class="tbl-head-style-cell">درصد کل پیشرفت فیزیکی</th>
-                        <th class="tbl-head-style-cell">درصد افزایش / کاهش</th>
-                        <th class="tbl-head-style-cell">درصد پیشرفت ریالی</th>
+                        <th class="tbl-head-style-cell">پیشرفت فیزیکی</th>
+                        <th class="tbl-head-style-cell">افزایش / کاهش</th>
+                        <th class="tbl-head-style-cell">پیشرفت ریالی</th>
                         <th class="tbl-head-style-cell">مبلغ</th>
                         <th class="tbl-head-style-cell">آخرین ارجاع</th>
                         <th class="tbl-head-style-cell">وضعیت</th>
@@ -49,7 +49,7 @@
                             <td class="text-center">{{payRequest.prIsFinal == true ? (payRequest.prPhysicalProgress - 100 > 0 ? (payRequest.prPhysicalProgress - 100) + '% افزایش' : ((payRequest.prPhysicalProgress - 100) * (-1)) + '% کاهش') : '--'}}</td>
                             <td class="text-center">{{'%' + payRequest.prAmountProgress}}</td>
                             <td class="text-center">{{$root.dispMoneyFormat(payRequest.prAmount)}}</td>
-                            <td :data-toggle="'prLastRef' + payRequest.id">{{payRequest.prLastRef.source_user_info.name}} - {{payRequest.prLastRef.source_user_info.role.rSubject}}
+                            <td :data-toggle="'prLastRef' + payRequest.id"><i v-if="payRequest.prLastRef.rhDescription !== null" class="far fa-comment size-12 btn-red" style="margin-top: 5px; margin-left: 5px"></i>{{payRequest.prLastRef.source_user_info.name}} - {{payRequest.prLastRef.source_user_info.role.rSubject}}
                                 <div class="clearfix tool-bar" v-if="payRequest.prLastRef.rhDescription !== null">
                                     <div  style="width: 300px;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'prLastRef' + payRequest.id" data-dropdown data-auto-focus="true">
                                         <ul class="my-menu small-font">
@@ -480,7 +480,7 @@
 
             openBlockModal: function () {
                 this.blockInput = {};
-                if (this.prDrafts.length == 0)
+                if (!this.itHasActiveDraft())
                     this.showBlockModal = true;
                 else
                 {
@@ -663,7 +663,7 @@
                     this.showDialogModal = true;
                 }
                 else{
-                    if (this.prDrafts.length == 0)
+                    if (!this.itHasActiveDraft())
                     {
                         this.getDirectorGeneralUsers();
                         this.draftBaseAmount = 0;
@@ -681,6 +681,16 @@
                         this.showDialogModal = true;
                     }
                 }
+            },
+
+            itHasActiveDraft: function() {
+                var activeCount = 0;
+                this.prDrafts.forEach(item => {
+                    if (item.draft_state.dsState != 'BLOCKED')
+                        activeCount++;
+                });
+
+                return activeCount > 0 ? true : false;
             },
 
             addNewDraft:function () {

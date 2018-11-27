@@ -96,7 +96,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
         Route::post('/register', 'PayRequestController@register');
         Route::get('/get_pay_request_steps' , 'PayRequestController@fetchPayRequestSteps');
         Route::post('/accept', 'PayRequestController@accept');
-        Route::post('/numbering', 'PayRequestController@numbering');
+        Route::post('/numbering', 'NumberingController@payRequestNumbering');
         Route::post('/was_seen', 'PayRequestController@wasSeen');
         Route::post('/block', 'PayRequestController@block');
     });

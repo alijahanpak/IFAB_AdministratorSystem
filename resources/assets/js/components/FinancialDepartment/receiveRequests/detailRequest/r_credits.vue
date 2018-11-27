@@ -112,14 +112,17 @@
                     <div class="grid-x">
                         <div style="background-color:#F1F1F1;padding: 10px;margin-top: -12px;border: solid 1.5px #D8DEE2;" class="large-12 medium-12 small-12">
                             <div class="grid-x">
-                                <div class="large-4 medium-4 small-12">
-                                    <p class="p-margin-btm"> مبلغ : <span class="btn-red"> {{$root.dispMoneyFormat(baseAmount)}} </span></p>
+                                <div class="large-3 medium-3 small-12">
+                                    <p class="p-margin-btm"> مبلغ: <span class="btn-red"> {{$root.dispMoneyFormat(baseAmount)}} </span></p>
                                 </div>
-                                <div class="large-4 medium-4 small-12">
-                                    <p class="p-margin-btm"> مبلغ رزرو شده : <span class="btn-red"> {{$root.dispMoneyFormat(_reservedAmount)}} </span></p>
+                                <div class="large-3 medium-3 small-12">
+                                    <p class="p-margin-btm"> مبلغ رزرو شده: <span class="btn-red"> {{$root.dispMoneyFormat(_reservedAmount)}} </span></p>
                                 </div>
-                                <div class="large-4 medium-4 small-12">
-                                    <p class="p-margin-btm"> مبلغ تعهد شده : <span class="btn-red"> {{$root.dispMoneyFormat(_financingAmount)}} </span></p>
+                                <div class="large-3 medium-3 small-12">
+                                    <p class="p-margin-btm"> مبلغ تعهد شده: <span class="btn-red"> {{$root.dispMoneyFormat(_financingAmount)}} </span></p>
+                                </div>
+                                <div class="large-3 medium-3 small-12">
+                                    <p class="p-margin-btm"> باقیمانده مبلغ: <span class="btn-red"> {{$root.dispMoneyFormat(baseAmount - (_financingAmount + _reservedAmount))}} </span></p>
                                 </div>
                             </div>
                         </div>
@@ -222,14 +225,17 @@
                     <div class="grid-x">
                         <div style="background-color:#F1F1F1;padding: 10px;margin-top: -12px;border: solid 1.5px #D8DEE2;" class="large-12 medium-12 small-12">
                             <div class="grid-x">
-                                <div class="large-4 medium-4 small-12">
-                                    <p class="p-margin-btm"> مبلغ : <span class="btn-red"> {{$root.dispMoneyFormat(baseAmount)}} </span></p>
+                                <div class="large-3 medium-3 small-12">
+                                    <p class="p-margin-btm"> مبلغ: <span class="btn-red"> {{$root.dispMoneyFormat(baseAmount)}} </span></p>
                                 </div>
-                                <div class="large-4 medium-4 small-12">
-                                    <p class="p-margin-btm"> مبلغ رزرو شده : <span class="btn-red"> {{$root.dispMoneyFormat(_reservedAmount)}} </span></p>
+                                <div class="large-3 medium-3 small-12">
+                                    <p class="p-margin-btm"> مبلغ رزرو شده: <span class="btn-red"> {{$root.dispMoneyFormat(_reservedAmount)}} </span></p>
                                 </div>
-                                <div class="large-4 medium-4 small-12">
-                                    <p class="p-margin-btm"> مبلغ تعهد شده : <span class="btn-red"> {{$root.dispMoneyFormat(_financingAmount)}} </span></p>
+                                <div class="large-3 medium-3 small-12">
+                                    <p class="p-margin-btm"> مبلغ تعهد شده: <span class="btn-red"> {{$root.dispMoneyFormat(_financingAmount)}} </span></p>
+                                </div>
+                                <div class="large-3 medium-3 small-12">
+                                    <p class="p-margin-btm"> باقیمانده مبلغ: <span class="btn-red"> {{$root.dispMoneyFormat(baseAmount - (_financingAmount + _reservedAmount))}} </span></p>
                                 </div>
                             </div>
                         </div>
@@ -317,7 +323,7 @@
                                                         <td :data-toggle="'plan' + plan.id" class="text-center">{{plan.caLetterNumber}}</td>
                                                         <td :data-toggle="'plan' + plan.id" class="text-center">{{$root.dispMoneyFormat(plan.caSumOfAllocation)}}</td>
                                                         <td :data-toggle="'plan' + plan.id" class="text-center">{{$root.dispMoneyFormat(plan.caSumOfReserved)}}
-                                                            <div style="width: 49vw;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="100px"  data-position="top" data-alignment="auto" :id="'plan' + plan.id" data-dropdown data-auto-focus="true">
+                                                            <div style="width: 49vw;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="100px"  data-position="top" data-alignment="right" :id="'plan' + plan.id" data-dropdown data-auto-focus="true">
                                                                 <ul class="my-menu small-font">
                                                                     <div class="grid-x">
                                                                         <!--Table Start-->
@@ -362,7 +368,7 @@
                                                         </td>
                                                         <td :data-toggle="'plan' + plan.id" class="text-center">{{$root.dispMoneyFormat(plan.caSumOfCommitment)}}</td>
                                                         <td :data-toggle="'plan' + plan.id" class="text-center">{{$root.dispMoneyFormat(plan.caSumOfCost)}}</td>
-                                                        <td :data-toggle="'plan' + plan.id" class="text-center">{{plan.caDescription}}</td>
+                                                        <td :data-toggle="'plan' + plan.id" class="text-center one-line">{{plan.caDescription}}</td>
                                                         <td>
                                                             <input :disabled="plan.isHistory" class="direction-ltr" v-on:keyup="calculationOfCostCredit(plan, plan, 0, plan.amount)" style="margin-bottom:0px;" v-if="plan.selected == true" type="text"  v-model="plan.amount" :name="plan.id" :value="plan.amount"  v-validate="'numeric|min_value:0|max_value:' + (getRemainingCostAmount(plan , 1) + parseInt(plan.amount , 10))" :class="{'input': true, 'error-border': errors.has(plan.id)}" />
                                                             <span v-show="errors.has(plan.id)" class="error-font"></span>
@@ -432,7 +438,7 @@
                                                             <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{ creditSource.credit_distribution_title.cdtIdNumber }}</td>
                                                             <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{ $root.dispMoneyFormat(creditSource.ccsSumOfAllocation) }}</td>
                                                             <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{ $root.dispMoneyFormat(creditSource.ccsSumOfReserved) }}
-                                                                <div style="width: 49vw;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="100px"  data-position="top" data-alignment="auto" :id="'creditSource' + creditSource.id" data-dropdown data-auto-focus="true">
+                                                                <div style="width: 49vw;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="100px"  data-position="top" data-alignment="right" :id="'creditSource' + creditSource.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font">
                                                                         <div class="grid-x">
                                                                             <!--Table Start-->
@@ -490,7 +496,7 @@
                                                             <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{ $root.dispMoneyFormat(creditSource.ccsSumOfCommitment) }}</td>
                                                             <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{ $root.dispMoneyFormat(creditSource.ccsSumOfCost) }}</td>
                                                             <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{ $root.dispMoneyFormat(creditSource.ccsAmount) }}</td>
-                                                            <td :data-toggle="'creditSource' + creditSource.id" class="text-justify">{{creditSource.ccsDescription}}</td>
+                                                            <td :data-toggle="'creditSource' + creditSource.id" class="text-justify one-line">{{creditSource.ccsDescription}}</td>
                                                             <td>
                                                                 <input :disabled="creditSource.isHistory" class="direction-ltr" v-on:keyup="calculationOfCostCredit(plan, creditSource, 1, creditSource.amount)" style="margin-bottom:0px;" v-if="creditSource.selected == true" type="text" v-model="creditSource.amount"  :value="creditSource.amount" :name="creditSource.id" v-validate="'numeric|min_value:0|max_value:' + (getRemainingCostAmount(creditSource , 2) + parseInt(creditSource.amount , 10))" :class="{'input': true, 'error-border': errors.has(creditSource.id)}" />
                                                                 <span v-show="errors.has(creditSource.id)" class="error-font"></span>
@@ -566,7 +572,7 @@
                                                                 <td :data-toggle="'allocation' + allocation.id" class="text-center">{{allocation.caLetterDate}}</td>
                                                                 <td :data-toggle="'allocation' + allocation.id" class="text-center">{{$root.dispMoneyFormat(allocation.caAmount)}}</td>
                                                                 <td :data-toggle="'allocation' + allocation.id" class="text-center">{{$root.dispMoneyFormat(allocation.caSumOfReserved)}}
-                                                                    <div style="width: 49vw;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="100px"  data-position="top" data-alignment="auto" :id="'allocation' + allocation.id" data-dropdown data-auto-focus="true">
+                                                                    <div style="width: 49vw;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="100px"  data-position="top" data-alignment="right" :id="'allocation' + allocation.id" data-dropdown data-auto-focus="true">
                                                                         <ul class="my-menu small-font">
                                                                             <div class="grid-x">
                                                                                 <div class="large-6 medium-6">
@@ -623,7 +629,7 @@
                                                                 </td>
                                                                 <td :data-toggle="'allocation' + allocation.id" class="text-center">{{$root.dispMoneyFormat(allocation.caSumOfCommitment)}}</td>
                                                                 <td :data-toggle="'allocation' + allocation.id" class="text-center">{{$root.dispMoneyFormat(allocation.caSumOfCost)}}</td>
-                                                                <td :data-toggle="'allocation' + allocation.id" class="text-justify">{{allocation.caDescription}}</td>
+                                                                <td :data-toggle="'allocation' + allocation.id" class="text-justify one-line">{{allocation.caDescription}}</td>
                                                                 <td>
                                                                     <input :disabled="allocation.isHistory" class="direction-ltr" v-on:keyup="calculationOfCostCredit(plan,allocation,2,allocation.amount)" style="margin-bottom:0px;" v-if="allocation.selected == true" type="text" v-model="allocation.amount" :value="allocation.amount" :name="allocation.id" v-validate="'numeric|min_value:0|max_value:' + (getRemainingCostAmount(allocation , 3)  + parseInt(allocation.amount , 10))" :class="{'input': true, 'error-border': errors.has(allocation.id)}"/>
                                                                     <span v-show="errors.has(allocation.id)" class="error-font"></span>
@@ -823,7 +829,7 @@
                                                         <td :data-toggle="'plan' + plan.id" class="text-center">{{$root.dispMoneyFormat(plan.capSumOfAllocation)}}</td>
                                                         <td :data-toggle="'plan' + plan.id" class="text-center">{{$root.dispMoneyFormat(plan.capSumOfReserved)}}
                                                             <div class="clearfix tool-bar">
-                                                                <div  style="width: 49vw;z-index: 999;position: absolute;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="100px"  data-position="top" data-alignment="auto" :id="'plan' + plan.id" data-dropdown data-auto-focus="true">
+                                                                <div  style="width: 49vw;z-index: 999;position: absolute;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="100px"  data-position="top" data-alignment="right" :id="'plan' + plan.id" data-dropdown data-auto-focus="true">
                                                                     <ul class="my-menu small-font">
                                                                         <div class="grid-x">
                                                                             <div class="large-6 medium-6">
@@ -886,7 +892,7 @@
                                                         </td>
                                                         <td :data-toggle="'plan' + plan.id" class="text-center">{{$root.dispMoneyFormat(plan.capSumOfCommitment)}}</td>
                                                         <td :data-toggle="'plan' + plan.id" class="text-center">{{$root.dispMoneyFormat(plan.capSumOfCost)}}</td>
-                                                        <td :data-toggle="'plan' + plan.id">{{plan.capDescription}}</td>
+                                                        <td :data-toggle="'plan' + plan.id" class="one-line">{{plan.capDescription}}</td>
                                                         <td>
                                                             <input :disabled="plan.isHistory" class="direction-ltr" v-on:keyup="calculationOfCapCredit(plan, plan, 0, plan.amount)" style="margin-bottom:0px;" v-if="plan.selected == true" type="text"  v-model="plan.amount" :value="plan.amount" :name="'plan'+plan.id" v-validate="'numeric','min_value:0','max_value:'+ (getRemainingCapitalAssetsAmount(plan , 1) + parseInt(plan.amount , 10))" :class="{'input': true, 'error-border': errors.has('plan' + plan.id)}"/>
                                                             <span v-show="errors.has('plan'+plan.id)" class="error-font"></span>
@@ -1045,7 +1051,7 @@
                                                             <td :data-toggle="'project' + project.id" class="text-center">{{$root.dispMoneyFormat(project.cpSumOfReserved)}}</td>
                                                             <td :data-toggle="'project' + project.id" class="text-center">{{$root.dispMoneyFormat(project.cpSumOfCommitment)}}</td>
                                                             <td :data-toggle="'project' + project.id" class="text-center">{{$root.dispMoneyFormat(project.cpSumOfCost)}}</td>
-                                                            <td :data-toggle="'project' + project.id">{{project.cpDescription}}</td>
+                                                            <td :data-toggle="'project' + project.id" class="one-line">{{project.cpDescription}}</td>
                                                             <td>
                                                                 <input :disabled="project.isHistory" class="direction-ltr" v-on:keyup="calculationOfCapCredit(plan, project, 1, project.amount)" style="margin-bottom:0px;" v-if="project.selected == true" type="text" v-model="project.amount"  :value="project.amount" :name="'project'+project.id" v-validate="'numeric|min_value:0|max_value:' + (getRemainingCapitalAssetsAmount(project , 2) + parseInt(project.amount , 10))" :class="{'input': true, 'error-border': errors.has('project'+project.id)}"/>
                                                                 <span v-show="errors.has('project'+project.id)" class="error-font"></span>
@@ -1223,7 +1229,7 @@
                                                                 </td>
                                                                 <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{$root.dispMoneyFormat(creditSource.ccsSumOfCommitment)}}</td>
                                                                 <td :data-toggle="'creditSource' + creditSource.id" class="text-center">{{$root.dispMoneyFormat(creditSource.ccsSumOfCost)}}</td>
-                                                                <td :data-toggle="'creditSource' + creditSource.id">{{creditSource.ccsDescription}}</td>
+                                                                <td :data-toggle="'creditSource' + creditSource.id" class="one-line">{{creditSource.ccsDescription}}</td>
                                                                 <td>
                                                                     <input :disabled="creditSource.isHistory" class="direction-ltr" v-on:keyup="calculationOfCapCredit(plan, creditSource, 2, creditSource.amount)" style="margin-bottom:0px;" v-if="creditSource.selected == true" type="text" v-model="creditSource.amount"  :value="creditSource.amount" :name="'creditSource'+creditSource.id" v-validate="'numeric','min_value:0','max_value:'+ (getRemainingCapitalAssetsAmount(creditSource , 3) + parseInt(creditSource.amount , 10))" :class="{'input': true, 'error-border': errors.has('creditSource'+creditSource.id)}" />
                                                                     <span v-show="errors.has('creditSource'+creditSource.id)" class="error-font"></span>
@@ -1381,7 +1387,7 @@
                                                                     </td>
                                                                     <td :data-toggle="'allocation' + alloc.id" class="text-center">{{$root.dispMoneyFormat(alloc.caaSumOfCommitment)}}</td>
                                                                     <td :data-toggle="'allocation' + alloc.id" class="text-center">{{$root.dispMoneyFormat(alloc.caaSumOfCost)}}</td>
-                                                                    <td :data-toggle="'allocation' + alloc.id" >{{alloc.caaDescription}}</td>
+                                                                    <td :data-toggle="'allocation' + alloc.id" class="one-line">{{alloc.caaDescription}}</td>
                                                                     <td>
                                                                         <input :disabled="alloc.isHistory" class="direction-ltr" v-on:keyup="calculationOfCapCredit(plan, alloc, 3, alloc.amount)" style="margin-bottom:0px;" v-if="alloc.selected == true" type="text" v-model="alloc.amount"  :value="alloc.amount" :name="'alloc'+alloc.id" v-validate="'numeric|min_value:0|max_value:' + (getRemainingCapitalAssetsAmount(alloc , 4) + parseInt(alloc.amount , 10))" :class="{'input': true, 'error-border': errors.has('alloc'+alloc.id)}" />
                                                                         <span v-show="errors.has('alloc'+alloc.id)" class="error-font"></span>

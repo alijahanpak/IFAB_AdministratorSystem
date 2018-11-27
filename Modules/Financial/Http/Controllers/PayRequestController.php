@@ -167,58 +167,6 @@ class PayRequestController extends Controller
         }
     }
 
-    public function numbering(Request $request)
-    {
-        $result = DB::transaction(function () use($request){
-            $payRequest = PayRequest::find($request->prId);
-            $payRequest->prLetterNumber = $request->letterNumber;
-            $payRequest->prLetterDate = $request->letterDate;
-            $payRequest->save();
-
-            $req = _Request::find($request->rId);
-            if ($req->rAcceptedAmount != $req->rCommitmentAmount)
-            {
-                $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
-                $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'FINANCIAL')->value('id');
-
-                RequestHistoryLastPoint::updateOrCreate(['rhlpRId' => $req->id] , [
-                    'rhlpRlId' => RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id'),
-                    'rhlpRsId' => RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id'),
-                    'rhlpPrId' => $payRequest->id,
-                    'rhlpDescription' => 'با توجه به درصد افزایش / کاهش مبلغ قرارداد و تفاوت مبلغ جدید با مبلغ تعهد شده، درخواست نیاز به اصلاح تامین اعتبار دارد.'
-                ]);
-            }else{
-                $req->rRsId = RequestState::where('rsState' , '=' , 'FINANCIAL_QUEUE')->value('id');
-                $req->rRlId = RequestLevel::where('rlLevel' , '=' , 'PAYMENT')->value('id');
-            }
-            $req->save();
-
-            SecretariatRequestQueue::where('srqRId' , '=' , $req->id)->delete();
-
-            // make history for this request
-            $history = new RequestHistory();
-            $history->rhSrcUId = Auth::user()->id;
-            $history->rhDestUId = null; // for accountant destination
-            $history->rhRId = $req->id;
-            $history->rhRsId = $req->rRsId;
-            $history->rhPrId = $payRequest->id;
-            $history->save();
-
-            $finReqQueue = new FinancialRequestQueue();
-            $finReqQueue->frqRId = $req->id;
-            $finReqQueue->save();
-
-            SystemLog::setFinancialSubSystemLog('ثبت درخواست پرداخت در دبیرخانه برای درخواست ' . $req->rSubject . ' در دبیرخانه');
-
-            $rController = new RequestController();
-            return \response()->json(
-                $rController->getAllReceivedRequests($rController->getLastReceivedRequestIdList() , $request->searchValue)
-            );
-        });
-
-        return $result;
-    }
-
     public function wasSeen(Request $request)
     {
         $rHistory = RequestHistory::find($request->rhId);
