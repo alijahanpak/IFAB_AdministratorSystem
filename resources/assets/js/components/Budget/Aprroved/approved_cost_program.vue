@@ -581,7 +581,8 @@
                             </div>
                         </div>
                         <div class="medium-6 columns padding-lr padding-bottom-modal">
-                            <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </form>
                 </div>
@@ -770,7 +771,8 @@
                             </div>
                         </div>
                         <div class="medium-6 columns padding-lr padding-bottom-modal input-margin-top">
-                            <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                            <button  v-show="!$root.btnLoadingCheckStatus"  name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </form>
                 </div>
@@ -785,7 +787,8 @@
                         <p class="large-offset-1 modal-text">آیا برای حذف این رکورد اطمینان دارید؟</p>
                         <div class="grid-x">
                             <div class="medium-12 column text-center">
-                                <button v-on:click="deleteCaCsCostAgreement" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                                <button v-show="!$root.btnLoadingCheckStatus" v-on:click="deleteCaCsCostAgreement" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </div>
                     </div>
@@ -1766,6 +1769,9 @@
             updateCaCreditSource: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post('/budget/approved_plan/cost/credit_source/update' , {
                             id: this.caCreditSourceFill.id,
                             crId: this.caCreditSourceFill.crId,
@@ -1776,7 +1782,7 @@
                             pOrN: this.provOrNat,
                             searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
                             itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
-                        }).then((response) => {
+                        } , config).then((response) => {
                             if (this.provOrNat == 0)
                             {
                                 this.setData(0,response.data.data);
@@ -1811,12 +1817,15 @@
             },
 
             deleteCaCsCostAgreement: function () {
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/budget/approved_plan/cost/credit_source/delete' , {
                     id: this.selectedCaCsIdForDelete,
                     pOrN: this.provOrNat,
                     searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
                     itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
-                }).then((response) => {
+                } , config).then((response) => {
                     if (this.provOrNat == 0 && response.status != 204)
                     {
                         this.setData(0,response.data.data);
@@ -1867,6 +1876,9 @@
                 this.$validator.validateAll().then((result) => {
                     if (result) {
                         if (this.checkValidDate('delivery' , this.costAgreementFill) && this.checkValidDate('exchange' , this.costAgreementFill)) {
+                            var config = {
+                                allowLoading:true,
+                            };
                             axios.post('/budget/approved_plan/cost/update', {
                                 id: this.costAgreementFill.id,
                                 idNumber: this.costAgreementFill.idNumber,
@@ -1877,7 +1889,7 @@
                                 pOrN: this.provOrNat,
                                 searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
                                 itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
-                            }).then((response) => {
+                            } , config).then((response) => {
                                 if (this.provOrNat == 0) {
                                     this.setData(0,response.data.data);
                                     this.makePagination(response.data, "provincial");

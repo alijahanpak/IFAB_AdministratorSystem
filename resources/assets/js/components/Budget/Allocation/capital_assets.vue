@@ -863,7 +863,8 @@
                                 </div>
                             </div>
                             <div class="medium-6 columns padding-lr padding-bottom-modal">
-                                <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <button v-show="!$root.btnLoadingCheckStatus" name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </form>
                     </div>
@@ -877,7 +878,8 @@
                             <p class="large-offset-1 modal-text">آیا برای حذف این رکورد اطمینان دارید؟</p>
                             <div class="grid-x">
                                 <div class="medium-12 column text-center">
-                                    <button v-on:click="deleteProvincialFound" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                                    <button v-show="!$root.btnLoadingCheckStatus" v-on:click="deleteProvincialFound" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                                    <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                                 </div>
                             </div>
                         </div>
@@ -1454,6 +1456,7 @@
             },
 
             openInsertModal: function (type) {
+                this.AllocationInput={};
                 this.checkAllocationDateValid=false;
                 this.lastPcsId = 0;
                 this.approvedPlans = [];
@@ -1666,13 +1669,16 @@
                 this.$validator.validateAll().then((result) => {
                     if (result) {
                         if (this.checkValidDate(this.foundFill)) {
+                            var config = {
+                                allowLoading:true,
+                            };
                             axios.post('/budget/allocation/capital_assets/found/update' , {
                                 id: this.foundFill.id,
                                 date: this.foundFill.date,
                                 amount: this.foundFill.amount,
                                 description: this.foundFill.description,
                                 pOrN: 0
-                            })
+                            } , config)
                                 .then((response) => {
                                     this.foundSetData(response.data);
                                     this.showUpdateFoundModal = false;
@@ -1698,10 +1704,13 @@
             },
 
             deleteProvincialFound: function () {
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/budget/allocation/capital_assets/found/delete' , {
                     id: this.fIdForDelete,
                     pOrN: 0
-                })
+                }  , config)
                     .then((response) => {
                         if (response.status != 204) {
                             this.foundSetData(response.data);

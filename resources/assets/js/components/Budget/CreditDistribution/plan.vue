@@ -434,13 +434,26 @@
                         <form v-on:submit.prevent="createCreditDistributionPlan">
                             <div class="grid-x">
                                 <div class="medium-6 column padding-lr">
-                                    <label>فصل بودجه
-                                        <select class="form-element-margin-btm" v-model="selectedBs" @change="getAllCdTitle" name="bsId" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('bsId')}">
-                                            <option value=""></option>
-                                            <option v-for="bSeason in bSeasons" :value="bSeason.id">{{ bSeason.bsSubject }}</option>
-                                        </select>
+                                    <!--<template>
+                                        <p class="vue-select-label">فصل بودجه</p>
+                                        <model-select
+                                                name="bsId" v-validate data-vv-rules="required" :class="{'vue-select-comp input': true, 'select-error': errors.has('bsId')}"
+                                                :options="bSeasonsOption"
+                                                v-model="selectedBs"
+                                                :customAttr="getAllCdTitle"
+                                        >
+                                        </model-select>
                                         <span v-show="errors.has('bsId')" class="error-font">فصل بودجه را انتخاب کنید!</span>
-                                    </label>
+                                    </template>-->
+                                    <pallas-search-select
+                                            v-bind:pallasSelectLabel="'فصل بودجه'"
+                                            v-bind:pallasSelectName="'bsIdLable'"
+                                            v-bind:pallasSelectOption="bSeasonsOption"
+                                            v-bind:pallasSelectModel="selectedBs"
+                                            v-bind:pallasSelectClass="{'input': true, 'select-error': errors.has('bsIdLable')}"
+                                            v-bind:pallasSelectError="'فصل بودجه را انتخاب کنید!'"
+                                    >
+                                    </pallas-search-select>
                                 </div>
                                 <div class="medium-6 cell padding-lr">
                                     <label>ردیف توزیع اعتبار
@@ -455,10 +468,16 @@
                             <div class="grid-x">
                                 <div class="medium-8 cell padding-lr">
                                     <label>عنوان طرح
-                                        <select class="form-element-margin-btm"  v-model="CdPlanInput.cdtId" name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('plan')}">
+                                        <!--<select class="form-element-margin-btm"  v-model="CdPlanInput.cdtId" name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('plan')}">
                                             <option value=""></option>
                                             <option v-for="creditDistributionTitle in creditDistributionTitles" :value="creditDistributionTitle.id">{{ creditDistributionTitle.cdtIdNumber + ' - ' + creditDistributionTitle.cdtSubject + (creditDistributionTitle.county == null ? '' : ' - ' + creditDistributionTitle.county.coName)}}</option>
-                                        </select>
+                                        </select>-->
+                                        <!--<model-select
+                                                style="direction:rtl;text-align: right;border: 1px solid #cacaca;border-radius: 0px;color: #777777;"
+                                                :options="creditDistributionTitlesOption"
+                                                v-model="CdPlanInput.cdtId"
+                                        >
+                                        </model-select>-->
                                         <span v-show="errors.has('plan')" class="error-font">لطفا طرح را انتخاب کنید!</span>
                                     </label>
                                     <span class="form-error error-font" data-form-error-for="cdpTitle">طرح توزیع اعتبار را انتخاب کنید!</span>
@@ -677,6 +696,7 @@
 <script>
     import VuePagination from '../../../public_component/pagination.vue';
     import VueElementLoading from 'vue-element-loading';
+    import pallasSearchSelect from '../../../public_component/pallas_vue_select';
     export default {
         data(){
             return {
@@ -701,10 +721,12 @@
                 showPdfModal: false,
                 selectColumn:false,
                 costTemp:'',
-                creditDistributionTitles: {},
+                creditDistributionTitles: [],
+                creditDistributionTitlesOption:[],
                 creditDistributionRows: {},
                 counties: {},
-                bSeasons: {},
+                bSeasons: [],
+                bSeasonsOption: [],
                 selectedBs: '',
                 selectedItems: [],
                 selectedCount: 0,
@@ -740,6 +762,9 @@
                 },
                 reportPdfPath: '',
                 showLoaderProgress: false,
+
+
+
             }
         },
         created: function () {
@@ -767,8 +792,8 @@
         components:{
             'vue-pagination' : VuePagination,
             VueElementLoading,
+            pallasSearchSelect,
         },
-
         methods:{
             fetchData_byPlan: function (page = 1) {
                 axios.get('/budget/credit_distribution/capital_assets/provincial/plans/fetchData?page=' + page , {params:{
@@ -870,6 +895,14 @@
                 axios.get('/budget/admin/credit_distribution_def/budget_season/fetchData')
                     .then((response) => {
                         this.bSeasons = response.data;
+                        this.bSeasonsOption=[];
+                        this.bSeasons.forEach(item =>{
+                            var bSeasonTemp={};
+                            bSeasonTemp.value=item.id;
+                            bSeasonTemp.text=item.bsSubject;
+                            this.bSeasonsOption.push(bSeasonTemp)
+
+                        });
                         console.log(response);
                     },(error) => {
                         console.log(error);
@@ -882,6 +915,14 @@
                     axios.get('/budget/admin/credit_distribution_def/plan_cost_title/getAllItem' , {params:{pOrN: 1 , bsId: this.selectedBs}})
                         .then((response) => {
                             this.creditDistributionTitles = response.data;
+                            this.creditDistributionTitlesOption=[];
+                            this.creditDistributionTitles.forEach(item =>{
+                                var cdtTemp={};
+                                cdtTemp.value=item.id;
+                                cdtTemp.text=item.cdtIdNumber + '-' + item.cdtSubject;
+                                this.creditDistributionTitlesOption.push(cdtTemp)
+
+                            });
                             console.log(response);
                         },(error) => {
                             console.log(error);
@@ -921,11 +962,13 @@
             },
 
             openInsertModal: function () {
+
                 this.CdPlanInput = [];
                 this.selectedBs = '';
                 this.getBudgetSeason();
                 this.getCreditDistributionRow();
                 this.getCounties();
+
                 this.showInsertModal = true;
             },
 

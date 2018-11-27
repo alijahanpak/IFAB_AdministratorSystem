@@ -528,7 +528,8 @@
                             </div>
                         </div>
                         <div class="medium-6 padding-lr padding-bottom-modal">
-                            <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </form>
                 </div>
@@ -961,7 +962,8 @@
                             </div>
                         </div>
                         <div class="medium-6 columns padding-lr padding-bottom-modal">
-                            <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </form>
                 </div>
@@ -1817,6 +1819,9 @@
                     if (result) {
                         if (this.checkValidDate('delivery' , this.approvedPlanFill) && this.checkValidDate('exchange' , this.approvedPlanFill))
                         {
+                            var config = {
+                                allowLoading:true,
+                            };
                             axios.post('/budget/approved_plan/capital_assets/update' , {
                                 id: this.approvedPlanFill.id,
                                 cdtId: this.approvedPlanFill.cdtId,
@@ -1828,7 +1833,7 @@
                                 pOrN: this.provOrNat,
                                 searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
                                 itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
-                            }).then((response) => {
+                            } , config).then((response) => {
                                 if (this.provOrNat == 0)
                                 {
                                     this.setData(0 , response.data.data);
@@ -2238,6 +2243,9 @@
             updateTempProject: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post('/budget/approved_plan/capital_assets/amendment/temp/project/update' , {
                             cpId: this.projectAmendmentFill.cpId,
                             pId: this.projectAmendmentFill.capId,
@@ -2248,7 +2256,7 @@
                             pProgress: this.projectAmendmentFill.pProgress,
                             coId: this.projectAmendmentFill.county,
                             description: this.projectAmendmentFill.description,
-                        }).then((response) => {
+                        } , config).then((response) => {
                             this.approvedAmendmentProjects = response.data;
                             this.showEditModalProject = false;
                             console.log(response);

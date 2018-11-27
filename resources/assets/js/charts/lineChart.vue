@@ -86,24 +86,9 @@
         },
 
         mounted: function () {
-            //this.testUpdate();
         },
 
         methods : {
-            testUpdate:function () {
-                /*this.$refs.demoUptions.updateOptions({
-                    chartOptions:{
-                        xaxis: {
-                            categories:  ['یک','دو','سه','چهار','پنج','شش','هفت'],
-                        },
-                    }
-                })*/
-                this.chartOptions={
-                    xaxis: {
-                        categories:  ['یک','دو','سه','چهار','پنج','شش','هفت'],
-                    },
-                }
-            }
 
         }
     }

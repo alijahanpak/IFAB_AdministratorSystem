@@ -841,7 +841,8 @@
                             </div>
                         </div>
                         <div class="medium-6 columns padding-lr padding-bottom-modal input-margin-top">
-                            <button name="Submit" class="my-button my-success float-left"> <span class="btn-txt-mrg">ثبت</span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" name="Submit" class="my-button my-success float-left"> <span class="btn-txt-mrg">ثبت</span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </form>
                 </div>
@@ -934,7 +935,8 @@
                             </div>
                         </div>
                         <div class="medium-6 columns padding-lr padding-bottom-modal input-margin-top">
-                            <button name="Submit" class="my-button my-success float-left"> <span class="btn-txt-mrg">ثبت</span></button>
+                            <button v-show="!$root.btnLoadingCheckStatus" name="Submit" class="my-button my-success float-left"> <span class="btn-txt-mrg">ثبت</span></button>
+                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                         </div>
                     </form>
                 </div>
@@ -949,7 +951,8 @@
                         <p class="large-offset-1 modal-text">برای حذف رکورد مورد نظر اطمینان دارید؟</p>
                         <div class="grid-x">
                             <div class="medium-12 column text-center">
-                                <button v-on:click="deleteApprovedProjectCreditSource" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                                <button v-show="!$root.btnLoadingCheckStatus" v-on:click="deleteApprovedProjectCreditSource" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </div>
                     </div>
@@ -1382,6 +1385,9 @@
             createApprovedProjectCreditSource: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post('/budget/approved_project/capital_assets/credit_source/register' , {
                             capId: this.capIdForInsertCreditSource,
                             crId: this.apCreditSourceInput.crId,
@@ -1392,7 +1398,7 @@
                             pOrN: this.provOrNat,
                             searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
                             itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
-                        }).then((response) => {
+                        } , config).then((response) => {
                             if (this.provOrNat == 0)
                             {
                                 this.setData(0 , response.data.data);
@@ -1438,6 +1444,9 @@
             updateApprovedProjectCreditSource: function () {
                 this.$validator.validateAll().then((result) => {
                     if (result) {
+                        var config = {
+                            allowLoading:true,
+                        };
                         axios.post('/budget/approved_project/capital_assets/credit_source/update' , {
                             id: this.apCreditSourceFill.id,
                             crId: this.apCreditSourceFill.crId,
@@ -1448,7 +1457,7 @@
                             pOrN: this.provOrNat,
                             searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
                             itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
-                        }).then((response) => {
+                        } , config).then((response) => {
                             if (this.provOrNat == 0)
                             {
                                 this.setData(0 , response.data.data);
@@ -1621,12 +1630,15 @@
             },
 
             deleteApprovedProjectCreditSource: function () {
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/budget/approved_project/capital_assets/credit_source/delete' , {
                     id: this.csIdForDelete,
                     pOrN: this.provOrNat,
                     searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
                     itemInPage: this.provOrNat == 0 ? this.itemInPage : this.natItemInPage
-                }).then((response) => {
+                } , config).then((response) => {
                     if (response.status != 204)
                     {
                         if (this.provOrNat == 0)

@@ -796,7 +796,8 @@
                                 </div>
                             </div>
                             <div class="medium-6 columns padding-lr padding-bottom-modal">
-                                <button name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <button v-show="!$root.btnLoadingCheckStatus" name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </form>
                     </div>
@@ -810,7 +811,8 @@
                             <p class="large-offset-1 modal-text">آیا برای حذف این رکورد اطمینان دارید؟</p>
                             <div class="grid-x">
                                 <div class="medium-12 column text-center">
-                                    <button v-on:click="deleteFound" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                                    <button v-show="!$root.btnLoadingCheckStatus" v-on:click="deleteFound" class="my-button my-success"><span class="btn-txt-mrg">   بله   </span></button>
+                                    <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                                 </div>
                             </div>
                         </div>
@@ -1556,10 +1558,10 @@
                         this.checkAllocationDateValid=true;
                     if(!this.checkAllocationDateValid ) {
                         if (result) {
-                            var config = {
-                                allowLoading: true,
-                            };
                             if (this.checkValidDate(this.foundInput)) {
+                                var config = {
+                                    allowLoading: true,
+                                };
                                 axios.post('/budget/allocation/cost/found/register', {
                                     date: this.foundInput.date,
                                     amount: this.foundInput.amount,
@@ -1597,13 +1599,16 @@
                 this.$validator.validateAll().then((result) => {
                     if (result) {
                         if (this.checkValidDate(this.foundFill)) {
+                            var config = {
+                                allowLoading:true,
+                            };
                             axios.post('/budget/allocation/cost/found/update' , {
                                         id: this.foundFill.id,
                                         date: this.foundFill.date,
                                         amount: this.foundFill.amount,
                                         description: this.foundFill.description,
                                         pOrN: 0
-                                    })
+                                    } , config)
                                     .then((response) => {
                                     this.foundSetData(response.data);
                                     this.showUpdateFoundModal = false;
@@ -1629,10 +1634,13 @@
             },
 
             deleteFound: function () {
+                var config = {
+                    allowLoading:true,
+                };
                 axios.post('/budget/allocation/cost/found/delete' , {
                             id: this.foundIdForDelete,
                             pOrN: 0
-                        }).then((response) => {
+                        } , config).then((response) => {
                         if (response.status != 204)
                             this.foundSetData(response.data);
                         this.showDeleteFoundModal = false;
