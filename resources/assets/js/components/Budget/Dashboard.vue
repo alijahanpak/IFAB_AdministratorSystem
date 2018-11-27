@@ -287,6 +287,9 @@
 
         created: function(){
             this.setUpdateDataThread();
+            this.fetchCapitalAssetsData();
+            this.fetchCostsData();
+            this.getStatisticsData();
         },
 
         beforeDestroy: function () {
@@ -299,9 +302,7 @@
         },
 
         mounted: function () {
-            this.fetchCapitalAssetsData();
-            this.fetchCostsData();
-            this.getStatisticsData();
+
         },
 
         methods: {

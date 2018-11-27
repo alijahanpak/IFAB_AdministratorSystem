@@ -2395,7 +2395,27 @@ input[type="search"]:valid + label {
     top: 0;
     position: absolute;
 }
-
+.ui.dropdown .menu > .item {
+    text-align: right !important;
+    color: #777777 !important;
+    font-size: small !important;
+}
+.ui.selection.dropdown {
+    text-align: right !important;
+}
+.vue-select-label{
+    margin-bottom: 3px;
+    font-size: 0.875rem;
+}
+.vue-select-comp{
+    direction:rtl !important;
+    text-align: right !important;
+    border: 1px solid #cacaca !important;
+    border-radius: 0px !important;
+    color: #777777 !important;
+    font-size: small !important;
+    line-height: 1.35 !important;
+}
 /*Media Queries*/
 
 @media only screen and (max-width: 1024px) {

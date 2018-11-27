@@ -49,6 +49,7 @@
     "vue-persian-datetime-picker": "^1.1.4",
     "vue-progressbar": "^0.7.3",
     "vue-promise-btn": "^1.1.0",
+    "vue-search-select": "^2.7.0",
     "vue-select": "^2.4.0",
     "vue-style-loader": "^3.0.3",
     "vue2-form-loading": "^0.1.0",
