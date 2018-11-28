@@ -174,7 +174,8 @@ class CheckController extends Controller
                     ->orWhere('cAmount' , '=' , $searchValue)
                     ->orWhere('cIdNumber' , '=' , $searchValue)
                     ->orWhereHas('percentageDecrease' , function ($query) use($searchValue){
-                        return $query->where('pdSubject' , 'LIKE' , '%' . $searchValue . '%');
+                        return $query->where('pdSubject' , 'LIKE' , '%' . $searchValue . '%')
+                            ->orWhere('pdPayTo' , '=' , $searchValue);
                     })
                     ->orWhereHas('checkState' , function ($query) use($searchValue){
                         return $query->where('csSubject' , 'LIKE' , '%' . $searchValue . '%');
@@ -182,13 +183,17 @@ class CheckController extends Controller
                     ->orWhereHas('draft' , function ($query) use($searchValue){
                         return $query->where('dFor' , 'LIKE' , '%' . $searchValue . '%')
                             ->orWhere('dPayTo' , '=' , $searchValue);
+                    })
+                    ->orWhereHas('deposit.depositPercentage' , function ($query) use($searchValue){
+                        return $query->where('dpSubject' , 'LIKE' , '%' . $searchValue . '%')
+                            ->orWhere('dpPayTo' , '=' , $searchValue);
                     });
             })
             ->with('draft')
             ->with('percentageDecrease')
             ->with('deposit.depositPercentage')
             ->with('checkState')
-            ->with('printHistory')
+            ->with('printHistory.checkFormat')
             ->with('selectedVerifiers.verifier.user.role')
             ->orderBy('id' , 'DESC')
             ->paginate(20);
@@ -199,6 +204,8 @@ class CheckController extends Controller
         DB::transaction(function () use($request){
             $format = new CheckFormat();
             $format->cfSubject = PublicSetting::checkPersianCharacters($request->subject);
+            $format->cfAccountNumber = PublicSetting::checkPersianCharacters($request->accountNumber);
+            $format->cfBank = PublicSetting::checkPersianCharacters($request->bank);
             $format->cfState = $request->state;
             $format->cfDateTop = $request->dateTop;
             $format->cfDateRight = $request->dateRight;
@@ -257,7 +264,11 @@ class CheckController extends Controller
                 $checkVerifiers = CheckVerifier::whereIn('id' , $request->verifiers)->with('user.role')->orderBy('cvOrder')->get();
                 //$user = User::where('id' , $checkVerifier->cvUId)->with('role')->first();
 
-                $check = _Check::where('id' , $request->cId)->first();
+                $check = _Check::where('id' , $request->cId)
+                    ->with('draft')
+                    ->with('percentageDecrease')
+                    ->with('deposit.depositPercentage')
+                    ->first();
                 $check->cDate = $request->date;
                 $check->cCsId = $check->cCsId == CheckState::where('csState' , 'WAITING_FOR_PRINT')->value('id') ? CheckState::where('csState' , 'WAITING_FOR_DELIVERY')->value('id') : $check->cCsId;
                 $check->cIdNumber = $request->idNumber;
@@ -276,12 +287,31 @@ class CheckController extends Controller
 
                 $printHistory = new PrintHistory();
                 $printHistory->phCId = $request->cId;
+                $printHistory->phCfId = $request->cfId;
                 $printHistory->phDate = $check->cDate;
                 $printHistory->phIdNumber = $check->cIdNumber;
-                $printHistory->phVerifierName = $checkVerifiers[0]->user->name . ' - ' . $checkVerifiers[0]->user->role->rSubject;
+                $printHistory->phVerifierName = $checkVerifiers[0]->user->name;
+                $printHistory->phVerifierRole = $checkVerifiers[0]->user->role->rSubject;
+
                 if (count($checkVerifiers) > 1)
-                    $printHistory->phSecondVerifierName = $checkVerifiers[1]->user->name . ' - ' . $checkVerifiers[1]->user->role->rSubject;
-                $printHistory->phCheckFormat = $request->cfSubject;
+                {
+                    $printHistory->phSecondVerifierName = $checkVerifiers[1]->user->name;
+                    $printHistory->phSecondVerifierRole = $checkVerifiers[1]->user->role->rSubject;
+                }
+
+                if ($check->cPdId != null)
+                {
+                    $printHistory->phFor = $check['percentageDecrease']['pdSubject'] . ' - ' . $check['draft']['dFor'];
+                    $printHistory->phPayTo = $check['percentageDecrease']['pdPayTo'];
+                }else if ($check->cDpId != null)
+                {
+                    $printHistory->phFor = $check['deposit']['depositPercentage']['dpSubject'] . ' - ' . $check['draft']['dFor'];
+                    $printHistory->phPayTo = $check['deposit']['depositPercentage']['dpPayTo'];
+                }else{
+                    $printHistory->phFor = $check['draft']['dFor'];
+                    $printHistory->phPayTo = $check['draft']['dPayTo'];
+                }
+
                 $printHistory->phAmount = $check->cAmount;
                 $printHistory->phDescription = PublicSetting::checkPersianCharacters($request->description);
                 $printHistory->save();

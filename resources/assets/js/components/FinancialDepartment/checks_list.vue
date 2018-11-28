@@ -68,7 +68,7 @@
                                     <col width="150px"/>
                                 </colgroup>
                                 <tbody class="tbl-head-style-cell">
-                                <tr class="table-row" @click="getRequestDetail(allCheck)" v-for="allCheck in allChecks">
+                                <tr class="table-row" @click="openDetailModal(index)" v-for="(allCheck , index) in allChecks">
                                     <td class="text-center">{{allCheck.cIdNumber}}</td>
                                     <td class="text-center">{{allCheck.cDate}}</td>
                                     <td class="text-center">{{$parent.dispMoneyFormat(allCheck.cAmount)}}</td>
@@ -164,11 +164,19 @@
                                             <label>قالب چک
                                                 <select name="checkTemplate" @change="selectCheckTemplate(inputCheck.checkFormat)" v-validate data-vv-rules="required"  v-model="inputCheck.checkFormat" :class="{'input': true, 'select-error': errors.has('checkTemplate')}">
                                                     <option value=""></option>
-                                                    <option v-for="activeCheckFormat in allActiveCheckFormat" :value="activeCheckFormat">{{activeCheckFormat.cfSubject}}</option>
+                                                    <option v-for="activeCheckFormat in allActiveCheckFormat" :value="activeCheckFormat">{{activeCheckFormat.cfSubject + ' - ' + activeCheckFormat.cfBank + ' - ' + activeCheckFormat.cfAccountNumber}}</option>
                                                 </select>
                                                 <p v-show="errors.has('checkTemplate')" class="error-font">لطفا قالب چک را انتخاب کنید!</p>
                                                 <p v-show="checkVerifierCountAlert" class="error-font">کاربر گرامی: با توجه به تعداد امضا کنندگان، شما نمی توانید قالب چک با دو امضا انتخاب کنید!</p>
                                             </label>
+                                        </div>
+                                    </div>
+                                    <div class="grid-x small-top-m">
+                                        <div class="large-12 medium-12 small-12 padding-lr">
+                                            <div class="stacked-for-small button-group float-left" style="margin-bottom: 0px">
+                                                <button v-show="deliverBtn" @click="openCheckDeliverModal()" class="my-button my-success float-left"><span class="btn-txt-mrg">  تحویل </span></button>
+                                                <button v-show="previewBtn" @click="showCheckPreview()" class="my-button my-success float-left"><span class="btn-txt-mrg">  پیش نمایش چک </span></button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -207,8 +215,7 @@
                                                         <col width="12px"/>
                                                     </colgroup>
                                                     <tbody class="tbl-head-style-cell">
-                                                    <template v-for="checkSelect in checkSelectTemp">
-                                                        <tr class="table-row" v-for="pHistory in checkSelect.print_history">
+                                                        <tr class="table-row" v-for="pHistory in checkSelectTemp.print_history">
                                                             <td :data-toggle="'pHistory' + pHistory.id" class="text-center">{{pHistory.phIdNumber}}</td>
                                                             <td :data-toggle="'pHistory' + pHistory.id" >{{pHistory.phDate}}
                                                                 <div style="width: 30vw;" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="100px"  data-position="auto" data-alignment="auto" :id="'pHistory' + pHistory.id" data-dropdown data-auto-focus="true">
@@ -220,7 +227,15 @@
                                                                                     <tbody>
                                                                                     <tr>
                                                                                         <td width="200" class="black-color">قالب چک :</td>
-                                                                                        <td width="400">{{pHistory.phCheckFormat}}</td>
+                                                                                        <td width="400">{{pHistory.check_format.cfSubject}}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td width="200" class="black-color">بانک :</td>
+                                                                                        <td width="400">{{pHistory.check_format.cfBank}}</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td width="200" class="black-color">حساب :</td>
+                                                                                        <td width="400">{{pHistory.check_format.cfAccountNumber}}</td>
                                                                                     </tr>
                                                                                     <tr>
                                                                                         <td class="black-color">شماره چک :</td>
@@ -236,11 +251,11 @@
                                                                                     </tr>
                                                                                     <tr>
                                                                                         <td class="black-color">امضا کننده :</td>
-                                                                                        <td class="text-justify">{{pHistory.phVerifierName}}</td>
+                                                                                        <td class="text-justify">{{pHistory.phVerifierName + ' - ' + pHistory.phVerifierRole}}</td>
                                                                                     </tr>
                                                                                     <tr v-show="pHistory.phSecondVerifierName != null">
                                                                                         <td class="black-color">امضا کننده دوم :</td>
-                                                                                        <td class="text-justify">{{pHistory.phSecondVerifierName}}</td>
+                                                                                        <td class="text-justify">{{pHistory.phSecondVerifierName + ' - ' + pHistory.phSecondVerifierRole}}</td>
                                                                                     </tr>
                                                                                     <tr v-show="pHistory.phDescription != null">
                                                                                         <td class="black-color">دلیل پرینت مجدد :</td>
@@ -254,6 +269,12 @@
                                                                                 </table>
                                                                             </div>
                                                                             <!--Table Body End-->
+                                                                            <div class="large-12 medium-12 small-12" style="margin-top: 10px">
+                                                                                <div class="stacked-for-small button-group float-left" style="margin-bottom: 0px">
+                                                                                    <button @click="openIntroductionLetter(pHistory.id)" class="my-button toolbox-btn small float-left"><span class="btn-txt-mrg">معرفی به بانک</span></button>
+                                                                                    <button @click="reprintCheck(pHistory.id)" class="my-button my-success small float-left"><span class="btn-txt-mrg">چاپ</span></button>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
                                                                     </ul>
                                                                 </div>
@@ -261,7 +282,6 @@
                                                             <td :data-toggle="'pHistory' + pHistory.id" class="text-center">{{$root.dispMoneyFormat(pHistory.phAmount)}}</td>
                                                             <td :data-toggle="'pHistory' + pHistory.id" class="text-center">{{ pHistory.pShamsiPrintDate }}</td>
                                                         </tr>
-                                                    </template>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -270,14 +290,6 @@
                                     </div>
                                 </div>
                                 <!--Tab 2-->
-                            </div>
-                        </div>
-                    </div>
-                    <div class="grid-x small-top-m">
-                        <div class="large-12 medium-12 small-12 padding-lr">
-                            <div class="stacked-for-small button-group float-left" style="margin-bottom: 0px">
-                                <button v-show="deliverBtn" @click="openCheckDeliverModal()" class="my-button my-success float-left"><span class="btn-txt-mrg">  تحویل </span></button>
-                                <button v-show="previewBtn" @click="showCheckPreview()" class="my-button my-success float-left"><span class="btn-txt-mrg">  پیش نمایش چک </span></button>
                             </div>
                         </div>
                     </div>
@@ -310,6 +322,7 @@
                     <div class="grid-x small-top-m">
                         <div class="large-12 medium-12 small-12 padding-lr">
                             <div class="stacked-for-small button-group float-left">
+                                <button v-show="displayIntroLetterBtn" @click="openIntroductionLetter(checkSelectTemp.print_history[0].id)" class="my-button toolbox-btn small float-left"><span class="btn-txt-mrg">معرفی به بانک</span></button>
                                 <button v-show="!$root.btnLoadingCheckStatus" @click="getReprintingCause()" class="my-button my-success float-left"><span class="btn-txt-mrg">  چاپ </span></button>
                                 <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
@@ -380,6 +393,18 @@
             </div>
         </modal-tiny>
         <!-- Show Reprinting cause modal -->
+        <!-- report pdf modal -->
+        <modal-large v-show="showPdfModal" @close="showPdfModal =false">
+            <div  slot="body">
+                <div class="grid-x">
+                    <div class="large-12 medium-12 small-12" style="width: 100%;height: 75vh">
+                        <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
+                        <iframe style="width: 100%;height: 100%;border: 0px" :src="reportPdfPath" />
+                    </div>
+                </div>
+            </div>
+        </modal-large>
+        <!-- end report pdf modal -->
 
     </div>
 </template>
@@ -425,7 +450,7 @@
                 inputCheck:{},
                 fillCheck:{},
                 checkActiveFormatSelect:[],
-                checkSelectTemp:[],
+                checkSelectTemp:{},
                 checkVerifierName:[],
                 dPayTo:'',
                 dFor:'',
@@ -442,6 +467,10 @@
                 checkDateValid:false,
                 checkVerifierAlert:false,
                 checkPdfPath:'',
+                reportPdfPath: '',
+                showPdfModal: false,
+                displayIntroLetterBtn: false,
+                selectedCheckIndex: -1,
             }
         },
 
@@ -476,6 +505,8 @@
             },
 
             allChecks: function (newQuestion, oldQuestion) {
+                if (this.selectedCheckIndex != -1)
+                    this.getRequestDetail(this.selectedCheckIndex);
                 this.$root.checkCount();
             }
         },
@@ -530,50 +561,51 @@
                     });
             },
 
-            getRequestDetail:function(check){
-                this.checkSelectTemp=[];
+            openDetailModal: function(index){
+                this.inputCheck={};
                 this.checkDateValid=false;
                 this.previewBtn=false;
-                this.checkSelectTemp.push(check);
-                console.log(JSON.stringify(this.checkSelectTemp));
-                this.checkSelectTemp.forEach(item =>{
-                    if (item.cPdId != null)
-                    {
-                        this.dPayTo = item.percentage_decrease.pdPayTo;
-                        this.dFor = item.percentage_decrease.pdSubject + ' - ' + item.draft.dFor;
-                    }
-                    else if (item.cDpId != null)
-                    {
-                        this.dPayTo = item.deposit.deposit_percentage.dpPayTo;
-                        this.dFor = item.deposit.deposit_percentage.dpSubject + ' - ' + item.draft.dFor;
-                    }
-                    else
-                    {
-                        this.dPayTo = item.draft.dPayTo;
-                        this.dFor = item.draft.dFor;
-                    }
-                    this.cAmount = item.cAmount;
-                });
-
-                this.checkSelectTemp.forEach(item =>{
-                    if(item.print_history.length > 0){
-                        if(item.check_state.csState == 'DELIVERED'){
-                            this.checkHistoryState=true;
-                            this.deliverBtn=false;
-                        }
-                        else this.deliverBtn=true;
-                    }
-                    else{
-                        this.checkHistoryState=false;
+                this.getRequestDetail(index);
+                if(this.checkSelectTemp.print_history != null){
+                    if(this.checkSelectTemp.check_state.csState == 'DELIVERED'){
+                        this.checkHistoryState=true;
                         this.deliverBtn=false;
                     }
-                });
+                    else this.deliverBtn=true;
+                }
+                else{
+                    this.checkHistoryState=false;
+                    this.deliverBtn=false;
+                }
 
-                this.checkId=check.id;
-                this.inputCheck={};
+                this.checkId = this.checkSelectTemp.id;
                 this.getAllCheckVerifiers();
                 this.fetchAllActiveCheckFormat();
                 this.showPrintCheckModal=true;
+            },
+
+
+
+            getRequestDetail:function(index){
+                this.selectedCheckIndex = index;
+                this.checkSelectTemp = this.allChecks[this.selectedCheckIndex];
+                if (this.checkSelectTemp.cPdId != null)
+                {
+                    this.dPayTo = this.checkSelectTemp.percentage_decrease.pdPayTo;
+                    this.dFor = this.checkSelectTemp.percentage_decrease.pdSubject + ' - ' + this.checkSelectTemp.draft.dFor;
+                }
+                else if (this.checkSelectTemp.cDpId != null)
+                {
+                    this.dPayTo = this.checkSelectTemp.deposit.deposit_percentage.dpPayTo;
+                    this.dFor = this.checkSelectTemp.deposit.deposit_percentage.dpSubject + ' - ' + this.checkSelectTemp.draft.dFor;
+                }
+                else
+                {
+                    this.dPayTo = this.checkSelectTemp.draft.dPayTo;
+                    this.dFor = this.checkSelectTemp.draft.dFor;
+                }
+                this.cAmount = this.checkSelectTemp.cAmount;
+
             },
 
             selectCheckTemplate:function(check){
@@ -698,7 +730,7 @@
                 console.log(JSON.stringify(this.allCheckVerifiers));
             },
 
-            getReprintingCause : function(){
+            getReprintingCause: function(){
                 if(this.checkHistoryState){
                     this.showReprintingCauseModal=true;
                 }
@@ -707,7 +739,7 @@
 
             },
 
-            closeReprintingCauseModal : function(){
+            closeReprintingCauseModal: function(){
                 this.$validator.validateAll().then((result) => {
                     if (result) {
                         this.showReprintingCauseModal=false;
@@ -716,8 +748,9 @@
                 });
             },
 
-            updateCheckValueInPrintAction : function(){
+            updateCheckValueInPrintAction: function(){
                 var verifierTempForCheck=[];
+                this.displayIntroLetterBtn = false;
                 this.allCheckVerifiers.forEach(item =>{
                     if(item.checked ==  true){
                         verifierTempForCheck.push(item.id);
@@ -730,6 +763,7 @@
                     axios.post('/financial/check/print/update', {
                         verifiers:verifierTempForCheck,
                         cId:this.checkId,
+                        cfId:this.checkActiveFormatSelect.id,
                         date:this.inputCheck.date,
                         idNumber:this.inputCheck.idNumber,
                         cfSubject:this.fillCheck.subject,
@@ -739,6 +773,7 @@
                         if(response.status == 200){
                             this.openReportFile(this.inputCheck.checkFormat.id,this.checkId);
                             this.allChecks = response.data.data;
+                            this.displayIntroLetterBtn = true;
                             this.makePagination(response.data);
                             this.$parent.displayNotif(response.status);
                         }
@@ -752,7 +787,7 @@
             convertDateToLetter : function(){
                 var month=["فروردین","اردیبهشت","خرداد","تیر","مرداد","شهریور","مهر","آبان","آذر","دی","بهمن","اسفند"];
                 var dateTemp = this.inputCheck.date.split('/');
-                this.letterDatePersian=  dateTemp[2].toPersian() + ' ' + month[dateTemp[1]-1] + ' ' + dateTemp[0].toPersian();
+                this.letterDatePersian = dateTemp[2].toPersian() + ' ' + month[dateTemp[1]-1] + ' ' + dateTemp[0].toPersian();
             },
 
             openCheckDeliverModal:function(){
@@ -791,9 +826,33 @@
                         var file = new Blob([response.data], {type: 'application/pdf'});
                         var fileURL = window.URL.createObjectURL(file);
                         this.checkPdfPath = fileURL;
-                        this.showGetCheckPreviewModal=false;
-                        this.showPrintCheckModal=false;
                         printJS(this.checkPdfPath);
+                    },(error) => {
+                        console.log(error);
+                    });
+            },
+
+            reprintCheck: function(phId){
+                axios.post('/financial/report/reprint_check' , {phId:phId} ,{responseType:'blob'})
+                    .then((response) => {
+                        console.log(response.data);
+                        var file = new Blob([response.data], {type: 'application/pdf'});
+                        var fileURL = window.URL.createObjectURL(file);
+                        this.checkPdfPath = fileURL;
+                        printJS(this.checkPdfPath);
+                    },(error) => {
+                        console.log(error);
+                    });
+            },
+
+            openIntroductionLetter: function(phId){
+                axios.post('/financial/report/introduction_letter' , {phId:phId} ,{responseType:'blob'})
+                    .then((response) => {
+                        console.log(response.data);
+                        var file = new Blob([response.data], {type: 'application/pdf'});
+                        var fileURL = window.URL.createObjectURL(file);
+                        this.reportPdfPath = fileURL;
+                        this.showPdfModal=true;
                     },(error) => {
                         console.log(error);
                     });

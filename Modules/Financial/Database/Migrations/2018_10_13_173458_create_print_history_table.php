@@ -17,17 +17,26 @@ class CreatePrintHistoryTable extends Migration
             Schema::create('tbl_print_history', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->bigInteger('phCId')->length(20)->unsigned();
+                $table->bigInteger('phCfId')->length(20)->unsigned();
                 $table->string('phDate');
                 $table->unsignedBigInteger('phAmount');
+                $table->string('phFor');
+                $table->string('phPayTo');
                 $table->string('phIdNumber');
                 $table->string('phVerifierName');
+                $table->string('phVerifierRole');
                 $table->string('phSecondVerifierName')->nullable();
-                $table->string('phCheckFormat');
+                $table->string('phSecondVerifierRole')->nullable();
                 $table->longText('phDescription')->nullable();
                 $table->timestamps();
 
                 $table->foreign('phCId')
                     ->references('id')->on('tbl_checks')
+                    ->onDelete('restrict')
+                    ->onUpdate('cascade');
+
+                $table->foreign('phCfId')
+                    ->references('id')->on('tbl_check_formats')
                     ->onDelete('restrict')
                     ->onUpdate('cascade');
             });

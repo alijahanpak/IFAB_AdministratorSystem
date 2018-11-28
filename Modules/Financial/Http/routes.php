@@ -90,6 +90,8 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'financial',
         Route::post('/document' , 'ReportController@document');
         Route::post('/payment_request' , 'ReportController@paymentRequest');
         Route::post('/check' , 'ReportController@check');
+        Route::post('/reprint_check' , 'ReportController@reprint_check');
+        Route::post('/introduction_letter' , 'ReportController@introductionLetter');
     });
 
     Route::prefix('payment_request')->group(function () {
