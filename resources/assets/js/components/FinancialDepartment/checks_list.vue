@@ -205,7 +205,7 @@
                                                 <!--Table Head End-->
                                                 <!--Table Body Start-->
                                             </table>
-                                            <div style="height: 44vh;" class="tbl_body_style inner-vh-unsize">
+                                            <div style="height: 42vh;" class="tbl_body_style inner-vh-unsize">
                                                 <table class="tbl-body-contain">
                                                     <colgroup>
                                                         <col width="250px"/>
@@ -419,6 +419,7 @@
     import VuePersianDatetimePicker from 'vue-persian-datetime-picker';
     import VuePagination from '../../public_component/pagination.vue';
     import printJS from 'print-js';
+    import VueElementLoading from 'vue-element-loading';
 
     export default {
         components: {
@@ -426,6 +427,7 @@
             "vue-select": require("vue-select"),
             datePicker: VuePersianDatetimePicker,
             'vue-pagination' : VuePagination,
+            VueElementLoading,
         },
 
         data () {
@@ -471,6 +473,7 @@
                 showPdfModal: false,
                 displayIntroLetterBtn: false,
                 selectedCheckIndex: -1,
+                showLoaderProgress: false,
             }
         },
 
@@ -506,12 +509,20 @@
 
             allChecks: function (newQuestion, oldQuestion) {
                 if (this.selectedCheckIndex != -1)
+                {
+                    this.calcSelectedIndex(newQuestion , oldQuestion);
                     this.getRequestDetail(this.selectedCheckIndex);
+                }
+
                 this.$root.checkCount();
             }
         },
 
         methods: {
+            calcSelectedIndex: function(newValue , oldValue){
+                this.selectedCheckIndex += (newValue.length - oldValue.length);
+            },
+
             makePagination: function(data){
                 this.result_pagination.current_page = data.current_page;
                 this.result_pagination.to = data.to;
@@ -846,14 +857,17 @@
             },
 
             openIntroductionLetter: function(phId){
+                this.showLoaderProgress = true;
+                this.showPdfModal = true;
                 axios.post('/financial/report/introduction_letter' , {phId:phId} ,{responseType:'blob'})
                     .then((response) => {
                         console.log(response.data);
                         var file = new Blob([response.data], {type: 'application/pdf'});
                         var fileURL = window.URL.createObjectURL(file);
                         this.reportPdfPath = fileURL;
-                        this.showPdfModal=true;
+                        this.showLoaderProgress = false;
                     },(error) => {
+                        this.showLoaderProgress = false;
                         console.log(error);
                     });
             },
