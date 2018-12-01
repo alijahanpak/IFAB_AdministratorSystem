@@ -558,6 +558,7 @@
             refunds: function (newQuestion, oldQuestion) {
                 if (this.selectedIndex != -1)
                 {
+                    this.calcSelectedIndex(newQuestion , oldQuestion);
                     this.selectedRefund=this.refunds[this.selectedIndex];
                     this.splitFactorDetail();
                 }
@@ -567,6 +568,9 @@
         },
 
         methods: {
+            calcSelectedIndex: function(newValue , oldValue){
+                this.selectedIndex += (newValue.length - oldValue.length);
+            },
 
             setUpdateDataThread: function () {
                 console.log("...................................................... set search part update thread");

@@ -1309,6 +1309,7 @@
             receiveRequests: function (newValue , oldValue) {
                 if (this.selectedIndex != -1)
                 {
+                    this.calcSelectedIndex(newValue , oldValue);
                     this.selectedRequest = newValue[this.selectedBuffer].data[this.selectedIndex];
                     this.requestId = this.selectedRequest.id;
                     this.getBaseAmount();
@@ -1325,6 +1326,10 @@
         },
 
         methods: {
+            calcSelectedIndex: function(newValue , oldValue){
+                this.selectedIndex += (newValue[this.selectedBuffer].data.length - oldValue[this.selectedBuffer].data.length);
+            },
+
             setRepoExistCount:function(cECount){
                 this.repoExistCount=cECount;
             },

@@ -15,4 +15,9 @@ class PrintHistory extends Model
     {
         return jDate::forge($this->created_at)->format('h:m:s - Y/m/d');
     }
+
+    public function checkFormat()
+    {
+        return $this->belongsTo(CheckFormat::class , 'phCfId' , 'id');
+    }
 }

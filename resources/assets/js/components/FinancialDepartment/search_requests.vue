@@ -387,6 +387,15 @@
             }
         },
 
+        watch: {
+            allRequests: function (newValue , oldValue) {
+                if (this.selectedIndex != -1)
+                {
+                    this.calcSelectedIndex(newValue , oldValue);
+                }
+            },
+        },
+
         created: function(){
             this.fetchData();
             this.setUpdateDataThread();
@@ -407,6 +416,10 @@
         },
 
         methods: {
+            calcSelectedIndex: function(newValue , oldValue){
+                this.selectedIndex += (newValue.length - oldValue.length);
+            },
+
             updateReceiveRequestData: function(requests){
                 this.allRequests = requests.data;
                 this.makePagination(requests);

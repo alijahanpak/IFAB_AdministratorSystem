@@ -17,6 +17,8 @@ class CreateCheckFormatTable extends Migration
             Schema::create('tbl_check_formats', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->string('cfSubject')->unique();
+                $table->string('cfAccountNumber');
+                $table->string('cfBank');
                 $table->boolean('cfState')->defualt(true);
                 $table->unsignedTinyInteger('cfDateTop');
                 $table->unsignedTinyInteger('cfDateRight');

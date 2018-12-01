@@ -32,7 +32,9 @@
                         <table class="tbl-head">
                             <colgroup>
                                 <col width="80px"/>
-                                <col width="500px"/>
+                                <col width="200px"/>
+                                <col width="300px"/>
+                                <col width="200px"/>
                                 <col width="200px"/>
                                 <col width="12px"/>
                             </colgroup>
@@ -40,6 +42,8 @@
                             <tr class="tbl-head-style-cell">
                                 <th class="tbl-head-style-cell">ردیف</th>
                                 <th class="tbl-head-style-cell">عنوان</th>
+                                <th class="tbl-head-style-cell">حساب</th>
+                                <th class="tbl-head-style-cell">بانک</th>
                                 <th class="tbl-head-style-cell">وضعیت</th>
                                 <th class="tbl-head-style-cell"></th>
                             </tr>
@@ -51,13 +55,17 @@
                             <table class="tbl-body-contain">
                                 <colgroup>
                                     <col width="80px"/>
-                                    <col width="500px"/>
+                                    <col width="200px"/>
+                                    <col width="300px"/>
+                                    <col width="200px"/>
                                     <col width="200px"/>
                                 </colgroup>
                                 <tbody class="tbl-head-style-cell">
                                 <tr class="table-row" @click="getCheckTemplate(checkFormat)" v-for="(checkFormat,index) in allCheckFormat">
                                     <td class="text-center">{{index +1}}</td>
                                     <td>{{checkFormat.cfSubject}}</td>
+                                    <td>{{checkFormat.cfAccountNumber}}</td>
+                                    <td>{{checkFormat.cfBank}}</td>
                                     <td class="text-center" v-show="checkFormat.cfState"><span class="success-label">فعال</span></td>
                                     <td class="text-center" v-show="!checkFormat.cfState"><span class="reserved-label">غیر فعال</span></td>
                                 </tr>
@@ -91,10 +99,24 @@
                                 </div>
                                 <div class="grid-x">
                                     <div class="large-8 medium-8 small-12 padding-lr">
-                                        <label>موضوع
+                                        <label>عنوان
                                             <input type="text" name="checkSubject" v-model="inputCheck.subject" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('checkSubject')}">
                                         </label>
                                         <p v-show="errors.has('checkSubject')" class="error-font">لطفا نام را برای چک مورد نظر را وارد نمایید!</p>
+                                    </div>
+                                    <div class="large-4 medium-4 small-12 padding-lr">
+                                        <label>بانک - شعبه
+                                            <input type="text" name="checkSubject" v-model="inputCheck.bank" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('bank')}">
+                                        </label>
+                                        <p v-show="errors.has('bank')" class="error-font">لطفا نام بانک و شعبه مربوطه را وارد کنید!</p>
+                                    </div>
+                                </div>
+                                <div class="grid-x">
+                                    <div class="large-8 medium-8 small-12 padding-lr">
+                                        <label>حساب
+                                            <input type="text" name="checkSubject" v-model="inputCheck.accountNumber" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('accountNumber')}">
+                                        </label>
+                                        <p v-show="errors.has('accountNumber')" class="error-font">لطفا اطلاعات حساب را وارد کنید!</p>
                                     </div>
                                     <div class="large-2 medium-2 small-12 padding-lr">
                                         <label>چک
@@ -369,6 +391,8 @@
                         };
                         axios.post('/financial/admin/check/format/register', {
                             subject:this.inputCheck.subject,
+                            accountNumber:this.inputCheck.accountNumber,
+                            bank:this.inputCheck.bank,
                             state:this.inputCheck.state = true ? 1 : 0,
                             dateTop:this.inputCheck.dateTop,
                             dateRight:this.inputCheck.dateRight,

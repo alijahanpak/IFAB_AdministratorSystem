@@ -19,6 +19,7 @@ use Modules\Financial\Entities\CostFinancing;
 use Modules\Financial\Entities\Draft;
 use Modules\Financial\Entities\NumberToWord;
 use Modules\Financial\Entities\PayRequest;
+use Modules\Financial\Entities\PrintHistory;
 
 class ReportController extends Controller
 {
@@ -167,6 +168,19 @@ class ReportController extends Controller
         return $pdf->inline();
     }
 
+    public function reprint_check(Request $request)
+    {
+        $baseMargin=8;
+        $printHistory = PrintHistory::where('id' , $request->phId)
+            ->first();
+        $checkFormat = CheckFormat::find($printHistory->phCfId);
+        $printHistory['amountText'] = self::digit_to_persain_letters($printHistory->phAmount);
+        $printHistory['dateText'] = self::convertDateToText($printHistory->phDate);
+        $pdf = $this->initCustomSize($checkFormat->cfHeight * 10 , $checkFormat-> cfWidth* 10);
+        $pdf->loadHTML(view('financial::reports.draft.reprint_check' , ['checkFormat' => $checkFormat , 'check' => $printHistory , 'baseMargin' =>$baseMargin]));
+        return $pdf->inline();
+    }
+
     public function request(Request $request)
     {
         $request = _Request::where('id' , $request->rId)
@@ -177,6 +191,18 @@ class ReportController extends Controller
             ->first();
         $pdf = $this->initA4Pdf();
         $pdf->loadHTML(view('financial::reports.request.request' , ['request' => $request]));
+        return $pdf->inline();
+    }
+
+    public function introductionLetter(Request $request)
+    {
+        $printHistory = PrintHistory::where('id' , $request->phId)
+            ->first();
+        $checkFormat = CheckFormat::find($printHistory->phCfId);
+        $printHistory['amountText'] = self::digit_to_persain_letters($printHistory->phAmount);
+        $printHistory['dateText'] = self::convertDateToText($printHistory->phDate);
+        $pdf = $this->initA5Pdf();
+        $pdf->loadHTML(view('financial::reports.draft.introduction_letter' , ['checkFormat' => $checkFormat , 'printHistory' => $printHistory]));
         return $pdf->inline();
     }
 
