@@ -35,6 +35,8 @@ Vue.use(vSelectPage, {
 window.Vue.use(money, {precision: 4});
 
 window.Vue.use(VeeValidate);
+//Vue.use(VeeValidate, { inject: false });
+
 window.Vue.use(Notifications , {velocity});
 window.Vue.use(VueProgressBar, {
     color: '#77B6FF',
@@ -80,6 +82,7 @@ Vue.component('modal-full-screen', {template: '#modal-full-screen-template'});
 Vue.component('modal-login', {template: '#modal-login-template'});
 Vue.component('modal-access-denied', {template: '#modal-access-denied-template'});
 
+Vue.component('messageDialog', messageDialog);
 Vue.component('messageDialog', messageDialog);
 
 /**

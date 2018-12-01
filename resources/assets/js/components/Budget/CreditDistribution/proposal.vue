@@ -507,7 +507,12 @@
             clearInterval(this.updateDataThreadNowPlaying);
             console.log('...................................... kill update data thread');
         },
-
+        /*provide() {
+            return {
+                $validator: this.$validator,
+            };
+        },
+        inject: ['$validator'],*/
         components:{
             'vue-pagination' : VuePagination,
             VueElementLoading,

@@ -220,10 +220,10 @@ var app = new Vue({
         $(this.$el).foundation(); //WORKS FINE!
         this.fixedAccessDeniedFrame();
     },
-
-    created: function () {
-        var tokenInfo = JSON.parse(sessionStorage.getItem("ifab_token_info"));
-        this.headers.Authorization = tokenInfo.Authorization;
+    provide() {
+        return {
+            $validator: this.$validator,
+        };
     },
 
     mounted: function () {

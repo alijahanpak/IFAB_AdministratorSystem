@@ -434,26 +434,27 @@
                         <form v-on:submit.prevent="createCreditDistributionPlan">
                             <div class="grid-x">
                                 <div class="medium-6 column padding-lr">
-                                    <!--<template>
+                                    <template>
                                         <p class="vue-select-label">فصل بودجه</p>
                                         <model-select
-                                                name="bsId" v-validate data-vv-rules="required" :class="{'vue-select-comp input': true, 'select-error': errors.has('bsId')}"
+                                                style="direction:rtl;text-align: right;border: 1px solid #cacaca;border-radius: 0px;color: #777777;"
+                                                name="bsId" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('bsId')}"
                                                 :options="bSeasonsOption"
                                                 v-model="selectedBs"
                                                 :customAttr="getAllCdTitle"
                                         >
                                         </model-select>
                                         <span v-show="errors.has('bsId')" class="error-font">فصل بودجه را انتخاب کنید!</span>
-                                    </template>-->
-                                    <pallas-search-select
+                                    </template>
+                                    <!--<pallas-search-select
                                             v-bind:pallasSelectLabel="'فصل بودجه'"
                                             v-bind:pallasSelectName="'bsIdLable'"
                                             v-bind:pallasSelectOption="bSeasonsOption"
                                             v-bind:pallasSelectModel="selectedBs"
-                                            v-bind:pallasSelectClass="{'input': true, 'select-error': errors.has('bsIdLable')}"
                                             v-bind:pallasSelectError="'فصل بودجه را انتخاب کنید!'"
+
                                     >
-                                    </pallas-search-select>
+                                    </pallas-search-select>-->
                                 </div>
                                 <div class="medium-6 cell padding-lr">
                                     <label>ردیف توزیع اعتبار
@@ -467,20 +468,20 @@
                             </div>
                             <div class="grid-x">
                                 <div class="medium-8 cell padding-lr">
-                                    <label>عنوان طرح
+                                    <template>
+                                        <p class="vue-select-label">عنوان طرح</p>
                                         <!--<select class="form-element-margin-btm"  v-model="CdPlanInput.cdtId" name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('plan')}">
                                             <option value=""></option>
                                             <option v-for="creditDistributionTitle in creditDistributionTitles" :value="creditDistributionTitle.id">{{ creditDistributionTitle.cdtIdNumber + ' - ' + creditDistributionTitle.cdtSubject + (creditDistributionTitle.county == null ? '' : ' - ' + creditDistributionTitle.county.coName)}}</option>
                                         </select>-->
-                                        <!--<model-select
+                                        <model-select
                                                 style="direction:rtl;text-align: right;border: 1px solid #cacaca;border-radius: 0px;color: #777777;"
                                                 :options="creditDistributionTitlesOption"
                                                 v-model="CdPlanInput.cdtId"
                                         >
-                                        </model-select>-->
+                                        </model-select>
                                         <span v-show="errors.has('plan')" class="error-font">لطفا طرح را انتخاب کنید!</span>
-                                    </label>
-                                    <span class="form-error error-font" data-form-error-for="cdpTitle">طرح توزیع اعتبار را انتخاب کنید!</span>
+                                    </template>
                                 </div>
                                 <div class="medium-4 cell padding-lr">
                                     <label>شهرستان
@@ -694,10 +695,16 @@
     </div>
 </template>
 <script>
+
     import VuePagination from '../../../public_component/pagination.vue';
     import VueElementLoading from 'vue-element-loading';
-    import pallasSearchSelect from '../../../public_component/pallas_vue_select';
+    //import pallasSearchSelect from '../../../public_component/pallas_vue_select';
+    import { ModelSelect } from 'vue-search-select';
     export default {
+       /* $_veeValidate: {
+            validator: 'new' // Determines how the component get its validator instance
+                             // 'new' means it will always instantiate its own validator instance
+        },*/
         data(){
             return {
                 planItemInPage: 2,
@@ -788,12 +795,18 @@
             clearInterval(this.updateDataThreadNowPlaying);
             console.log('...................................... kill update data thread');
         },
+       /* provide() {
+            return {
+                $validator: this.$validator,
+            };
+        },*/
 
         components:{
             'vue-pagination' : VuePagination,
             VueElementLoading,
-            pallasSearchSelect,
+            ModelSelect,
         },
+
         methods:{
             fetchData_byPlan: function (page = 1) {
                 axios.get('/budget/credit_distribution/capital_assets/provincial/plans/fetchData?page=' + page , {params:{

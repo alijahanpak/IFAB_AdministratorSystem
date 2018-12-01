@@ -84,6 +84,7 @@
             $(this.$el).foundation(); //WORKS!
             this.fixedLoginFrame();
         },
+        inject: ['$validator'],
 
         mounted: function () {
             $.w = $(window);

@@ -2402,7 +2402,9 @@ input[type="search"]:valid + label {
 }
 .ui.selection.dropdown {
     text-align: right !important;
+    box-shadow: none !important;
 }
+
 .vue-select-label{
     margin-bottom: 3px;
     font-size: 0.875rem;
