@@ -764,6 +764,9 @@
                 <div class="small-font">
                     <div class="grid-x">
                         <div class="large-12 medium-12 small-12">
+                            <div class="float-left cost-label">
+                                <span class="cost-label size-14">مبالغ : ریال</span>
+                            </div>
                             <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="capital_assets_tab_view">
                                 <li class="tabs-title is-active"><a href="#caPlaneTab" aria-selected="true">طرح</a></li>
                                 <li class="tabs-title"><a href="#caProjectTab">پروژه </a></li>
@@ -773,8 +776,18 @@
                             </ul>
                             <div class="tabs-content" data-tabs-content="capital_assets_tab_view">
                                 <div class="grid-x">
-                                    <div style="margin-top: 10px;" class="large-12 medium-12 small-12 direction-ltr">
-                                        <span class="cost-label size-14">مبالغ : ریال</span>
+                                    <div style="margin-top: 10px;" class="large-12 medium-12 small-12 direction-ltr padding-lr-rep">
+                                        <div class="clearfix tool-bar">
+                                            <div class="float-left">
+                                                <div class="input-group float-left">
+                                                    <div style="margin-bottom: -38px;" class="inner-addon right-addon">
+                                                        <i v-if="CapitalAssetsSearchValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                                        <i v-if="CapitalAssetsSearchValue != ''" v-on:click.stop="removeFilter()" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                                        <input v-model="CapitalAssetsSearchValue" v-on:keyup.enter="search()" class="search text-right" type="text" placeholder="جستجو">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <!--Tab 1-->
@@ -1761,6 +1774,7 @@ export default{
             checkEditCapAmount:false,
             editCapAmountFill:0,
             capEditSelectedIndex:'',
+            CapitalAssetsSearchValue:'',
 
             series: [44, 55, 67, 83],
             chartOptions: {
@@ -3084,6 +3098,15 @@ export default{
             else{
                 this.checkEditCapAmount=true;
             }
+        },
+
+        search:function(){
+            /*var completeCapitalAssetsAgrementTemp=[];
+            completeCapitalAssetsAgrementTemp = this.completeCapitalAssetsAgrement;*/
+
+
+
+
         },
 
         myResizeModal: function() {
