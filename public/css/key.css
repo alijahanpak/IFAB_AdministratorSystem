@@ -23,7 +23,7 @@ html [type="button"],
 .select-error{
     background-color: #fefefe;
     border: 1px solid #cc4b37 !important;
-    box-shadow: 0 0 5px #cc4b37;
+    box-shadow: 0 0 5px #cc4b37 !important;
     outline: medium none;
     transition: box-shadow 0.5s ease 0s, border-color 0.25s ease-in-out 0s;
             }
@@ -481,6 +481,9 @@ a:focus,button:focus {
 }
 .padding-lrt{
     padding: 0 20px 0 20px;
+}
+.margin-top-grid{
+    margin-top: 8px;
 }
 .secondry-color{
     color:#01aef0;
@@ -2400,23 +2403,34 @@ input[type="search"]:valid + label {
     color: #777777 !important;
     font-size: small !important;
 }
-.ui.selection.dropdown {
-    text-align: right !important;
-    box-shadow: none !important;
+
+.ui .fluid .search .selection .dropdown .vue-select-comp input .select-error{
+    box-shadow: 0 0 5px #cc4b37 !important;
 }
 
-.vue-select-label{
-    margin-bottom: 3px;
-    font-size: 0.875rem;
+.ui.selection.active.dropdown:hover{
+    background-color: #fefefe !important;
+    border: 1px solid #8a8a8a !important;
+    box-shadow: 0 0 5px #1E90FF !important;
+    outline: medium none !important;
+    transition: box-shadow 0.5s ease 0s, border-color 0.25s ease-in-out 0s !important;
+}
+
+.vue-select-label {
+    margin-bottom: 3px !important;
+    font-size: 0.875rem !important;
 }
 .vue-select-comp{
     direction:rtl !important;
     text-align: right !important;
-    border: 1px solid #cacaca !important;
     border-radius: 0px !important;
     color: #777777 !important;
     font-size: small !important;
     line-height: 1.35 !important;
+}
+.ui.selection.dropdown {
+    text-align: right !important;
+    border: 1px solid rgba(34, 36, 38, 0.27) !important;
 }
 /*Media Queries*/
 

@@ -433,68 +433,62 @@
                     <div  slot="body">
                         <form v-on:submit.prevent="createCreditDistributionPlan">
                             <div class="grid-x">
-                                <div class="medium-6 column padding-lr">
+                                <div class="medium-6 column padding-lr margin-top-grid">
                                     <template>
                                         <p class="vue-select-label">فصل بودجه</p>
                                         <model-select
-                                                style="direction:rtl;text-align: right;border: 1px solid #cacaca;border-radius: 0px;color: #777777;"
-                                                name="bsId" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('bsId')}"
+                                                name="bsId" v-validate data-vv-rules="required" :class="{'vue-select-comp input': true, 'select-error': errors.has('bsId')}"
                                                 :options="bSeasonsOption"
                                                 v-model="selectedBs"
                                                 :customAttr="getAllCdTitle"
                                         >
                                         </model-select>
-                                        <span v-show="errors.has('bsId')" class="error-font">فصل بودجه را انتخاب کنید!</span>
+                                        <span v-show="errors.has('bsId')" class="error-font">لطفا فصل بودجه را انتخاب کنید!</span>
                                     </template>
-                                    <!--<pallas-search-select
-                                            v-bind:pallasSelectLabel="'فصل بودجه'"
-                                            v-bind:pallasSelectName="'bsIdLable'"
-                                            v-bind:pallasSelectOption="bSeasonsOption"
-                                            v-bind:pallasSelectModel="selectedBs"
-                                            v-bind:pallasSelectError="'فصل بودجه را انتخاب کنید!'"
-
-                                    >
-                                    </pallas-search-select>-->
                                 </div>
-                                <div class="medium-6 cell padding-lr">
-                                    <label>ردیف توزیع اعتبار
-                                        <select  class="form-element-margin-btm"  name="row" v-model="CdPlanInput.cdrId" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('row')}">
-                                            <option value=""></option>
-                                            <option v-for="creditDistributionRow in creditDistributionRows" :value="creditDistributionRow.id">{{ creditDistributionRow.cdSubject }}</option>
-                                        </select>
-                                        <span v-show="errors.has('row')" class="error-font">لطفا ردیف توزیع را انتخاب کنید!</span>
-                                    </label>
+                                <div class="medium-6 cell padding-lr margin-top-grid">
+                                    <template>
+                                        <p class="vue-select-label">ردیف توزیع اعتبار</p>
+                                        <model-select
+                                                name="row" v-validate data-vv-rules="required" :class="{'vue-select-comp input': true, 'select-error': errors.has('row')}"
+                                                :options="creditDistributionRowsOption"
+                                                v-model="CdPlanInput.cdrId"
+                                        >
+                                        </model-select>
+                                        <span v-show="errors.has('row')" class="error-font">لطفا ردیف توزیع اعتبار انتخاب کنید!</span>
+                                    </template>
                                 </div>
                             </div>
                             <div class="grid-x">
-                                <div class="medium-8 cell padding-lr">
+                                <div class="medium-8 cell padding-lr margin-top-grid">
                                     <template>
                                         <p class="vue-select-label">عنوان طرح</p>
-                                        <!--<select class="form-element-margin-btm"  v-model="CdPlanInput.cdtId" name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('plan')}">
-                                            <option value=""></option>
-                                            <option v-for="creditDistributionTitle in creditDistributionTitles" :value="creditDistributionTitle.id">{{ creditDistributionTitle.cdtIdNumber + ' - ' + creditDistributionTitle.cdtSubject + (creditDistributionTitle.county == null ? '' : ' - ' + creditDistributionTitle.county.coName)}}</option>
-                                        </select>-->
                                         <model-select
-                                                style="direction:rtl;text-align: right;border: 1px solid #cacaca;border-radius: 0px;color: #777777;"
+                                                style="direction:rtl;text-align: right;border: 1px solid #cacaca;border-radius: 0px;color: #777777;font-size: small;line-height: 1.35"
+                                                name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('bsId')}"
                                                 :options="creditDistributionTitlesOption"
                                                 v-model="CdPlanInput.cdtId"
                                         >
                                         </model-select>
-                                        <span v-show="errors.has('plan')" class="error-font">لطفا طرح را انتخاب کنید!</span>
+                                        <span v-show="errors.has('plan')" class="error-font">لطفا عنوان طرح را انتخاب کنید!</span>
                                     </template>
                                 </div>
-                                <div class="medium-4 cell padding-lr">
-                                    <label>شهرستان
-                                        <select  class="form-element-margin-btm"  name="county" v-model="CdPlanInput.coId" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('county')}">
-                                            <option value=""></option>
-                                            <option v-for="county in counties" :value="county.id">{{ county.coName }}</option>
-                                        </select>
+                                <div class="medium-4 cell padding-lr margin-top-grid">
+                                    <template>
+                                        <p class="vue-select-label">شهرستان</p>
+                                        <model-select
+                                                style="direction:rtl;text-align: right;border: 1px solid #cacaca;border-radius: 0px;color: #777777;font-size: small;line-height: 1.35"
+                                                name="county" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('county')}"
+                                                :options="countiesOption"
+                                                v-model="CdPlanInput.coId"
+                                        >
+                                        </model-select>
                                         <span v-show="errors.has('county')" class="error-font">لطفا شهرستان را انتخاب کنید!</span>
-                                    </label>
+                                    </template>
                                 </div>
                             </div>
                             <div class="grid-x">
-                                <div class="medium-4 cell padding-lr">
+                                <div class="medium-4 cell padding-lr margin-top-grid">
                                     <label><span>مبلغ</span><span style="color: #D9534F;">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
                                         <input class="form-element-margin-btm" type="text"  v-model="CdPlanInput.amount" name="amount" v-validate data-vv-rules="required|decimal|min_value:1" :class="{'input': true, 'select-error': errors.has('amount')}"/>
                                     </label>
@@ -502,7 +496,7 @@
                                 </div>
                             </div>
                             <div class="grid-x">
-                                <div class="small-12 columns padding-lr">
+                                <div class="small-12 columns padding-lr margin-top-grid">
                                     <label>شرح
                                         <textarea name="csDescription" style="min-height: 150px;" v-model="CdPlanInput.description"></textarea>
                                     </label>
@@ -730,10 +724,12 @@
                 costTemp:'',
                 creditDistributionTitles: [],
                 creditDistributionTitlesOption:[],
-                creditDistributionRows: {},
-                counties: {},
+                creditDistributionRows: [],
+                counties: [],
+                countiesOption: [],
                 bSeasons: [],
                 bSeasonsOption: [],
+                creditDistributionRowsOption: [],
                 selectedBs: '',
                 selectedItems: [],
                 selectedCount: 0,
@@ -950,6 +946,14 @@
                 axios.get('/budget/admin/credit_distribution_def/rows/getAllItems' , {params:{planOrCost: 0}})
                     .then((response) => {
                         this.creditDistributionRows = response.data;
+                        this.creditDistributionRowsOption=[];
+                        this.creditDistributionRows.forEach(item =>{
+                            var cdrTemp={};
+                            cdrTemp.value=item.id;
+                            cdrTemp.text=item.cdSubject;
+                            this.creditDistributionRowsOption.push(cdrTemp)
+
+                        });
                         console.log(response);
                     },(error) => {
                         console.log(error);
@@ -960,6 +964,15 @@
                 axios.get('/admin/get_all_counties')
                     .then((response) => {
                         this.counties = response.data;
+
+                        this.countiesOption=[];
+                        this.counties.forEach(item =>{
+                            var countiesTemp={};
+                            countiesTemp.value=item.id;
+                            countiesTemp.text=item.coName;
+                            this.countiesOption.push(countiesTemp)
+
+                        });
                         console.log(response);
                     },(error) => {
                         console.log(error);
