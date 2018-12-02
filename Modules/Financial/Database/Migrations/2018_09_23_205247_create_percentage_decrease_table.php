@@ -21,6 +21,7 @@ class CreatePercentageDecreaseTable extends Migration
                 $table->string('pdSubject');
                 $table->string('pdPayTo');
                 $table->unsignedTinyInteger('pdPercent');
+                $table->boolean('pdExtendedToThePure');
                 $table->boolean('pdState')->default(true);
                 $table->timestamps();
 

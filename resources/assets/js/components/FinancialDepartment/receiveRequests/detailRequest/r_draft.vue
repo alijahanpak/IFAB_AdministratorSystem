@@ -376,7 +376,7 @@
                                                 <label>{{ percentDecCategory.pdcSubject }}<span class="btn-red size-12" v-if="percentDecCategory.necessary"> - الزامی</span><span class="btn-red size-12" v-if="percentDecCategory.delivered"> - تحویل داده شده</span>
                                                     <select v-model="percentDecInput['percentage' + percentDecCategory.id]" :disabled="percentDecCategory.isNeed == true || requestType == 'FUND'" @change="calculatePercentAmount(percentDecInput['percentage' + percentDecCategory.id], index)">
                                                         <option value=""></option>
-                                                        <option v-for="pd in percentDecCategory.percentage_decrease" :value="pd.id">{{pd.pdSubject}} - {{'(' + pd.pdPercent + '%)'}}</option>
+                                                        <option v-for="pd in percentDecCategory.percentage_decrease" :value="pd.id">{{pd.pdExtendedToThePure == true ? pd.pdSubject + ' - محاسبه در چک خالص' : pd.pdSubject }} - {{'(' + pd.pdPercent + '%)'}}</option>
                                                     </select>
                                                 </label>
                                             </div>
@@ -393,7 +393,7 @@
                                                 <label>{{ depPercentCategory.dpcSubject }}<span class="btn-red size-12" v-if="depPercentCategory.necessary"> - الزامی</span><span class="btn-red size-12" v-if="depPercentCategory.delivered"> - تحویل داده شده</span>
                                                     <select v-model="depPercentInput['percentage' + depPercentCategory.id]" :disabled="depPercentCategory.isNeed == true || requestType == 'FUND'" @change="calculateDepositPercentAmount(depPercentInput['percentage' + depPercentCategory.id], index)">
                                                         <option value=""></option>
-                                                        <option v-for="pd in depPercentCategory.deposit_percentage" :value="pd.id">{{pd.dpSubject}} - {{'(' + pd.dpSumOfPercents + '%)'}}</option>
+                                                        <option v-for="pd in depPercentCategory.deposit_percentage" :value="pd.id">{{ pd.dpSubject }} - {{'(' + pd.dpSumOfPercents + '%)'}}</option>
                                                     </select>
                                                 </label>
                                             </div>
@@ -409,7 +409,7 @@
                                     <div class="large-9 medium-9  small-12">
                                         <div class="grid-x">
                                             <div class="large-12 medium-2 small-12">
-                                                <p>مبلغ حواله : </p>
+                                                <p>مبلغ حواله  <span class="btn-red size-12">(با در نظر گرفتن درصد های افزایش)</span></p>
                                             </div>
                                         </div>
                                     </div>
@@ -417,11 +417,23 @@
                                         <p class="btn-red text-left">{{$root.dispMoneyFormat(draftAmount)}} ریال</p>
                                     </div>
                                 </div>
+                                <div class="grid-x">
+                                    <div class="large-9 medium-9  small-12">
+                                        <div class="grid-x">
+                                            <div class="large-12 medium-2 small-12">
+                                                <p>مبلغ پایه حواله: </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="large-3 medium-3  small-12 text-left">
+                                        <p class="btn-red text-left">{{$root.dispMoneyFormat(draftBaseAmount)}} ریال</p>
+                                    </div>
+                                </div>
                                 <div class="grid-x" v-if="requestType == 'BUY_COMMODITY'">
                                     <div class="large-9 medium-9  small-12">
                                         <div class="grid-x">
                                             <div class="large-12 medium-2 small-12">
-                                                <p>مبلغ باقیمانده : </p>
+                                                <p>مبلغ باقیمانده: </p>
                                             </div>
                                         </div>
                                     </div>
@@ -663,6 +675,7 @@
 
                 depositPercentageCategory:[],
                 draftAmount:0,
+                draftBaseAmount:0,
                 draftFor:'',
                 draftPayTo: '',
                 baseAmounts:[],
@@ -737,6 +750,7 @@
               this.isMinute = draft.dIsMinute;
               this.isAccepted = draft.verifier[0].dvSId != null ? true : false;
               this.draftAmount = draft.dAmount;
+              this.draftBaseAmount = (draft.dBaseAmount - draft.dSumOfLastDraftAmount);
               this.draftFor = draft.dFor;
               this.draftPayTo = draft.dPayTo;
               this.canResponse = draft.dLastRef.rhIsReferral;
@@ -1144,7 +1158,7 @@
 
 
                                 if (isExist)
-                                    Vue.set(item, "amountDec", Math.round((item.pdPercent * this.draftAmount) / 100));
+                                    Vue.set(item, "amountDec", Math.round((item.pdPercent * this.draftBaseAmount) / 100));
                                 else
                                     Vue.set(item, "amountDec", 0);
                                 Vue.set(item, "checked", _isChecked);
@@ -1198,7 +1212,7 @@
                                 });
 
                                 if (isExist)
-                                    Vue.set(item, "amountDep", Math.round((item.dpSumOfPercents * this.draftAmount) / 100));
+                                    Vue.set(item, "amountDep", Math.round((item.dpSumOfPercents * this.draftBaseAmount) / 100));
                                 else
                                     Vue.set(item, "amountDep", 0);
                                 Vue.set(item, "checked", _isChecked);
@@ -1234,7 +1248,7 @@
                     if (selectedPercent != null)
                     {
                         this.checkEdited = true;
-                        var tempAmount = Math.round((selectedPercent.dpSumOfPercents * parseInt(this.draftAmount,10)) / 100);
+                        var tempAmount = Math.round((selectedPercent.dpSumOfPercents * parseInt(this.draftBaseAmount,10)) / 100);
                         var amountDep = 0;
                         this.depositPercentageCategory[catIndex].deposit_percentage.forEach(item => {
                             if (selectedPercent.id == item.id) {
@@ -1271,7 +1285,7 @@
                     if (selectedPercent != null)
                     {
                         this.checkEdited = true;
-                        var tempAmount = Math.round((selectedPercent.pdPercent * parseInt(this.draftAmount,10)) / 100);
+                        var tempAmount = Math.round((selectedPercent.pdPercent * parseInt(this.draftBaseAmount,10)) / 100);
                         var amountDec = 0;
                         this.percentageDecreasesCategory[catIndex].percentage_decrease.forEach(item => {
                             if (selectedPercent.id == item.id) {
@@ -1299,7 +1313,8 @@
                 var lastTemp=0;
                 this.percentageDecreasesCategory.forEach(category =>{
                     category.percentage_decrease.forEach(item => {
-                        lastTemp += item.amountDec;
+                        if (item.pdExtendedToThePure == false)
+                            lastTemp += item.amountDec;
                     });
                 });
 
@@ -1362,7 +1377,7 @@
                 this.percentageDecreasesCategory.forEach(category => {
                     category.percentage_decrease.forEach(item => {
                         var decreasesTemp={};
-                        if(item.checked){
+                        if(item.checked && item.pdExtendedToThePure == false){
                             decreasesTemp.id=item.id;
                             decreasesTemp.amount=item.amountDec;
                             _decreases.push(decreasesTemp);

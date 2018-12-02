@@ -58,8 +58,26 @@
                             </thead>
                             <tbody>
                             <tr style="min-height: 50px">
-                                <td class="BZar size-10">{{ $draft->dFor }}</td>
-                                <td class="BZar size-10">{{ number_format ($draft->dAmount + $draft->dSumOfLastDraftAmount, 0 , "." , "," ) }}</td>
+                                <td class="BZar size-10">
+                                    <p style="margin: 0px">
+                                        {{ $draft->dFor }}
+                                    </p>
+                                    @foreach($increaseItems as $increaseItem)
+                                        <p style="margin: 0px">
+                                            {{ $increaseItem->piSubject . ' - %' . $increaseItem->piPercent }}
+                                        </p>
+                                    @endforeach
+                                </td>
+                                <td class="BZar size-10">
+                                    <p style="margin: 0px">
+                                        {{ number_format ($draft->dBaseAmount, 0 , "." , "," ) }}
+                                    </p>
+                                    @foreach($increaseItems as $increaseItem)
+                                        <p style="margin: 0px">
+                                            {{ number_format (round(($draft->dBaseAmount * $increaseItem->piPercent) / 100)  , 0 , "." , "," ) }}
+                                        </p>
+                                    @endforeach
+                                </td>
                                 <td class="BZar size-10"></td>
                                 <td class="BZar size-10"></td>
                             </tr>
@@ -96,7 +114,7 @@
                         <div class="text-right" style="width: 100%; margin-top: 5px;">
                             <p class="BTitrBold size-12" style="margin-bottom: 5px">گواهی و رسید گیرنده وجه:</p>
                             <span class="BZar size-14" style="margin-right: 5px">امضا کننده گواهی می نمایم که بابت کالا / خدمات مشروحه بالا مبلغ (بحروف) </span>
-                            <span class="BZar size-14">{{ ' ' . \Modules\Financial\Http\Controllers\ReportController::digit_to_persain_letters($draft->dAmount) . ' ریال ' }}</span>
+                            <span class="BZar size-14">{{ ' ' . \Modules\Financial\Http\Controllers\ReportController::digit_to_persain_letters($draft->dAmount - ($decreaseChecks->sum('cAmount') + $depositChecks->sum('cAmount'))) . ' ریال ' }}</span>
                             <span class="BZar size-14"> دریافت نموده ام.</span>
                         </div>
                         <div class="text-left" style="width: 100%; margin-top: 5px">

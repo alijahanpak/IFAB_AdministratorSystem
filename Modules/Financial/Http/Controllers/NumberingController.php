@@ -14,6 +14,7 @@ use Modules\Financial\Entities\Draft;
 use Modules\Financial\Entities\FinancialRequestQueue;
 use Modules\Financial\Entities\PayRequest;
 use Modules\Financial\Entities\RequestHistory;
+use Modules\Financial\Entities\RequestHistoryLastPoint;
 use Modules\Financial\Entities\RequestLevel;
 use Modules\Financial\Entities\RequestState;
 use Modules\Financial\Entities\SecretariatRequestQueue;
