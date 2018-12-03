@@ -23,6 +23,4 @@ class PercentageIncrease extends Model
     {
         return $this->hasMany(IncreaseContractAmount::class , 'icaPiId' , 'id');
     }
-
-
 }

@@ -43,6 +43,8 @@ class DraftController extends Controller
             $draft->dBaseAmount = $request->baseAmount;
             $draft->dAmount = $request->amount;
             $draft->dSumOfLastDraftAmount = $req->rSumOfDraftAmount;
+            $draft->dPureAmount = $request->baseAmount - $req->rSumOfDraftPureAmount;
+            $draft->dSumOfLastDraftPureAmount = $req->rSumOfDraftPureAmount;
             $draft->save();
 
             $verifier = new DraftVerifier();

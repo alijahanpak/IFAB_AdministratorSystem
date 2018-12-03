@@ -110,11 +110,11 @@ class ReportController extends Controller
     {
         $draft = Draft::where('id' , $request->dId)->with('payRequest')->first();
         //$req = _Request::where('id' , $draft->id)->first();
-        $increaseItems = PercentageIncrease::with(['increaseContractAmount' => function($q) use($draft){
-            return $q->with(['contract' => function($query) use($draft){
+        $increaseItems = PercentageIncrease::whereHas('increaseContractAmount' , function($q) use($draft){
+            return $q->whereHas('contract' , function($query) use($draft){
                 return $query->where('cRId' , $draft->dRId);
-            }]);
-        }])->get();
+            });
+        })->get();
         $decreaseChecks = _Check::where('cDId' , $draft->id)
             ->with('percentageDecrease')
             ->where('cPdId' , '<>' , null)

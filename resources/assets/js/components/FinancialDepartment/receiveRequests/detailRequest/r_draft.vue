@@ -750,7 +750,7 @@
               this.isMinute = draft.dIsMinute;
               this.isAccepted = draft.verifier[0].dvSId != null ? true : false;
               this.draftAmount = draft.dAmount;
-              this.draftBaseAmount = (draft.dBaseAmount - draft.dSumOfLastDraftAmount);
+              this.draftBaseAmount = draft.dPureAmount;
               this.draftFor = draft.dFor;
               this.draftPayTo = draft.dPayTo;
               this.canResponse = draft.dLastRef.rhIsReferral;
