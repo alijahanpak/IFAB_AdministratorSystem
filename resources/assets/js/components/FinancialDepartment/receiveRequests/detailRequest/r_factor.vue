@@ -107,7 +107,7 @@
                         <div class="grid-x">
                             <div class="large-6 medium-6 small-12 padding-lr">
                                 <label>فروشنده
-                                    <suggestions style="margin-bottom: -18px;" name="sellerTitle" v-validate :class="{'input': true, 'select-error': errors.has('sellerTitle')}"
+                                    <suggestions style="margin-bottom: -18px;" name="sellerTitle" autocomplete="off" v-validate :class="{'input': true, 'select-error': errors.has('sellerTitle')}"
                                                  v-model="factorInput.seller"
                                                  :options="sellerOptions"
                                                  :onInputChange="onSellerInputChange">

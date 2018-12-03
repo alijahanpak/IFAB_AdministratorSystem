@@ -33,144 +33,186 @@
             }
         </style>
     </head>
-    <body class="BZar size-14">
-        <div class="text-right" style="width: 150px;position: fixed;top: 20px; left: 0px">
-            <p style="z-index: 999;" class="size-12">شماره: <span class="number_ltr">......................</span></p>
-            <p style="margin-top: -10px;" class="size-12">تاریخ: <span>......................</span></p>
+    <body class="BZar size-12">
+        <div class="text-right" style="width: 150px;position: fixed; left: 0px">
+            <p style="z-index: 999;">شماره سند: <span class="number_ltr">........................</span></p>
+            <p style="margin-top: -10px;">تاریخ: <span>................................</span></p>
         </div>
-        <div style="margin: 5px;margin-top: 10px;" class="grid-x">
+        <div style="margin-top: 0px;" class="grid-x">
             <div class="large-12 text-center">
                 <div>
                     <div class="text-center">
                         <img style="z-index: 1;" src="{{ asset('pic/ir-logo.jpg') }}" width="170px" height="100px">
                         <div style="width: 100%; margin-top: 10px; border-bottom: 2px black groove"></div>
                         <div class="text-right" style="width: 100%; margin-top: 5px">
-                            <span class="BZar size-14">گیرنده وجه:</span><span>{{ ' ' . $draft->dPayTo }}</span>
+                            <span class="BZar">گیرنده وجه:</span><span>{{ ' ' . $draft->dPayTo }}</span>
                         </div>
                         <table style="margin-top: 5px" class="unstriped">
                             <thead align="center" class="BTitrBold">
                             <tr class="small-font">
-                                <th class="text-center BTitrBold">شرح پرداخت</th>
+                                <th class="text-center BTitrBold" colspan="2">شرح پرداخت</th>
                                 <th class="text-center BTitrBold">اصل مبلغ <span class="btn-red">(ریال) </span></th>
+                                <th class="text-center BTitrBold">افزایش <span class="btn-red">(ریال) </span></th>
                                 <th class="text-center BTitrBold">کسور<span class="btn-red">(ریال) </span></th>
-                                <th class="text-center BTitrBold">مبلغ پرداختی<span class="btn-red">(ریال) </span></th>
+                                <th class="text-center BTitrBold">خالص<span class="btn-red">(ریال) </span></th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr style="min-height: 50px">
-                                <td class="BZar size-10">{{ $draft->dFor }}</td>
-                                <td class="BZar size-10">{{ number_format ($draft->dAmount + $draft->dSumOfLastDraftAmount, 0 , "." , "," ) }}</td>
+                                <td class="BZar size-10" colspan="2">
+                                    <p style="margin: 0px">
+                                        {{ $draft->dFor }}
+                                    </p>
+                                </td>
+                                <td class="BZar size-10">
+                                    <p style="margin: 0px">
+                                        {{ number_format ($draft->dBaseAmount, 0 , "." , "," ) }}
+                                    </p>
+                                </td>
+                                <td class="BZar size-10"></td>
                                 <td class="BZar size-10"></td>
                                 <td class="BZar size-10"></td>
                             </tr>
                             <tr style="min-height: 50px">
-                                <td class="BZar size-10">پرداخت های قبلی</td>
-                                <td class="BZar size-10">{{ number_format ($draft->dSumOfLastDraftAmount , 0 , "." , "," ) }}</td>
+                                <td class="BTitrBold size-8"> کسر می شود </td>
+                                <td class="BZar size-10">پرداخت های قبلی <span class="btn-red size-10">(طی صورت وضعیت های ارائه شده) </span></td>
+                                <td class="BZar size-10">({{ number_format ($draft->dSumOfLastDraftPureAmount , 0 , "." , "," ) }})</td>
+                                <td class="BZar size-10"></td>
                                 <td class="BZar size-10"></td>
                                 <td class="BZar size-10"></td>
                             </tr>
+                            <tr style="min-height: 50px">
+                                <td class="BTitrBold size-10" colspan="2">مبلغ هزینه شده <span class="btn-red">(ریال) </span></td>
+                                <td class="BZar size-10" colspan="4">{{ number_format ($draft->dPureAmount , 0 , "." , "," ) }}</td>
+                            </tr>
+                            @foreach($increaseItems as $increaseItem)
+                                <tr style="min-height: 50px">
+                                    @if ($loop->first)
+                                        <td class="BTitrBold size-8" rowspan="{{ count($increaseItems) }}"> اضافه می شود </td>
+                                    @endif
+                                    <td class="BZar size-10">
+                                        <p style="margin: 0px">
+                                            {{ $increaseItem->piSubject . ' - ' . $increaseItem->piPercent . '%' }}
+                                        </p>
+                                    </td>
+                                    <td class="BZar size-10"></td>
+                                    <td class="BZar size-10">
+                                        <p style="margin: 0px">
+                                            {{ number_format (round(($draft->dPureAmount * $increaseItem->piPercent) / 100)  , 0 , "." , "," ) }}
+                                        </p>
+                                    </td>
+                                    <td class="BZar size-10"></td>
+                                    <td class="BZar size-10"></td>
+                                </tr>
+                            @endforeach
                             @foreach($decreaseChecks as $check)
                                 <tr style="min-height: 50px">
-                                    <td class="BZar size-10"><span class="size-10">{{ $check['percentageDecrease']['pdSubject'] . ' - %' . $check['percentageDecrease']['pdPercent'] }}</span><span></span></td>
+                                    @if ($loop->first)
+                                        <td class="BTitrBold size-8" rowspan="{{ count($decreaseChecks) }}"> کسر می شود </td>
+                                    @endif
+                                    <td class="BZar size-10"><span class="size-10">{{ $check['percentageDecrease']['pdSubject'] . ' - ' . $check['percentageDecrease']['pdPercent'] . '%' }}</span><span></span></td>
                                     <td class="BZar size-10"></td>
-                                    <td class="BZar size-10">{{ number_format($check->cAmount , 0 , "." ,",") }}</td>
+                                    <td class="BZar size-10"></td>
+                                    <td class="BZar size-10">({{ number_format($check->cAmount , 0 , "." ,",") }})</td>
                                     <td class="BZar size-10"></td>
                                 </tr>
                             @endforeach
                             @foreach($depositChecks as $check)
                                 <tr style="min-height: 50px">
-                                    <td class="BZar size-10"><span class="size-10">{{ $check['deposit']['depositPercentage']['dpSubject'] . ' - %' . $check['deposit']['depositPercentage']['dpSumOfPercents'] }}</span><span></span></td>
+                                    @if ($loop->first)
+                                        <td class="BTitrBold size-8" rowspan="{{ count($depositChecks) }}"> کسر می شود </td>
+                                    @endif
+                                    <td class="BZar size-10"><span class="size-10">{{ $check['deposit']['depositPercentage']['dpSubject'] . ' - ' . $check['deposit']['depositPercentage']['dpSumOfPercents'] . '%' }}</span><span></span></td>
                                     <td class="BZar size-10"></td>
-                                    <td class="BZar size-10">{{ number_format($check->cAmount , 0 , "." ,",") }}</td>
+                                    <td class="BZar size-10"></td>
+                                    <td class="BZar size-10">({{ number_format($check->cAmount , 0 , "." ,",") }})</td>
                                     <td class="BZar size-10"></td>
                                 </tr>
                             @endforeach
                             <tr>
-                                <td class="BTitrBold size-10">مبلغ محاسبه شده<span class="btn-red">(ریال) </span></td>
-                                <td class="BZar size-10">{{ number_format($draft->dAmount , 0 , "." ,",") }}</td>
-                                <td class="BZar size-10">{{ number_format(($decreaseChecks->sum('cAmount') + $depositChecks->sum('cAmount')) , 0 , "." ,",") }}</td>
+                                <td class="BTitrBold size-10" colspan="2">مجموع مبلغ قابل پرداخت طی این سند<span class="btn-red">(ریال) </span></td>
+                                <td class="BZar size-10" colspan="2">{{ number_format($draft->dAmount , 0 , "." ,",") }}</td>
+                                <td class="BZar size-10">({{ number_format(($decreaseChecks->sum('cAmount') + $depositChecks->sum('cAmount')) , 0 , "." ,",") }})</td>
                                 <td class="BZar size-10">{{ number_format($draft->dAmount - ($decreaseChecks->sum('cAmount') + $depositChecks->sum('cAmount')) , 0 , "." ,",") }}</td>
                             </tr>
                             </tbody>
                         </table>
                         <div class="text-right" style="width: 100%; margin-top: 5px;">
-                            <p class="BTitrBold size-12" style="margin-bottom: 5px">گواهی و رسید گیرنده وجه:</p>
-                            <span class="BZar size-14" style="margin-right: 5px">امضا کننده گواهی می نمایم که بابت کالا / خدمات مشروحه بالا مبلغ (بحروف) </span>
-                            <span class="BZar size-14">{{ ' ' . \Modules\Financial\Http\Controllers\ReportController::digit_to_persain_letters($draft->dAmount) . ' ریال ' }}</span>
-                            <span class="BZar size-14"> دریافت نموده ام.</span>
+                            <p class="BTitrBold size-10" style="margin-bottom: 5px">گواهی و رسید گیرنده وجه:</p>
+                            <span class="BZar" style="margin-right: 5px">امضا کننده گواهی می نمایم که بابت کالا / خدمات مشروحه بالا مبلغ (بحروف) </span>
+                            <span class="BZar">{{ ' ' . \Modules\Financial\Http\Controllers\ReportController::digit_to_persain_letters($draft->dAmount) . ' ریال ' }}</span>
+                            <span class="BZar"> دریافت نموده ام.</span>
                         </div>
-                        <div class="text-left" style="width: 100%; margin-top: 5px">
-                            <span class="BTitrBold size-12">امضاء </span>
-                            <span class="BZar size-14">..............................</span>
-                            <span class="BTitrBold size-12">تاریخ </span>
-                            <span class="BZar size-14">..............................</span>
+                        <div class="text-left" style="width: 100%; margin-top: 0px">
+                            <span class="BTitrBold size-10">امضاء </span>
+                            <span class="BZar">..............................</span>
+                            <span class="BTitrBold size-10">تاریخ </span>
+                            <span class="BZar">..............................</span>
                         </div>
                         <div style="width: 100%; margin-top: 10px; border-bottom: 2px black groove"></div>
                         <div class="text-right" style="width: 100%; margin-top: 5px;margin-bottom: 0">
-                            <p class="BTitrBold size-12">گواهی تنظیم کننده سند:</p>
-                            <p class="BZar size-14" style="margin-top: -10px">گواهی می شود که این سند هزینه بموجب اسناد و املاک به پیوست طبق مقررات مالی و معاملاتی موسسات پژوهشی وزارت متبوع تنظیم گردید.</p>
+                            <p class="BTitrBold size-10">گواهی تنظیم کننده سند:</p>
+                            <p class="BZar" style="margin-top: -10px">گواهی می شود که این سند هزینه بموجب اسناد و املاک به پیوست طبق مقررات مالی و معاملاتی موسسات پژوهشی وزارت متبوع تنظیم گردید.</p>
                         </div>
-                        <table style="border:none !important; margin-top: 0">
+                        <table style="border:none !important; margin-top: -20px; margin-bottom: 0">
                             <tbody style="border:none !important">
                             <tr style="border:none !important">
                                 <td style="border:none !important">
-                                    <p class="BTitrBold">تنظیم کننده</p>
-                                    <p class="BZar size-14">......................................</p>
+                                    <p class="BTitrBold" style="margin: 0">تنظیم کننده</p>
+                                    <p class="BZar">......................................</p>
                                 </td>
                                 <td style="border:none !important">
-                                    <p class="BTitrBold">مسئول رسیدگی</p>
-                                    <p class="BZar size-14">......................................</p>
+                                    <p class="BTitrBold" style="margin: 0">مسئول رسیدگی</p>
+                                    <p class="BZar">......................................</p>
                                 </td>
                                 <td style="border:none !important">
-                                    <p class="BTitrBold">مدیرکل</p>
-                                    <p class="BZar size-14">......................................</p>
+                                    <p class="BTitrBold"style="margin: 0">مدیرکل</p>
+                                    <p class="BZar">......................................</p>
                                 </td>
                                 <td style="border:none !important">
-                                    <p class="BTitrBold">ذیحساب</p>
-                                    <p class="BZar size-14">......................................</p>
+                                    <p class="BTitrBold"style="margin: 0">ذیحساب</p>
+                                    <p class="BZar">......................................</p>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
-                        <div style="width: 100%; margin-top: -10px; border-bottom: 2px black groove"></div>
+                        <div style="width: 100%; margin-top: -20px; border-bottom: 2px black groove"></div>
                         <div class="text-right" style="width: 100%; margin-top: 5px">
-                            <p class="BTitrBold size-12" style="margin-bottom: 0px">تامین اعتبار:</p>
+                            <p class="BTitrBold size-10" style="margin-bottom: 0px">تامین اعتبار:</p>
                             @foreach($capFinancing as $item)
-                                <div class="size-14" style="padding-right: 20px">
-                                    <span class="BTitrBold size-10">{{ $item['creditDistributionTitle']['cdtIdNumber'] . ' - ' }}</span>
-                                    <span class="BZar size-14">{{ $item['creditDistributionTitle']['cdtSubject'] }}</span>
+                                <div style="padding-right: 20px">
+                                    <span class="BTitrBold size-10">{{ 'از محل: ' . $item['creditDistributionTitle']['cdtIdNumber'] . ' - ' }}</span>
+                                    <span class="BZar">{{ $item['creditDistributionTitle']['cdtSubject'] }}</span>
                                 </div>
                             @endforeach
                             @foreach($costFinancing as $item)
-                                <div class="size-14" style="padding-right: 20px">
-                                    <span class="BTitrBold size-10">{{ $item['creditDistributionTitle']['cdtIdNumber'] . ' - ' }}</span>
-                                    <span class="BZar size-14">{{ $item['creditDistributionTitle']['cdtSubject'] }}</span>
+                                <div style="padding-right: 20px">
+                                    <span class="BTitrBold size-10">{{ 'از محل: ' . $item['creditDistributionTitle']['cdtIdNumber'] . ' - ' }}</span>
+                                    <span class="BZar">{{ $item['creditDistributionTitle']['cdtSubject'] }}</span>
                                 </div>
                             @endforeach
-                            <span class="BZar size-14">اسم و امضاء مسئول تامین اعتبار </span>
-                            <span class="BZar size-14">..............................................</span>
-                            <span class="BZar size-14"> سمت </span>
-                            <span class="BZar size-14">......................................</span>
-                            <span class="BZar size-14"> تاریخ </span>
-                            <span class="BZar size-14">....................</span>
+                            <span class="BZar">مسئول تامین اعتبار </span>
+                            <span class="BZar">..............................................</span>
+                            <span class="BZar"> امضاء </span>
+                            <span class="BZar">......................................</span>
+                            <span class="BZar"> تاریخ </span>
+                            <span class="BZar">....................</span>
                         </div>
                         <div style="width: 100%; margin-top: 10px; border-bottom: 2px black groove"></div>
                         <div class="text-right" style="width: 100%; margin-top: 5px">
-                            <span class="BZar size-14">بموجب حواله / چک شماره </span>
-                            <span class="BZar size-14">.................................</span>
-                            <span class="BZar size-14"> به </span>
-                            <span class="BZar size-14">{{ $draft->dPayTo }}</span>
-                            <span class="BZar size-14"> بابت </span>
-                            <span class="BZar size-14">{{ $draft->dFor }}</span>
-                            <span class="BZar size-14"> پرداخت شد.</span>
+                            <span class="BZar">بموجب چک / چک های شماره </span>
+                            <span class="BZar">.................................</span>
+                            <span class="BZar"> به </span>
+                            <span class="BZar">{{ $draft->dPayTo }}</span>
+                            <span class="BZar"> بابت </span>
+                            <span class="BZar">{{ $draft->dFor }}</span>
+                            <span class="BZar"> پرداخت شد.</span>
                         </div>
                         <div class="text-right" style="width: 100%; margin-top: 5px">
-                            <span class="BZar size-14">اسم و امضاء </span>
-                            <span class="BZar size-14">..............................................</span>
-                            <span class="BZar size-14"> سمت </span>
-                            <span class="BZar size-14">......................................</span>
-                            <span class="BZar size-14"> تاریخ </span>
-                            <span class="BZar size-14">....................</span>
+                            <span class="BZar">صادر کننده چک </span>
+                            <span class="BZar">..............................................</span>
+                            <span class="BZar"> تاریخ / امضاء </span>
+                            <span class="BZar">....................</span>
                         </div>
                     </div>
                 </div>

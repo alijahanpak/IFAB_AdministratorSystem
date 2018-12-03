@@ -13,4 +13,9 @@ class IncreaseContractAmount extends Model
     {
         return $this->belongsTo(PercentageIncrease::class , 'icaPiId' , 'id');
     }
+
+    public function contract()
+    {
+        return $this->belongsTo(Contract::class , 'icaCId' , 'id');
+    }
 }

@@ -19,6 +19,7 @@ use Modules\Financial\Entities\CostFinancing;
 use Modules\Financial\Entities\Draft;
 use Modules\Financial\Entities\NumberToWord;
 use Modules\Financial\Entities\PayRequest;
+use Modules\Financial\Entities\PercentageIncrease;
 use Modules\Financial\Entities\PrintHistory;
 
 class ReportController extends Controller
@@ -109,6 +110,11 @@ class ReportController extends Controller
     {
         $draft = Draft::where('id' , $request->dId)->with('payRequest')->first();
         //$req = _Request::where('id' , $draft->id)->first();
+        $increaseItems = PercentageIncrease::whereHas('increaseContractAmount' , function($q) use($draft){
+            return $q->whereHas('contract' , function($query) use($draft){
+                return $query->where('cRId' , $draft->dRId);
+            });
+        })->get();
         $decreaseChecks = _Check::where('cDId' , $draft->id)
             ->with('percentageDecrease')
             ->where('cPdId' , '<>' , null)
@@ -145,7 +151,8 @@ class ReportController extends Controller
             'costFinancing' => $cost ,
             'capFinancing' => $cap ,
             'decreaseChecks' => $decreaseChecks,
-            'depositChecks' => $depositChecks]));
+            'depositChecks' => $depositChecks,
+            'increaseItems' => $increaseItems]));
         return $pdf->inline();
         //$pdf->save('pdfFiles/document_' . Auth::user()->id . '.pdf', true);
         //return url('pdfFiles/document_' . Auth::user()->id . '.pdf');

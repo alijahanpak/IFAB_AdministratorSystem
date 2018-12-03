@@ -18,6 +18,7 @@ class _Request extends Model
         'rAcceptedAmount' ,
         'rCommitmentAmount' ,
         'rSumOfDraftAmount' ,
+        'rSumOfDraftPureAmount' ,
         'rSumOfFactorAmount' ,
         'rIsPaid',
         'rIsPayRequestClosed',
@@ -194,6 +195,13 @@ class _Request extends Model
     {
         $sum = Draft::where('dRId' , '=' , $this->id)
             ->where('dDsId' , '<>' , DraftState::where('dsState' , '=' , 'BLOCKED')->value('id'))->sum('dAmount');
+        return $sum;
+    }
+
+    public function getRSumOfDraftPureAmountAttribute()
+    {
+        $sum = Draft::where('dRId' , '=' , $this->id)
+            ->where('dDsId' , '<>' , DraftState::where('dsState' , '=' , 'BLOCKED')->value('id'))->sum('dPureAmount');
         return $sum;
     }
 

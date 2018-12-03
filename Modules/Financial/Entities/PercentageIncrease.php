@@ -18,4 +18,9 @@ class PercentageIncrease extends Model
         else
             return $this->attributes['piPercent'];
     }
+
+    public function increaseContractAmount()
+    {
+        return $this->hasMany(IncreaseContractAmount::class , 'icaPiId' , 'id');
+    }
 }
