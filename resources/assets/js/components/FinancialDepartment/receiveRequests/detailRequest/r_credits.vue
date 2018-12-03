@@ -783,7 +783,7 @@
                                                     <div style="margin-bottom: -38px;" class="inner-addon right-addon">
                                                         <i v-if="CapitalAssetsSearchValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
                                                         <i v-if="CapitalAssetsSearchValue != ''" v-on:click.stop="removeFilter()" class="fa fa-close btn-red"  aria-hidden="true"></i>
-                                                        <input v-model="CapitalAssetsSearchValue" v-on:keyup.enter="search()" class="search text-right" type="text" placeholder="جستجو">
+                                                        <input v-model="CapitalAssetsSearchValue" v-on:keyup="search(CapitalAssetsSearchValue)" class="search text-right" type="text" placeholder="جستجو">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1749,6 +1749,7 @@ export default{
 
             /*capital assets*/
             completeCapitalAssetsAgrement:[],
+            completeCapitalAssetsAgrementBffer:[],
             capitalAssetsFound:[],
             capitalAssetsAllocations:[],
             /*capital assets*/
@@ -1816,7 +1817,6 @@ export default{
     updated: function () {
         $(this.$el).foundation(); //WORKS!
         this.myResizeModal();
-
     },
 
     mounted: function () {
@@ -1979,8 +1979,9 @@ export default{
             this.showLoaderProgress = true;
             axios.get('/budget/approved_plan/capital_assets/fetchCompleteData')
                 .then((response) => {
-                    this.completeCapitalAssetsAgrement = response.data.caApprovedPlan;
+                    this.completeCapitalAssetsAgrementBffer = response.data.caApprovedPlan;
                     this.capitalAssetsFound = response.data.capFound;
+                    this.search(this.CapitalAssetsSearchValue);
                     this.addNewFieldInCapitalAssetsCollection();
                     this.showLoaderProgress = false;
                     //console.log(JSON.stringify(this.completeCapitalAssetsAgrement));
@@ -3100,12 +3101,49 @@ export default{
             }
         },
 
-        search:function(){
-            /*var completeCapitalAssetsAgrementTemp=[];
-            completeCapitalAssetsAgrementTemp = this.completeCapitalAssetsAgrement;*/
+        search:function(query){
+            var completeCapitalAssetsAgrementTemp=[];
+            //this.completeCapitalAssetsAgrementBffer=[];
+            //this.completeCapitalAssetsAgrementBffer = this.completeCapitalAssetsAgrement;
+            /*return this.completeCapitalAssetsAgrement.filter(function(item){
+                return item.capExchangeIdNumber.includes(query)
+                || item.credit_distribution_title.budget_season.filter(function(bs){
+                    return  bs.bsSubject.includes(query)
+                });
+            });*/
+            alert(query);
+            if(query != ''){
+                var flag=false;
+                this.completeCapitalAssetsAgrementBffer.forEach(item => {
+                    flag=false;
+                    if(item.capExchangeIdNumber.includes(query) || item.capDescription.includes(query)) {
+                        item.capital_assets_project_has_credit_source.forEach(cap => {
+                            if (cap.cpStartYear.includes(query)) {
+                                flag = true;
+                            }
+                        });
+                        flag = true;
+                    }
+                    if(flag){
+                        completeCapitalAssetsAgrementTemp.push(item);
+                    }
 
+                });
+                //this.completeCapitalAssetsAgrement=[];
+                this.completeCapitalAssetsAgrement=completeCapitalAssetsAgrementTemp;
+            }
+            else
+                this.completeCapitalAssetsAgrement = this.completeCapitalAssetsAgrementBffer;
 
+            /*this.completeCapitalAssetsAgrement=[];
+            this.completeCapitalAssetsAgrement=completeCapitalAssetsAgrementTemp;*/
 
+            /*return this.completeCapitalAssetsAgrement.filter(item => item.capExchangeIdNumber.includes(query)
+                || this.completeCapitalAssetsAgrement[capital_assets_project_has_credit_source].filter(bs => bs.cpSubject.includes(query)));
+*/
+            console.log(JSON.stringify(this.completeCapitalAssetsAgrement));
+            //this.completeCapitalAssetsAgrement=[];
+            //this.completeCapitalAssetsAgrement=completeCapitalAssetsAgrementTemp;
 
         },
 
