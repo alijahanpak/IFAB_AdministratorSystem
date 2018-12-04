@@ -19,9 +19,12 @@ class CreateCapitalAssetsAllocationTable extends Migration
                 $table->bigInteger('caaUId')->length(20)->unsigned();
                 $table->bigInteger('caaCcsId')->length(20)->unsigned()->nullable();
                 $table->bigInteger('caaFyId')->length(20)->unsigned()->nullable();
+                $table->bigInteger('caaDtId')->length(20)->unsigned()->nullable();
                 $table->bigInteger('caaFoundId')->length(20)->unsigned()->nullable();
                 $table->string('caaLetterNumber')->nullable();
                 $table->string('caaLetterDate')->nullable();
+                $table->string('caaSymbolOfAkhza')->nullable();
+                $table->string('caaDueDate')->nullable();
                 $table->boolean('caaFound')->default(false);
                 $table->unsignedBigInteger('caaAmount');
                 $table->longText('caaDescription')->nullable();
@@ -32,10 +35,10 @@ class CreateCapitalAssetsAllocationTable extends Migration
                     ->onDelete('restrict')
                     ->onUpdate('cascade');
 
-/*                $table->foreign('caaCcsId')
-                    ->references('id')->on('tbl_cap_credit_source')
+                $table->foreign('caaDtId')
+                    ->references('id')->on('tbl_due_type')
                     ->onDelete('restrict')
-                    ->onUpdate('cascade');*/
+                    ->onUpdate('cascade');
             });
         }
     }

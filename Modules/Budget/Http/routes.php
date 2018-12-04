@@ -164,6 +164,7 @@ Route::group(['middleware' => ['api' , 'auth_api:api'], 'prefix' => 'budget', 'n
     });
 
     Route::prefix('allocation/capital_assets')->group(function () {
+        Route::get('/due_type/fetchData', 'AllocationOfCapitalAssetsController@fetchDueType');
         Route::get('/fetchData', 'AllocationOfCapitalAssetsController@fetchAllocation');
         Route::post('/register', 'AllocationOfCapitalAssetsController@registerCapitalAssetsAllocation');
         Route::post('/update', 'AllocationOfCapitalAssetsController@updateCapitalAssetsAllocation');

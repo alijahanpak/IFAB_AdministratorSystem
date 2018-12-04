@@ -127,7 +127,21 @@
                                                     <td class="text-center">
                                                         <div class="grid-x">
                                                             <div class="medium-11">
-                                                                {{ $parent.calcDispAmount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaAmount , false) }}
+                                                                <div :data-toggle="'Paper' + plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].id" v-if="plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaDtId != null" class="clearfix tool-bar">
+                                                                    <div style="min-width: 200px" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'Paper' + plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].id" data-dropdown data-auto-focus="true">
+                                                                        <ul class="my-menu small-font">
+                                                                            <div class="grid-x">
+                                                                                <div class="medium-12">
+                                                                                    <p class="black-color font-wei-bold text-right">نماد اخزا: <span class="font-wei gray-color">{{plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaSymbolOfAkhza}}</span></p>
+                                                                                    <p class="black-color font-wei-bold text-right">نوع اوراق: <span class="font-wei gray-color">{{plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].due_type.dtSubject}}</span></p>
+                                                                                    <p class="black-color font-wei-bold text-right">تاریخ سر رسید: <span class="font-wei btn-red">{{plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaDueDate}}</span></p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </ul>
+                                                                    </div>
+                                                                    <span  class="btn-red font-wei-bold">{{ $parent.calcDispAmount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaAmount , false) }}</span>
+                                                                </div>
+                                                                <span v-else>{{ $parent.calcDispAmount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaAmount , false) }}</span>
                                                             </div>
                                                             <div v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_EDIT') || $can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                                 <a class="dropdown small sm-btn-align" :data-toggle="'provCapitalAssetsAllocation' + plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].id"><i class="fa fa-ellipsis-v size-18"></i></a>
@@ -158,7 +172,21 @@
                                                        <td class="text-center">
                                                            <div class="grid-x">
                                                                <div class="medium-11">
-                                                                   {{ $parent.calcDispAmount(projects.credit_source_has_allocation[0].allocation[0].caaAmount , false) }}
+                                                                   <div :data-toggle="'Paper' + projects.credit_source_has_allocation[0].allocation[0].id" v-if="projects.credit_source_has_allocation[0].allocation[0].caaDtId != null" class="clearfix tool-bar">
+                                                                       <div style="min-width: 200px" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'Paper' + projects.credit_source_has_allocation[0].allocation[0].id" data-dropdown data-auto-focus="true">
+                                                                           <ul class="my-menu small-font">
+                                                                               <div class="grid-x">
+                                                                                   <div class="medium-12">
+                                                                                       <p class="black-color font-wei-bold text-right">نماد اخزا: <span class="font-wei gray-color">{{projects.credit_source_has_allocation[0].allocation[0].caaSymbolOfAkhza}}</span></p>
+                                                                                       <p class="black-color font-wei-bold text-right">نوع اوراق: <span class="font-wei gray-color">{{projects.credit_source_has_allocation[0].allocation[0].due_type.dtSubject}}</span></p>
+                                                                                       <p class="black-color font-wei-bold text-right">تاریخ سر رسید: <span class="font-wei btn-red">{{projects.credit_source_has_allocation[0].allocation[0].caaDueDate}}</span></p>
+                                                                                   </div>
+                                                                               </div>
+                                                                           </ul>
+                                                                       </div>
+                                                                       <span  class="btn-red font-wei-bold">{{ $parent.calcDispAmount(projects.credit_source_has_allocation[0].allocation[0].caaAmount , false) }}</span>
+                                                                   </div>
+                                                                   <span v-else>{{ $parent.calcDispAmount(projects.credit_source_has_allocation[0].allocation[0].caaAmount , false) }}</span>
                                                                </div>
                                                                <div v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_EDIT') || $can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                                    <a class="dropdown small sm-btn-align" :data-toggle="'provCapitalAssetsAllocation' + projects.credit_source_has_allocation[0].allocation[0].id"><i class="fa fa-ellipsis-v size-18"></i></a>
@@ -184,7 +212,21 @@
                                                             <td class="text-center">
                                                                 <div class="grid-x">
                                                                     <div class="medium-11">
-                                                                        {{ $parent.calcDispAmount(credit_source.allocation[0].caaAmount , false) }}
+                                                                        <div :data-toggle="'Paper' + credit_source.allocation[0].id" v-if="credit_source.allocation[0].caaDtId != null" class="clearfix tool-bar">
+                                                                            <div style="min-width: 200px" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'Paper' + credit_source.allocation[0].id" data-dropdown data-auto-focus="true">
+                                                                                <ul class="my-menu small-font">
+                                                                                    <div class="grid-x">
+                                                                                        <div class="medium-12">
+                                                                                            <p class="black-color font-wei-bold text-right">نماد اخزا: <span class="font-wei gray-color">{{credit_source.allocation[0].caaSymbolOfAkhza}}</span></p>
+                                                                                            <p class="black-color font-wei-bold text-right">نوع اوراق: <span class="font-wei gray-color">{{credit_source.allocation[0].due_type.dtSubject}}</span></p>
+                                                                                            <p class="black-color font-wei-bold text-right">تاریخ سر رسید: <span class="font-wei btn-red">{{credit_source.allocation[0].caaDueDate}}</span></p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </ul>
+                                                                            </div>
+                                                                            <span  class="btn-red font-wei-bold">{{ $parent.calcDispAmount(credit_source.allocation[0].caaAmount , false) }}</span>
+                                                                        </div>
+                                                                        <span v-else>{{ $parent.calcDispAmount(credit_source.allocation[0].caaAmount , false) }}</span>
                                                                     </div>
                                                                     <div v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_EDIT') || $can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                                         <a class="dropdown small sm-btn-align" :data-toggle="'provCapitalAssetsAllocation' + credit_source.allocation[0].id"><i class="fa fa-ellipsis-v size-18"></i></a>
@@ -209,7 +251,21 @@
                                                                 <td class="text-center">
                                                                     <div class="grid-x">
                                                                         <div class="medium-11">
-                                                                            {{ $parent.calcDispAmount(alloc.caaAmount , false) }}
+                                                                            <div :data-toggle="'Paper' + alloc.id" v-if="alloc.caaDtId != null" class="clearfix tool-bar">
+                                                                                <div style="min-width: 200px" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'Paper' + alloc.id" data-dropdown data-auto-focus="true">
+                                                                                    <ul class="my-menu small-font">
+                                                                                        <div class="grid-x">
+                                                                                            <div class="medium-12">
+                                                                                                <p class="black-color font-wei-bold text-right">نماد اخزا: <span class="font-wei gray-color">{{alloc.caaSymbolOfAkhza}}</span></p>
+                                                                                                <p class="black-color font-wei-bold text-right">نوع اوراق: <span class="font-wei gray-color">{{alloc.due_type.dtSubject}}</span></p>
+                                                                                                <p class="black-color font-wei-bold text-right">تاریخ سر رسید: <span class="font-wei btn-red">{{alloc.caaDueDate}}</span></p>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </ul>
+                                                                                </div>
+                                                                                <span  class="btn-red font-wei-bold">{{ $parent.calcDispAmount(alloc.caaAmount , false) }}</span>
+                                                                            </div>
+                                                                            <span v-else>{{ $parent.calcDispAmount(alloc.caaAmount , false) }}</span>
                                                                         </div>
                                                                         <div v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_EDIT') || $can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                                             <a class="dropdown small sm-btn-align" :data-toggle="'provCapitalAssetsAllocation' + alloc.id"><i class="fa fa-ellipsis-v size-18"></i></a>
@@ -348,7 +404,21 @@
                                                 <td class="text-center">
                                                     <div class="grid-x">
                                                         <div class="medium-11">
-                                                            {{ $parent.calcDispAmount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaAmount , false) }}
+                                                            <div :data-toggle="'_Paper' + plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].id" v-if="plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaDtId != null" class="clearfix tool-bar">
+                                                                <div style="min-width: 200px" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'_Paper' + plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].id" data-dropdown data-auto-focus="true">
+                                                                    <ul class="my-menu small-font">
+                                                                        <div class="grid-x">
+                                                                            <div class="medium-12">
+                                                                                <p class="black-color font-wei-bold text-right">نماد اخزا: <span class="font-wei gray-color">{{plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaSymbolOfAkhza}}</span></p>
+                                                                                <p class="black-color font-wei-bold text-right">نوع اوراق: <span class="font-wei gray-color">{{plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].due_type.dtSubject}}</span></p>
+                                                                                <p class="black-color font-wei-bold text-right">تاریخ سر رسید: <span class="font-wei btn-red">{{plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaDueDate}}</span></p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </ul>
+                                                                </div>
+                                                                <span  class="btn-red font-wei-bold">{{ $parent.calcDispAmount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaAmount , false) }}</span>
+                                                            </div>
+                                                            <span v-else>{{ $parent.calcDispAmount(plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].caaAmount , false) }}</span>
                                                         </div>
                                                         <div v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_EDIT') || $can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                             <a class="dropdown small sm-btn-align" :data-toggle="'natCapitalAssetsAllocation' + plans.capital_assets_project_has_credit_source[0].credit_source_has_allocation[0].allocation[0].id"><i class="fa fa-ellipsis-v size-18"></i></a>
@@ -378,7 +448,21 @@
                                                     <td class="text-center">
                                                         <div class="grid-x">
                                                             <div class="medium-11">
-                                                                {{ $parent.calcDispAmount(projects.credit_source_has_allocation[0].allocation[0].caaAmount , false) }}
+                                                                <div :data-toggle="'_Paper' + projects.credit_source_has_allocation[0].allocation[0].id" v-if="projects.credit_source_has_allocation[0].allocation[0].caaDtId != null" class="clearfix tool-bar">
+                                                                    <div style="min-width: 200px" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'_Paper' + projects.credit_source_has_allocation[0].allocation[0].id" data-dropdown data-auto-focus="true">
+                                                                        <ul class="my-menu small-font">
+                                                                            <div class="grid-x">
+                                                                                <div class="medium-12">
+                                                                                    <p class="black-color font-wei-bold text-right">نماد اخزا: <span class="font-wei gray-color">{{projects.credit_source_has_allocation[0].allocation[0].caaSymbolOfAkhza}}</span></p>
+                                                                                    <p class="black-color font-wei-bold text-right">نوع اوراق: <span class="font-wei gray-color">{{projects.credit_source_has_allocation[0].allocation[0].due_type.dtSubject}}</span></p>
+                                                                                    <p class="black-color font-wei-bold text-right">تاریخ سر رسید: <span class="font-wei btn-red">{{projects.credit_source_has_allocation[0].allocation[0].caaDueDate}}</span></p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </ul>
+                                                                    </div>
+                                                                    <span  class="btn-red font-wei-bold">{{ $parent.calcDispAmount(projects.credit_source_has_allocation[0].allocation[0].caaAmount , false) }}</span>
+                                                                </div>
+                                                                <span v-else>{{ $parent.calcDispAmount(projects.credit_source_has_allocation[0].allocation[0].caaAmount , false) }}</span>
                                                             </div>
                                                             <div v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_EDIT') || $can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                                 <a class="dropdown small sm-btn-align" :data-toggle="'natCapitalAssetsAllocation' + projects.credit_source_has_allocation[0].allocation[0].id"><i class="fa fa-ellipsis-v size-18"></i></a>
@@ -403,7 +487,21 @@
                                                         <td class="text-center">
                                                             <div class="grid-x">
                                                                 <div class="medium-11">
-                                                                    {{ $parent.calcDispAmount(credit_source.allocation[0].caaAmount , false) }}
+                                                                    <div :data-toggle="'_Paper' + credit_source.allocation[0].id" v-if="credit_source.allocation[0].caaDtId != null" class="clearfix tool-bar">
+                                                                        <div style="min-width: 200px" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'_Paper' + credit_source.allocation[0].id" data-dropdown data-auto-focus="true">
+                                                                            <ul class="my-menu small-font">
+                                                                                <div class="grid-x">
+                                                                                    <div class="medium-12">
+                                                                                        <p class="black-color font-wei-bold text-right">نماد اخزا: <span class="font-wei gray-color">{{credit_source.allocation[0].caaSymbolOfAkhza}}</span></p>
+                                                                                        <p class="black-color font-wei-bold text-right">نوع اوراق: <span class="font-wei gray-color">{{credit_source.allocation[0].due_type.dtSubject}}</span></p>
+                                                                                        <p class="black-color font-wei-bold text-right">تاریخ سر رسید: <span class="font-wei btn-red">{{credit_source.allocation[0].caaDueDate}}</span></p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </ul>
+                                                                        </div>
+                                                                        <span  class="btn-red font-wei-bold">{{ $parent.calcDispAmount(credit_source.allocation[0].caaAmount , false) }}</span>
+                                                                    </div>
+                                                                    <span v-else>{{ $parent.calcDispAmount(credit_source.allocation[0].caaAmount , false) }}</span>
                                                                 </div>
                                                                 <div v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_EDIT') || $can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                                     <a class="dropdown small sm-btn-align" :data-toggle="'natCapitalAssetsAllocation' + credit_source.allocation[0].id"><i class="fa fa-ellipsis-v size-18"></i></a>
@@ -427,7 +525,21 @@
                                                             <td class="text-center">
                                                                 <div class="grid-x">
                                                                     <div class="medium-11">
-                                                                        {{ $parent.calcDispAmount(alloc.caaAmount , false) }}
+                                                                        <div :data-toggle="'_Paper' + alloc.id" v-if="alloc.caaDtId != null" class="clearfix tool-bar">
+                                                                            <div style="min-width: 200px" class="dropdown-pane dropdown-pane-sm " data-close-on-click="true"  data-hover="true" data-hover-pane="true" data-h-offset="20px"  data-position="auto" data-alignment="auto" :id="'_Paper' + alloc.id" data-dropdown data-auto-focus="true">
+                                                                                <ul class="my-menu small-font">
+                                                                                    <div class="grid-x">
+                                                                                        <div class="medium-12">
+                                                                                            <p class="black-color font-wei-bold text-right">نماد اخزا: <span class="font-wei gray-color">{{alloc.caaSymbolOfAkhza}}</span></p>
+                                                                                            <p class="black-color font-wei-bold text-right">نوع اوراق: <span class="font-wei gray-color">{{alloc.due_type.dtSubject}}</span></p>
+                                                                                            <p class="black-color font-wei-bold text-right">تاریخ سر رسید: <span class="font-wei btn-red">{{alloc.caaDueDate}}</span></p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </ul>
+                                                                            </div>
+                                                                            <span  class="btn-red font-wei-bold">{{ $parent.calcDispAmount(alloc.caaAmount , false) }}</span>
+                                                                        </div>
+                                                                        <span v-else>{{ $parent.calcDispAmount(alloc.caaAmount , false) }}</span>
                                                                     </div>
                                                                     <div v-show="$can('BUDGET_CAPITAL_ASSETS_ALLOCATION_EDIT') || $can('BUDGET_CAPITAL_ASSETS_ALLOCATION_DELETE')" class="medium-1 cell-vertical-center text-left">
                                                                         <a class="dropdown small sm-btn-align" :data-toggle="'natCapitalAssetsAllocation' + alloc.id"><i class="fa fa-ellipsis-v size-18"></i></a>
@@ -562,159 +674,69 @@
                 </div>
                 <!--Forms Start-->
                 <!--Insert Modal Start-->
-                <modal-small v-if="showInsertModal" @close="showInsertModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                <modal-large v-if="showInsertModal" @close="showInsertModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
                     <div  slot="body">
                         <form v-on:submit.prevent="createCapitalAssetsAllocation">
                             <div class="grid-x">
-                                <div class="medium-6 padding-lr">
-                                    <label>شماره نامه
-                                        <input class="form-element-margin-btm" type="text" name="letterNumber" v-model="AllocationInput.idNumber">
-                                    </label>
-                                </div>
-                                <div class="medium-6 padding-lr">
-                                    <label>تاریخ
-                                        <date-picker
-                                                :color="checkAllocationDateValid ? '#d9534f' : '#5c6bc0'"
-                                                v-model="AllocationInput.date"
-                                                input-class="form-control form-control-lg date-picker-bottom-margin"
-                                                id="AllocationInputDate"
-                                                placeholder="انتخاب تاریخ">
-                                        </date-picker>
-                                        <p style="margin-top:3px !important;" v-show="checkAllocationDateValid" class="error-font">لطفا تاریخ مورد نظر را انتخاب نمایید!</p>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="grid-x">
-                                <div class="medium-6 cell padding-lr">
-                                    <label>طرح
-                                        <select class="form-element-margin-btm"  v-model="selectedPlan" v-on:change="getProjects" name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('plan')}">
-                                            <option value=""></option>
-                                            <option v-for="approvedPlan in approvedPlans" :value="approvedPlan.id">{{ approvedPlan.credit_distribution_title.cdtIdNumber + ' - ' + approvedPlan.credit_distribution_title.cdtSubject + (approvedPlan.credit_distribution_title.county == null ? '' : ' - ' + approvedPlan.credit_distribution_title.county.coName) }}</option>
-                                        </select>
-                                        <span v-show="errors.has('plan')" class="error-font">لطفا طرح را انتخاب کنید!</span>
-                                    </label>
-                                </div>
-                                <div class="medium-6 cell padding-lr">
-                                    <label>پروژه
-                                        <select class="form-element-margin-btm" v-model="selectedProject" v-on:change="getProjectsCreditSource" name="projectTitle" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('projectTitle')}">
-                                            <option value=""></option>
-                                            <option v-for="project in approvedProjects" :value="project.id">{{ project.cpCode + ' - ' + project.cpSubject }}</option>
-                                        </select>
-                                    </label>
-                                    <span v-show="errors.has('projectTitle')" class="error-font">لطفا عنوان پروژه انتخاب کنید!</span>
-                                </div>
-                            </div>
-                            <div class="grid-x">
-                                <div class="medium-6 cell padding-lr">
-                                    <label>اعتبار مصوب
-                                        <select class="form-element-margin-btm" @change="displayCreditResourceInfo(AllocationInput.pcsId)"  v-model="AllocationInput.pcsId" name="credit" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('credit')}">
-                                            <option value=""></option>
-                                            <option v-for="projectCreditSource in projectCreditSources" :value="projectCreditSource.id">{{ projectCreditSource.credit_distribution_row.cdSubject + ' - فصل ' + projectCreditSource.tiny_season.season_title.season.sSubject + ' - ' + projectCreditSource.tiny_season.season_title.castSubject + ' - ' + projectCreditSource.tiny_season.catsSubject + ' - ' + $parent.calcDispAmount(projectCreditSource.ccsAmount) }}</option>
-                                        </select>
-                                        <span v-show="errors.has('credit')" class="error-font">لطفا اعتبار مصوب را انتخاب کنید!</span>
-                                    </label>
-                                </div>
-                                <div class="medium-6 cell padding-lr">
-                                    <label>مبلغ تخصیص <span class="btn-red">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
-                                        <input class="form-element-margin-btm" type="text"  v-model="AllocationInput.amount" name="creditCost" v-validate="'required|min_value:1|max_value:' + maxInputAmount" :class="{'input': true, 'select-error': errors.has('creditCost')}"/>
-                                    </label>
-                                    <span v-show="errors.has('creditCost')" class="error-font">مبلغ تخصیص فراموش شده / نا معتبر است!</span>
-                                </div>
-                            </div>
-                            <div class="grid-x padding-lr" style="margin-top: 10px" v-show="creditSourceInfo != ''">
-                                <div class="medium-12 my-callout-bg-color">
-                                    <div class="medium-12">
-                                        <span class="btn-red">اعتبار مصوب:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.ccsAmount) }}</span>
-                                    </div>
-                                    <div class="medium-12">
-                                        <span class="btn-red">آخرین تخصیص:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.ccsSumOfAllocation) }}</span>
-                                    </div>
-                                    <div class="medium-12">
-                                        <span class="btn-red">درصدآخرین تخصیص:</span><span>{{ ' ' + $parent.calcPrecent(creditSourceInfo.ccsAmount , creditSourceInfo.ccsSumOfAllocation) }}</span>
-                                    </div>
-                                    <div class="medium-12 ">
-                                        <span class="btn-red">باقی مانده:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.ccsAmount - creditSourceInfo.ccsSumOfAllocation) }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="grid-x">
-                                <div class="small-12 columns padding-lr">
-                                    <label>شرح
-                                        <textarea name="csDescription" style="min-height: 150px;" v-model="AllocationInput.description"></textarea>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="medium-6 columns padding-lr padding-bottom-modal">
-                                <button v-show="!$root.btnLoadingCheckStatus" name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
-                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
-                            </div>
-                        </form>
-                    </div>
-                </modal-small>
-                <!--Insert Modal End-->
-                <!--update Modal Start-->
-                <modal-small v-if="showUpdateModal" @close="showUpdateModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
-                    <div  slot="body">
-                        <form v-on:submit.prevent="updateCapitalAssetsAllocation">
-                            <div class="grid-x">
-                                <div class="medium-6 padding-lr">
-                                    <label>شماره نامه
-                                        <input class="form-element-margin-btm" type="text" name="letterNumber" v-model="AllocationFill.idNumber">
-                                    </label>
-                                </div>
-                                <div class="medium-6 padding-lr">
-                                    <label>تاریخ
-                                        <date-picker
-                                                :color="'#5c6bc0'"
-                                                v-model="AllocationFill.date"
-                                                input-class="form-control form-control-lg date-picker-bottom-margin"
-                                                id="AllocationFillDate"
-                                                placeholder="انتخاب تاریخ">
-                                        </date-picker>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="grid-x">
-                                <div class="medium-6 cell padding-lr">
-                                    <label>طرح
-                                        <select class="form-element-margin-btm"  v-model="selectedPlan" v-on:change="getProjects" name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('plan')}">
-                                            <option value=""></option>
-                                            <option v-for="approvedPlan in approvedPlans" :value="approvedPlan.id">{{ approvedPlan.credit_distribution_title.cdtIdNumber + ' - ' + approvedPlan.credit_distribution_title.cdtSubject + (approvedPlan.credit_distribution_title.county == null ? '' : ' - ' + approvedPlan.credit_distribution_title.county.coName) }}</option>
-                                        </select>
-                                        <span v-show="errors.has('plan')" class="error-font">لطفا طرح را انتخاب کنید!</span>
-                                    </label>
-                                </div>
-                                <div class="medium-6 cell padding-lr">
-                                    <label>پروژه
-                                        <select class="form-element-margin-btm" v-model="selectedProject" v-on:change="getProjectsCreditSource" name="projectTitle" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('projectTitle')}">
-                                            <option value=""></option>
-                                            <option v-for="project in approvedProjects" :value="project.id">{{ project.cpCode + ' - ' + project.cpSubject }}</option>
-                                        </select>
-                                    </label>
-                                    <span v-show="errors.has('projectTitle')" class="error-font">لطفا عنوان پروژه انتخاب کنید!</span>
-                                </div>
-                            </div>
-                            <div class="grid-x">
-                                <div class="medium-6 cell padding-lr">
-                                    <label>اعتبار مصوب
-                                        <select class="form-element-margin-btm" @change="displayCreditResourceInfo(AllocationFill.pcsId)"  v-model="AllocationFill.pcsId" name="credit" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('credit')}">
-                                            <option value=""></option>
-                                            <option v-for="projectCreditSource in projectCreditSources" :value="projectCreditSource.id">{{ projectCreditSource.credit_distribution_row.cdSubject + ' - فصل ' + projectCreditSource.tiny_season.season_title.season.sSubject + ' - ' + projectCreditSource.tiny_season.season_title.castSubject + ' - ' + projectCreditSource.tiny_season.catsSubject + ' - ' + $parent.calcDispAmount(projectCreditSource.ccsAmount) }}</option>
-                                        </select>
-                                        <span v-show="errors.has('credit')" class="error-font">لطفا اعتبار مصوب را انتخاب کنید!</span>
-                                    </label>
-                                </div>
-                                <div class="medium-6 cell padding-lr">
-                                    <label>مبلغ تخصیص <span class="btn-red">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
-                                        <input :disabled="AllocationFill.isFound" class="form-element-margin-btm" type="text"  v-model="AllocationFill.amount" name="creditCost" v-validate="'required|min_value:' + minInputAmount + '|max_value:' + maxInputAmount" :class="{'input': true, 'select-error': errors.has('creditCost')}"/>
-                                    </label>
-                                    <span v-show="errors.has('creditCost')" class="error-font">مبلغ تخصیص فراموش شده / نا معتبر است!</span>
-                                </div>
-                            </div>
-                            <div style="margin-top: 10px" class="grid-x padding-lr" v-show="creditSourceInfo != ''">
-                                <div class="medium-12 my-callout-bg-color">
+                                <div class="large-7 medium-7 small-12">
                                     <div class="grid-x">
-                                        <div class="large-6 medium-6 small-12">
+                                        <div class="medium-6 padding-lr">
+                                            <label>شماره نامه
+                                                <input class="form-element-margin-btm" type="text" name="letterNumber" v-model="AllocationInput.idNumber">
+                                            </label>
+                                        </div>
+                                        <div class="medium-6 padding-lr">
+                                            <label>تاریخ
+                                                <date-picker
+                                                        :color="checkAllocationDateValid ? '#d9534f' : '#5c6bc0'"
+                                                        v-model="AllocationInput.date"
+                                                        input-class="form-control form-control-lg date-picker-bottom-margin"
+                                                        id="AllocationInputDate"
+                                                        placeholder="انتخاب تاریخ">
+                                                </date-picker>
+                                                <p style="margin-top:3px !important;" v-show="checkAllocationDateValid" class="error-font">لطفا تاریخ مورد نظر را انتخاب نمایید!</p>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="grid-x">
+                                        <div class="medium-6 cell padding-lr">
+                                            <label>طرح
+                                                <select class="form-element-margin-btm"  v-model="selectedPlan" v-on:change="getProjects" name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('plan')}">
+                                                    <option value=""></option>
+                                                    <option v-for="approvedPlan in approvedPlans" :value="approvedPlan.id">{{ approvedPlan.credit_distribution_title.cdtIdNumber + ' - ' + approvedPlan.credit_distribution_title.cdtSubject + (approvedPlan.credit_distribution_title.county == null ? '' : ' - ' + approvedPlan.credit_distribution_title.county.coName) }}</option>
+                                                </select>
+                                                <span v-show="errors.has('plan')" class="error-font">لطفا طرح را انتخاب کنید!</span>
+                                            </label>
+                                        </div>
+                                        <div class="medium-6 cell padding-lr">
+                                            <label>پروژه
+                                                <select class="form-element-margin-btm" v-model="selectedProject" v-on:change="getProjectsCreditSource" name="projectTitle" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('projectTitle')}">
+                                                    <option value=""></option>
+                                                    <option v-for="project in approvedProjects" :value="project.id">{{ project.cpCode + ' - ' + project.cpSubject }}</option>
+                                                </select>
+                                            </label>
+                                            <span v-show="errors.has('projectTitle')" class="error-font">لطفا عنوان پروژه انتخاب کنید!</span>
+                                        </div>
+                                    </div>
+                                    <div class="grid-x">
+                                        <div class="medium-6 cell padding-lr">
+                                            <label>اعتبار مصوب
+                                                <select class="form-element-margin-btm" @change="displayCreditResourceInfo(AllocationInput.pcsId)"  v-model="AllocationInput.pcsId" name="credit" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('credit')}">
+                                                    <option value=""></option>
+                                                    <option v-for="projectCreditSource in projectCreditSources" :value="projectCreditSource.id">{{ projectCreditSource.credit_distribution_row.cdSubject + ' - فصل ' + projectCreditSource.tiny_season.season_title.season.sSubject + ' - ' + projectCreditSource.tiny_season.season_title.castSubject + ' - ' + projectCreditSource.tiny_season.catsSubject + ' - ' + $parent.calcDispAmount(projectCreditSource.ccsAmount) }}</option>
+                                                </select>
+                                                <span v-show="errors.has('credit')" class="error-font">لطفا اعتبار مصوب را انتخاب کنید!</span>
+                                            </label>
+                                        </div>
+                                        <div class="medium-6 cell padding-lr">
+                                            <label>مبلغ تخصیص <span class="btn-red">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
+                                                <input class="form-element-margin-btm" type="text"  v-model="AllocationInput.amount" name="creditCost" v-validate="'required|min_value:1|max_value:' + maxInputAmount" :class="{'input': true, 'select-error': errors.has('creditCost')}"/>
+                                            </label>
+                                            <span v-show="errors.has('creditCost')" class="error-font">مبلغ تخصیص فراموش شده / نا معتبر است!</span>
+                                        </div>
+                                    </div>
+                                    <div class="grid-x padding-lr" style="margin-top: 10px" v-show="creditSourceInfo != ''">
+                                        <div class="medium-12 my-callout-bg-color size-14">
                                             <div class="medium-12">
                                                 <span class="btn-red">اعتبار مصوب:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.ccsAmount) }}</span>
                                             </div>
@@ -725,34 +747,211 @@
                                                 <span class="btn-red">درصدآخرین تخصیص:</span><span>{{ ' ' + $parent.calcPrecent(creditSourceInfo.ccsAmount , creditSourceInfo.ccsSumOfAllocation) }}</span>
                                             </div>
                                             <div class="medium-12 ">
-                                                <span class="btn-red">باقی مانده:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.ccsAmount - creditSourceInfo.ccsSumOfAllocation) }}</span>
-                                            </div>
-                                        </div>
-                                        <div class="large-6 medium-6 small-12">
-                                            <div class="medium-12">
-                                                <span class="btn-red">رزرو شده:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.ccsSumOfReserved) }}</span>
-                                            </div>
-                                            <div class="medium-12">
-                                                <span class="btn-red">تعهد شده:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.ccsSumOfCommitment) }}</span>
+                                                <span class="btn-red">باقیمانده:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.ccsAmount - creditSourceInfo.ccsSumOfAllocation) }}</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="large-5 medium-5 small-12">
+                                    <div class="grid-x">
+                                        <div class="small-12 columns padding-lr">
+                                            <label>شرح
+                                                <textarea name="csDescription" style="min-height: 300px;" v-model="AllocationInput.description"></textarea>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid-x padding-lr top-margin-element">
+                                <div style="display: table">
+                                    <div style="display:table-cell">
+                                        <div class="switch tiny">
+                                            <input class="switch-input" type="checkbox" v-model="AllocationInput.isPapers" id="isPapers" @change="clearDueInformation()">
+                                            <label class="switch-paddle" for="isPapers">
+                                                <span class="switch-active" aria-hidden="true">بلی</span>
+                                                <span class="switch-inactive" aria-hidden="true">خیر</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div style="display: table-cell;padding-right: 8px;">
+                                        <p style="position: relative;">اوراق خزانه</p>
+                                    </div>
+                                </div>
                             </div>
                             <div class="grid-x">
-                                <div class="small-12 columns padding-lr">
-                                    <label>شرح
-                                        <textarea name="csDescription" style="min-height: 150px;" v-model="AllocationFill.description"></textarea>
+                                <div class="medium-4 cell padding-lr">
+                                    <label>نماد اخزا
+                                        <input :disabled="!AllocationInput.isPapers" class="form-element-margin-btm" type="text"  v-model="AllocationInput.symbolOfAkhza" name="akhza" v-validate="{rules: 'required' , disabled:!AllocationInput.isPapers}" :class="{'input': true, 'select-error': errors.has('akhza')}"/>
+                                    </label>
+                                    <span v-show="errors.has('akhza')" class="error-font">نماد اخزا فراموش شده / نا معتبر است!</span>
+                                </div>
+                                <div class="medium-4 cell padding-lr">
+                                    <label> تاریخ سر رسید
+                                        <date-picker
+                                                :color="checkAllocationDueDateValid ? '#d9534f' : '#5c6bc0'"
+                                                v-model="AllocationInput.dueDate"
+                                                input-class="form-control form-control-lg date-picker-bottom-margin"
+                                                id="AllocationInputDueDate"
+                                                :disabled="!AllocationInput.isPapers"
+                                                placeholder="انتخاب تاریخ">
+                                        </date-picker>
+                                        <p style="margin-top:3px !important;" v-show="checkAllocationDueDateValid" class="error-font">لطفا تاریخ سر رسید را انتخاب نمایید!</p>
+                                    </label>
+                                </div>
+                                <div class="medium-4 cell padding-lr">
+                                    <label>نوع اوراق
+                                        <select class="form-element-margin-btm" :disabled="!AllocationInput.isPapers"  v-model="AllocationInput.dtId" name="dueType" v-validate="{rules: 'required' , disabled:!AllocationInput.isPapers}" :class="{'input': true, 'select-error': errors.has('dueType')}">
+                                            <option value=""></option>
+                                            <option v-for="dt in dueType" :value="dt.id">{{ dt.dtSubject }}</option>
+                                        </select>
+                                        <span v-show="errors.has('dueType')" class="error-font">لطفا نوع اوراق را انتخاب کنید!</span>
                                     </label>
                                 </div>
                             </div>
-                            <div class="medium-6 columns padding-lr padding-bottom-modal">
+                            <div class="medium-6 columns padding-lr padding-bottom-modal top-margin-element">
+                                <button v-show="!$root.btnLoadingCheckStatus" name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
+                                <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
+                            </div>
+                        </form>
+                    </div>
+                </modal-large>
+                <!--Insert Modal End-->
+                <!--update Modal Start-->
+                <modal-large v-if="showUpdateModal" @close="showUpdateModal = false" xmlns:v-on="http://www.w3.org/1999/xhtml">
+                    <div  slot="body">
+                        <form v-on:submit.prevent="updateCapitalAssetsAllocation">
+                            <div class="grid-x">
+                                <div class="large-7 medium-7 small-12">
+                                    <div class="grid-x">
+                                        <div class="medium-6 padding-lr">
+                                            <label>شماره نامه
+                                                <input class="form-element-margin-btm" type="text" name="letterNumber" v-model="AllocationFill.idNumber">
+                                            </label>
+                                        </div>
+                                        <div class="medium-6 padding-lr">
+                                            <label>تاریخ
+                                                <date-picker
+                                                        :color="'#5c6bc0'"
+                                                        v-model="AllocationFill.date"
+                                                        input-class="form-control form-control-lg date-picker-bottom-margin"
+                                                        id="AllocationFillDate"
+                                                        placeholder="انتخاب تاریخ">
+                                                </date-picker>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="grid-x">
+                                        <div class="medium-6 cell padding-lr">
+                                            <label>طرح
+                                                <select class="form-element-margin-btm"  v-model="selectedPlan" v-on:change="getProjects" name="plan" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('plan')}">
+                                                    <option value=""></option>
+                                                    <option v-for="approvedPlan in approvedPlans" :value="approvedPlan.id">{{ approvedPlan.credit_distribution_title.cdtIdNumber + ' - ' + approvedPlan.credit_distribution_title.cdtSubject + (approvedPlan.credit_distribution_title.county == null ? '' : ' - ' + approvedPlan.credit_distribution_title.county.coName) }}</option>
+                                                </select>
+                                                <span v-show="errors.has('plan')" class="error-font">لطفا طرح را انتخاب کنید!</span>
+                                            </label>
+                                        </div>
+                                        <div class="medium-6 cell padding-lr">
+                                            <label>پروژه
+                                                <select class="form-element-margin-btm" v-model="selectedProject" v-on:change="getProjectsCreditSource" name="projectTitle" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('projectTitle')}">
+                                                    <option value=""></option>
+                                                    <option v-for="project in approvedProjects" :value="project.id">{{ project.cpCode + ' - ' + project.cpSubject }}</option>
+                                                </select>
+                                            </label>
+                                            <span v-show="errors.has('projectTitle')" class="error-font">لطفا عنوان پروژه انتخاب کنید!</span>
+                                        </div>
+                                    </div>
+                                    <div class="grid-x">
+                                        <div class="medium-6 cell padding-lr">
+                                            <label>اعتبار مصوب
+                                                <select class="form-element-margin-btm" @change="displayCreditResourceInfo(AllocationFill.pcsId)"  v-model="AllocationFill.pcsId" name="credit" v-validate data-vv-rules="required" :class="{'input': true, 'select-error': errors.has('credit')}">
+                                                    <option value=""></option>
+                                                    <option v-for="projectCreditSource in projectCreditSources" :value="projectCreditSource.id">{{ projectCreditSource.credit_distribution_row.cdSubject + ' - فصل ' + projectCreditSource.tiny_season.season_title.season.sSubject + ' - ' + projectCreditSource.tiny_season.season_title.castSubject + ' - ' + projectCreditSource.tiny_season.catsSubject + ' - ' + $parent.calcDispAmount(projectCreditSource.ccsAmount) }}</option>
+                                                </select>
+                                                <span v-show="errors.has('credit')" class="error-font">لطفا اعتبار مصوب را انتخاب کنید!</span>
+                                            </label>
+                                        </div>
+                                        <div class="medium-6 cell padding-lr">
+                                            <label>مبلغ تخصیص <span class="btn-red">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
+                                                <input :disabled="AllocationFill.isFound" class="form-element-margin-btm" type="text"  v-model="AllocationFill.amount" name="creditCost" v-validate="'required|min_value:' + minInputAmount + '|max_value:' + maxInputAmount" :class="{'input': true, 'select-error': errors.has('creditCost')}"/>
+                                            </label>
+                                            <span v-show="errors.has('creditCost')" class="error-font">مبلغ تخصیص فراموش شده / نا معتبر است!</span>
+                                        </div>
+                                    </div>
+                                    <div style="margin-top: 10px" class="grid-x padding-lr" v-show="creditSourceInfo != ''">
+                                        <div class="medium-12 my-callout-bg-color">
+                                            <div class="grid-x size-14">
+                                                <div class="large-6 medium-6 small-12">
+                                                    <div class="medium-12">
+                                                        <span class="btn-red">اعتبار مصوب:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.ccsAmount) }}</span>
+                                                    </div>
+                                                    <div class="medium-12">
+                                                        <span class="btn-red">آخرین تخصیص:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.ccsSumOfAllocation) }}</span>
+                                                    </div>
+                                                    <div class="medium-12">
+                                                        <span class="btn-red">درصدآخرین تخصیص:</span><span>{{ ' ' + $parent.calcPrecent(creditSourceInfo.ccsAmount , creditSourceInfo.ccsSumOfAllocation) }}</span>
+                                                    </div>
+                                                    <div class="medium-12 ">
+                                                        <span class="btn-red">باقیمانده:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.ccsAmount - creditSourceInfo.ccsSumOfAllocation) }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="large-6 medium-6 small-12">
+                                                    <div class="medium-12">
+                                                        <span class="btn-red">رزرو شده:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.ccsSumOfReserved) }}</span>
+                                                    </div>
+                                                    <div class="medium-12">
+                                                        <span class="btn-red">تعهد شده:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.ccsSumOfCommitment) }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="large-5 medium-5 small-12">
+                                    <div class="grid-x">
+                                        <div class="small-12 columns padding-lr">
+                                            <label>شرح
+                                                <textarea name="csDescription" style="min-height: 300px;" v-model="AllocationFill.description"></textarea>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div v-if="AllocationFill.isPapers" class="grid-x">
+                                <div class="medium-4 cell padding-lr">
+                                    <label>نماد اخزا
+                                        <input class="form-element-margin-btm" type="text"  v-model="AllocationFill.symbolOfAkhza" name="akhza" v-validate="{rules: 'required'}" :class="{'input': true, 'select-error': errors.has('_akhza')}"/>
+                                    </label>
+                                    <span v-show="errors.has('_akhza')" class="error-font">نماد اخزا فراموش شده / نا معتبر است!</span>
+                                </div>
+                                <div class="medium-4 cell padding-lr">
+                                    <label> تاریخ سر رسید
+                                        <date-picker
+                                                :color="checkAllocationDueDateValid ? '#d9534f' : '#5c6bc0'"
+                                                v-model="AllocationFill.dueDate"
+                                                input-class="form-control form-control-lg date-picker-bottom-margin"
+                                                id="_AllocationInputDueDate"
+                                                placeholder="انتخاب تاریخ">
+                                        </date-picker>
+                                        <p style="margin-top:3px !important;" v-show="checkAllocationDueDateValid" class="error-font">لطفا تاریخ سر رسید را انتخاب نمایید!</p>
+                                    </label>
+                                </div>
+                                <div class="medium-4 cell padding-lr">
+                                    <label>نوع اوراق
+                                        <select class="form-element-margin-btm" v-model="AllocationFill.dtId" name="dueType" v-validate="{rules: 'required'}" :class="{'input': true, 'select-error': errors.has('_dueType')}">
+                                            <option value=""></option>
+                                            <option v-for="dt in dueType" :value="dt.id">{{ dt.dtSubject }}</option>
+                                        </select>
+                                        <span v-show="errors.has('_dueType')" class="error-font">لطفا نوع اوراق را انتخاب کنید!</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="medium-6 columns padding-lr top-margin-element">
                                 <button  v-show="!$root.btnLoadingCheckStatus" name="Submit" class="my-button my-success float-left btn-for-load"> <span class="btn-txt-mrg">ثبت</span></button>
                                 <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                             </div>
                         </form>
                     </div>
-                </modal-small>
+                </modal-large>
                 <!--update Modal End-->
                 <!-- Delete Modal Start -->
                 <modal-tiny v-if="showDeleteModal" @close="showDeleteModal = false">
@@ -938,7 +1137,7 @@
                                         <span class="btn-red">مجموع مبالغ انتخاب شده:</span><span>{{ ' ' + $parent.calcDispAmount(sumOfSelectedAmount) }}</span>
                                     </div>
                                     <div class="medium-12 ">
-                                        <span class="btn-red">باقی مانده:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.ccsAmount - creditSourceInfo.ccsSumOfAllocation - sumOfSelectedAmount) }}</span>
+                                        <span class="btn-red">باقیمانده:</span><span>{{ ' ' + $parent.calcDispAmount(creditSourceInfo.ccsAmount - creditSourceInfo.ccsSumOfAllocation - sumOfSelectedAmount) }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -982,7 +1181,7 @@
                                             </div>
                                         </div>
                                         <span class="error-font" v-show="unSelectedCost">حداقل یک مورد را از لیست هزینه انتخاب کنید!</span>
-                                        <span class="error-font" v-show="overflowError">مجموع مبالغ انتخاب شده از باقی مانده بیشتر است!</span>
+                                        <span class="error-font" v-show="overflowError">مجموع مبالغ انتخاب شده از باقیمانده بیشتر است!</span>
                                     </label>
                                 </div>
                                 <div class="small-4 columns padding-lr">
@@ -1186,7 +1385,7 @@
                 natCapitalAssetsAllocations: [],
                 selectedCapFinancings: [],
                 capFinancings: [],
-                AllocationInput: {},
+                AllocationInput: {dueDate: null, symbolOfAkhza: null , dtId: null},
                 foundInput: {},
                 foundFill: {},
                 provOrNat: '',
@@ -1218,6 +1417,7 @@
                 approvedProjects: {},
                 projectCreditSources: {},
                 selectedItems: [],
+                dueType: [],
                 selectedCount: 0,
                 reportOptions: {title:'' , withReporterName: true , withFiscalYear: true , withReportDate: true , orientation: true , costLabel:true},
                 foundIdForConvertTo: '',
@@ -1246,6 +1446,7 @@
                 reportPdfPath: '',
                 showLoaderProgress: false,
                 checkAllocationDateValid:false,
+                checkAllocationDueDateValid:false,
             }
         },
 
@@ -1253,6 +1454,10 @@
             AllocationInput: function (newQuestion, oldQuestion) {
                 if(this.AllocationInput.date != null)
                     this.checkAllocationDateValid=false;
+                if(this.AllocationInput.dueDate != null)
+                {
+                    this.checkAllocationDueDateValid=false;
+                }
             },
             foundInput: function (newQuestion, oldQuestion) {
                 if(this.foundInput.date != null)
@@ -1323,6 +1528,16 @@
                     .then((response) => {
                         this.setData(1 , response.data.data);
                         this.makePagination(response.data , "national");
+                        console.log(response);
+                    },(error) => {
+                        console.log(error);
+                    });
+            },
+
+            fetchDueTypeData: function () {
+                axios.get('/budget/allocation/capital_assets/due_type/fetchData')
+                    .then((response) => {
+                        this.dueType = response.data;
                         console.log(response);
                     },(error) => {
                         console.log(error);
@@ -1458,6 +1673,7 @@
             openInsertModal: function (type) {
                 this.AllocationInput={};
                 this.checkAllocationDateValid=false;
+                this.checkAllocationDueDateValid=false;
                 this.lastPcsId = 0;
                 this.approvedPlans = [];
                 this.approvedProjects = [];
@@ -1466,6 +1682,7 @@
                 this.selectedPlan = '';
                 this.selectedProject = '';
                 this.provOrNat = type;
+                this.fetchDueTypeData();
                 this.getAllApprovedPlan(type);
                 this.showInsertModal = true;
             },
@@ -1473,8 +1690,12 @@
             createCapitalAssetsAllocation: function () {
                 this.$validator.validateAll().then((result) => {
                     if(this.AllocationInput.date == null)
-                        this.checkAllocationDateValid=true;
-                    if(!this.checkAllocationDateValid ) {
+                        this.checkAllocationDateValid = true;
+                    if(this.AllocationInput.dueDate == null && this.AllocationInput.isPapers)
+                        this.checkAllocationDueDateValid = true;
+                    else
+                        this.checkAllocationDueDateValid = false;
+                    if(!this.checkAllocationDateValid && !this.checkAllocationDueDateValid) {
                         if (result) {
                             var config = {
                                 allowLoading: true,
@@ -1484,6 +1705,9 @@
                                 date: this.AllocationInput.date,
                                 pcsId: this.AllocationInput.pcsId,
                                 amount: this.AllocationInput.amount,
+                                dueDate: this.AllocationInput.dueDate,
+                                symbolOfAkhza: this.AllocationInput.symbolOfAkhza,
+                                dtId: this.AllocationInput.dtId,
                                 description: this.AllocationInput.description,
                                 pOrN: this.provOrNat,
                                 searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
@@ -1513,6 +1737,7 @@
 
             openUpdateModal: function (item , planId , projectId , type) {
                 this.checkAllocationDateValid=false;
+                this.checkAllocationPurDateValid=false;
                 this.creditSourceInfo = '';
                 this.AllocationFill.id = item.id;
                 if (item.caaFoundId == null)
@@ -1523,6 +1748,13 @@
                 }
                 this.AllocationFill.idNumber = item.caaLetterNumber;
                 this.AllocationFill.date = item.caaLetterDate;
+                if (item.caaDtId != null)
+                    this.AllocationFill.isPapers = true;
+                else
+                    this.AllocationFill.isPapers = false;
+                this.AllocationFill.dueDate = item.caaDueDate;
+                this.AllocationFill.dtId = item.caaDtId;
+                this.AllocationFill.symbolOfAkhza = item.caaSymbolOfAkhza;
                 this.AllocationFill.pcsId = item.caaCcsId;
                 this.AllocationFill.amount = this.$parent.calcDispAmount(item.caaAmount , false , false);
                 this.lastPcsId = this.AllocationFill.caaCcsId;
@@ -1535,6 +1767,7 @@
                 this.getAllApprovedPlan(type);
                 this.getProjects();
                 this.getProjectsCreditSource();
+                this.fetchDueTypeData()
                 this.displayCreditResourceInfo(this.AllocationFill.pcsId);
             },
 
@@ -1550,6 +1783,9 @@
                             date: this.AllocationFill.date,
                             pcsId: this.AllocationFill.pcsId,
                             amount: this.AllocationFill.amount,
+                            dueDate: this.AllocationFill.dueDate,
+                            symbolOfAkhza: this.AllocationFill.symbolOfAkhza,
+                            dtId: this.AllocationFill.dtId,
                             description: this.AllocationFill.description,
                             pOrN: this.provOrNat,
                             searchValue: this.provOrNat == 0 ? this.provSearchValue : this.natSearchValue,
@@ -2156,7 +2392,17 @@
                 }else{
                     this.sumOfSelectedAmount -= amount;
                 }
-            }
+            },
+
+            clearDueInformation: function () {
+                this.AllocationInput.symbolOfAkhza = null;
+                this.AllocationInput.dueDate = null;
+                this.AllocationInput.dtId = null;
+                this.AllocationFill.symbolOfAkhza = null;
+                this.AllocationFill.dueDate = null;
+                this.AllocationFill.dtId = null;
+                this.checkAllocationDueDateValid = false;
+            },
         }
     }
 </script>

@@ -19,6 +19,7 @@ use Modules\Budget\Entities\CdrCaa;
 use Modules\Budget\Entities\CostAgreement;
 use Modules\Budget\Entities\CostAllocation;
 use Modules\Budget\Entities\CreditDistributionRow;
+use Modules\Budget\Entities\DueType;
 use Modules\Financial\Entities\_Check;
 use Modules\Financial\Entities\CapitalAssetsFinancing;
 use Modules\Financial\Entities\CapSpent;
@@ -56,10 +57,17 @@ class AllocationOfCapitalAssetsController extends Controller
                     ->orWhereHas('capitalAssetsProjectHasCreditSource.creditSourceHasAllocation.creditDistributionRow' , function ($q) use($searchValue){
                         return $q->where('cdSubject' , 'LIKE' , '%' . $searchValue . '%')
                             ->orWhere('cdDescription' , 'LIKE' , '%' . $searchValue . '%');
+                    })
+                    ->orWhereHas('capitalAssetsProjectHasCreditSource.creditSourceHasAllocation.Allocation' , function ($q) use($searchValue){
+                        return $q->where('caaDueDate' , 'LIKE' , '%' . $searchValue . '%')
+                            ->orWhere('caaSymbolOfAkhza' , 'LIKE' , '%' . $searchValue . '%');
+                    })
+                    ->orWhereHas('capitalAssetsProjectHasCreditSource.creditSourceHasAllocation.Allocation.dueType' , function ($q) use($searchValue){
+                        return $q->where('dtSubject' , 'LIKE' , '%' . $searchValue . '%');
                     });
             })
             ->has('capitalAssetsProjectHasCreditSource.creditSourceHasAllocation.Allocation')
-            ->with('capitalAssetsProjectHasCreditSource.creditSourceHasAllocation.Allocation')
+            ->with('capitalAssetsProjectHasCreditSource.creditSourceHasAllocation.Allocation.dueType')
             ->with('capitalAssetsProjectHasCreditSource.creditSourceHasAllocation.creditDistributionRow')
             ->with('capitalAssetsProjectHasCreditSource.creditSourceHasAllocation.tinySeason.seasonTitle.season')
             ->with('capitalAssetsProjectHasCreditSource.creditSourceHasAllocation.howToRun')
@@ -85,6 +93,9 @@ class AllocationOfCapitalAssetsController extends Controller
             $alloc->caaCcsId = $request->pcsId;
             $alloc->caaLetterNumber = $request->idNumber;
             $alloc->caaLetterDate = $request->date;
+            $alloc->caaDtId = $request->dtId;
+            $alloc->caaSymbolOfAkhza = $request->symbolOfAkhza;
+            $alloc->caaDueDate = $request->dueDate;
             $alloc->caaDescription = PublicSetting::checkPersianCharacters($request->description);
             $alloc->caaAmount = AmountUnit::convertInputAmount($request->amount);
             $alloc->save();
@@ -97,6 +108,13 @@ class AllocationOfCapitalAssetsController extends Controller
         );
     }
 
+    public function fetchDueType(Request $request)
+    {
+        return \response()->json(
+            DueType::all()
+        );
+    }
+
     public function updateCapitalAssetsAllocation(Request $request)
     {
         DB::transaction(function () use($request){
@@ -105,6 +123,9 @@ class AllocationOfCapitalAssetsController extends Controller
             $alloc->caaCcsId = $request->pcsId;
             $alloc->caaLetterNumber = $request->idNumber;
             $alloc->caaLetterDate = $request->date;
+            $alloc->caaDtId = $request->dtId;
+            $alloc->caaSymbolOfAkhza = $request->symbolOfAkhza;
+            $alloc->caaDueDate = $request->dueDate;
             $alloc->caaDescription = PublicSetting::checkPersianCharacters($request->description);
             $alloc->caaAmount = AmountUnit::convertInputAmount($request->amount);
             $alloc->save();

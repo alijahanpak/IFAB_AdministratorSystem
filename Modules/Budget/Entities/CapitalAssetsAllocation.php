@@ -17,6 +17,11 @@ class CapitalAssetsAllocation extends Model
         return $this->belongsTo(CapCreditSource::class , 'caaCcsId' , 'id');
     }
 
+    public function dueType()
+    {
+        return $this->belongsTo(DueType::class , 'caaDtId' , 'id');
+    }
+
     public function getCaaSumOfCostAttribute()
     {
         $capFinancingIds = CapitalAssetsFinancing::where('cafCaaId' , $this->id)
