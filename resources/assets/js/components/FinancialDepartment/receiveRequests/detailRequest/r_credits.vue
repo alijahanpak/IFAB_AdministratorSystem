@@ -260,6 +260,9 @@
                 <div class="small-font">
                     <div class="grid-x">
                         <div class="large-12 medium-12 small-12">
+                            <div class="float-left cost-label">
+                                <span class="cost-label size-14">مبالغ : ریال</span>
+                            </div>
                             <ul class="tabs tab-color my-tab-style" data-responsive-accordion-tabs="tabs medium-accordion large-tabs" id="cost_credit_tab_view">
                                 <li class="tabs-title is-active"><a href="#programTab" aria-selected="true">موافقتنامه</a></li>
                                 <li class="tabs-title"><a href="#creditDistributionResourcesTab">برنامه </a></li>
@@ -268,8 +271,18 @@
                             </ul>
                             <div class="tabs-content" data-tabs-content="cost_credit_tab_view">
                                 <div class="grid-x">
-                                    <div style="margin-top: 10px;" class="large-12 medium-12 small-12 direction-ltr">
-                                        <span class="cost-label size-14">مبالغ : ریال</span>
+                                    <div style="margin-top: 10px;" class="large-12 medium-12 small-12 direction-ltr padding-lr-rep">
+                                        <div class="clearfix tool-bar">
+                                            <div class="float-left">
+                                                <div class="input-group float-left">
+                                                    <div style="margin-bottom: -38px;" class="inner-addon right-addon">
+                                                        <i v-if="costCreditSearchValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
+                                                        <i v-if="costCreditSearchValue != ''" v-on:click.stop="removeFilterCostCredit()" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                                        <input v-model="costCreditSearchValue" v-on:keyup="searchCostCredit(costCreditSearchValue)" class="search text-right" type="text" placeholder="جستجو">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <!--Tab 1-->
@@ -370,6 +383,7 @@
                                                         <td :data-toggle="'plan' + plan.id" class="text-center">{{$root.dispMoneyFormat(plan.caSumOfCost)}}</td>
                                                         <td :data-toggle="'plan' + plan.id" class="text-center one-line">{{plan.caDescription}}</td>
                                                         <td>
+                                                            <!--<money :disabled="plan.isHistory" class="direction-ltr" @keyup.native="calculationOfCostCredit(plan, plan, 0, plan.amount)" v-if="plan.selected == true" -model="plan.amount" :name="plan.id" :value="plan.amount"  v-validate="'numeric|min_value:0|max_value:' + (getRemainingCostAmount(plan , 1) + parseInt(plan.amount , 10))" :class="{'input': true, 'error-border': errors.has(plan.id)}"  v-bind="money"></money>-->
                                                             <input :disabled="plan.isHistory" class="direction-ltr" v-on:keyup="calculationOfCostCredit(plan, plan, 0, plan.amount)" style="margin-bottom:0px;" v-if="plan.selected == true" type="text"  v-model="plan.amount" :name="plan.id" :value="plan.amount"  v-validate="'numeric|min_value:0|max_value:' + (getRemainingCostAmount(plan , 1) + parseInt(plan.amount , 10))" :class="{'input': true, 'error-border': errors.has(plan.id)}" />
                                                             <span v-show="errors.has(plan.id)" class="error-font"></span>
                                                         </td>
@@ -782,7 +796,7 @@
                                                 <div class="input-group float-left">
                                                     <div style="margin-bottom: -38px;" class="inner-addon right-addon">
                                                         <i v-if="CapitalAssetsSearchValue == ''" class="fa fa-search purple-color"  aria-hidden="true"></i>
-                                                        <i v-if="CapitalAssetsSearchValue != ''" v-on:click.stop="removeFilter()" class="fa fa-close btn-red"  aria-hidden="true"></i>
+                                                        <i v-if="CapitalAssetsSearchValue != ''" v-on:click.stop="removeFilterCapitalAssets()" class="fa fa-close btn-red"  aria-hidden="true"></i>
                                                         <input v-model="CapitalAssetsSearchValue" v-on:keyup="search(CapitalAssetsSearchValue)" class="search text-right" type="text" placeholder="جستجو">
                                                     </div>
                                                 </div>
@@ -1736,6 +1750,7 @@ export default{
 
             /*credits*/
             completeCostAgrement:[],
+            completeCostAgrementBuffer:[],
             costFound:[],
             costReservedAmount:0,
             capReservedAmount:0,
@@ -1776,6 +1791,13 @@ export default{
             editCapAmountFill:0,
             capEditSelectedIndex:'',
             CapitalAssetsSearchValue:'',
+            costCreditSearchValue:'',
+
+            money: {
+                thousands: ',',
+                precision: 0,
+                masked: true
+            },
 
             series: [44, 55, 67, 83],
             chartOptions: {
@@ -1871,9 +1893,10 @@ export default{
             this.showLoaderProgress = true;
             axios.get('/budget/approved_plan/cost/fetchCompleteData')
                 .then((response) => {
-                    this.completeCostAgrement = response.data.costAgreement;
+                    this.completeCostAgrementBuffer = response.data.costAgreement;
                     this.costFound = response.data.costFound;
                     this.addNewFieldInCollection();
+                    this.searchCostCredit(this.costCreditSearchValue);
                     this.showLoaderProgress = false;
                     console.log(response);
                 }, (error) => {
@@ -1883,7 +1906,7 @@ export default{
         },
 
         addNewFieldInCollection:function(){
-            this.completeCostAgrement.forEach(cost => {
+            this.completeCostAgrementBuffer.forEach(cost => {
                 Vue.set(cost,"selected",false);
                 Vue.set(cost,"amount",0);
                 Vue.set(cost,"isHistory",false);
@@ -1916,7 +1939,7 @@ export default{
                 });
             });
 
-            this.completeCostAgrement.forEach(ca => {
+            this.completeCostAgrementBuffer.forEach(ca => {
                 this.calculationOfCostCreditEdit(ca);
             });
 
@@ -1981,8 +2004,8 @@ export default{
                 .then((response) => {
                     this.completeCapitalAssetsAgrementBffer = response.data.caApprovedPlan;
                     this.capitalAssetsFound = response.data.capFound;
-                    this.search(this.CapitalAssetsSearchValue);
                     this.addNewFieldInCapitalAssetsCollection();
+                    this.search(this.CapitalAssetsSearchValue);
                     this.showLoaderProgress = false;
                     //console.log(JSON.stringify(this.completeCapitalAssetsAgrement));
                     console.log(response);
@@ -1992,7 +2015,7 @@ export default{
         },
 
         addNewFieldInCapitalAssetsCollection:function(){
-            this.completeCapitalAssetsAgrement.forEach(ca => {
+            this.completeCapitalAssetsAgrementBffer.forEach(ca => {
                 Vue.set(ca,"selected",false);
                 Vue.set(ca,"amount",0);
                 Vue.set(ca,"isHistory",false);
@@ -2030,7 +2053,7 @@ export default{
                 });
             });
 
-            this.completeCapitalAssetsAgrement.forEach(ca => {
+            this.completeCapitalAssetsAgrementBffer.forEach(ca => {
                 this.calculationOfCapCreditEdit(ca);
             });
 
@@ -2082,6 +2105,7 @@ export default{
         },
 
         openCapitalAssetsModal:function () {
+            this.CapitalAssetsSearchValue='';
             this.completeCapitalAssetsAgrement = [];
             this.capitalAssetsFound = [];
             this.capReservedAmount = 0;
@@ -3100,50 +3124,94 @@ export default{
                 this.checkEditCapAmount=true;
             }
         },
-
+        removeFilterCapitalAssets:function(){
+          this.CapitalAssetsSearchValue="";
+        },
         search:function(query){
             var completeCapitalAssetsAgrementTemp=[];
-            //this.completeCapitalAssetsAgrementBffer=[];
-            //this.completeCapitalAssetsAgrementBffer = this.completeCapitalAssetsAgrement;
-            /*return this.completeCapitalAssetsAgrement.filter(function(item){
-                return item.capExchangeIdNumber.includes(query)
-                || item.credit_distribution_title.budget_season.filter(function(bs){
-                    return  bs.bsSubject.includes(query)
-                });
-            });*/
-            alert(query);
             if(query != ''){
                 var flag=false;
                 this.completeCapitalAssetsAgrementBffer.forEach(item => {
                     flag=false;
-                    if(item.capExchangeIdNumber.includes(query) || item.capDescription.includes(query)) {
-                        item.capital_assets_project_has_credit_source.forEach(cap => {
-                            if (cap.cpStartYear.includes(query)) {
-                                flag = true;
-                            }
-                        });
+                    if(item.capExchangeIdNumber.includes(query) || item.capDescription.includes(query) || item.credit_distribution_title.cdtDescription.includes(query) || item.credit_distribution_title.cdtIdNumber.includes(query) || item.credit_distribution_title.cdtSubject.includes(query) || item.credit_distribution_title.budget_season.bsDescription.includes(query) || item.credit_distribution_title.budget_season.bsSubject.includes(query) ) {
                         flag = true;
                     }
-                    if(flag){
-                        completeCapitalAssetsAgrementTemp.push(item);
+                    else{
+                        item.capital_assets_project_has_credit_source.forEach(cap => {
+                            if (cap.cpStartYear.includes(query) || cap.cpSubject.includes(query) || cap.cpEndOfYear.includes(query) || cap.cpDescription.includes(query) || cap.cpCode.includes(query) || cap.county.coName.includes(query) ) {
+                                flag = true;
+                                return true;
+                            }
+                            else{
+                                cap.credit_source_has_allocation.forEach(csha =>{
+                                    if (csha.ccsDescription.includes(query) || csha.how_to_run.htrSubject.includes(query) || csha.tiny_season.catsDescription.includes(query) || csha.tiny_season.catsSubject.includes(query) || csha.tiny_season.season_title.castDescription.includes(query) || csha.tiny_season.season_title.castSubject.includes(query) ||  csha.tiny_season.season_title.season.sSubject.includes(query)   ){
+                                        flag = true;
+                                        return true;
+                                    }
+                                    else{
+                                        csha.allocation.forEach(alloc => {
+                                            if (alloc.caaDescription.includes(query) || alloc.caaLetterNumber.includes(query) || alloc.caaLetterDate.includes(query)){
+                                                flag = true;
+                                                return true;
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
                     }
 
+                    if(flag || item.selected ){
+                        completeCapitalAssetsAgrementTemp.push(item);
+                    }
                 });
-                //this.completeCapitalAssetsAgrement=[];
                 this.completeCapitalAssetsAgrement=completeCapitalAssetsAgrementTemp;
             }
             else
                 this.completeCapitalAssetsAgrement = this.completeCapitalAssetsAgrementBffer;
 
-            /*this.completeCapitalAssetsAgrement=[];
-            this.completeCapitalAssetsAgrement=completeCapitalAssetsAgrementTemp;*/
 
-            /*return this.completeCapitalAssetsAgrement.filter(item => item.capExchangeIdNumber.includes(query)
-                || this.completeCapitalAssetsAgrement[capital_assets_project_has_credit_source].filter(bs => bs.cpSubject.includes(query)));
-*/
-            console.log(JSON.stringify(this.completeCapitalAssetsAgrement));
-            //this.completeCapitalAssetsAgrement=[];
-            //this.completeCapitalAssetsAgrement=completeCapitalAssetsAgrementTemp;
+        },
+
+        removeFilterCostCredit:function(){
+            this.costCreditSearchValue="";
+        },
+
+        searchCostCredit:function(query){
+            var completeCostAgrementTemp=[];
+            if(query != ''){
+                var flag=false;
+                this.completeCostAgrementBuffer.forEach(item => {
+                    flag=false;
+                    if(item.caDescription.includes(query) || item.caLetterNumber.includes(query)) {
+                        flag = true;
+                    }
+                    else{
+                        item.ca_credit_source_has_allocation.forEach(cshs => {
+                            if (cshs.ccsDescription.includes(query) || cshs.credit_distribution_row.cdSubject.includes(query) || cshs.credit_distribution_title.cdtDescription.includes(query) || cshs.credit_distribution_title.cdtIdNumber.includes(query) || cshs.credit_distribution_title.cdtSubject.includes(query) || cshs.tiny_season.ctsDescription.includes(query) || cshs.tiny_season.ctsSubject.includes(query) || cshs.tiny_season.season_title.cstDescription.includes(query) || cshs.tiny_season.season_title.cstSubject.includes(query) || cshs.tiny_season.season_title.season.sSubject.includes(query)  ) {
+                                flag = true;
+                                return true;
+                            }
+                            else{
+                                cshs.allocation.forEach(alloc =>{
+                                    if (alloc.caDescription.includes(query) || alloc.caLetterNumber.includes(query) ){
+                                        flag = true;
+                                        return true;
+                                    }
+                                });
+                            }
+                        });
+                    }
+
+                    if(flag || item.selected ){
+                        completeCostAgrementTemp.push(item);
+                    }
+                });
+                this.completeCostAgrement=completeCostAgrementTemp;
+            }
+            else
+                this.completeCostAgrement = this.completeCostAgrementBuffer;
+
 
         },
 
