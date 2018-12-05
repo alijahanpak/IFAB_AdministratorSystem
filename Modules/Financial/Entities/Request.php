@@ -11,6 +11,7 @@ class _Request extends Model
     protected $fillable = ['rRlId'];
     protected $table = 'tbl_requests';
     protected $appends = ['rLastRef' ,
+        'rFirstRef' ,
         'rYouAreVerifiers' ,
         'rRemainingVerifiers' ,
         'rCreditIsAccepted' ,
@@ -143,6 +144,12 @@ class _Request extends Model
     public function getRLastRefAttribute()
     {
         $lastHistoryId = RequestHistory::where('rhRId' , '=' , $this->id)->max('id');
+        return RequestHistory::with('sourceUserInfo.role.officeUnit')->find($lastHistoryId);
+    }
+
+    public function getRFirstRefAttribute()
+    {
+        $lastHistoryId = RequestHistory::where('rhRId' , '=' , $this->id)->min('id');
         return RequestHistory::with('sourceUserInfo.role.officeUnit')->find($lastHistoryId);
     }
 

@@ -369,7 +369,7 @@
                                                                         <div class="large-6 medium-6">
                                                                             <template>
                                                                                 <div class="grid-x">
-                                                                                    <div class="large-12">
+                                                                                    <div class="large-12 text-center">
                                                                                         <apexcharts width="300" height="300" type="radialBar" :options="chartOptions" :series="[((parseInt(plan.caSumOfAllocation) / parseInt(plan.caSumOfAllocation)) * 100).toFixed(2) , ((parseInt(plan.caSumOfReserved) / parseInt(plan.caSumOfAllocation)) * 100).toFixed(2) , ((parseInt(plan.caSumOfCommitment) / parseInt(plan.caSumOfAllocation)) * 100).toFixed(2) , ((parseInt(plan.caSumOfCost) / parseInt(plan.caSumOfAllocation)) * 100).toFixed(2)]"></apexcharts>
                                                                                     </div>
                                                                                 </div>
@@ -498,7 +498,7 @@
                                                                             <div class="large-6 medium-6">
                                                                                 <template>
                                                                                     <div class="grid-x">
-                                                                                        <div class="large-12">
+                                                                                        <div class="large-12 text-center">
                                                                                             <apexcharts width="300" height="300" type="radialBar" :options="chartOptions" :series="[((parseInt(creditSource.ccsSumOfAllocation) / parseInt(creditSource.ccsSumOfAllocation)) * 100).toFixed(2) , ((parseInt(creditSource.ccsSumOfReserved) / parseInt(creditSource.ccsSumOfAllocation)) * 100).toFixed(2) , ((parseInt(creditSource.ccsSumOfCommitment) / parseInt(creditSource.ccsSumOfAllocation)) * 100).toFixed(2) , ((parseInt(creditSource.ccsSumOfCost) / parseInt(creditSource.ccsSumOfAllocation)) * 100).toFixed(2)]"></apexcharts>
                                                                                         </div>
                                                                                     </div>
@@ -632,7 +632,7 @@
                                                                                 <div class="large-6 medium-6">
                                                                                     <template>
                                                                                         <div class="grid-x">
-                                                                                            <div class="large-12">
+                                                                                            <div class="large-12 text-center">
                                                                                                 <apexcharts width="300" height="300" type="radialBar" :options="chartOptions" :series="[((parseInt(allocation.caAmount) / parseInt(allocation.caAmount)) * 100).toFixed(2) , ((parseInt(allocation.caSumOfReserved) / parseInt(allocation.caAmount)) * 100).toFixed(2) , ((parseInt(allocation.caSumOfCommitment) / parseInt(allocation.caAmount)) * 100).toFixed(2) , ((parseInt(allocation.caSumOfCost) / parseInt(allocation.caAmount)) * 100).toFixed(2)]"></apexcharts>
                                                                                             </div>
                                                                                         </div>
@@ -747,7 +747,7 @@
                                 <div class="large-6 medium-6 small-12">
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12">
-                                            <p class="size-14"> مبلغ : <span class="btn-red"> {{$root.dispMoneyFormat(baseAmount)}} </span></p>
+                                            <p class="size-14" style="margin-bottom: 0px"> مبلغ : <span class="btn-red"> {{$root.dispMoneyFormat(baseAmount)}} </span></p>
                                         </div>
                                         <div class="large-12 medium-12 small-12">
                                             <p class="size-14" style="margin-bottom: 0px"> مبلغ تامین اعتبار : <span class="btn-red"> {{$root.dispMoneyFormat(costReservedAmount)}} </span></p>
@@ -907,7 +907,7 @@
                                                                             <div class="large-6 medium-6">
                                                                                 <template>
                                                                                     <div class="grid-x">
-                                                                                        <div class="large-12 ">
+                                                                                        <div class="large-12 text-center">
                                                                                             <apexcharts width="300" height="300" type="radialBar" :options="chartOptions" :series="[((parseInt(plan.capSumOfAllocation) / parseInt(plan.capSumOfAllocation)) * 100).toFixed(2) , ((parseInt(plan.capSumOfReserved) / parseInt(plan.capSumOfAllocation)) * 100).toFixed(2) , ((parseInt(plan.capSumOfCommitment) / parseInt(plan.capSumOfAllocation)) * 100).toFixed(2) , ((parseInt(plan.capSumOfCost) / parseInt(plan.capSumOfAllocation)) * 100).toFixed(2)]"></apexcharts>
                                                                                         </div>
                                                                                     </div>
@@ -1065,7 +1065,7 @@
                                                                                 <div class="large-6 medium-6">
                                                                                     <template>
                                                                                         <div class="grid-x">
-                                                                                            <div class="large-12">
+                                                                                            <div class="large-12 text-center">
                                                                                                 <apexcharts width="300" height="300" type="radialBar" :options="chartOptions" :series="[((parseInt(project.cpSumOfAllocation) / parseInt(project.cpSumOfAllocation)) * 100).toFixed(2) , ((parseInt(project.cpSumOfReserved) / parseInt(project.cpSumOfAllocation)) * 100).toFixed(2) , ((parseInt(project.cpSumOfCommitment) / parseInt(project.cpSumOfAllocation)) * 100).toFixed(2) , ((parseInt(project.cpSumOfCost) / parseInt(project.cpSumOfAllocation)) * 100).toFixed(2)]"></apexcharts>
                                                                                             </div>
                                                                                         </div>
@@ -1244,7 +1244,7 @@
                                                                                     <div class="large-6 medium-6">
                                                                                         <template>
                                                                                             <div class="grid-x">
-                                                                                                <div class="large-12">
+                                                                                                <div class="large-12 text-center">
                                                                                                     <apexcharts width="300" height="300" type="radialBar" :options="chartOptions" :series="[((parseInt(creditSource.ccsSumOfAllocation) / parseInt(creditSource.ccsSumOfAllocation)) * 100).toFixed(2) , ((parseInt(creditSource.ccsSumOfReserved) / parseInt(creditSource.ccsSumOfAllocation)) * 100).toFixed(2) , ((parseInt(creditSource.ccsSumOfCommitment) / parseInt(creditSource.ccsSumOfAllocation)) * 100).toFixed(2) , ((parseInt(creditSource.ccsSumOfCost) / parseInt(creditSource.ccsSumOfAllocation)) * 100).toFixed(2)]"></apexcharts>
                                                                                                 </div>
                                                                                             </div>
@@ -1341,8 +1341,17 @@
                                                                                                 <table class="stack text-right">
                                                                                                     <tbody>
                                                                                                     <tr>
-                                                                                                        <td width="170" class="black-color">عنوان پروژه :</td>
-                                                                                                        <td width="430">{{creditSource.cpSubject}}</td>
+                                                                                                        <td width="170" class="black-color">نقدینگی :</td>
+                                                                                                        <td width="530" v-if="alloc.caaDtId == null">نقدی</td>
+                                                                                                        <td width="530" v-else>
+                                                                                                            <p class="black-color font-wei-bold text-right">نماد اخزا: <span class="font-wei gray-color">{{alloc.caaSymbolOfAkhza}}</span></p>
+                                                                                                            <p class="black-color font-wei-bold text-right">نوع اوراق: <span class="font-wei gray-color">{{alloc.due_type.dtSubject}}</span></p>
+                                                                                                            <p class="black-color font-wei-bold text-right">تاریخ سر رسید: <span class="font-wei btn-red">{{alloc.caaDueDate}}</span></p>
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                    <tr>
+                                                                                                        <td class="black-color">عنوان پروژه :</td>
+                                                                                                        <td>{{creditSource.cpSubject}}</td>
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <td class="black-color">کد پروژه :</td>
@@ -1402,7 +1411,7 @@
                                                                                         <div class="large-6 medium-6">
                                                                                             <template>
                                                                                                 <div class="grid-x">
-                                                                                                    <div class="large-12">
+                                                                                                    <div class="large-12 text-center">
                                                                                                         <apexcharts width="300" height="300" type="radialBar" :options="chartOptions" :series="[((parseInt(alloc.caaAmount) / parseInt(alloc.caaAmount)) * 100).toFixed(2) , ((parseInt(alloc.caaSumOfReserved) / parseInt(alloc.caaAmount)) * 100).toFixed(2) , ((parseInt(alloc.caaSumOfCommitment) / parseInt(alloc.caaAmount)) * 100).toFixed(2) , ((parseInt(alloc.caaSumOfCost) / parseInt(alloc.caaAmount)) * 100).toFixed(2)]"></apexcharts>
                                                                                                     </div>
                                                                                                 </div>
@@ -1512,7 +1521,7 @@
                                 <div class="large-6 medium-6 small-12">
                                     <div class="grid-x">
                                         <div class="large-12 medium-12 small-12">
-                                            <p class="size-14"> مبلغ : <span class="btn-red"> {{$root.dispMoneyFormat(baseAmount)}} </span></p>
+                                            <p class="size-14" style="margin-bottom: 0px"> مبلغ : <span class="btn-red"> {{$root.dispMoneyFormat(baseAmount)}} </span></p>
                                         </div>
                                         <div class="large-12 medium-12 small-12"  style="margin-bottom: 0px">
                                             <p class="size-14"   style="margin-bottom: 0px"> مبلغ تامین اعتبار : <span class="btn-red"> {{$root.dispMoneyFormat(capReservedAmount)}} </span></p>
@@ -3136,9 +3145,11 @@ export default{
                 this.checkEditCapAmount=true;
             }
         },
+
         removeFilterCapitalAssets:function(){
           this.CapitalAssetsSearchValue="";
         },
+
         search:function(query){
             var completeCapitalAssetsAgrementTemp=[];
             if(query != ''){

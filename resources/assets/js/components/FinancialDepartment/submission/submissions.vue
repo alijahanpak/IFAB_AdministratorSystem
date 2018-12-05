@@ -231,7 +231,7 @@
                                     <!--Service Start-->
                                     <div v-show="requestTypeSend == 'BUY_SERVICES'" class="large-12 medium-12 small-12">
                                         <div class="grid-x">
-                                            <div class="large-12 medium-12 small-12">
+                                            <div class="large-12 medium-12 small-12 size-13">
                                                 <p style="margin-bottom: 5px;" class="btn-red"><span><i style="margin-left:8px;margin-top:2px;" class="fas fa-exclamation-circle btn-red size-21"></i></span>
                                                     <span class="black-color">کارشناس محترم، لطفا هنگام محاسبه مبلغ برآورد، کسورات قانونی سهم دولت (</span>
                                                     <span class="btn-red">کارفرما</span>
@@ -564,6 +564,15 @@
                                                                     </div>
                                                                     <p style="direction: ltr;margin-bottom: -15px;" class="gray-color small-font"><i class="far fa-calendar-alt"></i><span> {{recipientUser.rhShamsiDate}} </span> - <i class="far fa-clock"></i> <span>{{recipientUser.rhShamsiTime}}</span></p>
                                                                 </div>
+                                                                <div v-if="recipientUser.action_history.length > 0" class="large-12 medium-12 small-12">
+                                                                    <p style="margin-bottom: 0" class="small-top-m">اقدامات:</p>
+                                                                    <ul>
+                                                                        <li v-for="action in recipientUser.action_history">
+                                                                            <p style="margin: 0px" class="gray-color size-12">{{ action.ahLog }}</p>
+                                                                            <p style="margin: 0px;direction: ltr;margin-bottom: -15px;" class="gray-color small-font float-left"><i class="far fa-calendar-alt"></i><span> {{action.ahShamsiDate}} </span> - <i class="far fa-clock"></i> <span>{{action.ahShamsiTime}}</span></p>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="large-3 medium-3 small-12">
@@ -693,7 +702,7 @@
         <modal-large v-if="showEditRequestModal" @close="showEditRequestModal = false">
             <div slot="body">
                 <form v-on:submit.prevent="updateRequest" >
-                    <div style="margin-top: 25px;height: 50vh;" class="grid-x inner-vh-unsize">
+                    <div style="margin-top: 25px;height: 65vh;" class="grid-x inner-vh-unsize">
                         <div class="large-6 medium-6 small-12">
                             <label>موضوع
                                 <input type="text" name="requestSubject" v-model="requestFill.rSubject" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('requestSubject')}">
@@ -701,7 +710,7 @@
                             <p v-show="errors.has('requestSubject')" class="error-font">لطفا موضوع را برای درخواست مورد نظر را وارد نمایید!</p>
                         </div>
                         <!--Commodity Start-->
-                        <div  v-show="requestType == 'BUY_COMMODITY'" style="margin-top: 20px;" class="large-12 medium-12 small-12">
+                        <div  v-if="requestType == 'BUY_COMMODITY'" style="margin-top: 20px;" class="large-12 medium-12 small-12">
                             <table class="stack">
                                 <thead>
                                 <tr style="color: #575962;">
@@ -755,9 +764,9 @@
                         <!--Commodity End-->
 
                         <!--Service Start-->
-                        <div v-show="requestType == 'BUY_SERVICES'" class="large-12 medium-12 small-12">
+                        <div v-if="requestType == 'BUY_SERVICES'" class="large-12 medium-12 small-12">
                             <div class="grid-x">
-                                <div class="large-12 medium-12 small-12">
+                                <div class="large-12 medium-12 small-12  size-13">
                                     <p style="margin-bottom: 5px;" class="btn-red"><span><i style="margin-left:8px;margin-top:2px;" class="fas fa-exclamation-circle btn-red size-21"></i></span>
                                         <span class="black-color">کارشناس محترم، لطفا هنگام محاسبه مبلغ برآورد، کسورات قانونی سهم دولت (</span>
                                         <span class="btn-red">کارفرما</span>
@@ -795,7 +804,7 @@
                         <!--Service End-->
 
                         <!--Fund Start-->
-                        <div v-show="requestType == 'FUND'" class="large-12 medium-12 small-12">
+                        <div v-if="requestType == 'FUND'" class="large-12 medium-12 small-12">
                             <div class="grid-x">
                                 <div class="large-4 medium-4 small-12">
                                     <label> مبلغ تنخواه <span class="btn-red">(ریال)</span>

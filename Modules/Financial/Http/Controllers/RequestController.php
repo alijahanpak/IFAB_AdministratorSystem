@@ -16,6 +16,7 @@ use Modules\Admin\Entities\UserPermission;
 use Modules\Budget\Entities\CostAllocation;
 use Modules\Financial\Entities\_Request;
 use Modules\Financial\Entities\AccountantRequestQueue;
+use Modules\Financial\Entities\ActionHistory;
 use Modules\Financial\Entities\Attachment;
 use Modules\Financial\Entities\CapitalAssetsFinancing;
 use Modules\Financial\Entities\Commodity;
@@ -90,6 +91,7 @@ class RequestController extends Controller
             ->with('attachment')
             ->with('verifiers.user.role.officeUnit')
             ->with('requestCommodity.commodity')
+            ->with('history.actionHistory')
             ->with('history.sourceUserInfo.role')
             ->with('history.destinationUserInfo.role')
             ->with('history.requestState')
@@ -153,12 +155,23 @@ class RequestController extends Controller
                 }
             }
 
-            SystemLog::setFinancialSubSystemLog('تغییر درخواست ' . $req->rSubject);
             if ($request->resultType == 'POSTED')
             {
+                $newAction = new ActionHistory();
+                $newAction->ahRhId = $req['rFirstRef']['id'];
+                $newAction->ahLog = PublicSetting::checkPersianCharacters('تغییر در اطلاعات درخواست');
+                $newAction->save();
+
+                SystemLog::setFinancialSubSystemLog('تغییر درخواست ' . $req->rSubject);
                 return \response()->json($this->getAllPostedRequests(Auth::user()->id , $request->searchValue));
             }else if ($request->resultType == 'RECEIVED')
             {
+                $newAction = new ActionHistory();
+                $newAction->ahRhId = $req['rLastRef']['id'];
+                $newAction->ahLog = PublicSetting::checkPersianCharacters('تغییر در اطلاعات درخواست');
+                $newAction->save();
+
+                SystemLog::setFinancialSubSystemLog('تغییر درخواست ' . $req->rSubject);
                 return \response()->json($this->getAllReceivedRequests($this->getLastReceivedRequestIdList() , $request->searchValue));
             }
         });
@@ -352,6 +365,7 @@ class RequestController extends Controller
                         ->with('commodity');
                 }])
                 ->with('attachment')
+                ->with('history.actionHistory')
                 ->with('history.sourceUserInfo.role')
                 ->with('history.destinationUserInfo.role')
                 ->with('history.requestState')
@@ -414,6 +428,7 @@ class RequestController extends Controller
             ->with('requestState')
             ->with('requestType')
             ->with('requestCommodity.commodity')
+            ->with('history.actionHistory')
             ->with('history.sourceUserInfo.role')
             ->with('history.destinationUserInfo.role')
             ->with('history.requestState')

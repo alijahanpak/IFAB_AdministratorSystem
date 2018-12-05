@@ -18,7 +18,7 @@ class SeedAdminFiscalYearsTableSeederTableSeeder extends Seeder
     {
         Model::unguard();
 
-        $fiscalYear = new FiscalYear;
+/*        $fiscalYear = new FiscalYear;
         $fiscalYear->fyUId = 1;
         $fiscalYear->fyStatus = 2;
         $fiscalYear->fyLabel = '۱۳۹۲';
@@ -44,12 +44,12 @@ class SeedAdminFiscalYearsTableSeederTableSeeder extends Seeder
         $fiscalYear->fyStatus = 2;
         $fiscalYear->fyLabel = '۱۳۹۵';
         $fiscalYear->fyDescription = 'سال مالی ۱۳۹۵ برای تست ایجاد می گردد';
-        $fiscalYear->save();
+        $fiscalYear->save();*/
 
         $fiscalYear = new FiscalYear;
         $fiscalYear->fyUId = 1;
-        $fiscalYear->fyLabel = '۱۳۹۶';
-        $fiscalYear->fyDescription = 'سال مالی ۱۳۹۶ برای تست ایجاد می گردد';
+        $fiscalYear->fyLabel = '۱۳۹۷';
+        $fiscalYear->fyDescription = 'سال مالی ۱۳۹۷';
         $fiscalYear->save();
     }
 }

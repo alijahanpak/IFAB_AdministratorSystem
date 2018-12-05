@@ -32,6 +32,11 @@ class RequestHistory extends Model
         return $this->belongsTo(_Request::class , 'rhRId' , 'id');
     }
 
+    public function actionHistory()
+    {
+        return $this->hasMany(ActionHistory::class , 'ahRhId' , 'id');
+    }
+
     public function getRhShamsiDateAttribute()
     {
         return jDate::forge($this->created_at)->format('Y/m/d');

@@ -23,7 +23,7 @@ class SeedProvincialBudgetProposalTableSeederTableSeeder extends Seeder
             $pbp = new ProvincialBudgetProposal;
             $pbp->pbpUId = 1;
             $pbp->pbpCdpId = $plan->id;
-            $pbp->pbpFyId = 5;
+            $pbp->pbpFyId = 1;
             $pbp->pbpAmount = rand(1000000000 , 200000000000);
             $pbp->pbpSubject = 'پروژه پیشنهادی ' . $i;
             $pbp->pbpCode = '0012' . $i;
