@@ -988,7 +988,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="grid-x">
+                            <div class="grid-x top-margin-element">
                                 <div class="medium-12 cell padding-lr">
                                     <label>مبلغ تنخواه <span class="btn-red">{{ '(' + $parent.getAmountBaseLabel() + ')' }}</span>
                                         <input class="form-element-margin-btm" type="text"  v-model="foundInput.amount" name="foundAmount" v-validate="'required|min_value:1'" :class="{'input': true, 'select-error': errors.has('foundAmount')}"/>
@@ -1738,6 +1738,7 @@
             openUpdateModal: function (item , planId , projectId , type) {
                 this.checkAllocationDateValid=false;
                 this.checkAllocationPurDateValid=false;
+                this.clearDueInformation();
                 this.creditSourceInfo = '';
                 this.AllocationFill.id = item.id;
                 if (item.caaFoundId == null)

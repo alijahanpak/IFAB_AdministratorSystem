@@ -125,7 +125,7 @@
         <modal-large v-if="showEditRequestModal" @close="showEditRequestModal = false">
             <div  slot="body">
                 <form v-on:submit.prevent="updateRequest" >
-                    <div style="margin-top: 25px;height: 50vh;" class="grid-x">
+                    <div style="margin-top: 25px;height: 65vh;" class="grid-x">
                         <div class="large-6 medium-6 small-12">
                             <label>موضوع
                                 <input type="text" name="requestSubject" v-model="requestFill.rSubject" v-validate="'required'" :class="{'input': true, 'error-border': errors.has('requestSubject')}">
@@ -248,10 +248,10 @@
                             </div>
                         </div>
                         <!--Fund End-->
-                        <div class="large-12 medium-12 small-12" style="margin-top: 10px">
-                            <button v-show="!$root.btnLoadingCheckStatus" type="submit"  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
-                            <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
-                        </div>
+                    </div>
+                    <div class="large-12 medium-12 small-12" style="margin-top: 10px">
+                        <button v-show="!$root.btnLoadingCheckStatus" type="submit"  class="my-button my-success float-left btn-for-load"><span class="btn-txt-mrg">  ثبت</span></button>
+                        <p v-show="$root.btnLoadingCheckStatus" class="my-button my-success float-left"><i class="fas fa-spinner fa-pulse btn-txt-mrg"></i></p>
                     </div>
                 </form>
             </div>

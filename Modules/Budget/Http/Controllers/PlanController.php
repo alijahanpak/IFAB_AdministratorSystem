@@ -171,7 +171,7 @@ class PlanController extends Controller
             ->with('creditDistributionTitle.budgetSeason')
             ->with('capitalAssetsProjectHasCreditSource.creditSourceHasAllocation.tinySeason.seasonTitle.season')
             ->with('capitalAssetsProjectHasCreditSource.creditSourceHasAllocation.howToRun')
-            ->with('capitalAssetsProjectHasCreditSource.creditSourceHasAllocation.allocation')
+            ->with('capitalAssetsProjectHasCreditSource.creditSourceHasAllocation.allocation.dueType')
             ->with('capitalAssetsProjectHasCreditSource.county')
             ->orderBy('id', 'DESC')
             ->get();
@@ -734,7 +734,7 @@ class PlanController extends Controller
             ->with('caCreditSourceHasAllocation.tinySeason.seasonTitle.season')
             ->with('caCreditSourceHasAllocation.creditDistributionRow')
             ->with('caCreditSourceHasAllocation.creditDistributionTitle')
-            ->with('caCreditSourceHasAllocation.allocation')
+            ->with('caCreditSourceHasAllocation.allocation.dueType')
             ->orderBy('id', 'DESC')
             ->get();
 

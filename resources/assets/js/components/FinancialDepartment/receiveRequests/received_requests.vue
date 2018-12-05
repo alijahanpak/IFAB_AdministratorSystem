@@ -872,6 +872,15 @@
                                                                     </div>
                                                                     <p style="direction: ltr;margin-bottom: -15px;" class="gray-color small-font"><i class="far fa-calendar-alt"></i><span> {{recipientUser.rhShamsiDate}} </span> - <i class="far fa-clock"></i> <span>{{recipientUser.rhShamsiTime}}</span></p>
                                                                 </div>
+                                                                <div v-if="recipientUser.action_history.length > 0" class="large-12 medium-12 small-12">
+                                                                    <p style="margin-bottom: 0" class="small-top-m">اقدامات:</p>
+                                                                    <ul>
+                                                                        <li v-for="action in recipientUser.action_history">
+                                                                            <p style="margin: 0px" class="gray-color size-12">{{ action.ahLog }}</p>
+                                                                            <p style="margin: 0px;direction: ltr;margin-bottom: -15px;" class="gray-color small-font float-left"><i class="far fa-calendar-alt"></i><span> {{action.ahShamsiDate}} </span> - <i class="far fa-clock"></i> <span>{{action.ahShamsiTime}}</span></p>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="large-3 medium-3 small-12">

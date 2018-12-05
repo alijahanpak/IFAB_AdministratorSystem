@@ -274,6 +274,7 @@
                 sumOfCapAllocation: 0,
                 sumOfCaAllocation: 0,
                 updateDataThreadNowPlaying: null,
+                singletonUpdateDataThreadNowPlaying: null,
                 costsChart:[],
                 capitalAssetsChart:[],
                 natCostsChart:[],
@@ -294,6 +295,7 @@
 
         beforeDestroy: function () {
             clearInterval(this.updateDataThreadNowPlaying);
+            clearInterval(this.singletonUpdateDataThreadNowPlaying);
             console.log('...................................... kill update data thread');
         },
 
@@ -379,7 +381,7 @@
             getCountyProposalAmount (data) {
                 var temp = [];
                 data.forEach(county => {
-                    temp.push(parseInt(this.$parent.calcDispAmount(county.coSumOfProposalAmount , false , false)));
+                    temp.push(parseFloat(this.$parent.calcDispAmount(county.coSumOfProposalAmount , false , false)));
                 });
                 return temp;
             },
@@ -387,7 +389,7 @@
             getCountyApprovedAmount (data) {
                 var temp = [];
                 data.forEach(county => {
-                    temp.push(parseInt(this.$parent.calcDispAmount(county.coSumOfApprovedAmount , false , false)));
+                    temp.push(parseFloat(this.$parent.calcDispAmount(county.coSumOfApprovedAmount , false , false)));
             });
                 return temp;
             },
@@ -395,7 +397,7 @@
             getCountyAllocationAmount (data) {
                 var temp = [];
                 data.forEach(county => {
-                    temp.push(parseInt(this.$parent.calcDispAmount(county.coSumOfAllocationAmount , false , false)));
+                    temp.push(parseFloat(this.$parent.calcDispAmount(county.coSumOfAllocationAmount , false , false)));
             });
                 return temp;
             },
@@ -411,7 +413,7 @@
             getSeasonApprovedAmount (data) {
                 var temp = [];
                 data.forEach(season => {
-                    temp.push(parseInt(this.$parent.calcDispAmount(season.coSumOfApprovedAmount , false , false)));
+                    temp.push(parseFloat(this.$parent.calcDispAmount(season.coSumOfApprovedAmount , false , false)));
             });
                 return temp;
             },
@@ -419,7 +421,7 @@
             getSeasonAllocationAmount (data) {
                 var temp = [];
                 data.forEach(season => {
-                    temp.push(parseInt(this.$parent.calcDispAmount(season.coSumOfAllocationAmount , false , false)));
+                    temp.push(parseFloat(this.$parent.calcDispAmount(season.coSumOfAllocationAmount , false , false)));
             });
                 return temp;
             },
@@ -461,7 +463,7 @@
             getNatCountyApprovedAmount (data) {
                 var temp = [];
                 data.forEach(county => {
-                    temp.push(parseInt(this.$parent.calcDispAmount(county.coSumOfNatApprovedAmount , false , false)));
+                    temp.push(parseFloat(this.$parent.calcDispAmount(county.coSumOfNatApprovedAmount , false , false)));
             });
                 return temp;
             },
@@ -469,7 +471,7 @@
             getNatCountyAllocationAmount (data) {
                 var temp = [];
                 data.forEach(county => {
-                    temp.push(parseInt(this.$parent.calcDispAmount(county.coSumOfNatAllocationAmount , false , false)));
+                    temp.push(parseFloat(this.$parent.calcDispAmount(county.coSumOfNatAllocationAmount , false , false)));
             });
                 return temp;
             },
@@ -477,7 +479,7 @@
             getNatSeasonApprovedAmount (data) {
                 var temp = [];
                 data.forEach(season => {
-                    temp.push(parseInt(this.$parent.calcDispAmount(season.coSumOfNatApprovedAmount , false , false)));
+                    temp.push(parseFloat(this.$parent.calcDispAmount(season.coSumOfNatApprovedAmount , false , false)));
             });
                 return temp;
             },
@@ -485,7 +487,7 @@
             getNatSeasonAllocationAmount (data) {
                 var temp = [];
                 data.forEach(season => {
-                    temp.push(this.$parent.calcDispAmount(season.coSumOfNatAllocationAmount , false , false));
+                    temp.push(parseFloat(this.$parent.calcDispAmount(season.coSumOfNatAllocationAmount , false , false)));
                 });
                 return temp;
             },
@@ -503,6 +505,8 @@
 
             setUpdateDataThread: function () {
                 console.log("...................................................... set budget dashboard update thread");
+
+                this.singletonUpdateDataThreadNowPlaying = setInterval(this.updateDataThread, 1000);
                 if (this.updateDataThreadNowPlaying)
                     clearInterval(this.updateDataThreadNowPlaying);
                 this.updateDataThreadNowPlaying = setInterval(this.updateDataThread, 120000);
@@ -513,6 +517,8 @@
                 this.fetchCapitalAssetsData();
                 this.fetchCostsData();
                 this.getStatisticsData();
+                if (this.singletonUpdateDataThreadNowPlaying)
+                    clearInterval(this.singletonUpdateDataThreadNowPlaying);
             },
         }
     }

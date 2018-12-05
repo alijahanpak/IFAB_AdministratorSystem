@@ -21,7 +21,7 @@ class SeedCostAgreementTableSeederTableSeeder extends Seeder
         {
             $ca = new CostAgreement;
             $ca->caUId = 1;
-            $ca->caFyId = 5;
+            $ca->caFyId = 1;
             $ca->caProvinceOrNational = 0;
             $ca->caLetterNumber = '196/265-' . (4000 + $i);
             $ca->caLetterDate = '1396/10/' . rand(1 , 30);
@@ -35,7 +35,7 @@ class SeedCostAgreementTableSeederTableSeeder extends Seeder
         {
             $ca = new CostAgreement;
             $ca->caUId = 1;
-            $ca->caFyId = 5;
+            $ca->caFyId = 1;
             $ca->caProvinceOrNational = 1;
             $ca->caLetterNumber = '196/265-' . (2500 + $i);
             $ca->caLetterDate = '1396/10/' . rand(1 , 30);

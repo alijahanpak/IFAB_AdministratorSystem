@@ -442,10 +442,23 @@
             </div>
         </modal-tiny>
         <!--Report Modal End-->
+        <!-- report pdf modal -->
+        <modal-large v-show="showPdfModal" @close="showPdfModal =false">
+            <div  slot="body">
+                <div class="grid-x">
+                    <div class="large-12 medium-12 small-12" style="width: 100%;height: 75vh">
+                        <vue-element-loading style="width: 100%;" :active="showLoaderProgress" spinner="line-down" color="#716aca"/>
+                        <iframe style="width: 100%;height: 100%;border: 0px" :src="reportPdfPath" />
+                    </div>
+                </div>
+            </div>
+        </modal-large>
+        <!-- end report pdf modal -->
     </div>
 </template>
 <script>
     import VuePagination from '../../../public_component/pagination.vue';
+    import VueElementLoading from 'vue-element-loading';
     export default {
         data(){
             return {
@@ -476,6 +489,9 @@
                     current_page: 1,
                     last_page: ''
                 },
+                showPdfModal: false,
+                reportPdfPath: '',
+                showLoaderProgress: false,
             }
         },
 
@@ -500,7 +516,8 @@
         },
 
         components:{
-            'vue-pagination' : VuePagination
+            'vue-pagination' : VuePagination,
+            VueElementLoading,
         },
 
         methods:{
@@ -557,13 +574,33 @@
             },
 
             openReportFile: function () {
-                axios.post('budget/admin/credit_distribution_def/report' , {type: this.reportType ,options: this.reportOptions , selectedItems: this.selectedItems})
-                    .then((response) => {
-                        console.log(response.data);
-                        window.open(response.data);
-                    },(error) => {
-                        console.log(error);
-                    });
+                if (this.reportType == 'pdf')
+                {
+                    this.reportPdfPath = '';
+                    this.showModalReport = false;
+                    this.showLoaderProgress = true;
+                    this.showPdfModal = true;
+                    axios.post('budget/admin/credit_distribution_def/report' ,
+                        {type: this.reportType ,options: this.reportOptions , selectedItems: this.selectedItems},
+                        {responseType: 'blob'})
+                        .then((response) => {
+                            var file = new Blob([response.data], {type: 'application/pdf'});
+                            var fileURL = window.URL.createObjectURL(file);
+                            this.reportPdfPath = fileURL;
+                            this.showLoaderProgress = false;
+                        },(error) => {
+                            this.showLoaderProgress = false;
+                            console.log(error);
+                        });
+                }else{
+                    axios.post('budget/admin/credit_distribution_def/report' , {type: this.reportType ,options: this.reportOptions , selectedItems: this.selectedItems})
+                        .then((response) => {
+                            console.log(response.data);
+                            window.open(response.data);
+                        },(error) => {
+                            console.log(error);
+                        });
+                }
             },
 
             showSelectColumn: function (planOrCost) {

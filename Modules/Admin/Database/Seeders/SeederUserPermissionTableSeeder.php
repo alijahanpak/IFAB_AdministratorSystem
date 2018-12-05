@@ -460,6 +460,14 @@ class SeederUserPermissionTableSeeder extends Seeder
         $gPermission->upPId = 123;
         $gPermission->save();
 
+        for ($i = 1 ; $i <= 75 ;$i++)
+        {
+            $gPermission = new UserPermission();
+            $gPermission->upUId = 15;
+            $gPermission->upPId = $i;
+            $gPermission->save();
+        }
+
         $gPermission = new UserPermission();
         $gPermission->upUId = 15;
         $gPermission->upPId = 96;

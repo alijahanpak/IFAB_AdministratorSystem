@@ -16,25 +16,25 @@ class BudgetDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        $this->call(SeedCapitalAssetsSeasonTitleTableSeeder::class);
-        $this->call(SeedCapitalAssetsTinySeasonsTableSeeder::class);
+        //$this->call(SeedCapitalAssetsSeasonTitleTableSeeder::class);
+        //$this->call(SeedCapitalAssetsTinySeasonsTableSeeder::class);
         $this->call(SeedHowToRunTableSeeder::class); //is need
         $this->call(DueTypeSeederTableSeeder::class); //is need
-        $this->call(SeedCostSeasonTitleTableSeeder::class);
-        $this->call(SeedCostTinySeasonTableSeeder::class);
-        $this->call(SeedBudgetSeasonTableSeederTableSeeder::class);
+        //$this->call(SeedCostSeasonTitleTableSeeder::class);
+        //$this->call(SeedCostTinySeasonTableSeeder::class);
+        $this->call(SeedBudgetSeasonTableSeederTableSeeder::class); //is need
         $this->call(SeedCreditDistributionRowTableSeederTableSeeder::class); //is need
-        $this->call(SeedCreditDistributionTitleTableSeederTableSeeder::class);
-        $this->call(SeedCapitalAssetsApprovedPlanTableSeederTableSeeder::class);
-        $this->call(SeedCapitalAssetsApprovedProjectTableSeederTableSeeder::class);
-        $this->call(SeedCapitalAssetsCreditSourceTableSeederTableSeeder::class);
-        $this->call(SeedCostAgreementTableSeederTableSeeder::class);
-        $this->call(SeedCostCreditSourceTableSeederTableSeeder::class);
-        $this->call(SeedCapitalAssetsAllocationTableSeederTableSeeder::class);
-        $this->call(SeedCostAllocationTableSeederTableSeeder::class);
-        $this->call(SeedCreditDistributionPlanTableSeederTableSeeder::class);
-        $this->call(SeedProvincialBudgetProposalTableSeederTableSeeder::class);
-        $this->call(SeederCapitalAssetsFoundTableSeederTableSeeder::class);
-        $this->call(SeederCostFoundTableSeederTableSeeder::class);
+        //$this->call(SeedCreditDistributionTitleTableSeederTableSeeder::class);
+        //$this->call(SeedCapitalAssetsApprovedPlanTableSeederTableSeeder::class);
+        //$this->call(SeedCapitalAssetsApprovedProjectTableSeederTableSeeder::class);
+        //$this->call(SeedCapitalAssetsCreditSourceTableSeederTableSeeder::class);
+        //$this->call(SeedCostAgreementTableSeederTableSeeder::class);
+        //$this->call(SeedCostCreditSourceTableSeederTableSeeder::class);
+        //$this->call(SeedCapitalAssetsAllocationTableSeederTableSeeder::class);
+        //$this->call(SeedCostAllocationTableSeederTableSeeder::class);
+        //$this->call(SeedCreditDistributionPlanTableSeederTableSeeder::class);
+        //$this->call(SeedProvincialBudgetProposalTableSeederTableSeeder::class);
+        //$this->call(SeederCapitalAssetsFoundTableSeederTableSeeder::class);
+        //$this->call(SeederCostFoundTableSeederTableSeeder::class);
     }
 }
