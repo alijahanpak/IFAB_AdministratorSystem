@@ -2364,7 +2364,9 @@ input[type="search"]:valid + label {
     top: 40%;
     left: 1rem;
 }*/
-
+.money-font-size{
+    font-size: 1.1em;
+}
 .menu-icon {
     position: relative;
     display: inline-block;

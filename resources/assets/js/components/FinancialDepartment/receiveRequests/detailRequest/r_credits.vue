@@ -383,11 +383,12 @@
                                                         <td :data-toggle="'plan' + plan.id" class="text-center">{{$root.dispMoneyFormat(plan.caSumOfCost)}}</td>
                                                         <td :data-toggle="'plan' + plan.id" class="text-center one-line">{{plan.caDescription}}</td>
                                                         <td>
-                                                            <!--<money :disabled="plan.isHistory" class="direction-ltr" @keyup.native="calculationOfCostCredit(plan, plan, 0, plan.amount)" v-if="plan.selected == true" -model="plan.amount" :name="plan.id" :value="plan.amount"  v-validate="'numeric|min_value:0|max_value:' + (getRemainingCostAmount(plan , 1) + parseInt(plan.amount , 10))" :class="{'input': true, 'error-border': errors.has(plan.id)}"  v-bind="money"></money>-->
-                                                            <input :disabled="plan.isHistory" class="direction-ltr" v-on:keyup="calculationOfCostCredit(plan, plan, 0, plan.amount)" style="margin-bottom:0px;" v-if="plan.selected == true" type="text"  v-model="plan.amount" :name="plan.id" :value="plan.amount"  v-validate="'numeric|min_value:0|max_value:' + (getRemainingCostAmount(plan , 1) + parseInt(plan.amount , 10))" :class="{'input': true, 'error-border': errors.has(plan.id)}" />
+                                                            <money style="margin-bottom:0px;" :disabled="plan.isHistory" class="direction-ltr money-font-size" @keyup.native="calculationOfCostCredit(plan, plan, 0,1, plan.amount)" v-if="plan.selected == true && !checkValidValue" v-model="plan.amount" :name="plan.id" :value="plan.amount"   :class="{'input': true, 'error-border': errors.has(plan.id)}"  v-bind="money"></money>
+                                                            <money style="margin-bottom:0px;" :disabled="plan.isHistory" class="form-input input-lg text-margin-btm select-error direction-ltr money-font-size" @keyup.native="calculationOfCostCredit(plan, plan, 0, 1, plan.amount)" v-if="plan.selected == true && checkValidValue" v-model="plan.amount" :name="plan.id" :value="plan.amount"   :class="{'input': true, 'error-border': errors.has(plan.id)}"  v-bind="money"></money>
+                                                            <!--<input :disabled="plan.isHistory" class="direction-ltr" v-on:keyup="calculationOfCostCredit(plan, plan, 0, plan.amount)" style="margin-bottom:0px;" v-if="plan.selected == true" type="text"  v-model="plan.amount" :name="plan.id" :value="plan.amount"  v-validate="'numeric|min_value:0|max_value:' + (getRemainingCostAmount(plan , 1) + parseInt(plan.amount , 10))" :class="{'input': true, 'error-border': errors.has(plan.id)}" />-->
                                                             <span v-show="errors.has(plan.id)" class="error-font"></span>
                                                         </td>
-                                                        <td><input :disabled="plan.isHistory" v-on:change="setTextBoxValueCost(plan,plan,0)" v-model="plan.selected" type="checkbox"></td>
+                                                        <td><input :disabled="plan.isHistory" v-on:change="setTextBoxValueCost(plan,plan,0 , 1)" v-model="plan.selected" type="checkbox"></td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
@@ -1792,6 +1793,7 @@ export default{
             capEditSelectedIndex:'',
             CapitalAssetsSearchValue:'',
             costCreditSearchValue:'',
+            checkValidValue: false,
 
             money: {
                 thousands: ',',
@@ -2155,11 +2157,16 @@ export default{
         },
 
         /////////////////////// cost financing //////////////////////////////
-        calculationOfCostCredit: function(rootData,data,type,value){
+        calculationOfCostCredit: function(rootData,data,type,validateLevel,value){
             var aCount=0;
             var piceOfAmount=0;
             var piceOfDivRemAmount=0;
             var allocIsNotExist = true;
+            var inputValue= 0;
+            inputValue = this.$root.dispMoneyFormat(value);
+            value = parseInt(inputValue.split(',').join(''),10);
+            //alert((this.getRemainingCostAmount(data , validateLevel) + value));
+
             if (!isNaN(value))
             {
                 value = parseInt(value , 10);
@@ -2294,6 +2301,12 @@ export default{
                 if (allocIsNotExist)
                     this.$root.displayNotif(1);
             }
+            if((this.getRemainingCostAmount(data , validateLevel) + value < value))
+                this.checkValidValue=true;
+            else
+                this.checkValidValue=false;
+
+
         },
 
         calculationOfCostCreditEdit: function(data){
@@ -2335,10 +2348,10 @@ export default{
             }
         },
 
-        setTextBoxValueCost: function (rootData,data,type) {
+        setTextBoxValueCost: function (rootData,data,type,validateLevel) {
             if (data.selected == true)
             {
-                this.calculationOfCostCredit(rootData,data,type,(this.baseAmount - this.costReservedAmount));
+                this.calculationOfCostCredit(rootData,data,type ,validateLevel,(this.baseAmount - this.costReservedAmount));
             }else{
                 if (type == 0)
                 {
@@ -2843,7 +2856,6 @@ export default{
             }else if(type == 3){
                 remainingAmount = data.caAmount - (parseInt(data.caSumOfReserved , 10) + parseInt(data.caSumOfCommitment , 10) + parseInt(data.caConvertedAllocAmount , 10));
             }
-
             var temp = (this.baseAmount - this.costReservedAmount);
             return  (remainingAmount < temp ? remainingAmount : temp);
         },
@@ -3174,7 +3186,7 @@ export default{
         },
 
         removeFilterCostCredit:function(){
-            this.costCreditSearchValue="";
+            this.costCreditSearchValue='';
         },
 
         searchCostCredit:function(query){
